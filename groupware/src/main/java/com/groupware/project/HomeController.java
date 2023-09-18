@@ -29,7 +29,7 @@ public class HomeController {
 				// 세션에 userid가 없으면 로그인 페이지 표시
 				return "login";
 			}
-		}
+		} 
 	
 	@PostMapping("/doLogin")
 	public String doLogin(HttpServletRequest req, HttpServletResponse response, HttpSession session, Model model) {
