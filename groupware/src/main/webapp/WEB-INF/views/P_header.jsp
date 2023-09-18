@@ -27,7 +27,7 @@
     <label for="expand-menu"><div>메뉴</div></label>
     <input type="checkbox" id="expand-menu" name="expand-menu">
     <ul>
-        <li><a href="#" class="item"><div>프로필</div></a></li>
+        <li><a href="#" class="item"><div>프로필123</div></a></li>
         <li><a href="#" class="item"><div>데이터사용량</div></a></li>
         <li><a href="#" class="item"><div>내URL</div></a></li>
         <li><a href="#" class="item"><div>구매내역</div></a></li>
