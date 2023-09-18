@@ -20,7 +20,7 @@ public class HomeController {
 		private EmployeesDAO edao;
 		
 		@GetMapping("/")
-		public String home(HttpServletRequest req) {
+		public String home(HttpServletRequest req, Model model) {
 			HttpSession session = req.getSession(false); // 세션이 존재하면 가져오고, 존재하지 않으면 새로 생성하지 않도록 설정
 			if (session != null && session.getAttribute("userid") != null) {
 				// 세션에 userid가 이미 설정되어 있으면 "home" 페이지로 리디렉션
@@ -30,7 +30,7 @@ public class HomeController {
 				return "login";
 			}
 		} 
-	
+		
 	@PostMapping("/doLogin")
 	public String doLogin(HttpServletRequest req, HttpServletResponse response, HttpSession session, Model model) {
 			String userid = req.getParameter("userid");

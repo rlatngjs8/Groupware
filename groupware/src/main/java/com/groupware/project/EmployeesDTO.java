@@ -16,6 +16,16 @@ public class EmployeesDTO {
 		String profilePicture;
 		String hireDate;
 		int managerEmployeeID;
+		
+		
+		String departmentName;
+		
+		public String getDepartmentName() {
+				return departmentName;
+		}
+		public void setDepartmentName(String departmentName) {
+				this.departmentName = departmentName;
+		}
 		public int getEmployeeID() {
 				return employeeID;
 		}
