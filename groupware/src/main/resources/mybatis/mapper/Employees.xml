@@ -8,4 +8,9 @@
 <select id="getListOne" resultType="com.groupware.project.EmployeesDTO">
 	select * from employees where userid=#{param1}
 </select>
+<!-- 주소록 가져오는데 사용 -->
+<select id="getListAll" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	select * from employees where userid != #{param1}
+</select>
+
 </mapper>

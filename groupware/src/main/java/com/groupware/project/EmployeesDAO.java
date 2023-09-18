@@ -8,6 +8,9 @@ import org.apache.ibatis.annotations.Mapper;
 public interface EmployeesDAO {
 
 		int login(String userid, String password);
+		ArrayList<EmployeesDTO> getListAll(String userid);
 		
 		ArrayList<EmployeesDTO> getListOne(String userid);
+		
+		
 }
