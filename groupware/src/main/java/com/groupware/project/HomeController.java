@@ -46,7 +46,7 @@ public class HomeController {
   							name = employee.get(0).getName();
   							profileIMG = employee.get(0).getProfilePicture();
   					}
-  					
+  					 
   					session.setAttribute("userid", userid);
   					session.setAttribute("password", password);
   					session.setAttribute("name", name);
