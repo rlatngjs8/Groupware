@@ -119,7 +119,7 @@
             get_addressBook();
         });
 
-		 function filterContacts(filter) {
+/* 		 function filterContacts(filter) {
 			    // 선택한 필터에 따라 필터링된 데이터를 생성
 			    const filteredData = addressBookData.filter(item => {
 			        if (filter === 'all') {
@@ -163,7 +163,59 @@
 			        // 나머지 코드는 이전과 동일
 			    }
 			}
+ */
+ 
+ 
+ function filterContacts(filter) { 
+	    $.ajax({
+	        url: '/get_addressBook',
+	        data: { userid: userid },
+	        type: 'get',
+	        dataType: 'json',
+	        success: function (data) {
+	            console.log('주소록 데이터 불러오기', data);
+	            const tableBody = $('#contactListBody');
+	            tableBody.empty(); // 기존 데이터를 지웁니다.
+				
+	            for (let i = 0; i < data.length; i++) {
+	                const name = data[i]['name'];
+	                const characters = [];
 
+	                if (name) {
+	                    const firstCharacter = name.charAt(0); // 첫 글자 추출
+
+	                    const normalized = firstCharacter.normalize('NFD'); // 한글 문자열을 자모 단위로 분해
+
+	                    for (let i = 0; i < normalized.length; i++) {
+	                        const character = normalized.charAt(i);
+	                        characters.push(character);
+	                    }
+
+	                    console.log(characters);
+	                } else {
+	                    console.log('이름이 없습니다.');
+	                }
+					
+	                if (filter === 'all' || characters.includes(filter)) {
+	                    const newRow = $('<tr>');
+	                    newRow.append('<td><input type="checkbox"></td>');
+	                    newRow.append('<td>' + data[i]['name'] + '</td>');
+	                    newRow.append('<td>' + data[i][''] + '</td>');
+	                    newRow.append('<td>' + data[i]['position'] + '</td>');
+	                    newRow.append('<td>' + data[i]['phoneNumber'] + '</td>');
+	                    newRow.append('<td>' + data[i]['email'] + '</td>');
+	                    newRow.append('<td>' + data[i]['address'] + '</td>');
+	                    $('#contactListBody').append(newRow);
+	                }
+	            }
+	        },
+	        error: function (xhr, status, error) {
+	            console.error('주소록 데이터 불러오기 에러:', status, error);
+	            // 에러 처리를 수행할 수 있습니다. 예를 들어, 사용자에게 오류 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+	        }
+	    });
+	}
+ 
 		
 function get_addressBook() {
     console.log('주소록 불러옴');
