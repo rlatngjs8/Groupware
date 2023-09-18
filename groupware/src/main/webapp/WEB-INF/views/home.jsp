@@ -4,9 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style>
+
+</style>
 <title>Insert title here</title>
 </head>
-<body>
-홈1
+<body>	
+<div>
+<%@ include file="P_header.jsp" %>
+</div>
+<div style="padding-left: var(--side-bar-width);">
+</div>
 </body>
 </html>
