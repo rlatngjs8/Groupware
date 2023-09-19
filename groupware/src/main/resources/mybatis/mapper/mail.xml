@@ -14,7 +14,13 @@
 </insert>
 <!-- empid로 email받아서 받은메일함 작성 -->
 <select id="selectRecMail" resultType="com.groupware.project.MailDTO"> 
-	select a.emailid, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid, a.sendtime from emails a inner join
-						employees b on a.receiveremployeeid=b.employeeid where receiveremployeeid=#{param1}
+	select a.emailid, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
+		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
+				  		inner join employees c ON a.SenderEmployeeID=c.EmployeeId where receiveremployeeid=#{param1}
+</select>
+<select id="selectDetailMail" resultType="com.groupware.project.MailDTO"> 
+	select a.emailid, b.name, b.email, a.subject, a.content, a.senderemployeeid, c.name, c.email, a.receiveremployeeid,
+		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid
+						inner join employees c on a.senderemployeeid=c.employeeid where a.emailid=#{param1}
 </select>
 </mapper>
