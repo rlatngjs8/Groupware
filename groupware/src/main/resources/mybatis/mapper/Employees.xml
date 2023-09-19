@@ -22,4 +22,8 @@
 	select * from employees where userid != #{param1}
 </select>
 
+<insert id="signup">
+	insert into employees set userid=#{param1}, password=#{param2}, name=#{param3}, departmentID=#{param4}, position=#{param5}, birthdate=#{param6},
+			phoneNumber=#{param7}, address=#{param8}, email=#{param9}, salary=#{param10}, profilepicture=#{param11}, hiredate=#{param12} 
+</insert>
 </mapper>

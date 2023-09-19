@@ -17,4 +17,6 @@ public interface EmployeesDAO {
 	
 		int getTotal();
 		
+		void signup(String userid, String password, String name, String departmentID, String position,
+														String bithdate, String phoneNumber, String address, String email, String salary, String profileImg, String hireDate);
 }

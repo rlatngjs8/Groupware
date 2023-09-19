@@ -12,7 +12,7 @@ public class EmployeesDTO {
 		String phoneNumber;
 		String address;
 		String email;
-		int salary;
+		String salary;
 		String profilePicture;
 		String hireDate;
 		int managerEmployeeID;
@@ -86,10 +86,10 @@ public class EmployeesDTO {
 		public void setEmail(String email) {
 				this.email = email;
 		}
-		public int getSalary() {
+		public String getSalary() {
 				return salary;
 		}
-		public void setSalary(int salary) {
+		public void setSalary(String salary) {
 				this.salary = salary;
 		}
 		public String getProfilePicture() {
