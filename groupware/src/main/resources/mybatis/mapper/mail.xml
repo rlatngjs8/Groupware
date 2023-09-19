@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.himedia.project.MailDAO">
+<mapper namespace="com.groupware.project.MailDAO">
+<!-- <select id="selectMyEmp" resultType="com.groupware.project.MailDTO"> -->
+<!-- 	select EmployeeID, Name, DepartmentID, Position, Email from employees where email=#{param1} -->
+<!-- </select> -->
+<select id="selectEmpEmail" resultType="com.groupware.project.MailDTO">
+	select employeeid, name, departmentid, position, email from employees where email=#{param1}
+</select>
+<insert id="insertEmails" parameterType="java.util.HashMap">
+	insert into emails set subject=#{param1},content=#{param2},senderemployeeid=#{param3},
+	receiveremployeeid=#{param4},attachment1=#{param5},attachment2=#{param6},attachment3=#{param7}
+</insert>
+<!-- empid로 email받아서 받은메일함 작성 -->
+<select id="selectRecMail" resultType="com.groupware.project.MailDTO"> 
+	select a.emailid, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid, a.sendtime from emails a inner join
+						employees b on a.receiveremployeeid=b.employeeid where receiveremployeeid=#{param1}
+</select>
 </mapper>
