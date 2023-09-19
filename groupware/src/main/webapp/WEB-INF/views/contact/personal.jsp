@@ -130,150 +130,172 @@ input[type="text"] {
 /* 토스트 */
 #toast {
   position: fixed;
-  bottom: 20px; /* 하단 여백 조절 */
-  right: 20px; /* 오른쪽 여백 조절 */
+  bottom: 50%; /* 변경된 부분 */
+  left: 50%;
+  transform: translateX(-50%);
   background-color: #333;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
-  display: none; /* 초기에는 숨김 */
+  display: none;
+  z-index: 2;
 }
 
+
+.hidden {
+  display: none;
+}
+        /* 사이드바 스타일 */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    padding-top: 20px;
+    border-right: 1px solid gray; /* 오른쪽 부분에만 테두리 적용 */
+}
+
+      /* 사이드바 링크 스타일 */
+      .sidebar a {
+          padding: 15px;
+          text-decoration: none; /* 링크 밑줄 제거 */
+          color: black; /* 글자색 설정 */
+          display: block; /* 블록 요소로 표시하여 세로로 배치 */
+      }
+
+      /* 사이드바 링크 호버 스타일 */
+	.sidebar a:hover {
+	    background-color: #ccc; /* 연한 회색 배경으로 변경 */
+	}
+	
+	      .main {
+	    margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
+	    padding: 20px; /* 콘텐츠 패딩 설정 */
+	}
+			
 
 
         /* 추가적인 스타일링을 원하는 대로 추가하세요 */
     </style>
 </head>
 <body>
-
 <input type="hidden" id="user_id" value="${sessionScope.userid}">
-<div id="toast">오류가 발생했습니다.</div>
-    <h1>주소록</h1>
+<div id="toast" class="hidden">토스트 메세지 넣어라</div>
 
-     <div>
-	   <button id="openModalButton">빠른 등록</button>
-	   <button onclick="sendEmail()">메일 방송</button>
-	   <button onclick="deleteContact()">삭제</button>
-	   <button onclick="copyContact()">주소록 복사</button>
-    </div>
-    
-<!-- 모달 -->
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span class="close" id="closeModal">&times;</span>
-    <div class="form-container">
-      <!-- 입력 폼 -->
-      <h2>새로운 연락처 추가</h2>
-      	<p class="required-note">*은 필수 작성란입니다</p>
-        <div class="form-group">
-          <label for="addName">이름(표시명) <span class="required">*</span></label>
-          <input type="text" id="addName" name="addName" placeholder="이름(표시명)" required>
-        </div>
-        <div class="form-group">
-          <label for="addPosition">직위 <span class="required">*</span></label>
-          <input type="text" id="addPosition" name="addPosition" placeholder="직위">
-        </div>
-        <div class="form-group">
-          <label for="addPhone">휴대폰 <span class="required">*</span></label>
-          <input type="text" id="addPhone" name="addPhone" placeholder="휴대폰" required>
-        </div>
-        <div class="form-group">
-          <label for="addEmail">이메일</label>
-          <input type="text" id="addEmail" name="addEmail" placeholder="이메일">
-        </div>
-        <div class="form-group">
-          <label for="addDepartment">부서</label>
-          <input type="text" id="addDepartment" name="addDepartment" placeholder="부서">
-        </div>
-        <div class="form-group">
-          <label for="addCompany">회사 <span class="required">*</span></label>
-          <input type="text" id="addCompany" name="addCompany" placeholder="회사">
-        </div>
-        <div class="form-group">
-          <label for="addCompanyPhone">회사전화</label>
-          <input type="text" id="addCompanyPhone" name="addCompanyPhone" placeholder="회사전화">
-        </div>
-        <div class="form-group">
-          <label for="addCompanyAddress">회사 주소</label>
-          <input type="text" id="addCompanyAddress" name="addCompanyAddress" placeholder="회사 주소">
-        </div>
-        <div class="form-group">
-          <label for="addMemo">메모</label>
-          <input type="text" id="addMemo" name="addMemo" placeholder="메모 추가하기">
-        </div>
-        <div class="form-group">
-          <label for="addGroup">그룹</label>
-          <input type="text" id="addGroup" name="addGroup" placeholder="그룹">
-        </div>
-        <button type="button" class="custom-button" onclick="addContact()">추가</button>
-    </div>
-  </div>
-</div>
-<!--     모달
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            연락처 정보 입력 폼
-            <div>
-                <input type="text" id="addName" name="addName" placeholder="이름(표시명)">
-                <input type="text" id="addPosition" name="addPosition" placeholder="직위">
-                <input type="text" id="addPhone" name="addPhone" placeholder="휴대폰">
-                <input type="text" id="addEmail" name="addEmail" placeholder="이메일">
-                <input type="text" id="addDepartment" name="addDepartment" placeholder="부서">
-                <input type="text" id="addCompany" name="addCompany" placeholder="회사">
-                <input type="text" id="addCompanyPhone" name="addCompanyPhone" placeholder="회사전화">
-                <input type="text" id="addCompanyAddress" name="addCompanyAddress" placeholder="회사 주소">
-                <input type="text" id="addMemo" name="addMemo" placeholder="메모 추가하기">
-                <input type="text" id="addGroup" name="addGroup" placeholder="그룹">
-                <button onclick="addContact()">추가</button>
-            </div>
-            모달 닫기 버튼
-            <button onclick="closeModal()">모달 닫기</button>
-        </div>
-    </div> -->
-    
- 	
+	 <aside>
+	     <!-- 사이드바 -->
+		<div class="sidebar">
+		    <a href="/contact/company">사내 주소록</a>
+		    <a href="/contact/personal">개인 주소록</a>
+		    <!-- 필요한 메뉴 항목을 추가할 수 있습니다. -->
+		</div>
+    </aside>
+<main class="main">
+	    <h1>주소록</h1>
+	
+	     <div>
+		   <button id="openModalButton">빠른 등록</button>
+		   <button onclick="sendEmail()">메일 방송</button>
+		   <button onclick="deleteContact()">삭제</button>
+		   <button onclick="copyContact()">주소록 복사</button>
+	    </div>
+	    
+	<!-- 모달 -->
+	<div id="myModal" class="modal">
+	  <div class="modal-content">
+	    <span class="close" id="closeModal">&times;</span>
+	    <div class="form-container">
+	      <!-- 입력 폼 -->
+	      <h2>새로운 연락처 추가</h2>
+	      	<p class="required-note">*은 필수 작성란입니다</p>
+	        <div class="form-group">
+	          <label for="addName">이름(표시명) <span class="required">*</span></label>
+	          <input type="text" id="addName" name="addName" placeholder="이름(표시명)" required>
+	        </div>
+	        <div class="form-group">
+	          <label for="addPosition">직위 <span class="required">*</span></label>
+	          <input type="text" id="addPosition" name="addPosition" placeholder="직위">
+	        </div>
+	        <div class="form-group">
+	          <label for="addPhone">휴대폰 <span class="required">*</span></label>
+	          <input type="text" id="addPhone" name="addPhone" placeholder="휴대폰" required>
+	        </div>
+	        <div class="form-group">
+	          <label for="addEmail">이메일 <span class="required">*</span></label>
+	          <input type="text" id="addEmail" name="addEmail" placeholder="이메일">
+	        </div>
+	        <div class="form-group">
+	          <label for="addDepartment">부서</label>
+	          <input type="text" id="addDepartment" name="addDepartment" placeholder="부서">
+	        </div>
+	        <div class="form-group">
+	          <label for="addCompany">회사 <span class="required">*</span></label>
+	          <input type="text" id="addCompany" name="addCompany" placeholder="회사">
+	        </div>
+	        <div class="form-group">
+	          <label for="addCompanyPhone">회사전화</label>
+	          <input type="text" id="addCompanyPhone" name="addCompanyPhone" placeholder="회사전화">
+	        </div>
+	        <div class="form-group">
+	          <label for="addCompanyAddress">회사 주소</label>
+	          <input type="text" id="addCompanyAddress" name="addCompanyAddress" placeholder="회사 주소">
+	        </div>
+	        <div class="form-group">
+	          <label for="addMemo">메모</label>
+	          <input type="text" id="addMemo" name="addMemo" placeholder="메모 추가하기">
+	        </div>
+	        <div class="form-group">
+	          <label for="addGroup">그룹</label>
+	          <input type="text" id="addGroup" name="addGroup" placeholder="그룹">
+	        </div>
+	        <button type="button" class="custom-button" onclick="addContact()">추가</button>
+	    </div>
+	  </div>
+	</div>
+	    <!-- 검색 필터를 위한 ul 및 li 요소 추가 -->
+		<ul>
+		    <li><button onclick="filterContacts('all')">전체</button></li>
+		    <li><button onclick="filterContacts('ㄱ')">ㄱ</button></li>
+		    <li><button onclick="filterContacts('ㄴ')">ㄴ</button></li>
+		    <li><button onclick="filterContacts('ㄷ')">ㄷ</button></li>
+		    <li><button onclick="filterContacts('ㄹ')">ㄹ</button></li>
+		    <li><button onclick="filterContacts('ㅁ')">ㅁ</button></li>
+		    <li><button onclick="filterContacts('ㅂ')">ㅂ</button></li>
+		    <li><button onclick="filterContacts('ㅅ')">ㅅ</button></li>
+		    <li><button onclick="filterContacts('ㅇ')">ㅇ</button></li>
+		    <li><button onclick="filterContacts('ㅈ')">ㅈ</button></li>
+		    <li><button onclick="filterContacts('ㅊ')">ㅊ</button></li>
+		    <li><button onclick="filterContacts('ㅌ')">ㅌ</button></li>
+		    <li><button onclick="filterContacts('ㅍ')">ㅍ</button></li>
+		    <li><button onclick="filterContacts('ㅎ')">ㅎ</button></li>
+		    <li><button onclick="filterContacts('AZ')">A-Z</button></li>
+		</ul>
 		
-    <!-- 검색 필터를 위한 ul 및 li 요소 추가 -->
-	<ul>
-	    <li><button onclick="filterContacts('all')">전체</button></li>
-	    <li><button onclick="filterContacts('ㄱ')">ㄱ</button></li>
-	    <li><button onclick="filterContacts('ㄴ')">ㄴ</button></li>
-	    <li><button onclick="filterContacts('ㄷ')">ㄷ</button></li>
-	    <li><button onclick="filterContacts('ㄹ')">ㄹ</button></li>
-	    <li><button onclick="filterContacts('ㅁ')">ㅁ</button></li>
-	    <li><button onclick="filterContacts('ㅂ')">ㅂ</button></li>
-	    <li><button onclick="filterContacts('ㅅ')">ㅅ</button></li>
-	    <li><button onclick="filterContacts('ㅇ')">ㅇ</button></li>
-	    <li><button onclick="filterContacts('ㅈ')">ㅈ</button></li>
-	    <li><button onclick="filterContacts('ㅊ')">ㅊ</button></li>
-	    <li><button onclick="filterContacts('ㅌ')">ㅌ</button></li>
-	    <li><button onclick="filterContacts('ㅍ')">ㅍ</button></li>
-	    <li><button onclick="filterContacts('ㅎ')">ㅎ</button></li>
-	    <li><button onclick="filterContacts('AZ')">A-Z</button></li>
-	</ul>
-	
-	
-    <!-- 주소록 목록을 나타내는 테이블 예시 -->
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th>이름</th>
-                <th>직위</th>
-                <th>휴대폰</th>
-                <th>이메일</th>
-                <th>부서</th>
-                <th>회사</th>
-                <th>회사전화</th>
-                <th>회사주소</th>
-                <th>메모</th>
-                <th>그룹</th>
-            </tr>
-        </thead>
-        <tbody id="contactListBody">
-            <!-- 주소록 항목들은 JavaScript로 동적으로 추가됩니다. -->
-        </tbody>
-    </table>
+		
+	    <!-- 주소록 목록을 나타내는 테이블 예시 -->
+	    <table>
+	        <thead>
+	            <tr>
+	                <th></th>
+	                <th>이름</th>
+	                <th>직위</th>
+	                <th>휴대폰</th>
+	                <th>이메일</th>
+	                <th>부서</th>
+	                <th>회사</th>
+	                <th>회사전화</th>
+	                <th>회사주소</th>
+	                <th>메모</th>
+	                <th>그룹</th>
+	            </tr>
+	        </thead>
+	        <tbody id="contactListBody">
+	            <!-- 주소록 항목들은 JavaScript로 동적으로 추가됩니다. -->
+	        </tbody>
+	    </table>
+    </main>
     <!-- 필요한 JavaScript 파일 또는 스크립트 태그를 추가하세요 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script>
@@ -301,15 +323,15 @@ input[type="text"] {
 		    const addPhone = $('#addPhone').val().trim();
 		    const addCompany = $('#addCompany').val().trim();
 		    const addPosition = $('#addPosition').val().trim();
+		    const addEmail = $('#addEmail').val().trim();
 
 		    // 필수 필드가 비어 있는지 확인
-		    if (addName === '' || addPhone === '' || addCompany === '' || addPosition === '') {
+		    if (addName === '' || addPhone === '' || addCompany === '' || addPosition === '' || addEmail === '' ) {
 		    	showToast("필수 작성란을 확인해주세요.");
 		        return; // 필드가 비어 있으면 함수를 종료하고 추가 작업을 수행하지 않음
 		    }
 
 		    // 나머지 필드 값 가져오기
-		    const addEmail = $('#addEmail').val().trim();
 		    const addDepartment = $('#addDepartment').val().trim();
 		    const addCompanyPhone = $('#addCompanyPhone').val().trim();
 		    const addCompanyAddress = $('#addCompanyAddress').val().trim();
