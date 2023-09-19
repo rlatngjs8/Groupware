@@ -13,7 +13,5 @@
 <div>
 <%@ include file="P_header.jsp" %>
 </div>
-<div style="padding-left: var(--side-bar-width);">
-</div>
 </body>
 </html>

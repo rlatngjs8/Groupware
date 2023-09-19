@@ -3,10 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-<!--[if IE 7]>
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome-ie7.min.css">
-<![endif]-->
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -134,7 +130,7 @@ body {
 /* 마우스 인식 시 원래의 위치로 이동 */
 .side-bar:hover {
   transform: translate(-20px, 0);   /* 둥근 모서리의 너비만큼 숨겨주기 */
-}
+}	
 /* 사이드바 끝 */
 
 /* 커스텀 끝 */
@@ -158,11 +154,16 @@ body {
     padding:5px ;
     font-size :20px ;
 }
+.profile{
+	width:32px;
+	height:32px;
+}
 </style>
 </head>
 <body>
+<input id="check-btn" type="checkbox" style="display: none;" />
     <header class="side-bar">
-      <section class="side-bar__icon-box">
+      <section class="side-bar__icon-box" onclick="toggleSidebar()">
         <section class="side-bar__icon-1">
           <div></div>
           <div></div>
@@ -171,13 +172,13 @@ body {
       </section>
       <ul>
         <li>
-          <a href="#"> 홈</a>
+          <a href="/"> 홈</a>
         </li>
         <li>
           <a href="#">메일</a>
         </li>
         <li>
-          <a href="#">게시판</a>
+          <a href="/community">게시판</a>
         </li>
         <li>
           <a href="#">캘린더</a>
@@ -202,15 +203,31 @@ body {
         </li>
       </ul>
     </header>
+
     <div class="nav">
     	<div class="search-bar">
-    	<input type="text" placeholder="검색" id="search-bar"><button class="search-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
+    	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
     	</div>
+    	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
-    	<img src="img/김수헌.jpg">
+    	<img src="img/김수헌.jpg" class="profile">
 	</div>
 </body>
-<script>
 
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script>
+$(document)
+.on('click','#search-button',function(){
+	let search = $('#search-bar').val();
+	console.log(search);
+	document.location="dosearch?search="+search;
+	return false;
+})
+function enterkey() {
+	if (window.event.keyCode == 13) {
+    	// 엔터키가 눌렸을 때
+		document.getElementById("search-button").click();
+    }
+}
 </script>
 </html>
