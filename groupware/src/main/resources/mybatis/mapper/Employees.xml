@@ -522,5 +522,8 @@ SELECT * FROM employees WHERE
       LOWER(name) LIKE 'z%')
       order by name asc;
 </select>
+<delete id="deleteEMP">
+	delete from employees where userid=#{userid}
+</delete>
 
 </mapper>
