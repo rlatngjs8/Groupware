@@ -16,6 +16,10 @@
   h2 {
     margin-top: 0;
   }
+  h2.horizontal-layout {
+    display: inline-block; /* 인라인 블록 요소로 설정하여 가로 배치 */
+    margin-right: 20px; /* 원하는 간격 설정 */
+	}
 
   .table-container {
     background-color: #fff;
@@ -74,7 +78,7 @@
     background-color: #fff;
     border-radius: 5px;
     width: 50%;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
@@ -82,7 +86,7 @@
   /* 왼쪽 영역 스타일 */
   .modal-left {
     flex: 1; /* 왼쪽 영역이 오른쪽 영역보다 넓도록 설정합니다. */
-    padding-right: 20px; /* 왼쪽과 오른쪽 사이에 간격을 줍니다. */
+    padding-right: 10px; /* 왼쪽과 오른쪽 사이에 간격을 줍니다. */
   }
 
   /* 오른쪽 영역 스타일 */
@@ -112,19 +116,20 @@
   }
 
   select {
-    width: 50%%;
+    width: 54%;
     padding: 5px;
     margin-bottom: 10px;
   }
 
   .info {
     display: flex;
-    justify-content: space-between;
-    margin-left: 5%;
+/*     justify-content: space-between; */
+/*     margin-left: 5%; */
   }
 
   .box {
-    width: 20%;
+     width: auto; /* 각 select 요소의 자체 크기에 따라 너비를 자동으로 조절합니다. */
+    margin-right: 10px; /* 간격을 조절합니다. */
   }
 
   input[type="text"],
@@ -150,6 +155,8 @@
 <body>
 <div class="table-container">
 	<button class="btn" id="createEmployeeBtn">+ 직원생성</button>
+	<button class="btn" id="deleteEMP">- 직원삭제</button>
+	<br><br>
   <table>
     <thead>
       <tr>
@@ -183,13 +190,11 @@
 <!-- 직원 생성 모달 -->
 <div class="modal" id="createEmployeeModal">
   <div class="modal-content">
-    <h2>직원 생성</h2>
-    <span class="close-button" id="closeEmployeeModalBtn">×</span>
     <div class="modal-left">
+    <h2>직원 생성</h2>
       <!-- 프로필이미지 -->
       <label class="lblclass">프로필이미지</label>
-<!--       <img id="previewIMG" src="#" alt="미리보기 이미지" style="display: none; max-width: 200px; max-height: 200px;"> -->
-      <img id="previewIMG" src="img/김수헌.jpg" alt="미리보기 이미지" style="display: none; max-width: 200px; max-height: 200px;">
+      <img id="previewIMG" src=# alt="미리보기 이미지" style="display: none; max-width: 200px; max-height: 200px;">
       <input type="file" placeholder="프로필이미지" id="profileIMG" name="profileIMG">
       <!-- 이름 -->
       <label class="lblclass">이름</label>
@@ -224,8 +229,9 @@
       </select>
     </div>
     <div class="modal-right">
+    <span class="close-button" id="closeEmployeeModalBtn">×</span>
       <!-- 생년월일 -->
-      <label class="lblclass">생년월일</label>
+      <label class="lblclass" style="margin-top: 20%">생년월일</label>
       <input type="hidden" placeholder="생년월일" id="birthday" name="birthday">
       <div class="info" id="info__birth">
         <select class="box" id="birth-year">
@@ -249,7 +255,7 @@
       <input type="text" placeholder="월 급여" id="salary" name="salary">
       <label class="lblclass">입사일</label>
       <input type="date" placeholder="입사일" id="hireDate" name="hireDate">
-    <input type="submit" class="btn" id="saveEmployeeBtn" value="저장">
+    <input type="submit" class="btn" id="saveEmployeeBtn" value="저장" style="margin-top: 8%">
     </div>
   </div>
 </div>
@@ -272,7 +278,6 @@
     }
   });
 
-  
   
   
 //파일 업로드 필드의 값이 변경되었을 때 미리보기 이미지 업데이트
