@@ -161,7 +161,6 @@ body {
 </style>
 </head>
 <body>
-<input id="check-btn" type="checkbox" style="display: none;" />
     <header class="side-bar">
       <section class="side-bar__icon-box" onclick="toggleSidebar()">
         <section class="side-bar__icon-1">

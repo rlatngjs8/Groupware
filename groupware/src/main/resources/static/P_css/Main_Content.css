@@ -1,5 +1,12 @@
 @charset "UTF-8";
-.Main_Content{
-	margin-left: 300px;
-	margin-top: 10em;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
+.Main_Content {
+    margin-left: 350px; /* 수정된 마진 값 */
+    margin-top: 200px;
+    padding: 20px; /* 내용과의 간격을 주기 위한 패딩 추가 */
+}
+

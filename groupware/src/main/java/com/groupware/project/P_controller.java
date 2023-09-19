@@ -55,7 +55,6 @@ public class P_controller {
 				pagestr+="<a href='/?pageno="+i+"'>"+i+"</a>&nbsp;";
 			}
 		}
-		System.out.println(alBoard);
 		model.addAttribute("pagestr",pagestr);
 		model.addAttribute("blist",ja);
 		return "P_community";
