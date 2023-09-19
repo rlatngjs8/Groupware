@@ -26,4 +26,501 @@
 	insert into employees set userid=#{param1}, password=#{param2}, name=#{param3}, departmentID=#{param4}, position=#{param5}, birthdate=#{param6},
 			phoneNumber=#{param7}, address=#{param8}, email=#{param9}, salary=#{param10}, profilepicture=#{param11}, hiredate=#{param12} 
 </insert>
+<select id="insert_addressBook" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 인서트에 사용 -->
+	INSERT INTO address_book (Name, Position, phone, email, department, company, company_phone, company_address, memo, group_name, Writer_id)
+	VALUES (#{param1}, #{param2} , #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}, #{param9}, #{param10}, #{param11});
+</select>
+
+<!-- 밑에는 필터링 -->
+<select id="getListGa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '가%' OR
+    name LIKE '간%' OR
+    name LIKE '갈%' OR
+    name LIKE '감%' OR
+    name LIKE '강%' OR
+    name LIKE '견%' OR
+    name LIKE '경%' OR
+    name LIKE '계%' OR
+    name LIKE '고%' OR
+    name LIKE '곡%' OR
+    name LIKE '공%' OR
+    name LIKE '곽%' OR
+    name LIKE '구%' OR
+    name LIKE '국%' OR
+    name LIKE '궁%' OR
+    name LIKE '권%' OR
+    name LIKE '근%' OR
+    name LIKE '금%' OR
+    name LIKE '기%' OR
+    name LIKE '길%' OR
+    name LIKE '김%');
+</select>
+
+<select id="getListNa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '나%' OR
+    name LIKE '낙%' OR
+    name LIKE '남궁%' OR
+    name LIKE '남%' OR
+    name LIKE '낭%' OR
+    name LIKE '내%' OR
+    name LIKE '노%');
+</select>
+
+<select id="getListDa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '단%' OR
+    name LIKE '당%' OR
+    name LIKE '대%' OR
+    name LIKE '도%' OR
+    name LIKE '독고%' OR
+    name LIKE '돈%' OR
+    name LIKE '동방%' OR
+    name LIKE '동%' OR
+    name LIKE '두%');
+</select>
+
+<select id="getListRa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '라%' OR
+    name LIKE '류%');
+</select>
+
+<select id="getListMa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '마%' OR
+    name LIKE '매%' OR
+    name LIKE '맹%' OR
+    name LIKE '명%' OR
+    name LIKE '모%' OR
+    name LIKE '목%' OR
+    name LIKE '묵%' OR
+    name LIKE '문%' OR
+    name LIKE '미%' OR
+    name LIKE '민%');
+</select>
+
+<select id="getListBa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '박%' OR
+    name LIKE '반%' OR
+    name LIKE '방%' OR
+    name LIKE '배%' OR
+    name LIKE '백%' OR
+    name LIKE '범%' OR
+    name LIKE '변%' OR
+    name LIKE '복%' OR
+    name LIKE '봉%' OR
+    name LIKE '부%' OR
+    name LIKE '빈%');
+</select>
+
+<select id="getListSa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '사공씨%' OR
+    name LIKE '사씨%' OR
+    name LIKE '상씨%' OR
+    name LIKE '서문씨%' OR
+    name LIKE '서씨%' OR
+    name LIKE '석씨%' OR
+    name LIKE '선씨%' OR
+    name LIKE '선우씨%' OR
+    name LIKE '설씨%' OR
+    name LIKE '성%' OR
+    name LIKE '소씨%' OR
+    name LIKE '손씨%' OR
+    name LIKE '송씨%' OR
+    name LIKE '순씨%' OR
+    name LIKE '승씨%' OR
+    name LIKE '시씨%' OR
+    name LIKE '신씨%' OR
+    name LIKE '심씨%');
+</select>
+
+<select id="getListAa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '아%' OR
+    name LIKE '안%' OR
+    name LIKE '양%' OR
+    name LIKE '어%' OR
+    name LIKE '엄%' OR
+    name LIKE '여%' OR
+    name LIKE '연%' OR
+    name LIKE '염%' OR
+    name LIKE '예%' OR
+    name LIKE '오%' OR
+    name LIKE '옥%' OR
+    name LIKE '온%' OR
+    name LIKE '옹%' OR
+    name LIKE '왕%' OR
+    name LIKE '용%' OR
+    name LIKE '우%' OR
+    name LIKE '원%' OR
+    name LIKE '위%' OR
+    name LIKE '유%' OR
+    name LIKE '육%' OR
+    name LIKE '윤%' OR
+    name LIKE '은%' OR
+    name LIKE '음%' OR
+    name LIKE '이%' OR
+    name LIKE '인%' OR
+    name LIKE '임%');
+</select>
+
+<select id="getListJa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '자%' OR
+    name LIKE '장%' OR
+    name LIKE '전%' OR
+    name LIKE '정%' OR
+    name LIKE '제갈%' OR
+    name LIKE '제%' OR
+    name LIKE '조%' OR
+    name LIKE '종%' OR
+    name LIKE '좌%' OR
+    name LIKE '주%' OR
+    name LIKE '지%' OR
+    name LIKE '진%');
+</select>
+
+<select id="getListCha" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '차%' OR
+    name LIKE '채%' OR
+    name LIKE '척%' OR
+    name LIKE '천%' OR
+    name LIKE '초%' OR
+    name LIKE '최%' OR
+    name LIKE '추%');
+</select>
+
+<select id="getListTa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '탁%' OR
+    name LIKE '태%');
+</select>
+
+
+<select id="getListPa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '판%' OR
+    name LIKE '팽%' OR
+    name LIKE '편%' OR
+    name LIKE '평%' OR
+    name LIKE '포%' OR
+    name LIKE '표%' OR
+    name LIKE '피%' OR
+    name LIKE '필%' OR
+    name LIKE '풍%');
+</select>
+
+<select id="getListHa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+    userid != #{param1} AND
+    (name LIKE '하%' OR
+    name LIKE '한%' OR
+    name LIKE '함%' OR
+    name LIKE '해%' OR
+    name LIKE '허%' OR
+    name LIKE '현%' OR
+    name LIKE '호%' OR
+    name LIKE '홍%' OR
+    name LIKE '황%' OR
+    name LIKE '형%');
+</select>
+
+<select id="getListAZ" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM employees WHERE
+     userid != #{param1} AND
+	  (LOWER(name) LIKE 'a%' OR
+      LOWER(name) LIKE 'b%' OR
+      LOWER(name) LIKE 'c%' OR
+      LOWER(name) LIKE 'd%' OR
+      LOWER(name) LIKE 'e%' OR
+      LOWER(name) LIKE 'f%' OR
+      LOWER(name) LIKE 'g%' OR
+      LOWER(name) LIKE 'h%' OR
+      LOWER(name) LIKE 'i%' OR
+      LOWER(name) LIKE 'j%' OR
+      LOWER(name) LIKE 'k%' OR
+      LOWER(name) LIKE 'l%' OR
+      LOWER(name) LIKE 'm%' OR
+      LOWER(name) LIKE 'n%' OR
+      LOWER(name) LIKE 'o%' OR
+      LOWER(name) LIKE 'p%' OR
+      LOWER(name) LIKE 'q%' OR
+      LOWER(name) LIKE 'r%' OR
+      LOWER(name) LIKE 's%' OR
+      LOWER(name) LIKE 't%' OR
+      LOWER(name) LIKE 'u%' OR
+      LOWER(name) LIKE 'v%' OR
+      LOWER(name) LIKE 'w%' OR
+      LOWER(name) LIKE 'x%' OR
+      LOWER(name) LIKE 'y%' OR
+      LOWER(name) LIKE 'z%')
+      order by name asc;
+</select>
+
+
+<!-- 밑에는개인 연락처 필터링 -->
+<select id="getListPaAll" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	select * from address_book where Writer_id = #{param1}
+</select>
+
+
+<select id="getListPaGa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '가%' OR
+    name LIKE '간%' OR
+    name LIKE '갈%' OR
+    name LIKE '감%' OR
+    name LIKE '강%' OR
+    name LIKE '견%' OR
+    name LIKE '경%' OR
+    name LIKE '계%' OR
+    name LIKE '고%' OR
+    name LIKE '곡%' OR
+    name LIKE '공%' OR
+    name LIKE '곽%' OR
+    name LIKE '구%' OR
+    name LIKE '국%' OR
+    name LIKE '궁%' OR
+    name LIKE '권%' OR
+    name LIKE '근%' OR
+    name LIKE '금%' OR
+    name LIKE '기%' OR
+    name LIKE '길%' OR
+    name LIKE '김%');
+</select>
+
+<select id="getListPaNa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '나%' OR
+    name LIKE '낙%' OR
+    name LIKE '남궁%' OR
+    name LIKE '남%' OR
+    name LIKE '낭%' OR
+    name LIKE '내%' OR
+    name LIKE '노%');
+</select>
+
+<select id="getListPaDa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '단%' OR
+    name LIKE '당%' OR
+    name LIKE '대%' OR
+    name LIKE '도%' OR
+    name LIKE '독고%' OR
+    name LIKE '돈%' OR
+    name LIKE '동방%' OR
+    name LIKE '동%' OR
+    name LIKE '두%');
+</select>
+
+<select id="getListPaRa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '라%' OR
+    name LIKE '류%');
+</select>
+
+<select id="getListPaMa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '마%' OR
+    name LIKE '매%' OR
+    name LIKE '맹%' OR
+    name LIKE '명%' OR
+    name LIKE '모%' OR
+    name LIKE '목%' OR
+    name LIKE '묵%' OR
+    name LIKE '문%' OR
+    name LIKE '미%' OR
+    name LIKE '민%');
+</select>
+
+<select id="getListPaBa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '박%' OR
+    name LIKE '반%' OR
+    name LIKE '방%' OR
+    name LIKE '배%' OR
+    name LIKE '백%' OR
+    name LIKE '범%' OR
+    name LIKE '변%' OR
+    name LIKE '복%' OR
+    name LIKE '봉%' OR
+    name LIKE '부%' OR
+    name LIKE '빈%');
+</select>
+
+<select id="getListPaSa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '사공씨%' OR
+    name LIKE '사씨%' OR
+    name LIKE '상씨%' OR
+    name LIKE '서문씨%' OR
+    name LIKE '서씨%' OR
+    name LIKE '석씨%' OR
+    name LIKE '선씨%' OR
+    name LIKE '선우씨%' OR
+    name LIKE '설씨%' OR
+    name LIKE '성%' OR
+    name LIKE '소씨%' OR
+    name LIKE '손씨%' OR
+    name LIKE '송씨%' OR
+    name LIKE '순씨%' OR
+    name LIKE '승씨%' OR
+    name LIKE '시씨%' OR
+    name LIKE '신씨%' OR
+    name LIKE '심씨%');
+</select>
+
+<select id="getListPaAa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '아%' OR
+    name LIKE '안%' OR
+    name LIKE '양%' OR
+    name LIKE '어%' OR
+    name LIKE '엄%' OR
+    name LIKE '여%' OR
+    name LIKE '연%' OR
+    name LIKE '염%' OR
+    name LIKE '예%' OR
+    name LIKE '오%' OR
+    name LIKE '옥%' OR
+    name LIKE '온%' OR
+    name LIKE '옹%' OR
+    name LIKE '왕%' OR
+    name LIKE '용%' OR
+    name LIKE '우%' OR
+    name LIKE '원%' OR
+    name LIKE '위%' OR
+    name LIKE '유%' OR
+    name LIKE '육%' OR
+    name LIKE '윤%' OR
+    name LIKE '은%' OR
+    name LIKE '음%' OR
+    name LIKE '이%' OR
+    name LIKE '인%' OR
+    name LIKE '임%');
+</select>
+
+<select id="getListPaJa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '자%' OR
+    name LIKE '장%' OR
+    name LIKE '전%' OR
+    name LIKE '정%' OR
+    name LIKE '제갈%' OR
+    name LIKE '제%' OR
+    name LIKE '조%' OR
+    name LIKE '종%' OR
+    name LIKE '좌%' OR
+    name LIKE '주%' OR
+    name LIKE '지%' OR
+    name LIKE '진%');
+</select>
+
+<select id="getListPaCha" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1}AND
+    (name LIKE '차%' OR
+    name LIKE '채%' OR
+    name LIKE '척%' OR
+    name LIKE '천%' OR
+    name LIKE '초%' OR
+    name LIKE '최%' OR
+    name LIKE '추%');
+</select>
+
+<select id="getListPaTa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '탁%' OR
+    name LIKE '태%');
+</select>
+
+
+<select id="getListPaPa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '판%' OR
+    name LIKE '팽%' OR
+    name LIKE '편%' OR
+    name LIKE '평%' OR
+    name LIKE '포%' OR
+    name LIKE '표%' OR
+    name LIKE '피%' OR
+    name LIKE '필%' OR
+    name LIKE '풍%');
+</select>
+
+<select id="getListPaHa" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+    (name LIKE '하%' OR
+    name LIKE '한%' OR
+    name LIKE '함%' OR
+    name LIKE '해%' OR
+    name LIKE '허%' OR
+    name LIKE '현%' OR
+    name LIKE '호%' OR
+    name LIKE '홍%' OR
+    name LIKE '황%' OR
+    name LIKE '형%');
+</select>
+
+<select id="getListPaAZ" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
+	SELECT * FROM address_book WHERE
+    Writer_id = #{param1} AND
+	  (LOWER(name) LIKE 'a%' OR
+      LOWER(name) LIKE 'b%' OR
+      LOWER(name) LIKE 'c%' OR
+      LOWER(name) LIKE 'd%' OR
+      LOWER(name) LIKE 'e%' OR
+      LOWER(name) LIKE 'f%' OR
+      LOWER(name) LIKE 'g%' OR
+      LOWER(name) LIKE 'h%' OR
+      LOWER(name) LIKE 'i%' OR
+      LOWER(name) LIKE 'j%' OR
+      LOWER(name) LIKE 'k%' OR
+      LOWER(name) LIKE 'l%' OR
+      LOWER(name) LIKE 'm%' OR
+      LOWER(name) LIKE 'n%' OR
+      LOWER(name) LIKE 'o%' OR
+      LOWER(name) LIKE 'p%' OR
+      LOWER(name) LIKE 'q%' OR
+      LOWER(name) LIKE 'r%' OR
+      LOWER(name) LIKE 's%' OR
+      LOWER(name) LIKE 't%' OR
+      LOWER(name) LIKE 'u%' OR
+      LOWER(name) LIKE 'v%' OR
+      LOWER(name) LIKE 'w%' OR
+      LOWER(name) LIKE 'x%' OR
+      LOWER(name) LIKE 'y%' OR
+      LOWER(name) LIKE 'z%')
+      order by name asc;
+</select>
+
 </mapper>

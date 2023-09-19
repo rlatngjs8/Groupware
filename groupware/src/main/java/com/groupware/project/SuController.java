@@ -76,7 +76,7 @@ public class SuController {
     String filePath = imageUploadDirectory + "/" + fileName;
     profileIMG.transferTo(new File(filePath));
 			
-				edao.signup(userid,password,name,departmentID,position,birthdate,phoneNumber,address,email,salary,filePath,hireDate);
+				edao.signup(userid,password,name,departmentID,position,birthdate,phoneNumber,address,email,salary,fileName,hireDate);
 				System.out.println("성공");
 				return "redirect:/manage/showEmployee";
 			} catch(Exception e) {

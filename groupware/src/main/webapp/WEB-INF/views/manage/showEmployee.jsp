@@ -6,137 +6,145 @@
 <meta charset="UTF-8">
 <title>직원목록</title>
 <style>
-  /* CSS 스타일링을 추가합니다. */
-  input[type="checkbox"] {
-    margin-right: 5px;
+ body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
     padding: 0;
   }
 
+  h2 {
+    margin-top: 0;
+  }
+
   .table-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 5% auto; /* 수직 가운데 정렬, 수평 가운데 정렬 */
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 20px auto;
+    padding: 20px;
+    width: 80%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   table {
+    width: 100%;
     border-collapse: collapse;
-    width: 80%; /* 테이블 넓이를 조정합니다. */
   }
 
   th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px;
     text-align: left;
   }
 
   th {
-    background-color: #f2f2f2;
+    background-color: #007bff;
+    color: #fff;
   }
 
   tr:nth-child(even) {
     background-color: #f2f2f2;
   }
 
- .pagination {
-  margin-top: 20px; /* 페이지 링크의 위쪽 여백 추가 */
-  margin-left: 50%;
-  transform: translateX(-50%); /* 가운데 정렬 */
-  text-align: center;
-}
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
 
-.pagination a {
-  display: inline-block;
-  padding: 5px 10px;
-  margin: 0 5px;
-  background-color: #007bff; /* 배경색을 원하는 색상으로 설정하세요. */
-  color: #fff; /* 글자색을 원하는 색상으로 설정하세요. */
-  text-decoration: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
+  button.btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
 
-.pagination a:hover {
-  background-color: #0056b3; /* 마우스를 올렸을 때의 배경색을 설정하세요. */
-}
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 
-.pagination .active {
-  background-color: #0056b3; /* 현재 활성화된 페이지의 배경색을 설정하세요. */
-}
-
-/* 모달 스타일 */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-}
-
-.modal-content {
+  .modal-content {
+    display: flex; /* 내부 요소를 가로 배치합니다. */
     background-color: #fff;
-    margin: auto;
-    margin-top: 10%;
-    width: 350px;
-    height: 450px;
-    padding: 20px;
     border-radius: 5px;
-    text-align: center;
-    position: relative;
-}
+    width: 50%;
+    margin: 10% auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 왼쪽 영역 스타일 */
+  .modal-left {
+    flex: 1; /* 왼쪽 영역이 오른쪽 영역보다 넓도록 설정합니다. */
+    padding-right: 20px; /* 왼쪽과 오른쪽 사이에 간격을 줍니다. */
+  }
 
-.modal-content input {
-  width: 100%;
-  margin-bottom: 10px;
-}
+  /* 오른쪽 영역 스타일 */
+  .modal-right {
+    flex: 1; /* 오른쪽 영역이 왼쪽 영역보다 넓도록 설정합니다. */
+  }
 
-/* X 버튼 스타일 */
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
+  .close-button {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+  }
 
-.btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-}
+  .close-button:hover {
+    color: #f00;
+  }
 
-/**/
-/* SECTION - BIRTH */
-.info#info__birth {
-  display: flex;
-}
+  label.lblclass {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
 
-.info#info__birth select {
-  margin-left : 7px;
-}
+  input[type="file"] {
+    margin-bottom: 10px;
+  }
 
-.info#info__birth select:first-child {
-  margin-left : 0px;
-}
-.info#info__birth select::-webkit-scrollbar {
-  width: 10px;
-}
+  select {
+    width: 50%%;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
 
-.info#info__birth select::-webkit-scrollbar-thumb {
-  background-color: #b6b6b6;
-  border-radius: 3px;
-}
+  .info {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5%;
+  }
 
-.info#info__birth select::-webkit-scrollbar-track {
-  background-color: #ebe9e9;
-  border-radius: 6px;
-}
+  .box {
+    width: 20%;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="submit"] {
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  img#previewIMG {
+    max-width: 200px;
+    max-height: 200px;
+    display: none;
+    margin-top: 10px;
+  }
+  
 </style>
 </head>
 <body>
@@ -175,58 +183,74 @@
 <!-- 직원 생성 모달 -->
 <div class="modal" id="createEmployeeModal">
   <div class="modal-content">
-    <span class="close-button" id="closeEmployeeModalBtn">×</span>
     <h2>직원 생성</h2>
-    <form id="frmsignup" action="/signup" method="post" enctype="multipart/form-data">
-    	<!-- 프로필이미지 -->
-    	<img id="previewIMG" src="#" alt="미리보기 이미지" style="display: none; max-width: 200px; max-height: 200px;">
+    <span class="close-button" id="closeEmployeeModalBtn">×</span>
+    <div class="modal-left">
+      <!-- 프로필이미지 -->
+      <label class="lblclass">프로필이미지</label>
+<!--       <img id="previewIMG" src="#" alt="미리보기 이미지" style="display: none; max-width: 200px; max-height: 200px;"> -->
+      <img id="previewIMG" src="img/김수헌.jpg" alt="미리보기 이미지" style="display: none; max-width: 200px; max-height: 200px;">
       <input type="file" placeholder="프로필이미지" id="profileIMG" name="profileIMG">
+      <!-- 이름 -->
+      <label class="lblclass">이름</label>
+      <input type="text" placeholder="이름" id="name" name="name">
+      <!-- 영문이름 -->
+      <label class="lblclass">영문이름</label>
+      <input type="text" placeholder="영문이름" id="Ename" name="Ename">
       <!-- 사번 -->
+      <label class="lblclass">사번</label>
       <input type="text" placeholder="사번" id="userid" name="userid">
       <!-- 비밀번호는 생년월일로 자동설정 -->
       <input type="hidden" id="password" name="password">
-      <!-- 이름 -->
-      <input type="text" placeholder="이름" id="name" name="name">
-      <input type="text" placeholder="영문이름" id="Ename">
-			<!-- 부서 -->
+      <!-- 부서 -->
+      <label class="lblclass">부서</label>
       <select id="department" name="departmentID">
-			  <option value="" disabled selected>부서를 선택하세요</option>
-			  <option value="1">관리부</option>
-			  <option value="2">영업부</option>
-			  <option value="3">생산부</option>
-			</select>
-			<!-- 직급 -->
+        <option value="" disabled selected>부서를 선택하세요</option>
+        <option value="1">관리부</option>
+        <option value="2">영업부</option>
+        <option value="3">생산부</option>
+      </select>
+      <!-- 직급 -->
+      <label class="lblclass">직급</label>
       <select id="position" name="position">
-			  <option value="" disabled selected>직급을 선택하세요</option>
-			  <option value="회장">회장</option>
-			  <option value="사장">사장</option>
-			  <option value="이사">이사</option>
-			  <option value="부장">부장</option>
-			  <option value="과장">과장</option>
-			  <option value="대리">대리</option>
-			  <option value="사원">사원</option>
-			</select>
-			<!-- 생년월일 -->
+        <option value="" disabled selected>직급을 선택하세요</option>
+        <option value="회장">회장</option>
+        <option value="사장">사장</option>
+        <option value="이사">이사</option>
+        <option value="부장">부장</option>
+        <option value="과장">과장</option>
+        <option value="대리">대리</option>
+        <option value="사원">사원</option>
+      </select>
+    </div>
+    <div class="modal-right">
+      <!-- 생년월일 -->
+      <label class="lblclass">생년월일</label>
       <input type="hidden" placeholder="생년월일" id="birthday" name="birthday">
       <div class="info" id="info__birth">
-			  <select class="box" id="birth-year">
-			    <option disabled selected>출생 연도</option>
-			  </select>
-			  <select class="box" id="birth-month">
-			    <option disabled selected>월</option>
-			  </select>
-			  <select class="box" id="birth-day">
-			    <option disabled selected>일</option>
-			  </select>
-			</div>
-			<!-- 나머지 -->
+        <select class="box" id="birth-year">
+          <option disabled selected>출생 연도</option>
+        </select>
+        <select class="box" id="birth-month">
+          <option disabled selected>월</option>
+        </select>
+        <select class="box" id="birth-day">
+          <option disabled selected>일</option>
+        </select>
+      </div>
+      <!-- 나머지 -->
+      <label class="lblclass">전화번호</label>
       <input type="text" placeholder="전화번호" id="phoneNumber" name="phoneNumber">
+      <label class="lblclass">주소</label>
       <input type="text" placeholder="주소" id="address" name="address">
+      <label class="lblclass">이메일</label>
       <input type="email" placeholder="이메일" id="email" name="email">
+      <label class="lblclass">월 급여</label>
       <input type="text" placeholder="월 급여" id="salary" name="salary">
+      <label class="lblclass">입사일</label>
       <input type="date" placeholder="입사일" id="hireDate" name="hireDate">
-      <input type="submit" class="btn" id="saveEmployeeBtn" value="저장">
-    </form> 
+    <input type="submit" class="btn" id="saveEmployeeBtn" value="저장">
+    </div>
   </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -248,17 +272,8 @@
     }
   });
 
-  // 저장 버튼 클릭 시 처리 (여기에서 서버로 데이터를 전송할 수 있습니다.)
-  $('#saveEmployeeBtn').click(function() {
-//     var name = $('#employeeName').val();
-//     var id = $('#employeeID').val();
-//     var department = $('#employeeDepartment').val();
-//     // 이후 데이터 처리를 진행합니다.
-    
-//     // 모달 닫기
-		console.log("닫고 데이터 간다");
-    $('#createEmployeeModal').css('display', 'none');
-  });
+  
+  
   
 //파일 업로드 필드의 값이 변경되었을 때 미리보기 이미지 업데이트
   $('#profileIMG').change(function() {
@@ -410,6 +425,41 @@
 	        salaryInput.val(salaryValue);
 	    });
 	});
+  
+
+	async function hashPassword(password) {
+	    // TextEncoder를 사용하여 비밀번호를 바이트 배열로 변환
+	    var encoder = new TextEncoder();
+	    var data = encoder.encode(password);
+
+	    // 비밀번호를 SHA-256으로 해싱
+	    var hashBuffer = await crypto.subtle.digest("SHA-256", data);
+
+	    // 해싱된 비밀번호를 16진수 문자열로 변환
+	    var hashArray = Array.from(new Uint8Array(hashBuffer));
+	    var hashHex = hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
+
+	    // 해싱된 비밀번호를 콘솔에 출력
+	    console.log("해싱된 비밀번호:", hashHex);
+
+	    // 해싱된 비밀번호를 서버로 전송
+	    document.getElementById("password").value = hashHex;
+	    document.getElementById("frmsignup").submit();
+	}
+
+// 저장 버튼 클릭 시 처리 (여기에서 서버로 데이터를 전송할 수 있습니다.)
+  $('#saveEmployeeBtn').click(function() {
+	  var password = $('#password').val();
+	  hashPassword(password);
+//     var name = $('#employeeName').val();
+//     var id = $('#employeeID').val();
+//     var department = $('#employeeDepartment').val();
+//     // 이후 데이터 처리를 진행합니다.
+    
+//     // 모달 닫기
+		console.log("닫고 데이터 간다");
+    $('#createEmployeeModal').css('display', 'none');
+  });
 </script>
 </body>
 </html>
