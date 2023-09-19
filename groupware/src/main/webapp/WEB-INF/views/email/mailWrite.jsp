@@ -21,6 +21,7 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 #mFileLabel{border: 1px solid lightgray; padding:4px 12px 4px 12px; border-radius:4px;}
 #mFileLabel:hover{border: 1px solid gray; cursor:pointer;}
 .mailFileName{height:65px; border: 1px solid lightgray; padding:4px 12px 4px 12px; border-radius:4px;}
+.mailFileName label {color:gray;}
 .mailFileName p {margin:2px 0 2px 0;}
 .mailFileName p:hover {background-color: #F2F2F2;}
 #btnMailSend {width:62px; height:28px; padding: 3px 10px 3px 10px; font-weight:bold; margin-left:40px;}
@@ -34,12 +35,12 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 		<input type="button" id="btnMailSend" class="whiteBtn" value="보내기">
 		<br><br>
 		<table id="mailTable">
-		<tr><td>받는사람</td><td><input type=text autofocus id="mInputEmail" class="mInputText" value="hong@example.com"></td></tr>
+		<tr><td>받는사람</td><td><input type=text autofocus id="mInputEmail" class="mInputText" value="kim@example.com"></td></tr>
 		<tr><td>참조</td><td><input type=text id="mInputCC" class="mInputText"></td></tr>
 		<tr><td>제목</td><td><input type=text id="mInputTitle" class="mInputText" value="안녕하세요."></td></tr>
 		<tr><td>파일첨부</td><td><label for="mailFile" id="mFileLabel">파일선택</label><input type=file id="mailFile" class="mInputText" multiple></td></tr>
 <!-- 		<tr><td>파일첨부</td><td><input type=file id="mailFile" class="mInputText" multiple></td></tr> -->
-		<tr><td></td><td><div class="mailFileName"></div></td></tr>
+		<tr><td></td><td><div class="mailFileName"><label>파일은 3개까지 선택 가능합니다.</label></div></td></tr>
 		<tr><td colspan=2><textarea rows=29 id="mInputContent" class="font_rnffla"></textarea></td></tr>
 		</table>
 	</div>
@@ -60,7 +61,7 @@ $(document)
     		dataTransfer.items.add(mailFile[i]);
            	let fileName = mailFile[i]["name"];
         	if($('.mfn').length>=3){
-        		alert("파일은 3개까지만 업로드 가능합니다.");
+        		alert("파일은 3개까지만 선택 가능합니다.");
         		dataTransfer.items.remove(3);
         		break;
         	}
@@ -69,6 +70,7 @@ $(document)
         $('#mailFile')[0].files = dataTransfer.files;
           console.log("dataTransfer =>",dataTransfer.files);
 //           console.log("input FIles =>", $('#mailFile')[0].files);
+		$('.mailFileName').children('label').text("");
     }
 })
 .on('click','.mfn',function(event){
@@ -85,20 +87,57 @@ $(document)
         $('#mailFile')[0].files = dataTransfer.files;
         console.log("dataTransfer =>",dataTransfer.files);
     }
+    if($('.mfn').length==0){
+        $('.mailFileName').children('label').text("파일은 3개까지 선택 가능합니다.");
+    }
+
 })
 .on('click','#btnMailSend',function(){
+	console.log(dataTransfer.files.length);
+	let formData = new FormData();
+	let mailFile = $('#mailFile')[0].files;
+	
 	if($('#mInputEmail').val()==''){alert('받는사람이 없습니다!'); return false;}
-// 	if($('#mInputCC').val()==''){alert(' 없습니다!'); return false;}
+	else{formData.append('mailReceiver', $('#mInputEmail').val());}
 	if($('#mInputTitle').val()==''){alert('제목이 없습니다!'); return false;}
+	else{formData.append('mailTitle', $('#mInputTitle').val());}
+	
+	formData.append('mailCC', $('#mInputCC').val());
+	formData.append('mailContent', $('#mInputContent').val());
+	
+	if($('#mailFile').val()!=''){
+		if(mailFile.length>3){
+			alert('이미지는 3개까지만 선택 가능합니다.');
+			return false;
+		}
+		formData.append("mailFile", mailFile[0]);
+	}	
 	if(confirm("메일을 발송하시겠습니까?")){
-		$.ajax({url:'/mailSend',data:{subject:$('#mInputTitle').val(), content:$('#mInputContent').val(), 
-			receiverEmail:$('#mInputEmail').val()},type:'post',dataType:'text',
+// 		$.ajax({url:'/mailSend',data:{subject:$('#mInputTitle').val(), content:$('#mInputContent').val(), 
+// 			receiverEmail:$('#mInputEmail').val()},type:'post',dataType:'text',
+// 			success:function(data){
+// 				console.log("/mailSend 성공");
+// 				document.location=data; 
+// 			},
+// 			error:function(data){
+// 				alert("오류");
+// 			}
+// 		});
+		$.ajax({url:'/mailSend', processData : false, contentType : false,
+			data:formData, type:'post',
 			success:function(data){
 				console.log("/mailSend 성공");
-				document.location=data; 
+				if(data=='success'){
+					alert("전송성공");
+				}
+				if(data=='fail'){
+					alert("전송실패");	
+				}
+				document.location="/mailFolder1"; 
 			},
 			error:function(data){
 				alert("오류");
+				return false;
 			}
 		});
 // 		$.ajax({url:'/doProductInsert', processData : false, contentType : false,

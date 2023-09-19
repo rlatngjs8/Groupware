@@ -10,4 +10,6 @@ public interface MailDAO {
 	int insertEmails(String subject,String content,int senderemployeeid,int receiveremployeeid,
 			String attachment1,String attachment2,String attachment3);
 	ArrayList<MailDTO> selectRecMail(int receiveremployeeid);
+	MailDTO selectDetailMail(int emailid);
+//	MailDTO selectSenderName(int senderemployeeid);
 }
