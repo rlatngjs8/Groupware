@@ -4,6 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style>
+
+</style>
 <title>Insert title here</title>
 <style>
     .profile-box {
@@ -28,6 +31,7 @@
 </style>
 </head>
 <body>
+<%@ include file="P_header.jsp" %>
 <div>
     <div class="profile-box">
         <div class="rounded-image">
@@ -35,9 +39,8 @@
         </div>
         <div class="profile-name">
         	<p>${name}</p>
-    		</div>
+    	</div>
     </div>
-    
 </div>
 </body>
 </html>
