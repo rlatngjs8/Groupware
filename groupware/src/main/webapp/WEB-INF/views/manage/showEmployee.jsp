@@ -165,7 +165,7 @@
       <input type="text" placeholder="입사일" id="hireDate" name="hireDate">
       <!-- 여기에 추가 필드를 포함할 수 있습니다. -->
       <button type="button" class="btn" id="saveEmployeeBtn">저장</button>
-    </form>
+    </form> 
   </div>
 </div>
 
