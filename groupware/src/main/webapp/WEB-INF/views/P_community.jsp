@@ -9,7 +9,7 @@
 .post-container {
     border: 1px solid #ccc;
     margin-bottom: 20px;
-    margin-right: 40%;
+    margin-right: 15%;
     padding: 10px;
     background-color: #f9f9f9;
 }
@@ -62,26 +62,7 @@
     font-size: 18px;
     border-radius: 5px; /* 버튼 모서리 둥글게 만들기 */
 }
-.page-side {
-    float: left; /* 왼쪽으로 배치 */
-    width: 200px; /* 사이드바 너비 조정 */
-    padding: 20px; /* 내용과의 간격을 주기 위한 패딩 추가 */
-    background-color: rgb(255, 255, 255); /* 배경 색상 설정 */
-    color: rgb(0, 0, 0); /* 텍스트 색상 설정 */
-    margin-left: 53px;
-}
 
-.page-side h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.page-side a {
-    display: block; /* 링크를 블록 레벨로 변경하여 각각을 새로운 줄에 표시 */
-    padding: 10px 0; /* 링크 내부 패딩 추가 */
-    text-decoration: none; /* 밑줄 제거 */
-    color: rgb(0, 0, 0); /* 링크 텍스트 색상 설정 */
-}
 
 .page-side a:hover {
     background-color: #cfcfcf; /* 호버 시 배경 색상 변경 */
@@ -93,6 +74,7 @@
 <%@ include file="P_header.jsp" %>
 </head>
 <body>
+
 <div class="page-side">
     <h1>게시판</h1>
     <a href='/write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
@@ -117,7 +99,7 @@
             </div>
         </div>
 </c:forEach>
-<div style="margin-left:auto;margin-right:auto">${pagestr}</div>
+<div style="margin-left:auto;margin-right:auto;text-align:center">${pagestr}</div>
 </div>
 </body>
 <script>

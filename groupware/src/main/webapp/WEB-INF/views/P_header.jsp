@@ -36,7 +36,7 @@ body {
 
 /* 사이드바의 너비와 높이를 변수를 통해 통제 */
 :root {
-  --side-bar-width: 270px;
+  --side-bar-width: 280	px;
   --side-bar-height: 90vh;
 }
 
@@ -121,17 +121,17 @@ body {
 
 
 
-/* 사이드바 너비의 80%만큼 왼쪽으로 이동 */
+/* 사이드바 너비의 80%만큼 왼쪽으로 이동 
 .side-bar {
   transform: translate(calc(var(--side-bar-width) * -0.8), 0);
   transition: .5s;
 }
 
-/* 마우스 인식 시 원래의 위치로 이동 */
+/* 마우스 인식 시 원래의 위치로 이동 
 .side-bar:hover {
-  transform: translate(-20px, 0);   /* 둥근 모서리의 너비만큼 숨겨주기 */
+  transform: translate(-20px, 0);    둥근 모서리의 너비만큼 숨겨주기 
 }	
-/* 사이드바 끝 */
+ 사이드바 끝 
 
 /* 커스텀 끝 */
 
@@ -169,6 +169,7 @@ body {
           <div></div>
         </section>
       </section>
+      <a href="/"><img src="P_img/logonexa.png" style="height:125	px;width:150px; background-color:white;margin-left:50px"  alt="홈"></a>
       <ul>
         <li>
           <a href="/"> 홈</a>
@@ -208,8 +209,8 @@ body {
     	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
     	</div>
     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
-    	<img src="img/김수헌.jpg" class="profile">
+    	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
+    	<img src="img/${profileIMG}" class="profile">
 	</div>
 </body>
 
