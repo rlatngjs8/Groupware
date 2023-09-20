@@ -28,7 +28,7 @@ a {
 }
 /* 사이트의 높이를 5000px로 만들어 스크롤 생성 */
 body {
-  height: 5000px;
+/*   height: 5000px; */
   background-color: #f1f1f1;
 }
 
@@ -36,15 +36,14 @@ body {
 
 /* 사이드바의 너비와 높이를 변수를 통해 통제 */
 :root {
-  --side-bar-width: 270px;
+  --side-bar-width: 280	px;
   --side-bar-height: 90vh;
 }
 
 .side-bar {
-  position: fixed;    /* 스크롤을 따라오도록 지정 */
+  position: fixed;
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
-  
 }
 
 /* 아이콘 시작 */
@@ -121,17 +120,17 @@ body {
 
 
 
-/* 사이드바 너비의 80%만큼 왼쪽으로 이동 */
+/* 사이드바 너비의 80%만큼 왼쪽으로 이동 
 .side-bar {
   transform: translate(calc(var(--side-bar-width) * -0.8), 0);
   transition: .5s;
 }
 
-/* 마우스 인식 시 원래의 위치로 이동 */
+/* 마우스 인식 시 원래의 위치로 이동 
 .side-bar:hover {
-  transform: translate(-20px, 0);   /* 둥근 모서리의 너비만큼 숨겨주기 */
+  transform: translate(-20px, 0);    둥근 모서리의 너비만큼 숨겨주기 
 }	
-/* 사이드바 끝 */
+ 사이드바 끝 
 
 /* 커스텀 끝 */
 
@@ -170,6 +169,7 @@ body {
           <div></div>
         </section>
       </section>
+      <a href="/"><img src="P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
       <ul>
         <li>
           <a href="/"> 홈</a>
@@ -210,6 +210,7 @@ body {
     	</div>
     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
+    	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
     	<img src="img/${profileIMG}" class="profile">
 	</div>
 </body>

@@ -53,4 +53,6 @@ public interface EmployeesDAO {
 														String bithdate, String phoneNumber, String address, String email, String salary, String profileImg, String hireDate);
 		
 		void deleteEMP(String userid);
+		void modify(String editedName, int editedDepartment, String editedPosition,
+						String editedPhoneNumber, String editedAddress, String editedEmail, String editedSalary, String filePath, String userid);
 }

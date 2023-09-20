@@ -36,6 +36,10 @@
 	 where userid=#{userid}
 </select>
 
+<update id="modify">
+	update employees set name=#{param1}, departmentID=#{param2}, position=#{param3}, phoneNumber=#{param4}, address=#{param5}, email=#{param6}, salary=#{param7}, profilePicture=#{param8}
+	where userid=#{param9}
+</update>
 <!-- 밑에는 필터링 -->
 <select id="getListGa" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
 	SELECT * FROM employees WHERE
