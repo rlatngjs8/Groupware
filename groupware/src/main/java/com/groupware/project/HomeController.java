@@ -42,17 +42,20 @@ public class HomeController {
   					ArrayList<EmployeesDTO> employee = edao.getListOne(userid);
   					String name= "";
   					String profileIMG = "";
+  					int employeeID = 0;
   					
   					// 세션에 userid, password, name, 프로필이미지 저장
   					if(!employee.isEmpty()) {
   							name = employee.get(0).getName();
   							profileIMG = employee.get(0).getProfilePicture();
+  							employeeID = employee.get(0).getEmployeeID();
   					}
   					 
   					session.setAttribute("userid", userid);
   					session.setAttribute("password", password);
   					session.setAttribute("name", name);
   					session.setAttribute("profileIMG", profileIMG);
+  					session.setAttribute("EmpId", employeeID);
   					
   					//쿠키 설정
   					Cookie useridCookie = new Cookie("userid", userid);

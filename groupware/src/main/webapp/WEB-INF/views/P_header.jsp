@@ -28,7 +28,7 @@ a {
 }
 /* 사이트의 높이를 5000px로 만들어 스크롤 생성 */
 body {
-  height: 5000px;
+/*   height: 5000px; */
   background-color: #f1f1f1;
 }
 
@@ -41,10 +41,9 @@ body {
 }
 
 .side-bar {
-  position: fixed;    /* 스크롤을 따라오도록 지정 */
+  position: fixed;
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
-  
 }
 
 /* 아이콘 시작 */
@@ -169,7 +168,7 @@ body {
           <div></div>
         </section>
       </section>
-      <a href="/"><img src="P_img/logonexa.png" style="height:125	px;width:150px; background-color:white;margin-left:50px"  alt="홈"></a>
+      <a href="/"><img src="P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
       <ul>
         <li>
           <a href="/"> 홈</a>

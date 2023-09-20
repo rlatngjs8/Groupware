@@ -5,9 +5,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.groupware.project.P_BoardDAO">
     <select id="getlist" resultType="com.groupware.project.P_BoardDTO">
-        select CommunityID, CommunityTitle, AuthorEmployeeID, Content, Views, Likes, CreatedTime from communities
-        order by CreatedTime desc limit #{param1},#{param2}
+    SELECT a.CommunityID, a.CommunityTitle, b.Userid, a.Content, a.Views, a.Likes, a.CreatedTime 
+    FROM communities a INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID order by CreatedTime desc limit #{param1},#{param2}
     </select>
+    <insert id="savepost">
+		insert into communities set CommunityTitle=#{param1},Content=#{param2},AuthorEmployeeID=#{param3},CreatedTime=now()
+	</insert>
 
 <!-- <select id="view" resultType="com.groupware.project.P_BoardDTO">
 	select seqno,title,content,writer,hit,created,updated from board
@@ -22,9 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	delete from board where seqno=#{param1}
 </delete>
 
-<insert id="insert">
-	insert into board set title=#{param1},content=#{param2},writer=#{param3},created=now(),updated=now()
-</insert>
+
 
 <update id="update">
 	update board set title=#{param2},content=#{param3},updated=now() 

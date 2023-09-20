@@ -4,7 +4,7 @@ public class P_BoardDTO {
 	
 	Integer CommunityID;
 	String CommunityTitle;
-	Integer AuthorEmployeeID;
+	String Userid;
 	String Content;
 	int Views;
 	int Likes;
@@ -21,11 +21,12 @@ public class P_BoardDTO {
 	public void setCommunityTitle(String communityTitle) {
 		CommunityTitle = communityTitle;
 	}
-	public Integer getAuthorEmployeeID() {
-		return AuthorEmployeeID;
+
+	public String getUserid() {
+		return Userid;
 	}
-	public void setAuthorEmployeeID(Integer authorEmployeeID) {
-		AuthorEmployeeID = authorEmployeeID;
+	public void setUserid(String userid) {
+		Userid = userid;
 	}
 	public String getContent() {
 		return Content;
