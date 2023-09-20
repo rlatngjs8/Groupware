@@ -86,7 +86,7 @@ public class HwanController {
 	        jo.put("name", addressBook.get(i).getName());
 	        jo.put("departmentID", addressBook.get(i).getDepartmentID());
 	        jo.put("position", addressBook.get(i).getPosition());
-	        jo.put("birthday", addressBook.get(i).getBirthday());
+	        jo.put("birthday", addressBook.get(i).getBirthdate());
 	        jo.put("phoneNumber", addressBook.get(i).getPhoneNumber());
 	        jo.put("address", addressBook.get(i).getAddress());
 	        jo.put("email", addressBook.get(i).getEmail());
@@ -191,7 +191,27 @@ public class HwanController {
 		empdao.delete_addressBook(addressBookId);		
 		return "";
 	}
+	
+	@PostMapping("/updateContact")
+	@ResponseBody
+	public String updateContact(HttpServletRequest req, Model model) {
+	    String Name = req.getParameter("name");
+	    String Position = req.getParameter("position");
+	    String Phone = req.getParameter("position");
+	    String Email = req.getParameter("email");
+	    String Department = req.getParameter("department");
+	    String Company = req.getParameter("company");
+	    String CompanyPhone = req.getParameter("companyPhone");
+	    String CompanyAddress = req.getParameter("companyAddress");
+	    String Memo = req.getParameter("memo");
+	    String Group = req.getParameter("group");
+	    int addressBookId = Integer.parseInt(req.getParameter("addressBookId"));
 
+	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
+	    empdao.updateContact(Name, Position, Phone, Email, Department, Company, CompanyPhone, CompanyAddress, Memo, Group, addressBookId);
+
+	    return "";
+	}
 	
 
 

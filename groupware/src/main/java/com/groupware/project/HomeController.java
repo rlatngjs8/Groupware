@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,9 +33,12 @@ public class HomeController {
 		} 
 		
 	@PostMapping("/doLogin")
-	public String doLogin(HttpServletRequest req, HttpServletResponse response, HttpSession session, Model model) {
+	@ResponseBody
+	public String doLogin(HttpServletRequest req, HttpServletResponse response, HttpSession session) {
 			String userid = req.getParameter("userid");
 			String password = req.getParameter("password");
+			String cookiePW = req.getParameter("cookiePW");
+			System.out.println("password="+password);
 			int n = edao.login(userid, password);
   			if(n == 1) {
   					ArrayList<EmployeesDTO> employee = edao.getListOne(userid);
@@ -51,23 +55,29 @@ public class HomeController {
   					session.setAttribute("password", password);
   					session.setAttribute("name", name);
   					session.setAttribute("profileIMG", profileIMG);
-  					
-  					//쿠키 설정
+  				
+  					//체크박스 체크되어있을때만 쿠키설정
+  					if(req.getParameter("auto") != null  && req.getParameter("auto").equals("on")) {
   					Cookie useridCookie = new Cookie("userid", userid);
-  					Cookie passwordCookie = new Cookie("password",password);
+  					Cookie passwordCookie = new Cookie("password",cookiePW);
   					useridCookie.setMaxAge(7884000); // 쿠키 3개월 유효
   					passwordCookie.setMaxAge(7884000); // 쿠키 3개월 유효
   					response.addCookie(useridCookie);
   					response.addCookie(passwordCookie);
-  					
-  					return "redirect:/";
+  			}
+  					return "success";
   					
   			} else {
-  					model.addAttribute("loginFailed", true);
-  					return "login";					
+  					return "failed";					
   			}
 	}
 	
+ @GetMapping("/logout")
+ public String doLogout(HttpServletRequest req) {
+    HttpSession s = req.getSession();
+    s.invalidate();
+    return "redirect:/";
+ }
 	
 	
 	

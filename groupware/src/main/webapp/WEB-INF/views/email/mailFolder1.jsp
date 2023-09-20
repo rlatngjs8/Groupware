@@ -11,7 +11,9 @@
 <style>
 #mailFolder1 {color:black; font-weight:bold;}
 #rmailTable {width:100%; border-collapse:collapse;}
-#rmailTable td {height:28px; padding:0 20px 20px 40px; border:1px solid lightgray;}
+#rmailTable td {height:28px; line-height:28px; padding:10px 20px 10px 40px; border:1px solid lightgray; border-width: 1px 0 0 0;}
+#rmailTable tr {cursor:pointer;}
+#rmailTable tr:last-child td {border-width: 1px 0 1px 0;}
 </style>
 <body>
 <div style="display:flex; height: 100%;">
@@ -20,9 +22,9 @@
 	<p id="mailSideTitle">받은메일함</p>
 	<table id="rmailTable">
 		<c:forEach items="${rlist}" var="r">
-	<%-- 	${r.emailid} ${r.subject} ${r.content} ${r.senderemployeeid} ${r.receiveremployeeid} ${r.sendtime} --%>
+	<%-- 	${r.emailid} ${r.name} ${r.email} ${r.subject} ${r.content} ${r.senderemployeeid} ${r.receiveremployeeid} ${r.sendtime} --%>
 		
-		<tr><td>${r.senderemployeeid}</td><td>${r.subject}</td><td>${r.sendtime}</td></tr>
+		<tr><td>${r.name}</td><td id="rMailTitle">${r.subject}<div id="rEmailid" class="divHidden">${r.emailid}</div></td><td>${r.sendtime}</td></tr>
 		</c:forEach>
 	</table>
 	</div>
@@ -32,7 +34,10 @@
 <script>
 
 $(document)
-.ready(function(){
+.on('click','#rmailTable tr',function(){
+	let tp = $(this).find('#rEmailid').text(); 
+ 	console.log(tp);
+ 	document.location="/mailDetail?eid="+tp;
 });
 
 </script>

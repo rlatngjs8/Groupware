@@ -157,6 +157,7 @@ body {
 .profile{
 	width:32px;
 	height:32px;
+	border-radius:50%;
 }
 </style>
 </head>
@@ -209,7 +210,7 @@ body {
     	</div>
     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
-    	<img src="img/김수헌.jpg" class="profile">
+    	<img src="img/${profileIMG}" class="profile">
 	</div>
 </body>
 

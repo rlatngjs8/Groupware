@@ -28,6 +28,7 @@ public interface EmployeesDAO {
 		ArrayList<EmployeesDTO> getListAZ(String userid);
 		void insert_addressBook (String Name,String Position ,String Phone, String Email,String Department ,String Company,String CompanyPhone, String CompanyAddress , String Memo ,String Group,String userid );
 		ArrayList<EmployeesDTO> getList(int start, int psize);
+		ArrayList<EmployeesDTO> getListSelect(String userid);
 		
 		ArrayList<AddressbookDTO> getListPaAll(String userid);
 		ArrayList<AddressbookDTO> getListPaGa(String userid);
@@ -47,7 +48,9 @@ public interface EmployeesDAO {
 		ArrayList<AddressbookDTO> getListPaAZ(String userid);
 		int delete_addressBook(int addressBookIds);
 		int getTotal();
-		
+		void updateContact (String Name,String Position ,String Phone, String Email,String Department ,String Company,String CompanyPhone, String CompanyAddress , String Memo ,String Group,int addressBookId );
 		void signup(String userid, String password, String name, String departmentID, String position,
 														String bithdate, String phoneNumber, String address, String email, String salary, String profileImg, String hireDate);
+		
+		void deleteEMP(String userid);
 }

@@ -347,9 +347,10 @@
         var companyAddress = $(this).closest('tr').find('td:eq(8)').text(); // 회사 주소
         var memo = $(this).closest('tr').find('td:eq(9)').text(); // 메모
         var groupName = $(this).closest('tr').find('td:eq(10)').text(); // 그룹
-
+        var addressBookId = $(this).closest('tr').find('.address-book-id').val();
         // 데이터를 Detail.jsp로 전달하고 페이지 이동
-        window.location.href = 'detail?name=' + encodeURIComponent(name) + '&position=' + encodeURIComponent(position) + '&phone=' + encodeURIComponent(phone) + '&email=' + encodeURIComponent(email) + '&department=' + encodeURIComponent(department) + '&company=' + encodeURIComponent(company) + '&companyPhone=' + encodeURIComponent(companyPhone) + '&companyAddress=' + encodeURIComponent(companyAddress) + '&memo=' + encodeURIComponent(memo) + '&groupName=' + encodeURIComponent(groupName);
+        window.location.href = 'detail?name=' + encodeURIComponent(name) + '&position=' + encodeURIComponent(position) + '&phone=' + encodeURIComponent(phone) + '&email=' + encodeURIComponent(email) + '&department=' + encodeURIComponent(department) + '&company=' + encodeURIComponent(company) + '&companyPhone=' + encodeURIComponent(companyPhone) + '&companyAddress=' + encodeURIComponent(companyAddress) + '&memo=' + encodeURIComponent(memo) + '&groupName=' + encodeURIComponent(groupName) + 
+        		'&addressBookId=' + encodeURIComponent(addressBookId) ;
     });
 
 

@@ -8,7 +8,7 @@ public class EmployeesDTO {
 		String name;
 		int departmentID;
 		String position;
-		String birthday;
+		String birthdate;
 		String phoneNumber;
 		String address;
 		String email;
@@ -62,11 +62,11 @@ public class EmployeesDTO {
 		public void setPosition(String position) {
 				this.position = position;
 		}
-		public String getBirthday() {
-				return birthday;
+		public String getBirthdate() {
+				return birthdate;
 		}
-		public void setBirthday(String birthday) {
-				this.birthday = birthday;
+		public void setBirthdate(String birthdate) {
+				this.birthdate = birthdate;
 		}
 		public String getPhoneNumber() {
 				return phoneNumber;
