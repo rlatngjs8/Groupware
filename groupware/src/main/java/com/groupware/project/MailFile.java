@@ -1,15 +1,15 @@
 package com.groupware.project;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,6 +58,7 @@ public class MailFile {
 			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
 		}
 	}
+
 //	@GetMapping("/mailFiledownload")
 //	public ResponseEntity<Object> download(HttpServletRequest req, HttpServletResponse response) {
 //		String attachment = req.getParameter("attachment");
