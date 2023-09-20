@@ -57,6 +57,7 @@ input[type="checkbox"] {
 </style>
 </head>
 <body>
+	<h3>직원통합관리</h3>
 	<div class="table-container">
 		<button class="btn" id="createEmployeeBtn">+ 직원생성</button>
 		<button class="btn" id="deleteEMP">- 직원삭제</button>
@@ -80,8 +81,8 @@ input[type="checkbox"] {
 					<tr>
 						<td><input type="checkbox" class="employeeCheckbox"
 							value="${emp.userid}"></td>
-						<td>${emp.name}</td>
-						<td>${emp.userid}</td>
+						<td><a id=name data-userid="${emp.userid}">${emp.name}</a></td>
+						<td><a id=userid data-userid="${emp.userid}">${emp.userid}</a></td>
 						<td>${emp.departmentName}</td>
 						<td>${emp.position}</td>
 						<td>${emp.email}</td>
@@ -120,7 +121,7 @@ input[type="checkbox"] {
     }
   });
 //-----------
-//----체크박스 맨위꺼 체크하면 전부 체
+//----체크박스 맨위꺼 체크하면 전부 체크
   var selectAllCheckbox = $('#selectAllCheckbox');
   var employeeCheckboxes = $('.employeeCheckbox');
   
@@ -164,7 +165,12 @@ $(document).ready(function(){
 	})
 });
 //---------
-
+//----이름 or 사번 클릭시 상세/수정 링크
+$(document).on('click','#name, #userid', function(){
+	var userid = $(this).data("userid");
+	console.log("usrid="+userid);
+	window.location.href="account?userid="+userid;
+})
 </script>
 </body>
 </html>

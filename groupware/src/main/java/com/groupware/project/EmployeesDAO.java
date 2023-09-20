@@ -28,6 +28,7 @@ public interface EmployeesDAO {
 		ArrayList<EmployeesDTO> getListAZ(String userid);
 		void insert_addressBook (String Name,String Position ,String Phone, String Email,String Department ,String Company,String CompanyPhone, String CompanyAddress , String Memo ,String Group,String userid );
 		ArrayList<EmployeesDTO> getList(int start, int psize);
+		ArrayList<EmployeesDTO> getListSelect(String userid);
 		
 		ArrayList<AddressbookDTO> getListPaAll(String userid);
 		ArrayList<AddressbookDTO> getListPaGa(String userid);

@@ -106,4 +106,13 @@ public class SuController {
 			return "errorPage";
 		}
 	}
+	
+	@GetMapping("/manage/account")
+	public String account(HttpServletRequest req, Model model) {
+			String userid = req.getParameter("userid");
+			ArrayList<EmployeesDTO> alEmp = edao.getListSelect(userid);
+			
+			model.addAttribute("Elist",alEmp);
+			return "/manage/account";
+	}
 }
