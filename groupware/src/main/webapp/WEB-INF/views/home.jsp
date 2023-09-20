@@ -7,9 +7,10 @@
 <style>
 
 </style>
-<title>Insert title here</title>
+<title>GroupNexa</title>
 <style>
     .profile-box {
+    	margin-left: 240px;
         width: 200px; /* div의 넓이를 200px로 설정 */
         align-items: center;
         gap: 10px;

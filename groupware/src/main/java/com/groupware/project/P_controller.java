@@ -22,7 +22,6 @@ public class P_controller {
 	}
 	@GetMapping("/community")
 	public String community(HttpServletRequest req, Model model) {
-		HttpSession session = req.getSession();
 		int start,psize;
 		String page = req.getParameter("pageno");
 		if(page==null || page.equals("")) {
