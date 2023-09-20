@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -30,13 +32,17 @@ public class HwanController {
 		return "contact/personal";
 	}
 	
+	@GetMapping("/contact/detail")
+	public String detail() {
+		return "contact/detail";
+	}
+	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/get_addressBook")
 	@ResponseBody
 	public String get_addressBook(HttpServletRequest req, Model model) {
 		String userid = req.getParameter("userid");
 	    String filter = req.getParameter("filter"); // 필터 값을 받아옵니다.
-		System.out.println(userid);
 		ArrayList<EmployeesDTO> addressBook = null;
 	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
 	    if ("all".equals(filter)) {
@@ -73,7 +79,6 @@ public class HwanController {
 
 	    JSONArray ja = new JSONArray();
 	    for (int i = 0; i < addressBook.size(); i++) {
-	    	System.out.println(addressBook.size());
 	        JSONObject jo = new JSONObject();
 	        jo.put("employeeID", addressBook.get(i).getEmployeeID());
 	        jo.put("userid", addressBook.get(i).getUserid());
@@ -100,7 +105,6 @@ public class HwanController {
 	public String get_personal_addressBook(HttpServletRequest req, Model model) {
 	    String userid = req.getParameter("userid");
 	    String filter = req.getParameter("filter");
-	    System.out.println(userid);
 	    ArrayList<AddressbookDTO> addressBook = null;
 	    
 	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
@@ -139,7 +143,6 @@ public class HwanController {
 	    
 	    JSONArray ja = new JSONArray();
 	    for (int i = 0; i < addressBook.size(); i++) {
-	        System.out.println(addressBook.size());
 	        JSONObject jo = new JSONObject();
 	        jo.put("address_book_id", addressBook.get(i).getAddress_book_id());
 	        jo.put("name", addressBook.get(i).getName());
@@ -179,8 +182,16 @@ public class HwanController {
 
 	    return "redirect:/contact/personal";
 	}
-
 	
+	
+	@PostMapping("/delete_addressBook")
+	@ResponseBody
+	public String delete_addressBook(HttpServletRequest req) {
+		int addressBookId = Integer.parseInt(req.getParameter("addressBookId"));
+		empdao.delete_addressBook(addressBookId);		
+		return "";
+	}
+
 	
 
 

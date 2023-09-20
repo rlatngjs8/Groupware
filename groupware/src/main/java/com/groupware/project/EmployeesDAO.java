@@ -46,7 +46,7 @@ public interface EmployeesDAO {
 		ArrayList<AddressbookDTO> getListPaPa(String userid);
 		ArrayList<AddressbookDTO> getListPaHa(String userid);
 		ArrayList<AddressbookDTO> getListPaAZ(String userid);
-	
+		int delete_addressBook(int addressBookIds);
 		int getTotal();
 		
 		void signup(String userid, String password, String name, String departmentID, String position,

@@ -110,7 +110,6 @@
 	
 	     <div>
 		   <button onclick="sendEmail()">메일 방송</button>
-		   <button onclick="deleteContact()">삭제</button>
 		   <button onclick="copyContact()">주소록 복사</button>
 	    </div>
 	
@@ -157,6 +156,14 @@
 
 		 $(document).ready(function () {
 			 filterContacts('all');
+		    // "selectAll" 체크박스의 변경 이벤트를 감지
+		    $('#selectAll').change(function() {
+		        // "selectAll" 체크박스의 상태를 가져옴
+		        const selectAllChecked = $(this).prop('checked');
+		        
+		        // "perCheckbox" 체크박스들의 상태를 변경
+		        $('#contactListBody').find('input[type="checkbox"]').prop('checked', selectAllChecked);
+		    });
         }); 
 		 
 		 function filterContacts(filter) {
@@ -182,7 +189,7 @@
 			                // 데이터가 있는 경우 연락처를 추가
 			                for (let i = 0; i < data.length; i++) {
 			                    const newRow = $('<tr>');
-			                    newRow.append('<td><input type="checkbox"></td>');
+			                    newRow.append('<td><input type="checkbox" id="perCheckbox"></td>');
 			                    newRow.append('<td>' + data[i]['name'] + '</td>');
 			                    newRow.append('<td>' + data[i]['department'] + '</td>'); // 부서 정보를 추가
 			                    newRow.append('<td>' + data[i]['position'] + '</td>');
@@ -217,30 +224,7 @@
 			  }, 3000); // 3초 후에 숨김
 			}
         
-		 document.addEventListener("DOMContentLoaded", function () {
-			    const selectAllCheckbox = document.getElementById("selectAll");
-			    const checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
 
-			    // 전체 선택 체크박스를 클릭했을 때
-			    selectAllCheckbox.addEventListener("change", function () {
-			        checkboxes.forEach(function (checkbox) {
-			            checkbox.checked = selectAllCheckbox.checked;
-			        });
-			    });
-
-			    // 개별 체크박스를 클릭했을 때
-			    checkboxes.forEach(function (checkbox) {
-			        checkbox.addEventListener("change", function () {
-			            // 모든 체크박스가 선택되었는지 확인
-			            const allChecked = Array.from(checkboxes).every(function (cb) {
-			                return cb.checked;
-			            });
-
-			            // 전체 선택 체크박스의 상태 업데이트
-			            selectAllCheckbox.checked = allChecked;
-			        });
-			    });
-			});
     </script>
 </body>
 </html>
