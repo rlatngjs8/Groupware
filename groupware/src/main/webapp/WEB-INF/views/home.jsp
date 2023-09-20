@@ -41,6 +41,13 @@
         	<p>${name}</p>
     	</div>
     </div>
+    <button id=btnLogout>임시 로그아웃</button>
 </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).on('click','#btnLogout',function(){
+    window.location.href = "/logout";
+ })
+</script>
 </html>

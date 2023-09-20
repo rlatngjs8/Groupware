@@ -113,5 +113,27 @@ input[type="submit"] {
 			$('#password').val(passwordCookie);
 		}
 	});
+	// -----로그인 비밀번호 암호화로 체크
+	async function hashPassword(password) {
+	    // TextEncoder를 사용하여 비밀번호를 바이트 배열로 변환
+	    var encoder = new TextEncoder();
+	    var data = encoder.encode(password);
+
+	    // 비밀번호를 SHA-256으로 해싱
+	    var hashBuffer = await crypto.subtle.digest("SHA-256", data);
+
+	    // 해싱된 비밀번호를 16진수 문자열로 변환
+	    var hashArray = Array.from(new Uint8Array(hashBuffer));
+	    var hashHex = hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
+
+	    // 해싱된 비밀번호를 콘솔에 출력
+	    console.log("해싱된 비밀번호:", hashHex);
+
+	    // 해싱된 비밀번호를 서버로 전송
+	    document.getElementById("password").value = hashHex;
+	    document.getElementById("frmLogin").submit();
+	}
+
+	
 </script>
 </html>
