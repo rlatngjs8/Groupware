@@ -20,10 +20,7 @@ textarea {width:99%; padding:15px 0 15px 0; border:none; outline:none; resize:no
 input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hidden; border: 0;}
 #mFileLabel{border: 1px solid lightgray; padding:4px 12px 4px 12px; border-radius:4px;}
 #mFileLabel:hover{border: 1px solid gray; cursor:pointer;}
-.mailFileName{height:65px; border: 1px solid lightgray; padding:4px 12px 4px 12px; border-radius:4px;}
-.mailFileName label {color:gray;}
-.mailFileName p {margin:2px 0 2px 0;}
-.mailFileName p:hover {background-color: #F2F2F2;}
+.mailFileName {height:65px;}
 #btnMailSend {width:62px; height:28px; padding: 3px 10px 3px 10px; font-weight:bold; margin-left:40px;}
 </style>
 <body>
@@ -98,7 +95,7 @@ $(document)
 	let mailFile = $('#mailFile')[0].files;
 	
 	if($('#mInputEmail').val()==''){alert('받는사람이 없습니다!'); return false;}
-	else{formData.append('mailReceiver', $('#mInputEmail').val());}
+	else{formData.append('receiverEmail', $('#mInputEmail').val());}
 	if($('#mInputTitle').val()==''){alert('제목이 없습니다!'); return false;}
 	else{formData.append('mailTitle', $('#mInputTitle').val());}
 	
@@ -107,22 +104,22 @@ $(document)
 	
 	if($('#mailFile').val()!=''){
 		if(mailFile.length>3){
-			alert('이미지는 3개까지만 선택 가능합니다.');
+			alert('파일은 3개까지만 선택 가능합니다.');
 			return false;
+		} else {
+			for(let i=0; i<mailFile.length; i++){  
+				console.log(mailFile[i].size);
+				if(!fileCheck(mailFile[i].size)){ //파일 형식이나 크기가 안 맞을 경우 X
+					console.log("들어왔는가?");
+					return false;
+				}
+				formData.append("uploadFile", mailFile[i]);
+			}
 		}
-		formData.append("mailFile", mailFile[0]);
-	}	
+	} else {
+		formData.append("uploadFile", "");
+	}
 	if(confirm("메일을 발송하시겠습니까?")){
-// 		$.ajax({url:'/mailSend',data:{subject:$('#mInputTitle').val(), content:$('#mInputContent').val(), 
-// 			receiverEmail:$('#mInputEmail').val()},type:'post',dataType:'text',
-// 			success:function(data){
-// 				console.log("/mailSend 성공");
-// 				document.location=data; 
-// 			},
-// 			error:function(data){
-// 				alert("오류");
-// 			}
-// 		});
 		$.ajax({url:'/mailSend', processData : false, contentType : false,
 			data:formData, type:'post',
 			success:function(data){
@@ -159,6 +156,13 @@ $(document)
 // 		});
 	}
 });
-
+let maxSize = 5368709120; //5GB
+function fileCheck(fileSize){
+	if(fileSize >= maxSize){
+		alert("5GB가 넘는 파일은 업로드할 수 없습니다.");
+		return false;
+	}  
+	return true;
+}
 </script>
 </html>

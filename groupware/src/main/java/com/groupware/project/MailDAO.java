@@ -11,5 +11,6 @@ public interface MailDAO {
 			String attachment1,String attachment2,String attachment3);
 	ArrayList<MailDTO> selectRecMail(int receiveremployeeid);
 	MailDTO selectDetailMail(int emailid);
-//	MailDTO selectSenderName(int senderemployeeid);
+	MailDTO selectSenderName(int emailid);
+	int selectMaxemailid();
 }
