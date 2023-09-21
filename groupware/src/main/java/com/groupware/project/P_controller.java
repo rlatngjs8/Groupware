@@ -36,7 +36,8 @@ public class P_controller {
 			JSONObject jo = new JSONObject();
 			jo.put("CommunityID", alBoard.get(i).getCommunityID());
 			jo.put("CommunityTitle", alBoard.get(i).getCommunityTitle());
-			jo.put("Userid", alBoard.get(i).getUserid());
+			jo.put("Name", alBoard.get(i).getName());
+			jo.put("Position", alBoard.get(i).getPosition());
 			jo.put("Content", alBoard.get(i).getContent());
 			jo.put("Views", alBoard.get(i).getViews());
 			jo.put("Likes", alBoard.get(i).getLikes());
@@ -81,8 +82,9 @@ public class P_controller {
 		P_BoardDTO bdto = bdao.view(seqno);
 		String oriwri=bdto.getUserid();
 		bdao.hitup(seqno);
+		ArrayList<P_BoardDTO> alComment=bdao.getComment(seqno);
+		model.addAttribute("alComment",alComment);
 		model.addAttribute("bpost",bdto);
-		System.out.println("----------------------"+bdto);
 		HttpSession session = req.getSession();
 		String writer=(String) session.getAttribute("userid");
 		try {
@@ -102,8 +104,12 @@ public class P_controller {
 	@PostMapping("/addComment")
 	@ResponseBody
 	public String addcomment(HttpServletRequest req,Model model) {
+		HttpSession session = req.getSession();
+		int EmpID= (int) session.getAttribute("EmpId");
 		int  seqno= Integer.parseInt(req.getParameter("postId"));
 		String cmt = req.getParameter("comment");
-		return "";
+		bdao.addComment(seqno,cmt,EmpID);
+		
+		return "community_view?seqno="+seqno;
 	}
 }

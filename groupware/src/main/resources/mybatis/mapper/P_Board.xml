@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.groupware.project.P_BoardDAO">
     <select id="getlist" resultType="com.groupware.project.P_BoardDTO">
-    SELECT a.CommunityID, a.CommunityTitle, b.Userid, a.Content, a.Views, a.Likes, a.CreatedTime 
+    SELECT a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.Likes, a.CreatedTime ,b.Position
     FROM communities a INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID order by CreatedTime desc limit #{param1},#{param2}
     </select>
     <insert id="savepost">
@@ -18,9 +18,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where CommunityID=#{param1} 
 	</select>
 
-<update id="hitup">
-	update communities set Views=Views+1 where CommunityID=#{param1}
-</update>
+	<update id="hitup">
+		update communities set Views=Views+1 where CommunityID=#{param1}
+	</update>
+
+	<insert id="addComment">
+		insert into comments set ParentID=#{param1},Content=#{param2},AuthorEmployeeID=#{param3},CreatedTime=now()
+	</insert>
+	
+	<select id="getComment" resultType="com.groupware.project.P_BoardDTO">
+		SELECT  b.Name AS Comment_Name, a.Content AS COMMENT,a.CreatedTime AS Comment_Date
+		FROM comments a INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		where a.ParentID = #{param1} 
+	</select>
 <!-- 
 <delete id="delete">
 	delete from board where seqno=#{param1}

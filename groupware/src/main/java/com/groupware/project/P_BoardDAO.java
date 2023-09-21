@@ -11,4 +11,6 @@ public interface P_BoardDAO {
 	int savepost(String title, String content, int empId);
 	P_BoardDTO view(int seqno);
 	void hitup(int seqno);
+	void addComment(int seqno, String cmt, int empID);
+	ArrayList<P_BoardDTO> getComment(int seqno);	
 }

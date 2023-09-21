@@ -6,6 +6,8 @@ public class P_BoardDTO {
 	String CommunityTitle;
 	String Userid;
 	String Content;
+	String Position;
+	String Name;
 	int Views;
 	int Likes;
 	String CreatedTime;
@@ -51,6 +53,44 @@ public class P_BoardDTO {
 	}
 	public void setCreatedTime(String createdTime) {
 		CreatedTime = createdTime;
+	}
+	
+	public String getPosition() {
+		return Position;
+	}
+	public void setPosition(String position) {
+		Position = position;
+	}
+	
+
+	public String getName() {
+		return Name;
+	}
+	public void setName(String name) {
+		Name = name;
+	}
+
+	String Comment_Userid;
+	String Comment;
+	String Comment_Date;
+	public String getComment_Userid() {
+		return Comment_Userid;
+	}
+	public void setComment_Userid(String comment_Userid) {
+		Comment_Userid = comment_Userid;
+	}
+	
+	public String getComment() {
+		return Comment;
+	}
+	public void setComment(String comment) {
+		Comment = comment;
+	}
+	public String getComment_Date() {
+		return Comment_Date;
+	}
+	public void setComment_Date(String comment_Date) {
+		Comment_Date = comment_Date;
 	}
 	
 

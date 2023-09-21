@@ -96,7 +96,7 @@
             <span class="post-content">${blist.Content}</span><br><br>
             <span class="post-info">
                 <span class="post-views-likes">
-                	<span class="post-author">작성자 : ${blist.Userid}</span><br>
+                	<span class="post-author">작성자 : ${blist.Name} ${blist.Position}</span><br>
                     <span>조회수: ${blist.Views}</span><br>
                     <span><img src="/P_img/like.png" style="width:20px;height:20px">좋아요 : ${blist.Likes}</span><br>
                 </span>
