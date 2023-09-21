@@ -9,40 +9,42 @@
     <!-- 스타일 추가 -->
     <style>
         /* 필터 목록 스타일링 */
-        ul {
-            display: flex;
-            list-style: none;
-            padding: 0;
-        }
+    ul.filter-list {
+        display: flex;
+        list-style: none;
+        padding: 0;
+    }
 
-        li {
-            margin-right: 10px;
-        }
+    ul.filter-list li {
+        margin-right: 10px;
+    }
 
-        li a {
-            text-decoration: none;
-            color: #333;
-            background-color: #C0FFEE; /* 연두색 테마 */
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
+    ul.filter-list li a {
+        text-decoration: none;
+        color: #333;
+        background-color: #C0FFEE; /* 연두색 테마 */
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
 
-        /* 주소록 목록 스타일링 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    /* 주소록 목록 스타일링 */
+    table.address-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
+    table.address-table th,
+    table.address-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
 
-        th {
-            background-color: #C0FFEE; /* 연두색 테마 */
-        }
+    table.address-table th {
+        background-color: #C0FFEE; /* 연두색 테마 */
+    }
+        
 		#toast {
 		  position: fixed;
 		  bottom: 50%; /* 변경된 부분 */
@@ -112,43 +114,43 @@
 		   <button onclick="sendEmail()">메일 방송</button>
 		   <button onclick="copyContact()">주소록 복사</button>
 	    </div>
-	
+
 	    <!-- 검색 필터를 위한 ul 및 li 요소 추가 -->
-		<ul>
-		    <li><button onclick="filterContacts('all')">전체</button></li>
-		    <li><button onclick="filterContacts('ㄱ')">ㄱ</button></li>
-		    <li><button onclick="filterContacts('ㄴ')">ㄴ</button></li>
-		    <li><button onclick="filterContacts('ㄷ')">ㄷ</button></li>
-		    <li><button onclick="filterContacts('ㄹ')">ㄹ</button></li>
-		    <li><button onclick="filterContacts('ㅁ')">ㅁ</button></li>
-		    <li><button onclick="filterContacts('ㅂ')">ㅂ</button></li>
-		    <li><button onclick="filterContacts('ㅅ')">ㅅ</button></li>
-		    <li><button onclick="filterContacts('ㅇ')">ㅇ</button></li>
-		    <li><button onclick="filterContacts('ㅈ')">ㅈ</button></li>
-		    <li><button onclick="filterContacts('ㅊ')">ㅊ</button></li>
-		    <li><button onclick="filterContacts('ㅌ')">ㅌ</button></li>
-		    <li><button onclick="filterContacts('ㅍ')">ㅍ</button></li>
-		    <li><button onclick="filterContacts('ㅎ')">ㅎ</button></li>
-		    <li><button onclick="filterContacts('AZ')">A-Z</button></li>
+		<ul class="filter-list">
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('all')">전체</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㄱ')">ㄱ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link"onclick="filterContacts('ㄴ')">ㄴ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link"onclick="filterContacts('ㄷ')">ㄷ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㄹ')">ㄹ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㅁ')">ㅁ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㅂ')">ㅂ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㅅ')">ㅅ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㅇ')">ㅇ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㅈ')">ㅈ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㅊ')">ㅊ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㅌ')">ㅌ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㅍ')">ㅍ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('ㅎ')">ㅎ</button></li>
+		    <li class="filter-list-item"><button class="filter-list-link" onclick="filterContacts('AZ')">A-Z</button></li>
 		</ul>
 		
 	    <!-- 주소록 목록을 나타내는 테이블 예시 -->
-	    <table>
-	        <thead>
-	            <tr>
-	                <th><input type="checkbox" id="selectAll"></th>
-	                <th>이름</th>
-	                <th>부서</th>
-	                <th>직급</th>
-	                <th>휴대폰</th>
-	                <th>이메일</th>
-	                <th>그룹</th>
-	            </tr>
-	        </thead>
-	        <tbody id="contactListBody">
-	            <!-- 주소록 항목들은 JavaScript로 동적으로 추가됩니다. -->
-	        </tbody>
-	    </table>
+	    <table class="address-table">
+	    <thead>
+	        <tr>
+	            <th><input type="checkbox" id="selectAll"></th>
+	            <th class="address-table-header">이름</th>
+	            <th class="address-table-header">부서</th>
+	            <th class="address-table-header">직급</th>
+	            <th class="address-table-header">휴대폰</th>
+	            <th class="address-table-header">이메일</th>
+	            <th class="address-table-header">그룹</th>
+	        </tr>
+	    </thead>
+	    <tbody id="contactListBody">
+	        <!-- 주소록 항목들은 JavaScript로 동적으로 추가됩니다. -->
+	    </tbody>
+	</table>
 	</main>    
     <!-- 필요한 JavaScript 파일 또는 스크립트 태그를 추가하세요 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
