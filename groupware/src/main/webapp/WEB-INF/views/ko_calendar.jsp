@@ -9,19 +9,19 @@
 <script src='js/ko.js'></script>
 <script src='js/main.min.js'></script>
 </head>
-<%-- <%@ include file ="P_header.jsp" %> --%>
+<%@ include file ="P_header.jsp" %>
 <script src='https://code.jquery.com/jquery-Latest.js'></script>
 <script>
 let plan; // 이벤트를 담을 변수 선언
 
 document.addEventListener('DOMContentLoaded', function() {
-	$.post('/getPlan',{}, function(data){
+	$.get('/getPlan',{}, function(data){
 		plan = data;
 
 		var calendarEl = document.getElementById('calendar');  
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			googleCalendarApiKey : "AIzaSyCUK8ocVStSIhpAkkQPF2KXgRIilfprcnI",
-			height: 920,
+			height: 810,
 			aspectRatio: 1,
 		  	locale: "ko",
 		  	initialView: 'dayGridMonth',

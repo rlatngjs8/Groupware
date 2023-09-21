@@ -23,7 +23,7 @@ public class Ko_controller {
 		return "ko_calendar";
 	}
 
-	@PostMapping("/getPlan")
+	@GetMapping("/getPlan")
 	@ResponseBody
 	public String getPlan() {
 		ArrayList<CalendarDTO> alCalendar = cdao.getPlan();		

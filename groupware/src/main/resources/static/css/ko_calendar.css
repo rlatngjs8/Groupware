@@ -1,14 +1,17 @@
 @charset "UTF-8";
 .sideBar{
 	width: 200px; 
-	height: 920px;
+	height: 810px;
 	float: left;
 }
 #calendar{
-	width:1400px
+	width:1400px;
 }
 .pageCalendar{
 	width: 1600px;
+	margin-left: 250px;
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 .addPlanBtn{
 	margin-left : 15px;
