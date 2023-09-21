@@ -24,7 +24,7 @@
 		<c:forEach items="${rlist}" var="r">
 	<%-- 	${r.emailid} ${r.name} ${r.email} ${r.subject} ${r.content} ${r.senderemployeeid} ${r.receiveremployeeid} ${r.sendtime} --%>
 		
-		<tr><td>${r.name}</td><td id="rMailTitle">${r.subject}<div id="rEmailid" class="divHidden">${r.emailid}</div></td><td>${r.sendtime}</td></tr>
+		<tr><td>${r.name}</td><td id="rMailTitle">${r.subject}<div id="rEmailid" class="divHidden">${r.emailid}</div></td><td class="erSendtime">${r.sendtime}/</td></tr>
 		</c:forEach>
 	</table>
 	</div>
@@ -34,6 +34,19 @@
 <script>
 
 $(document)
+.ready(function(){
+	$('.erSendtime').addClass(function(index){
+		return 'erSendtime' + index;
+	});
+	
+	let erSendtime = $('.erSendtime').text();
+	erSendtime = erSendtime.split("/");
+// 	erSendtime = erSendtime.slice(0,-1);
+//  	console.log(erSendtime);
+ 	for(let i=0;i<$('.erSendtime').length; i++){
+ 		$('.erSendtime'+i).html(erSendtime[i].slice(0,-3)); //초 삭제
+	}
+})
 .on('click','#rmailTable tr',function(){
 	let tp = $(this).find('#rEmailid').text(); 
  	console.log(tp);
