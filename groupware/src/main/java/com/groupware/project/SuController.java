@@ -27,6 +27,11 @@ public class SuController {
 	@Value("${image.upload.directory}")
 	private String imageUploadDirectory;
 
+	@GetMapping("/manage/manageHome")
+	public String manageHome() {
+		return "manage/manageHome";
+	}
+	
 	@GetMapping("/manage/showEmployee")
 	public String showEmployee(HttpServletRequest req, Model model) {
 		// 페이지 넘버 먹여서 직원리스트
@@ -119,6 +124,17 @@ public class SuController {
 			model.addAttribute("Elist",alEmp);
 			return "/manage/account";
 	}
+	
+	@GetMapping("/manage/editAccount")
+	public String editAccount(HttpServletRequest req, Model model) {
+		String userid = req.getParameter("userid");
+		ArrayList<EmployeesDTO> alEmp = edao.getListSelect(userid);
+		
+		model.addAttribute("Elist", alEmp);
+		return "/manage/editAccount";
+	}
+	
+	
 // @PostMapping("/EMPmodify")
 // public String EMPmodify(HttpServletRequest req, @RequestParam("profileIMG") MultipartFile profileIMG) {
 //         // 클라이언트에서 전송된 데이터 파라미터를 가져옵니다.

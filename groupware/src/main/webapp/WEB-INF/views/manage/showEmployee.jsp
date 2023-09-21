@@ -54,6 +54,9 @@ tr:nth-child(even) {
 input[type="checkbox"] {
 	margin-right: 5px;
 }
+#viewName, #viewUserid {
+	cursor: pointer;
+}
 </style>
 </head>
 <body>

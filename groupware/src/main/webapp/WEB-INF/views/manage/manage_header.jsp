@@ -44,6 +44,7 @@ body {
   position: fixed;
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
+  margin-top: -1%;
 }
 
 /* 아이콘 시작 */
