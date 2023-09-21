@@ -213,7 +213,10 @@ public class HwanController {
 	    return "";
 	}
 	
-
+	@GetMapping("/contact/test")
+	public String test() {
+		return "contact/test";
+	}
 
 
 }

@@ -18,9 +18,19 @@
 		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
 				  		inner join employees c ON a.SenderEmployeeID=c.EmployeeId where receiveremployeeid=#{param1}
 </select>
+<!-- 이메일디테일 이메일정보와 받은사람 이름 이메일 -->
 <select id="selectDetailMail" resultType="com.groupware.project.MailDTO"> 
-	select a.emailid, b.name, b.email, a.subject, a.content, a.senderemployeeid, c.name, c.email, a.receiveremployeeid,
-		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid
-						inner join employees c on a.senderemployeeid=c.employeeid where a.emailid=#{param1}
+	select a.emailid, b.name, b.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
+			a.attachment1, a.attachment2, a.attachment3, a.sendtime from emails a 
+			inner join employees b on a.receiveremployeeid=b.employeeid where a.emailid=#{param1}
+</select>
+<!-- 이메일디테일 보낸사람 이름 이메일 -->
+<select id="selectSenderName" resultType="com.groupware.project.MailDTO"> 
+	select b.name, b.email from emails a inner join employees b 
+					on a.senderemployeeid=b.employeeid where a.emailid=#{param1}
+</select>
+<!-- 현재 최대 emailid -->
+<select id="selectMaxemailid" resultType="Integer">
+	select ifnull(max(emailid),0) from emails
 </select>
 </mapper>

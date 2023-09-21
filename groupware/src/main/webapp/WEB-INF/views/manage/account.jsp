@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>직원 상세 정보</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -16,11 +16,11 @@
 
     h3 {
         width: 20%;
-    margin-left: 9%;
-    text-align: left;
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 0;
+        margin-left: 9%;
+        text-align: left;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 0;
     }
 
     #container {
@@ -56,12 +56,30 @@
         padding: 10px;
         text-align: left;
     }
-    .modify{
-    width: 13px;
-    height: 13px;
-    margin-left: 2%;
-    cursor: pointer;
+
+    .editField {
+        display: none;
     }
+
+    .modify {
+        width: 13px;
+        height: 13px;
+        margin-left: 2%;
+        cursor: pointer;
+    }
+
+    /* 추가된 부분: 파일 업로드 버튼 스타일 */
+    #uploadImageInput {
+        display: none;
+    }
+
+/*     #changeImageBtn { */
+/*         background-color: #007bff; */
+/*         color: #fff; */
+/*         border: none; */
+/*         padding: 5px 10px; */
+/*         cursor: pointer; */
+/*     } */
 </style>
 </head>
 <body>
@@ -72,63 +90,161 @@
             <label class="lblclass">
                 <img src="/img/${emp.profilePicture}" id="exProfileIMG">
             </label>
+            <!-- 추가된 부분: 이미지 변경 버튼 -->
+            <img src="/img/수정.png" id="changeImageBtn" class="modify">
+            <span style="font-size: 5px;">사진 변경</span>
         </div>
         <table>
-            <tr><td class="tdclass">이름</td><td><span id="editName">${emp.name}</span><img src="/img/수정.png" id="modify" class="modify"></td></tr>
-            <tr><td class="tdclass">사번</td><td>${emp.userid}</td></tr>
-            <tr><td class="tdclass">부서</td><td>${emp.departmentName}</td></tr>
-            <tr><td class="tdclass">직급</td><td>${emp.position}</td></tr>
-            <tr><td class="tdclass">전화번호</td><td>${emp.phoneNumber}</td></tr>
-            <tr><td class="tdclass">생년월일</td><td>${emp.birthdate}</td></tr>
-            <tr><td class="tdclass">주소</td><td>${emp.address}</td></tr>
-            <tr><td class="tdclass">이메일</td><td>${emp.email}</td></tr>
-            <tr><td class="tdclass">월 급여</td><td>${emp.salary}</td></tr>
-            <tr><td class="tdclass">입사일</td><td>${emp.hireDate}</td></tr>
+            <tr>
+                <td class="tdclass">이름</td>
+                <td>
+                    <span id="editName">${emp.name}</span>
+                    <input type="text" id="editNameInput" class="editField">
+                    <img src="/img/수정.png" id="modifyName" class="modify">
+                </td>
+            </tr>
+            <tr>
+                <td class="tdclass">사번</td>
+                <td>${emp.userid}</td>
+            </tr>
+            <tr>
+                <td class="tdclass">부서</td>
+                <td>
+                    <span id="editDepartment">${emp.departmentName}</span>
+                    <!-- select option 넣고 -->
+                    <select id="editDdepartmentSelect" class="editField">
+                        <option value="" disabled selected>부서를 선택하세요</option>
+                        <option value="1">관리부</option>
+                        <option value="2">영업부</option>
+                        <option value="3">생산부</option>
+                    </select>
+                    <img src="/img/수정.png" id="modifyDepart" class="modify">
+                </td>
+            </tr>
+            <tr>
+                <td class="tdclass">직급</td>
+                <td>
+                    <span id="editPosition">${emp.position}</span>
+                    <!-- 여기도 셀렉트 넣고 -->
+                    <select id="editPositionSelect" class="editField">
+                        <option value="" disabled selected>직급을 선택하세요</option>
+                        <option value="회장">회장</option>
+                        <option value="사장">사장</option>
+                        <option value="이사">이사</option>
+                        <option value="부장">부장</option>
+                        <option value="과장">과장</option>
+                        <option value="대리">대리</option>
+                        <option value="사원">사원</option>
+                    </select>
+                    <img src="/img/수정.png" id="modifyPosition" class="modify">
+                </td>
+            </tr>
+            <tr>
+                <td class="tdclass">전화번호</td>
+                <td>
+                    <span id="editPhoneNumber">${emp.phoneNumber}</span>
+                    <input type="text" id="editPhoneNumberInput" class="editField">
+                    <img src="/img/수정.png" id="modifyPhoneNumber" class="modify">
+                </td>
+            </tr>
+            <tr>
+                <td class="tdclass">생년월일</td>
+                <td>
+                    <span id="editPhonebirthDate">${emp.birthdate}</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdclass">주소</td>
+                <td>
+                    <span id="editAddress">${emp.address}</span>
+                    <input type="text" id="editAddressInput" class="editField">
+                    <img src="/img/수정.png" id="modifyAddress" class="modify">
+                </td>
+            </tr>
+            <tr>
+                <td class="tdclass">이메일</td>
+                <td>
+                    <span id="editEmail">${emp.email}</span>
+                    <!-- 인풋넣는데, 도메인은 가만히 -->
+                    <input type="text" id="editEmailInput" class="editField">
+                    <img src="/img/수정.png" id="modifyEmail" class="modify">
+                </td>
+            </tr>
+            <tr>
+                <td class="tdclass">월 급여</td>
+                <td>
+                    <span id="editSalary">${emp.salary}</span>
+                    <input type="text" id="editSalaryInput" class="editField">
+                    <img src="/img/수정.png" id="modifySalary" class="modify">
+                </td>
+            </tr>
+            <tr>
+                <td class="tdclass">입사일</td>
+                <td>${emp.hireDate}</td>
+            </tr>
         </table>
     </c:forEach>
+    <input type="button" class="btnGo" id="btnGo" value="저장">
+    <input type="button" class="btnBack" id="btnBack" value="돌아가기">
+    <!-- 추가된 부분: 이미지 업로드를 위한 파일 선택(input type="file) 요소 -->
+    <input type="file" id="uploadImageInput" accept="image/*">
 </div>
+
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- 수정 모드와 읽기 모드를 전환하는 스크립트 -->
 <script>
 $(document).ready(function() {
-    // 수정 모드 토글
-    $("#modify").click(function() {
-        var editNameSpan = $("#editName");
-        var editNameInput = $("<input>")
-            .attr("id", "editNameInput")
-            .addClass("editNameInput")
-            .val(editNameSpan.text());
-
-        // span 요소를 input 요소로 대체
-        editNameSpan.replaceWith(editNameInput);
-
-        // 저장 버튼 추가
-        var saveButton = $("<button>")
-            .html("저장")
-            .click(function() {
-                var newName = editNameInput.val();
-                // 서버로 업데이트된 값을 보내고 DB를 업데이트하는 AJAX 요청을 수행합니다.
-                // 이 과정은 서버 백엔드에 따라 다를 수 있습니다.
-                $.ajax({
-                    url: "updateName.php", // 업데이트를 처리할 서버 스크립트 파일 경로
-                    method: "POST",
-                    data: { newName: newName }, // 업데이트할 새 이름 전송
-                    success: function(response) {
-                        // 성공적으로 업데이트된 경우
-                        // 새로운 span 요소로 대체
-                        editNameInput.replaceWith("<span id='editName'>" + newName + "</span>");
-                    },
-                    error: function(error) {
-                        // 업데이트 중에 오류가 발생한 경우 처리
-                        console.error("오류 발생: " + error);
-                    }
-                });
-            });
-
-        editNameInput.after(saveButton);
+	$("#modifyName").click(function() {
+        $("#editName").hide();
+        $("#editNameInput").val($("#editName").text()).show().focus();
     });
-});
+
+	
+	
+
+    
+ // 전화번호 입력란의 ID를 가져옵니다. 이 예제에서는 editPhoneNumberInput입니다.
+    var phoneNumberInput = $('#editPhoneNumberInput');
+
+    // 입력 필드의 값을 변경할 때 이벤트 핸들러를 추가합니다.
+    phoneNumberInput.on('input', function() {
+      // 입력된 전화번호에서 숫자만 추출합니다.
+      var phoneNumber = phoneNumberInput.val().replace(/\D/g, '');
+
+      // 전화번호가 11자리를 초과하지 않도록 제한합니다.
+      if (phoneNumber.length > 11) {
+        phoneNumber = phoneNumber.slice(0, 11);
+      }
+
+      // 전화번호 형식을 적용하여 하이픈을 추가합니다.
+      if (phoneNumber.length >= 4 && phoneNumber.length <= 7) {
+        phoneNumber = phoneNumber.replace(/(\d{3})(\d{1,4})/, '$1-$2');
+      } else if (phoneNumber.length >= 8) {
+        phoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{1,4})/, '$1-$2-$3');
+      }
+
+      // 입력 필드에 변경된 전화번호를 설정합니다.
+      phoneNumberInput.val(phoneNumber);
+    });
+    
+    
+    
+    
+
+    // 파일 선택(input type="file) 요소의 값이 변경되면 이미지를 미리보기합니다.
+    $("#uploadImageInput").change(function() {
+        var fileInput = this;
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                // 미리보기 이미지를 업데이트합니다.
+                $("#exProfileIMG").attr("src", e.target.result);
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    });
+
 </script>
 </html>

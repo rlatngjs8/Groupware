@@ -164,28 +164,28 @@
 <h1>연락처 수정</h1>
 <table>
     <tr>
-        <td class="tdclass">이름</td>
+        <td class="tdclass">이름<span class="required">*</span></td>
         <td>
             <span id="editNameSpan"></span>
             <img src="/img/수정.png" id="modifyName" class="modify">
         </td>
     </tr>
     <tr>
-        <td class="tdclass">직급</td>
+        <td class="tdclass">직급<span class="required">*</span></td>
         <td>
             <span id="editPositionSpan"></span>
             <img src="/img/수정.png" id="modifyPosition" class="modify">
         </td>
     </tr>
     <tr>
-        <td class="tdclass">전화번호</td>
+        <td class="tdclass">전화번호<span class="required">*</span></td>
         <td>
             <span id="editPhoneSpan"></span>
             <img src="/img/수정.png" id="modifyPhone" class="modify">
         </td>
     </tr>
     <tr>
-        <td class="tdclass">이메일</td>
+        <td class="tdclass">이메일<span class="required">*</span></td>
         <td>
             <span id="editEmailSpan"></span>
             <img src="/img/수정.png" id="modifyEmail" class="modify">
@@ -199,7 +199,7 @@
         </td>
     </tr>
     <tr>
-        <td class="tdclass">회사</td>
+        <td class="tdclass">회사<span class="required">*</span></td>
         <td>
             <span id="editCompanySpan"></span>
             <img src="/img/수정.png" id="modifyCompany" class="modify">
@@ -265,6 +265,30 @@
             $("#updateButton").show();
         });
         
+        // 전화번호 입력란의 ID를 가져옵니다. 이 예제에서는 phoneNumber입니다.
+        var phoneNumberInput = $('#editPhoneInput');
+
+        // 입력 필드의 값을 변경할 때 이벤트 핸들러를 추가합니다.
+        phoneNumberInput.on('input', function() {
+          // 입력된 전화번호에서 숫자만 추출합니다.
+          var phoneNumber = phoneNumberInput.val().replace(/\D/g, '');
+
+          // 전화번호가 11자리를 초과하지 않도록 제한합니다.
+          if (phoneNumber.length > 11) {
+            phoneNumber = phoneNumber.slice(0, 11);
+          }
+
+          // 전화번호 형식을 적용하여 하이픈을 추가합니다.
+          if (phoneNumber.length >= 4 && phoneNumber.length <= 7) {
+            phoneNumber = phoneNumber.replace(/(\d{3})(\d{1,4})/, '$1-$2');
+          } else if (phoneNumber.length >= 8) {
+            phoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{1,4})/, '$1-$2-$3');
+          }
+
+          // 입력 필드에 변경된 전화번호를 설정합니다.
+          phoneNumberInput.val(phoneNumber);
+        });
+        
     });
 
     function updateContact() {
@@ -303,14 +327,9 @@
             !newPosition ||
             !newPhone ||
             !newEmail ||
-            !newDepartment ||
-            !newCompany ||
-            !newCompanyPhone ||
-            !newCompanyAddress ||
-            !newMemo ||
-            !newGroupName
+            !newCompany 
         ) {
-            showToast("모든 항목을 채워주세요.");
+            showToast("모든 필수 항목을 채워주세요.");
             return; // 업데이트 중지
         }
 

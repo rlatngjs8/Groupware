@@ -148,7 +148,8 @@ img#previewIMG {
 					<option value="3">생산부</option>
 				</select>
 				<!-- 직급 -->
-				<label class="lblclass">직급</label> <select id="position" name="position">
+				<label class="lblclass">직급</label> 
+				<select id="position" name="position">
 					<option value="" disabled selected>직급을 선택하세요</option>
 					<option value="회장">회장</option>
 					<option value="사장">사장</option>

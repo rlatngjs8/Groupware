@@ -81,8 +81,8 @@ input[type="checkbox"] {
 					<tr>
 						<td><input type="checkbox" class="employeeCheckbox"
 							value="${emp.userid}"></td>
-						<td><a id=name data-userid="${emp.userid}">${emp.name}</a></td>
-						<td><a id=userid data-userid="${emp.userid}">${emp.userid}</a></td>
+						<td><a id=viewName data-userid="${emp.userid}">${emp.name}</a></td>
+						<td><a id=viewUserid data-userid="${emp.userid}">${emp.userid}</a></td>
 						<td>${emp.departmentName}</td>
 						<td>${emp.position}</td>
 						<td>${emp.email}</td>
@@ -166,7 +166,7 @@ $(document).ready(function(){
 });
 //---------
 //----이름 or 사번 클릭시 상세/수정 링크
-$(document).on('click','#name, #userid', function(){
+$(document).on('click','#viewName, #viewUserid', function(){
 	var userid = $(this).data("userid");
 	console.log("usrid="+userid);
 	window.location.href="account?userid="+userid;

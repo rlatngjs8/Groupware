@@ -47,15 +47,25 @@
 	INSERT INTO address_book (Name, Position, phone, email, department, company, company_phone, company_address, memo, group_name, Writer_id)
 	VALUES (#{param1}, #{param2} , #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}, #{param9}, #{param10}, #{param11});
 </select>
+
 <delete id="delete_addressBook">
 	DELETE FROM address_book
 	WHERE address_book_id= #{param1};
 </delete>
+
+
 <select id="getListSelect" resultType="com.groupware.project.EmployeesDTO">
 	select a.name, a.userid, b.departmentName, a.position, a.birthDate, a.phoneNumber, a.address, a.email, a.salary , a.hireDate, a.profilePicture
 	from employees a inner join departments b on a.departmentID = b.departmentID
 	 where userid=#{userid}
 </select>
+
+
+<update id="modify">
+	update employees set name=#{param1}, departmentID=#{param2}, position=#{param3}, phoneNumber=#{param4}, address=#{param5}, email=#{param6}, salary=#{param7}, profilePicture=#{param8}
+	where userid=#{param9}
+</update>
+
 <!-- 밑에는 필터링 -->
 <select id="getListGa" resultType="com.groupware.project.EmployeesDTO">
     <!-- 주소록 가져오는데 사용 -->
