@@ -24,7 +24,7 @@ h2.horizontal-layout {
 }
 
 button.btn {
-	background-color: #007bff;
+	background-color: rgb(106, 176, 173);
 	color: #fff;
 	border: none;
 	padding: 10px 15px;
@@ -57,11 +57,13 @@ button.btn {
 .modal-left {
 	flex: 1; /* 왼쪽 영역이 오른쪽 영역보다 넓도록 설정합니다. */
 	padding-right: 10px; /* 왼쪽과 오른쪽 사이에 간격을 줍니다. */
+	margin-left: 13%;
 }
 
 /* 오른쪽 영역 스타일 */
 .modal-right {
 	flex: 1; /* 오른쪽 영역이 왼쪽 영역보다 넓도록 설정합니다. */
+	margin-right: 0%;
 }
 
 .close-button {
@@ -86,7 +88,7 @@ input[type="file"] {
 }
 
 select {
-	width: 54%;
+	width: 70%;
 	padding: 5px;
 	margin-bottom: 10px;
 }
@@ -104,7 +106,7 @@ select {
 
 input[type="text"], input[type="email"], input[type="date"], input[type="submit"]
 	{
-	width: 50%;
+	width: 65%;
 	padding: 10px;
 	margin-bottom: 10px;
 	border: 1px solid #ccc;
