@@ -5,4 +5,7 @@
 <select id="getPlan" resultType="com.groupware.project.CalendarDTO">
 	select calendar_no,calendar_title,calendar_memo,calendar_start,calendar_end from calendar
 </select>
+<insert id="planInsert">
+	insert into calendar set calendar_title=#{param1}, calendar_memo=#{param4}, calendar_start=#{param2}, calendar_end=#{param3}
+</insert>
 </mapper>

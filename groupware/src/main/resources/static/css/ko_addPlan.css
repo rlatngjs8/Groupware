@@ -1,0 +1,103 @@
+@charset "UTF-8";
+.pageCalendar{
+	width: 1600px;
+}
+.sideBar{
+	width: 200px; 
+	height: 920px;
+	float: left;
+}
+.addPlanBtn{
+	margin-left : 15px;
+	width: 150px;
+	height: 44px;
+	font-size: 14px;
+	border: 1px solid #888;
+    background: #fff;
+    border-radius: 4px;
+    transition: all .2s;
+    font-weight: normal;
+    cursor: pointer;
+}
+.addPlanBtn:hover{
+	transform: translateY(-5px);
+	box-shadow: 1px 1px 20px #ddd;
+}
+.addPlan{
+	border-left:1px solid gray; 
+	padding-left: 10px;
+	height: 920px;
+	width:1385px;
+	float: left;
+}
+.addPlanTitle{
+	width:1385px;
+	height:80px;
+	border-bottom: 1px solid lightgray
+}
+.ipt_tit{
+	display: inline-block;
+    width: 570px;
+    padding: 5px 4px;
+    border: 1px solid #cacaca;
+    border-top-color: #bcbcbc;
+    border-bottom-color: #d9d9d9;
+    box-shadow: none;
+    border-radius: 2px;
+    font: bold 17px dotum;
+    min-width: 570px;
+}
+.tbl_tit{
+	margin-top: 20px;
+	margin-left: 10px;
+}
+input[type='date'] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 5px;
+
+}
+#startHour, #endHour {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 5px
+}
+.contentArea {
+	width:900px;
+	height: 200px;
+	resize: none;
+	border-radius: 10px;
+}
+.content{
+	vertical-align : top;
+	width:120px;
+}
+.btnPlan{
+    padding: 0 20px;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 13px;
+    height: 34px;
+    border-radius: 2px;
+    margin: 0 4px;
+}
+.btnPlan:hover{
+	transform: translateY(-5px);
+	box-shadow: 1px 1px 20px #ddd;
+}
+#btnSend{
+	color: #fff;
+	background-color: rgb(106, 176, 173);
+	border: 1px solid rgb(106, 176, 173);
+}
+#btnCancel{
+	background-color: #f4f4f4;
+	border: 1px solid #f4f4f4;
+}
+.c_title{
+	cursor: pointer;
+}
