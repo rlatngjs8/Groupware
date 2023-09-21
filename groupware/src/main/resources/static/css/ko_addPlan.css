@@ -1,6 +1,8 @@
 @charset "UTF-8";
 .pageCalendar{
 	width: 1600px;
+	margin-left: 250px;
+	margin-top: 50px;
 }
 .sideBar{
 	width: 200px; 
@@ -96,7 +98,7 @@ input[type='date'] {
 }
 #btnCancel{
 	background-color: #f4f4f4;
-	border: 1px solid #f4f4f4;
+	border: 1px solid grey;
 }
 .c_title{
 	cursor: pointer;

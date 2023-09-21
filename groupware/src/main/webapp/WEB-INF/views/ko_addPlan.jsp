@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link href='css/ko_addPlan.css' rel='stylesheet' />
+<%@ include file ="P_header.jsp" %>
 <title>일정추가</title>
 </head>
 <body>
