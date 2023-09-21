@@ -1,0 +1,32 @@
+@charset "UTF-8";
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+.Main_Content {
+    margin-left:470px; /* 수정된 마진 값 */
+    margin-top: 50px;
+    padding: 20px; /* 내용과의 간격을 주기 위한 패딩 추가 */
+}
+.page-side {
+	margin-left: 240px;
+    float: left; /* 왼쪽으로 배치 */
+    width: 200px; /* 사이드바 너비 조정 */
+    padding: 20px; /* 내용과의 간격을 주기 위한 패딩 추가 */
+    background-color: rgb(255, 255, 255); /* 배경 색상 설정 */
+    color: rgb(0, 0, 0); /* 텍스트 색상 설정 */
+}
+
+.page-side h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.page-side a {
+    display: block; /* 링크를 블록 레벨로 변경하여 각각을 새로운 줄에 표시 */
+    padding: 10px 0; /* 링크 내부 패딩 추가 */
+    text-decoration: none; /* 밑줄 제거 */
+    color: rgb(0, 0, 0); /* 링크 텍스트 색상 설정 */
+}
+
