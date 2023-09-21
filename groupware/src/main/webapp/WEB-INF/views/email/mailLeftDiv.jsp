@@ -8,7 +8,7 @@
 <title>mailLeftDiv</title>
 </head>
 <style>
-.leftDiv {float:left; width:210px; padding:0 18px 0 18px; border:1px solid lightgray; border-right-width: 0;}
+.leftDiv {width:210px; padding:0 18px 0 18px; border:1px solid lightgray; border-right-width: 0;}
 .leftDiv a {text-decoration: none; color: black;}
 .leftDiv a:hover {color: gray;} 
 .leftDiv ul {padding-left:0; margin:20px 0 0 0;}

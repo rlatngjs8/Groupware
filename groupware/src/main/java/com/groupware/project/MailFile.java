@@ -1,15 +1,12 @@
 package com.groupware.project;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -19,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +31,7 @@ public class MailFile {
 		String attachment = req.getParameter("attachment");
 		try {
 			attachment = URLEncoder.encode(attachment, "UTF-8"); //16진수로
-			System.out.println(attachment);
+//			System.out.println(attachment);
 			
 		}  catch (UnsupportedEncodingException e1) {
             e1.printStackTrace();
@@ -48,9 +44,16 @@ public class MailFile {
             
 			File file = new File(path);
 			
+//			String deAttachment = URLDecoder.decode(attachment, "UTF-8");
+//			deAttachment = deAttachment.substring(deAttachment.indexOf(".")+1); 
+			attachment = attachment.substring(attachment.indexOf(".")+1); 
+//			System.out.println(attachment);
+			
 			HttpHeaders headers = new HttpHeaders();
 			// 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
-			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
+			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(attachment).build());
+//			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
+			
 			System.out.println("nowloading");
 			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
 		} catch(Exception e) {
