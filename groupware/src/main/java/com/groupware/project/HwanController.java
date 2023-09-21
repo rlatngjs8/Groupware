@@ -37,107 +37,81 @@ public class HwanController {
 		return "contact/detail";
 	}
 	
-	@SuppressWarnings("unchecked")
-	@GetMapping("/get_addressBook")
-	@ResponseBody
-	public String get_addressBook(HttpServletRequest req, Model model) {
-		String userid = req.getParameter("userid");
-	    String filter = req.getParameter("filter"); // 필터 값을 받아옵니다.
-		ArrayList<EmployeesDTO> addressBook = null;
-	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
-	    if ("all".equals(filter)) {
-	        addressBook = empdao.getListAll(userid);
-	    } else if ("ㄱ".equals(filter)){
-	    	addressBook = empdao.getListGa(userid);
-	    } else if ("ㄴ".equals(filter)){
-	    	addressBook = empdao.getListNa(userid);
-	    } else if ("ㄷ".equals(filter)){
-	    	addressBook = empdao.getListDa(userid);
-	    }else if ("ㄹ".equals(filter)){ 
-	    	addressBook = empdao.getListRa(userid);
-	    } else if ("ㅁ".equals(filter)){
-	    	addressBook = empdao.getListMa(userid);
-	    } else if ("ㅂ".equals(filter)){
-	    	addressBook = empdao.getListBa(userid);
-	    } else if ("ㅅ".equals(filter)){
-	    	addressBook = empdao.getListSa(userid);
-	    } else if ("ㅇ".equals(filter)){
-	    	addressBook = empdao.getListAa(userid);
-	    } else if ("ㅈ".equals(filter)){
-	    	addressBook = empdao.getListJa(userid);
-	    } else if ("ㅊ".equals(filter)){
-	    	addressBook = empdao.getListCha(userid);
-	    } else if ("ㅌ".equals(filter)){
-	    	addressBook = empdao.getListTa(userid);
-	    } else if ("ㅍ".equals(filter)){
-	    	addressBook = empdao.getListPa(userid);
-	    } else if ("ㅎ".equals(filter)){
-	    	addressBook = empdao.getListHa(userid);
-	    } else if ("AZ".equals(filter)){
-	    	addressBook = empdao.getListAZ(userid);
-	    }
-
-	    JSONArray ja = new JSONArray();
-	    for (int i = 0; i < addressBook.size(); i++) {
-	        JSONObject jo = new JSONObject();
-	        jo.put("employeeID", addressBook.get(i).getEmployeeID());
-	        jo.put("userid", addressBook.get(i).getUserid());
-	        jo.put("password", addressBook.get(i).getPassword());
-	        jo.put("name", addressBook.get(i).getName());
-	        jo.put("departmentID", addressBook.get(i).getDepartmentID());
-	        jo.put("position", addressBook.get(i).getPosition());
-	        jo.put("birthday", addressBook.get(i).getBirthdate());
-	        jo.put("phoneNumber", addressBook.get(i).getPhoneNumber());
-	        jo.put("address", addressBook.get(i).getAddress());
-	        jo.put("email", addressBook.get(i).getEmail());
-	        jo.put("salary", addressBook.get(i).getSalary());
-	        jo.put("profilePicture", addressBook.get(i).getProfilePicture());
-	        jo.put("hireDate", addressBook.get(i).getHireDate());
-	        jo.put("managerEmployeeID", addressBook.get(i).getManagerEmployeeID());
-	        ja.add(jo);
-	    }
-	    return ja.toJSONString();
-	}
+	/*
+	 * @SuppressWarnings("unchecked")
+	 * 
+	 * @GetMapping("/get_addressBook")
+	 * 
+	 * @ResponseBody public String get_addressBook(HttpServletRequest req, Model
+	 * model) { String userid = req.getParameter("userid"); String filter =
+	 * req.getParameter("filter"); // 필터 값을 받아옵니다. ArrayList<EmployeesDTO>
+	 * addressBook = null; // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다. if
+	 * ("all".equals(filter)) { addressBook = empdao.getListAll(userid); } else if
+	 * ("ㄱ".equals(filter)){ addressBook = empdao.getListGa(userid); } else if
+	 * ("ㄴ".equals(filter)){ addressBook = empdao.getListNa(userid); } else if
+	 * ("ㄷ".equals(filter)){ addressBook = empdao.getListDa(userid); }else if
+	 * ("ㄹ".equals(filter)){ addressBook = empdao.getListRa(userid); } else if
+	 * ("ㅁ".equals(filter)){ addressBook = empdao.getListMa(userid); } else if
+	 * ("ㅂ".equals(filter)){ addressBook = empdao.getListBa(userid); } else if
+	 * ("ㅅ".equals(filter)){ addressBook = empdao.getListSa(userid); } else if
+	 * ("ㅇ".equals(filter)){ addressBook = empdao.getListAa(userid); } else if
+	 * ("ㅈ".equals(filter)){ addressBook = empdao.getListJa(userid); } else if
+	 * ("ㅊ".equals(filter)){ addressBook = empdao.getListCha(userid); } else if
+	 * ("ㅌ".equals(filter)){ addressBook = empdao.getListTa(userid); } else if
+	 * ("ㅍ".equals(filter)){ addressBook = empdao.getListPa(userid); } else if
+	 * ("ㅎ".equals(filter)){ addressBook = empdao.getListHa(userid); } else if
+	 * ("AZ".equals(filter)){ addressBook = empdao.getListAZ(userid); }
+	 * 
+	 * JSONArray ja = new JSONArray(); for (int i = 0; i < addressBook.size(); i++)
+	 * { JSONObject jo = new JSONObject(); jo.put("employeeID",
+	 * addressBook.get(i).getEmployeeID()); jo.put("userid",
+	 * addressBook.get(i).getUserid()); jo.put("password",
+	 * addressBook.get(i).getPassword()); jo.put("name",
+	 * addressBook.get(i).getName()); jo.put("departmentID",
+	 * addressBook.get(i).getDepartmentID()); jo.put("position",
+	 * addressBook.get(i).getPosition()); jo.put("birthday",
+	 * addressBook.get(i).getBirthdate()); jo.put("phoneNumber",
+	 * addressBook.get(i).getPhoneNumber()); jo.put("address",
+	 * addressBook.get(i).getAddress()); jo.put("email",
+	 * addressBook.get(i).getEmail()); jo.put("salary",
+	 * addressBook.get(i).getSalary()); jo.put("profilePicture",
+	 * addressBook.get(i).getProfilePicture()); jo.put("hireDate",
+	 * addressBook.get(i).getHireDate()); jo.put("managerEmployeeID",
+	 * addressBook.get(i).getManagerEmployeeID()); ja.add(jo); } return
+	 * ja.toJSONString(); }
+	 */
 	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/get_personal_addressBook")
 	@ResponseBody
 	public String get_personal_addressBook(HttpServletRequest req, Model model) {
 	    String userid = req.getParameter("userid");
-	    String filter = req.getParameter("filter");
+	    String name = req.getParameter("name");
 	    ArrayList<AddressbookDTO> addressBook = null;
 	    
 	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
-	    if ("all".equals(filter)) {
+	    if ("all".equals(name)) {
 	        addressBook = empdao.getListPaAll(userid);
-	    } else if ("ㄱ".equals(filter)){
-	    	addressBook = empdao.getListPaGa(userid);
-	    } else if ("ㄴ".equals(filter)){
-	    	addressBook = empdao.getListPaNa(userid);
-	    } else if ("ㄷ".equals(filter)){
-	    	addressBook = empdao.getListPaDa(userid);
-	    }else if ("ㄹ".equals(filter)){ 
-	    	addressBook = empdao.getListPaRa(userid);
-	    } else if ("ㅁ".equals(filter)){
-	    	addressBook = empdao.getListPaMa(userid);
-	    } else if ("ㅂ".equals(filter)){
-	    	addressBook = empdao.getListPaBa(userid);
-	    } else if ("ㅅ".equals(filter)){
-	    	addressBook = empdao.getListPaSa(userid);
-	    } else if ("ㅇ".equals(filter)){
-	    	addressBook = empdao.getListPaAa(userid);
-	    } else if ("ㅈ".equals(filter)){
-	    	addressBook = empdao.getListPaJa(userid);
-	    } else if ("ㅊ".equals(filter)){
-	    	addressBook = empdao.getListPaCha(userid);
-	    } else if ("ㅌ".equals(filter)){
-	    	addressBook = empdao.getListPaTa(userid);
-	    } else if ("ㅍ".equals(filter)){
-	    	addressBook = empdao.getListPaPa(userid);
-	    } else if ("ㅎ".equals(filter)){
-	    	addressBook = empdao.getListPaHa(userid);
-	    } else if ("AZ".equals(filter)){
-	    	addressBook = empdao.getListPaAZ(userid);
+	    } else if ("name".equals(name)){
+	    	addressBook = empdao.getListPa_sort_name(userid);
+	    } else if ("position".equals(name)){
+	    	addressBook = empdao.getListPa_sort_position(userid);
+	    } else if ("phone".equals(name)){
+	    	addressBook = empdao.getListPa_sort_phone(userid);
+	    } else if ("email".equals(name)){
+	    	addressBook = empdao.getListPa_sort_email(userid);
+	    }else if ("department".equals(name)){ 
+	    	addressBook = empdao.getListPa_sort_department(userid);
+	    } else if ("company".equals(name)){
+	    	addressBook = empdao.getListPa_sort_company(userid);
+	    } else if ("companyPhone".equals(name)){
+	    	addressBook = empdao.getListPa_sort_companyPhone(userid);
+	    } else if ("companyAddress".equals(name)){
+	    	addressBook = empdao.getListPa_sort_companyAddress(userid);
+	    } else if ("memo".equals(name)){
+	    	addressBook = empdao.getListPa_sort_memo(userid);
+	    } else if ("group".equals(name)){
+	    	addressBook = empdao.getListPa_sort_group(userid);
 	    }
 		
 	    

@@ -169,7 +169,7 @@ body {
           <div></div>
         </section>
       </section>
-      <a href="/"><img src="P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
+      <a href="/"><img src="/P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
       <ul>
         <li>
           <a href="/"> 홈</a>
