@@ -194,7 +194,7 @@ $(document).ready(function() {
         salaryValue = salaryValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         // 변경된 값을 다시 입력 필드에 설정합니다.
-        salaryInput.val(salaryValue); 
+        salaryInput.val(salaryValue);
     });
 });
 
