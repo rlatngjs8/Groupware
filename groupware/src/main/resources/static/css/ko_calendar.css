@@ -56,3 +56,12 @@
 div.fc-daygrid-day-frame:has(a.koreanHoliday){
 	background-color: #fff0f5;;
 }
+.fc-prev-button{
+	float: left;
+}
+.fc-toolbar-title{
+	float: left;
+}
+.fc-prev-button, .fc-next-button{
+	background-color: rgb(106, 176, 173);
+}

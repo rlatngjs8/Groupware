@@ -56,9 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		  	}),
 
 		  	headerToolbar: {
-			  	left: 'prev today next',
-			  	center: 'title',
-			  	right: 'dayGridMonth, timeGridWeek, timeGridDay, listMonth'
+			  	left: 'today',
+			  	center: 'prev,title,next',
+			  	right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
 		  	},
 		});
 		calendar.render();
