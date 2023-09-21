@@ -8,7 +8,7 @@
 <title>메일</title>
 </head>
 <style>
-#mailTable {width:100%; border-collapse:collapse;}
+#mailTable {width:100%; border-collapse:collapse; min-width:600px;}
 #mailTable td {height:28px; padding:0 20px 20px 40px;}
 #mailTable td:nth-child(1) {width:90px; font-weight:bold;}
 #mailTable tr:last-child td {border: 1px solid lightgray; border-width:1px 0 0;}
@@ -21,6 +21,8 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 #mFileLabel{border: 1px solid lightgray; padding:4px 12px 4px 12px; border-radius:4px;}
 #mFileLabel:hover{border: 1px solid gray; cursor:pointer;}
 .mailFileName {height:65px;}
+.mfd div {display:inline-block; text-align:center; margin:1px 10px 1px 10px; padding: 1px 10px 1px 10px;}
+.mfx {cursor: pointer;}
 #btnMailSend {width:62px; height:28px; padding: 3px 10px 3px 10px; font-weight:bold; margin-left:40px;}
 </style>
 <body>
@@ -32,7 +34,7 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 		<input type="button" id="btnMailSend" class="whiteBtn" value="보내기">
 		<br><br>
 		<table id="mailTable">
-		<tr><td>받는사람</td><td><input type=text autofocus id="mInputEmail" class="mInputText" value="kim@example.com"></td></tr>
+		<tr><td>받는사람</td><td><input type=text autofocus id="mInputEmail" class="mInputText" value="hong@example.com"></td></tr>
 		<tr><td>참조</td><td><input type=text id="mInputCC" class="mInputText"></td></tr>
 		<tr><td>제목</td><td><input type=text id="mInputTitle" class="mInputText" value="안녕하세요."></td></tr>
 		<tr><td>파일첨부</td><td><label for="mailFile" id="mFileLabel">파일선택</label><input type=file id="mailFile" class="mInputText" multiple></td></tr>
@@ -51,6 +53,14 @@ $(document)
 .ready(function(){
 	console.log("내 사원아이디: "+$('#mailMyEmpID').text());
 })
+.on('click','.mfx',function(){
+// 	console.log($(this).siblings('.mfn').text());
+// 	console.log($('.mfx').index(this));
+	dataTransfer.items.remove($('.mfx').index(this));
+    console.log("dataTransfer =>",dataTransfer.files);
+    $('#mailFile')[0].files = dataTransfer.files;
+    $('.mfd')[$('.mfx').index(this)].remove();
+})
 .on('change','#mailFile',function(){
 	let mailFile = $('#mailFile')[0].files;
 	if($('#mailFile').val()!='' && mailFile.length>0){
@@ -62,7 +72,7 @@ $(document)
         		dataTransfer.items.remove(3);
         		break;
         	}
-        	$(".mailFileName").append("<p class='mfn'>"+fileName+"</p>");
+        	$(".mailFileName").append("<div class='mfd'><div class='mfx'>X</div><div class='mfn'>"+fileName+"</div><div>");
         }
         $('#mailFile')[0].files = dataTransfer.files;
           console.log("dataTransfer =>",dataTransfer.files);
@@ -137,25 +147,38 @@ $(document)
 				return false;
 			}
 		});
-// 		$.ajax({url:'/doProductInsert', processData : false, contentType : false,
-// 			data:formData, type:'post',
-// 			success:function(data){
-// 				console.log("/doProductInsert 성공");
-// 				if(data=='success'){
-// 					alert("등록성공");
-// 				}
-// 				if(data=='fail'){
-// 					alert("등록실패");	
-// 				}
-// 				document.location="/productInsert"; 
-// 			},
-// 			error:function(data){
-// 				alert("오류");
-// 				return false;
-// 			}
-// 		});
 	}
+})
+
+$('.mailFileName').on("dragenter", function(e){
+    e.preventDefault(); // 놓일 장소에 있는 요소의 기본 동작을 막기
+    e.stopPropagation();
+}).on("dragover", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+	$(this).css("border","1px solid #6AB0AD");
+}).on("dragleave", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).css("border","1px solid black");
+}).on('drop', function (e) {
+	e.preventDefault();
+	let files = e.originalEvent.dataTransfer.files;
+	console.log(files.length);
+	for(let i=0; i<files.length; i++){
+		dataTransfer.items.add(files[i]);
+		let fileName = files[i]["name"];
+		if($('.mfn').length>=3){
+			alert("파일은 3개까지만 선택 가능합니다.");
+			dataTransfer.items.remove(3);
+			break;
+		}
+		$(".mailFileName").append("<div class='mfd'><div class='mfx'>X</div><div class='mfn'>"+fileName+"</div><div>");
+	}
+	$('#mailFile')[0].files = dataTransfer.files;
+	$('.mailFileName').children('label').text("");
 });
+
 let maxSize = 5368709120; //5GB
 function fileCheck(fileSize){
 	if(fileSize >= maxSize){

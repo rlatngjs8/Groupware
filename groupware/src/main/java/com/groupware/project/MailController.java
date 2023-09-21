@@ -35,7 +35,7 @@ public class MailController implements WebMvcConfigurer {
 	public static void sessionL(HttpServletRequest req) {
 		//로그인임시
 		HttpSession s = req.getSession();
-		s.setAttribute("empID", 18);
+		s.setAttribute("empID", 17);
 		//로그인임시
 	}
 	
@@ -54,7 +54,12 @@ public class MailController implements WebMvcConfigurer {
 		ArrayList<MailDTO> receiveEmail = mdao.selectRecMail(eid);
 //		System.out.println(receiveEmail.size());
 //		System.out.println(receiveEmail.get(0).getSenderemployeeid());
-		model.addAttribute("rlist", receiveEmail);
+		if(receiveEmail.size()==0) {
+			System.out.println(receiveEmail);
+			model.addAttribute("rlist", "");
+		} else {
+			model.addAttribute("rlist", receiveEmail);
+		}
 //		MailDTO senderName = selectSenderName();
 
 		return "email/mailFolder1";
@@ -169,10 +174,10 @@ public class MailController implements WebMvcConfigurer {
 		
 		//receiver 받는사람 정보//
 		int recID = mdto.getEmployeeid();
-		String recName = mdto.getName();
-		int recDpartID = mdto.getDepartmentid();
-		String recPosition = mdto.getPosition();
-		String recEmail = mdto.getEmail();
+//		String recName = mdto.getName();
+//		int recDpartID = mdto.getDepartmentid();
+//		String recPosition = mdto.getPosition();
+//		String recEmail = mdto.getEmail();
 //		System.out.println(empID+","+empName+","+DpartID+","+empPosition+","+empEmail);
 		////
 		
