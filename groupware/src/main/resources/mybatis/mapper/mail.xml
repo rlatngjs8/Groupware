@@ -14,9 +14,10 @@
 </insert>
 <!-- empid로 email받아서 받은메일함 작성 -->
 <select id="selectRecMail" resultType="com.groupware.project.MailDTO"> 
-	select a.emailid, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
+	select a.emailid, a.emailReceive, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
 		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
 				  		inner join employees c ON a.SenderEmployeeID=c.EmployeeId where receiveremployeeid=#{param1}
+				  					 AND (a.emailreceive=0 OR a.emailreceive=1);
 </select>
 <!-- 이메일디테일 이메일정보와 받은사람 이름 이메일 -->
 <select id="selectDetailMail" resultType="com.groupware.project.MailDTO"> 
@@ -33,4 +34,7 @@
 <select id="selectMaxemailid" resultType="Integer">
 	select ifnull(max(emailid),0) from emails
 </select>
+<update id="updateEmailReceive1">
+	update emails set emailreceive=1 where emailid=#{param1};
+</update>
 </mapper>

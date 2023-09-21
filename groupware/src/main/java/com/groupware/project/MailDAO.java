@@ -13,4 +13,5 @@ public interface MailDAO {
 	MailDTO selectDetailMail(int emailid);
 	MailDTO selectSenderName(int emailid);
 	int selectMaxemailid();
+	void updateEmailReceive1(int emailid);
 }

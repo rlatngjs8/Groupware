@@ -10,6 +10,8 @@ public class MailDTO {
 	    String attachment1;
 	    String attachment2;
 	    String attachment3;
+	    int emailSend;
+	    int emailReceive;
 	    
 	    
 	    //employees
@@ -71,6 +73,18 @@ public class MailDTO {
 		}
 		public void setAttachment3(String attachment3) {
 			this.attachment3 = attachment3;
+		}
+		public int getEmailSend() {
+			return emailSend;
+		}
+		public void setEmailSend(int emailSend) {
+			this.emailSend = emailSend;
+		}
+		public int getEmailReceive() {
+			return emailReceive;
+		}
+		public void setEmailReceive(int emailReceive) {
+			this.emailReceive = emailReceive;
 		}
 		public int getEmployeeid() {
 			return employeeid;

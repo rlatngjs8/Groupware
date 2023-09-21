@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-html, body {height: 100%; margin:0; font-size:14px;}
+html, body {height: 100%; margin:0;}
 /********** mail **********/
 .whiteBtn {border: 1px solid black; border-radius: 4px; background-color: white; cursor:pointer;}
 .whiteBtn:hover {border: 1px solid black; border-radius: 4px; background-color: white; cursor:pointer; 
@@ -13,3 +13,6 @@ html, body {height: 100%; margin:0; font-size:14px;}
 .mailFileName{border: 1px solid lightgray; padding:4px 12px 4px 12px; border-radius:4px;}
 .mailFileName label {color:gray;}
 .mfd:hover {background-color: #F2F2F2;}
+
+.mline {border-style: solid; border-width: 1px 0 0 0; border-color:lightgray; margin:2px 0;}
+.mFolderBtn {height:32px; border-radius:0; color:lightgray; border-color: lightgray;}

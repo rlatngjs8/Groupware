@@ -16,6 +16,7 @@
 #mailTitle {font-weight:bold; font-size:20px; padding:0; cursor:pointer}
 </style>
 <body>
+<div style="padding-left:210px;">
 <div id='mailLeftDiv' class="leftDiv">
 	<ul>
 		<li id="mailTitle">메일</li>
@@ -27,6 +28,7 @@
 		<li><a href="/mailFolder2" id="mailFolder2">보낸메일함</a></li>
 		<li><p style="border: 1px solid black; border-width: 0 0 1px; width:200px;"></p></li>
 	</ul>
+</div>
 </div>
 </body>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>

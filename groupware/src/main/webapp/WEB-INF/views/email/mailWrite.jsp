@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <link href="css/emailCSS.css" rel="stylesheet" type="text/css"/>
 <title>메일</title>
+<%@ include file="../P_header.jsp" %>
 </head>
 <style>
 #mailTable {width:100%; border-collapse:collapse; min-width:600px;}
@@ -25,7 +26,7 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 .mfx {cursor: pointer;}
 #btnMailSend {width:62px; height:28px; padding: 3px 10px 3px 10px; font-weight:bold; margin-left:40px;}
 </style>
-<body>
+<body style="font-size:14px; background-color:white;">
 <div style="display:flex; height: 100%;">
 	<jsp:include page="mailLeftDiv.jsp"></jsp:include>
 	<div id="mDivMain">

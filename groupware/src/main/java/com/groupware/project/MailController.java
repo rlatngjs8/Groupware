@@ -111,7 +111,7 @@ public class MailController implements WebMvcConfigurer {
 	@PostMapping("/mailSend")
 	@ResponseBody
 	public String mailSend(HttpServletRequest req, Model model, HttpServletResponse response, MultipartFile[] uploadFile) {		
-		String uploadFolder = "C:/Users/1234/git/Groupware/groupware/src/main/resources/static/img";
+		String uploadFolder = "C:/Users/1234/git/Groupware/groupware/src/main/resources/static/mailImg";
 		File uploadPath = new File(uploadFolder); //폴더만들고 업로드
 		if(uploadPath.exists() == false) {//폴더 없을 시에만 폴더생성.
 			uploadPath.mkdirs();
@@ -186,6 +186,12 @@ public class MailController implements WebMvcConfigurer {
 				attachment1, attachment2, attachment3);
 		
 		return "mailFolder1";
+	}
+	@PostMapping("/mailRead")
+	@ResponseBody
+	public void mailRead(HttpServletRequest req, Model model) {
+		int emailid = Integer.parseInt(req.getParameter("eid"));
+		mdao.updateEmailReceive1(emailid);
 	}
 	@GetMapping("/mailDetail")
 	public String mailDetail(HttpServletRequest req, Model model) {
