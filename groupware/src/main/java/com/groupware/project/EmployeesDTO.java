@@ -8,14 +8,24 @@ public class EmployeesDTO {
 		String name;
 		int departmentID;
 		String position;
-		String birthday;
+		String birthdate;
 		String phoneNumber;
 		String address;
 		String email;
-		int salary;
+		String salary;
 		String profilePicture;
 		String hireDate;
 		int managerEmployeeID;
+		
+		
+		String departmentName;
+		
+		public String getDepartmentName() {
+				return departmentName;
+		}
+		public void setDepartmentName(String departmentName) {
+				this.departmentName = departmentName;
+		}
 		public int getEmployeeID() {
 				return employeeID;
 		}
@@ -52,11 +62,11 @@ public class EmployeesDTO {
 		public void setPosition(String position) {
 				this.position = position;
 		}
-		public String getBirthday() {
-				return birthday;
+		public String getBirthdate() {
+				return birthdate;
 		}
-		public void setBirthday(String birthday) {
-				this.birthday = birthday;
+		public void setBirthdate(String birthdate) {
+				this.birthdate = birthdate;
 		}
 		public String getPhoneNumber() {
 				return phoneNumber;
@@ -76,10 +86,10 @@ public class EmployeesDTO {
 		public void setEmail(String email) {
 				this.email = email;
 		}
-		public int getSalary() {
+		public String getSalary() {
 				return salary;
 		}
-		public void setSalary(int salary) {
+		public void setSalary(String salary) {
 				this.salary = salary;
 		}
 		public String getProfilePicture() {
@@ -100,7 +110,6 @@ public class EmployeesDTO {
 		public void setManagerEmployeeID(int managerEmployeeID) {
 				this.managerEmployeeID = managerEmployeeID;
 		}
-		
 		
 		
 }
