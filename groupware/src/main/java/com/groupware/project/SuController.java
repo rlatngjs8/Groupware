@@ -1,7 +1,6 @@
 package com.groupware.project;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -134,6 +133,52 @@ public class SuController {
 		return "/manage/editAccount";
 	}
 	
+	@PostMapping("/editEMP")
+	public String editEMP(HttpServletRequest req) {
+		try {
+			String userid = req.getParameter("userid");
+			String name = req.getParameter("name");
+			String departmentID = req.getParameter("departmentID");
+			String position = req.getParameter("position");
+			String phoneNumber = req.getParameter("phoneNumber");
+			String address = req.getParameter("address");
+			String email = req.getParameter("email");
+			String salary = req.getParameter("salary");
+			
+			   System.out.println("userid: " + userid);
+		        System.out.println("name: " + name);
+		        System.out.println("departmentID: " + departmentID);
+		        System.out.println("position: " + position);
+		        System.out.println("phoneNumber: " + phoneNumber);
+		        System.out.println("address: " + address);
+		        System.out.println("email: " + email);
+		        System.out.println("salary: " + salary);
+
+
+//			String fileName = userid + "_" + name + ".jpg";
+//			String filePath = imageUploadDirectory + "/" + fileName;
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
+	        MultipartFile profileIMG = multipartRequest.getFile("profileIMG");
+			String fileName = "";
+			
+			if (profileIMG != null && !profileIMG.isEmpty()) {
+				fileName = userid + "_" + name + ".jpg";
+	            String filePath = imageUploadDirectory + "/" + fileName;
+	            profileIMG.transferTo(new File(filePath));
+	        }
+
+			
+			edao.editEMP(name, departmentID, position, phoneNumber, address, email, salary,
+					fileName, userid);
+			System.out.println("성공");
+			return "/manage/editAccount";
+		} catch (Exception e) {
+			System.out.println("실패");
+			e.printStackTrace();
+			// 오류 페이지로 리다이렉트 또는 오류 메시지를 반환할 수 있습니다.
+			return "errorPage";
+		}
+	}
 	
 // @PostMapping("/EMPmodify")
 // public String EMPmodify(HttpServletRequest req, @RequestParam("profileIMG") MultipartFile profileIMG) {

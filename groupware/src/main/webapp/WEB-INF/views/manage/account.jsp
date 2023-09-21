@@ -152,7 +152,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="tdclass">생년월일</td>
+                <td class="tdclass">생년월일</td> 
                 <td>
                     <span id="birthdate">${emp.birthdate}</span>
                 </td>
@@ -188,7 +188,7 @@
         </table>
     </c:forEach>
 <!--     <input type="button" class="btnGo" id="btnGo" value="저장"> -->
-    <input type="button" class="btnEdit" id="btnEdit" value="수정">
+    <input type="button" class="btnEdit" id="btnEdit" value="수정메뉴">
     <input type="button" class="btnBack" id="btnBack" value="돌아가기">
     <!-- 추가된 부분: 이미지 업로드를 위한 파일 선택(input type="file) 요소 -->
 <!--     </form> -->
@@ -363,7 +363,8 @@ $("#btnBack").click(function(){
 	window.location.href="/manage/showEmployee";
 })
 $("#btnEdit").click(function(){
-	window.location.href="/manage/editAccount";
+	var userid = $('#userid').val();
+	window.location.href="/manage/editAccount?userid="+userid;
 })
 </script>
 </html>

@@ -35,7 +35,9 @@
 	from employees a inner join departments b on a.departmentID = b.departmentID
 	 where userid=#{userid}
 </select>
-
+<update id="editEMP">
+	update employees set name=#{param1}, departmentID=#{param2}, position=#{param3}, phoneNumber=#{param4}, address=#{param5}, email=#{param6}, salary=#{param7}, profilePicture=#{param8} where userid=#{param9}
+</update>
 <!-- <update id="modify"> -->
 <!-- 	update employees set name=#{param1}, departmentID=#{param2}, position=#{param3}, phoneNumber=#{param4}, address=#{param5}, email=#{param6}, salary=#{param7}, profilePicture=#{param8} -->
 <!-- 	where userid=#{param9} -->

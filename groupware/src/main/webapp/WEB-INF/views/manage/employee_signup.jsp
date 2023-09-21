@@ -64,6 +64,7 @@ button.btn {
 .modal-right {
 	flex: 1; /* 오른쪽 영역이 왼쪽 영역보다 넓도록 설정합니다. */
 	margin-right: 0%;
+	margin-top: 4%;
 }
 
 .close-button {
@@ -114,9 +115,8 @@ input[type="text"], input[type="email"], input[type="date"], input[type="submit"
 }
 
 img#previewIMG {
-	max-width: 200px;
-	max-height: 200px;
-	display: none;
+	width: 150px;
+	height: 150px;
 	margin-top: 10px;
 }
 </style>
@@ -128,7 +128,7 @@ img#previewIMG {
 			<form id="frmsignup" action="/signup" method="post" enctype="multipart/form-data">
 				<!-- 프로필이미지 -->
 				<label class="lblclass">프로필이미지</label> 
-				<img id="previewIMG" src=# alt="미리보기 이미지" style="display: none; max-width: 200px; max-height: 200px;">
+				<img id="previewIMG" src="/img/default_profile.png" alt="미리보기 이미지">
 				<input type="file" placeholder="프로필이미지" id="profileIMG" name="profileIMG">
 				<!-- 이름 -->
 				<label class="lblclass">이름</label> 
@@ -195,16 +195,44 @@ img#previewIMG {
 	<script>
 
 //파일 업로드 필드의 값이 변경되었을 때 미리보기 이미지 업데이트
-$('#profileIMG').change(function() {
-  var input = this;
-  var reader = new FileReader();
+// $('#profileIMG').change(function() {
+//   var input = this;
+//   var reader = new FileReader();
 
-  reader.onload = function(e) {
-    $('#previewIMG').attr('src', e.target.result);
-    $('#previewIMG').show(); // 이미지를 보이도록 설정
-  };
+//   reader.onload = function(e) {
+//     $('#previewIMG').attr('src', e.target.result);
+// //     $('#previewIMG').show(); // 이미지를 보이도록 설정
+//   };
 
-  reader.readAsDataURL(input.files[0]);
+//   reader.readAsDataURL(input.files[0]);
+// });
+// ----
+$(document).ready(function() {
+  // 페이지 로드 시 이미지 설정
+  updatePreviewImage();
+
+  // 파일 업로드 필드의 값이 변경될 때 미리보기 이미지 업데이트
+  $('#profileIMG').change(function() {
+    updatePreviewImage();
+  });
+
+  // 이미지 업데이트 함수 정의
+  function updatePreviewImage() {
+    var input = $('#profileIMG')[0];
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('#previewIMG').attr('src', e.target.result);
+      $('#previewIMG').show(); // 이미지를 보이도록 설정
+    };
+
+    // 이미지가 없을 경우 기본 이미지를 사용하거나 숨깁니다.
+    if (input.files.length > 0) {
+      reader.readAsDataURL(input.files[0]);
+    } else {
+//       $('#previewIMG').hide();
+    }
+  }
 });
 
 
