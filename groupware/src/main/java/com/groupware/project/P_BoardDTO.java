@@ -15,13 +15,13 @@ public class P_BoardDTO {
 	public void setCommunityID(Integer communityID) {
 		CommunityID = communityID;
 	}
+
 	public String getCommunityTitle() {
 		return CommunityTitle;
 	}
 	public void setCommunityTitle(String communityTitle) {
 		CommunityTitle = communityTitle;
 	}
-
 	public String getUserid() {
 		return Userid;
 	}

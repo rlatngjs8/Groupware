@@ -9,4 +9,6 @@ public interface P_BoardDAO {
 	ArrayList<P_BoardDTO> getlist(int start, int psize);
 	int getTotal();
 	int savepost(String title, String content, int empId);
+	P_BoardDTO view(int seqno);
+	void hitup(int seqno);
 }

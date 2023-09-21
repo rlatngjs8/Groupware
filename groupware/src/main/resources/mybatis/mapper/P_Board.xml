@@ -12,15 +12,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into communities set CommunityTitle=#{param1},Content=#{param2},AuthorEmployeeID=#{param3},CreatedTime=now()
 	</insert>
 
-<!-- <select id="view" resultType="com.groupware.project.P_BoardDTO">
-	select seqno,title,content,writer,hit,created,updated from board
-	where seqno=#{param1} 
-</select>
+	<select id="view" resultType="com.groupware.project.P_BoardDTO">
+		SELECT a.CommunityID, a.CommunityTitle, b.Userid, a.Content, a.Views, a.Likes, a.CreatedTime 
+		from communities a INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		where CommunityID=#{param1} 
+	</select>
 
 <update id="hitup">
-	update board set hit=hit+1 where seqno=#{param1}
+	update communities set Views=Views+1 where CommunityID=#{param1}
 </update>
-
+<!-- 
 <delete id="delete">
 	delete from board where seqno=#{param1}
 </delete>

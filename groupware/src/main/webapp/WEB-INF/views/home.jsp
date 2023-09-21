@@ -37,12 +37,13 @@
     <div class="profile-box">
         <div class="rounded-image">
             <img src="img/${profileIMG}" style="width: 100%; height: 100%;" alt="프로필 이미지">
+            <button id=btnLogout >임시 로그아웃</button>
         </div>
         <div class="profile-name">
         	<p>${name}</p>
     	</div>
     </div>
-    <button id=btnLogout>임시 로그아웃</button>
+    
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

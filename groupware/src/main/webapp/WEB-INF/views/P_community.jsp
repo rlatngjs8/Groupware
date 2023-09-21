@@ -82,23 +82,23 @@
 <div class="page-side">
     <h1>게시판</h1>
     <a href='/community_write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
-    <div>
+<!--     <div>
         <a href='/#'>아이디어 공유</a><br>
         <a href='/#'>휴가</a><br>
         <a href='/#	'>프로젝트</a><br>
-    </div>
+    </div> -->
 </div>
 <div class="Main_Content">
 <c:forEach items="${blist}" var="blist">
 	<div class="post-container">
-	<a href="/community/view=${blist.CommunityID}">
+	<a href="/community_view?seqno=${blist.CommunityID}">
             <span class="post-title">${blist.CommunityTitle}</span><br><br>
             <span class="post-content">${blist.Content}</span><br><br>
             <span class="post-info">
                 <span class="post-views-likes">
                 	<span class="post-author">작성자 : ${blist.Userid}</span><br>
                     <span>조회수: ${blist.Views}</span><br>
-                    <span><img src="/P_img/like.png" style="width:20px;height:20px"> : ${blist.Likes}</span><br>
+                    <span><img src="/P_img/like.png" style="width:20px;height:20px">좋아요 : ${blist.Likes}</span><br>
                 </span>
                 <span class="post-time">${blist.CreatedTime}</span>
             </span>
@@ -108,5 +108,4 @@
 <div style="margin-left:auto;margin-right:auto;text-align:center">${pagestr}</div>
 </div>
 </body>
-
 </html>

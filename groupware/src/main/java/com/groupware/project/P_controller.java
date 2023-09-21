@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -61,7 +62,6 @@ public class P_controller {
 	public String community_write(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
 		Integer EmpId=(int) session.getAttribute("EmpId");
-		System.out.println("empid: {"+EmpId+"}");
 		return "P_community_write";
 	}
 	@PostMapping("/savepost")
@@ -74,9 +74,36 @@ public class P_controller {
 		bdao.savepost(title, content, EmpId);
 		return "/community";
 	}
-	@GetMapping("/community/view")
-	public String viewpost(HttpServletRequest req, Model model) {
-		return "view";
+	
+	@GetMapping("/community_view")
+	public String viewpost(HttpServletRequest req,Model model) {
+		int seqno = Integer.parseInt(req.getParameter("seqno"));
+		P_BoardDTO bdto = bdao.view(seqno);
+		String oriwri=bdto.getUserid();
+		bdao.hitup(seqno);
+		model.addAttribute("bpost",bdto);
+		System.out.println("----------------------"+bdto);
+		HttpSession session = req.getSession();
+		String writer=(String) session.getAttribute("userid");
+		try {
+			if(writer.equals(oriwri)){
+				model.addAttribute("modidel","<a href='/write'>글쓰기</a>&nbsp;&nbsp;<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
+				return "P_community_view";
+			}else {
+				model.addAttribute("modidel","");
+				model.addAttribute("write","<a href='/community_write'>글쓰기</a>&nbsp;");
+				return "P_community_view";
+			}
+		} catch(Exception e) {
+			model.addAttribute("modidel","");
+			return "P_community_view";
+		}
 	}
-
+	@PostMapping("/addComment")
+	@ResponseBody
+	public String addcomment(HttpServletRequest req,Model model) {
+		int  seqno= Integer.parseInt(req.getParameter("postId"));
+		String cmt = req.getParameter("comment");
+		return "";
+	}
 }

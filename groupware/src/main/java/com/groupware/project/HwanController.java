@@ -86,7 +86,7 @@ public class HwanController {
 	        jo.put("name", addressBook.get(i).getName());
 	        jo.put("departmentID", addressBook.get(i).getDepartmentID());
 	        jo.put("position", addressBook.get(i).getPosition());
-	        jo.put("birthday", addressBook.get(i).getBirthday());
+	        jo.put("birthday", addressBook.get(i).getBirthdate());
 	        jo.put("phoneNumber", addressBook.get(i).getPhoneNumber());
 	        jo.put("address", addressBook.get(i).getAddress());
 	        jo.put("email", addressBook.get(i).getEmail());

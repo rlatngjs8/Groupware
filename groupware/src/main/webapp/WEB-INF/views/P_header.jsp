@@ -101,7 +101,7 @@ body {
   color: white;
   font-size: 1.4rem;
   font-weight: bold;
-  padding-top: 20px;
+  padding-top: 12px;
   padding-bottom: 20px;
   padding-left: 50px;
   transition: .5s;
@@ -173,6 +173,9 @@ body {
       <ul>
         <li>
           <a href="/"> 홈</a>
+        </li>
+        <li>
+          <a href="/contact/company">연락처</a>
         </li>
         <li>
           <a href="#">메일</a>

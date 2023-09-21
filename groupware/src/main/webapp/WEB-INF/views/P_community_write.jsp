@@ -14,7 +14,7 @@
     #editorContainer {
         background-color: white;
         margin: 100px auto;
-        width: 800px;
+        width: 950px;
         padding: 20px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
