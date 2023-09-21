@@ -213,7 +213,6 @@ body {
     	</div>
     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
     	<img src="img/${profileIMG}" class="profile">
 	</div>
 </body>
