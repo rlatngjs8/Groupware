@@ -6,8 +6,10 @@
 <meta charset="UTF-8">
 <link href='css/main.min.css' rel='stylesheet' />
 <link href='css/ko_calendar.css' rel='stylesheet' />
-<script src='js/ko.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/rrule@2.6.4/dist/es5/rrule.min.js'></script>
 <script src='js/main.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/rrule@5.11.5/main.global.min.js'></script>
+<script src='js/ko.js'></script>
 </head>
 <%@ include file ="P_header.jsp" %>
 <script src='https://code.jquery.com/jquery-Latest.js'></script>
@@ -30,10 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		  	nowIndicator: true, // 현재 시간 마크
 		  	dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 		    eventSources: [
-		    	{
-	            googleCalendarId : '30acb7adba3717dd139c468626b00a0d5228cd594c6a720658c1234ce7cc5499@group.calendar.google.com',
-	            className: '일정'
-	            },
 	            {
 	            googleCalendarId : 'ko.south_korea#holiday@group.v.calendar.google.com',
 	            className: 'koreanHoliday',
@@ -41,20 +39,33 @@ document.addEventListener('DOMContentLoaded', function() {
 	            }
 		    	],
 		 	events : plan.map(function(item) {
-		      	return {
-		      		id: item.calendar_no,
-		          	title: item.calendar_title,
-		          	start: item.calendar_start,
-		          	end: item.calendar_end,
-		          	color: "#cd74e6"
-		      	};
+		 		if(item.calendar_no==2){
+			      	return {
+			      		id: item.calendar_no,
+			          	title: item.calendar_title,
+			          	start: item.calendar_start,
+			          	end: item.calendar_end,
+			          	color: "blue",
+			          	url: "/ko_calendarDetails?c_no="+item.calendar_no
+			      	};
+		 		}else{
+			      	return {
+			      		id: item.calendar_no,
+			          	title: item.calendar_title,
+			          	start: item.calendar_start,
+			          	end: item.calendar_end,
+			          	color: "#cd74e6",
+			          	url: "/ko_calendarDetails?c_no="+item.calendar_no
+			      	};
+		 		}
 		  	}).concat({
-			  	id: '아이디',
-		      	title: '회의실예약',
-		     	start: '2023-09-28T08:00:00',
-		      	end: '2023-09-28T12:00:00'
+		      	title: '생일',
+		     	start: '2023-09-19',
+		        rrule: {
+		            freq: 'yearly',
+		            dtstart:'2023-09-19'
+		        }
 		  	}),
-
 		  	headerToolbar: {
 			  	left: 'today',
 			  	center: 'prev,title,next',
@@ -70,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	<div class='sideBar'>
 		<h2 class="c_title" id="c_title" style="margin-left:15px;">캘린더</h2>
 		<button class="addPlanBtn" id="addPlanBtn">일정등록</button>
+		<button class="addPlanBtn" id="btnReservation">회의실 예약</button>
 	</div>
 	<div id='calendar' class="calendar"></div>
 </div>
