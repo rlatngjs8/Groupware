@@ -86,7 +86,7 @@ public class SuController {
 			
 			String namebirth = name+" 생일";
 			
-//			cdao.birthdayToC(namebirth, birthdate);
+			cdao.birthdayToC(namebirth, birthdate);
 			Thread.sleep(3000);
 			System.out.println("성공");
 			return "redirect:/manage/showEmployee";
