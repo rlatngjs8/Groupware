@@ -1,6 +1,7 @@
 package com.groupware.project;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class SuController {
 
 	@GetMapping("/manage/manageHome")
 	public String manageHome() {
-		return "manage/manageHome";
+		return "/manage/manageHome";
 	}
 	
 	@GetMapping("/manage/showEmployee")
@@ -76,10 +77,34 @@ public class SuController {
 			String email = req.getParameter("email");
 			String salary = req.getParameter("salary");
 			String hireDate = req.getParameter("hireDate");
+			
+			
+			String fileName;
 
-			String fileName = userid + "_" + name + ".jpg";
-			String filePath = imageUploadDirectory + "/" + fileName;
-			profileIMG.transferTo(new File(filePath));
+	        if (profileIMG != null && !profileIMG.isEmpty()) {
+	            // 프로필 이미지가 제공된 경우 업로드
+	            fileName = userid + "_" + name + ".jpg";
+	            String filePath = imageUploadDirectory + "/" + fileName;
+	            profileIMG.transferTo(new File(filePath));
+	        } else {
+	            // 프로필 이미지가 없는 경우 기본 이미지 사용 및 복사
+	            String defaultImageName = "default_profile.png";
+	            fileName = userid + "_" + name + ".jpg";
+	            String defaultImagePath = imageUploadDirectory + "/" + defaultImageName;
+	            String targetImagePath = imageUploadDirectory + "/" + fileName;
+
+	            // 기본 이미지 파일을 복사하여 새 파일 생성
+	            File defaultImageFile = new File(defaultImagePath);
+	            File targetImageFile = new File(targetImagePath);
+	            Files.copy(defaultImageFile.toPath(), targetImageFile.toPath());
+	        }
+
+			
+			
+
+//			String fileName = userid + "_" + name + ".jpg";
+//			String filePath = imageUploadDirectory + "/" + fileName;
+//			profileIMG.transferTo(new File(filePath));
 
 			edao.signup(userid, password, name, departmentID, position, birthdate, phoneNumber, address, email, salary,
 					fileName, hireDate);
@@ -199,7 +224,7 @@ public class SuController {
 			
 			edao.editEMP(name, departmentID, position, phoneNumber, address, email, salary,
 					fileName, userid);
-			Thread.sleep(3500);
+			Thread.sleep(4000);
 			System.out.println("성공");
 			return "redirect:/manage/account?userid="+userid;
 		} catch (Exception e) {
