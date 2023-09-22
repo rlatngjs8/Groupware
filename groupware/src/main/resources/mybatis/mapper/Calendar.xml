@@ -20,5 +20,4 @@
 <insert id="birthdayToC">
 	insert into calendar set calendar_title=#{param1}, calendar_memo=#{param1}, calendar_start=#{param2}, calendar_end=#{param2}, birthday=1
 </insert>
-
 </mapper>
