@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="getComment" resultType="com.groupware.project.P_BoardDTO">
-		SELECT  b.Name AS Comment_Name, a.Content AS COMMENT,a.CreatedTime AS Comment_Date
+		SELECT  b.Name AS Comment_Name, a.Content AS COMMENT,a.CreatedTime AS Comment_Date, b.Position AS Comment_Position
 		FROM comments a INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
 		where a.ParentID = #{param1} 
 	</select>

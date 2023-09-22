@@ -61,25 +61,29 @@ public class P_BoardDTO {
 	public void setPosition(String position) {
 		Position = position;
 	}
-	
-
 	public String getName() {
 		return Name;
 	}
 	public void setName(String name) {
 		Name = name;
 	}
-
-	String Comment_Userid;
 	String Comment;
 	String Comment_Date;
-	public String getComment_Userid() {
-		return Comment_Userid;
-	}
-	public void setComment_Userid(String comment_Userid) {
-		Comment_Userid = comment_Userid;
-	}
+	String Comment_Name;
+	String Comment_Position;
 	
+	public String getComment_Position() {
+		return Comment_Position;
+	}
+	public void setComment_Position(String comment_Position) {
+		Comment_Position = comment_Position;
+	}
+	public String getComment_Name() {
+		return Comment_Name;
+	}
+	public void setComment_Name(String comment_Name) {
+		Comment_Name = comment_Name;
+	}
 	public String getComment() {
 		return Comment;
 	}
