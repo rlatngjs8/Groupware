@@ -3,6 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+         crossorigin="anonymous"
+      />
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -22,7 +30,7 @@
 
 		/* 테이블 제목 셀 스타일 */
 		.styled-table th {
-		    text-align: left; /* 텍스트 왼쪽 정렬 */
+		    text-align: center; /* 텍스트 왼쪽 정렬 */
 		    transition: background-color 0.3s; /* 호버 시 배경색 변경 애니메이션 */
 		    cursor: pointer; /* 호버 시 포인터 커서로 변경 */
 		}
@@ -129,10 +137,173 @@
         .search-button:hover {
             background-color: #45a049; /* 호버 시 색상 변경 */
         }
-    </style>
-        
-  
+        body {
+		  line-height: 24px;
+		  color: #333;
+		  background: #ececec;
+		  overflow-y: scroll;
+		}
+
+.clear {
+  clear: both;
+}
+
+.articleTitle {
+  font-size: 1.15em;
+  font-weight: 700;
+  line-height: 1em;
+  color: #222;
+}
+
+.container {
+  padding-top: 1em;
+  margin-top: 1em;
+  border-top: solid 1px #CCC;
+}
+
+a.button {
+  display: block;
+  position: relative;
+  float: left;
+  width: 120px;
+  padding: 0;
+  margin: 10px 20px 10px 0;
+  font-weight: 600;
+  text-align: center;
+  line-height: 50px;
+  color: #FFF;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+
+.btnBlueGreen {
+  background: #00AE68;
+}
+
+.btnLightBlue {
+  background: #5DC8CD;
+}
+
+.btnOrange {
+  background: #FFAA40;
+}
+
+.btnPurple {
+  background: #A74982;
+}
+
+/* FLOAT */
+.btnFloat {
+  background: none;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
+}
+
+.btnFloat:before {
+  content: '추가';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+
+.btnBlueGreen.btnFloat:before {
+  background: #00AE68;
+}
+
+.btnLightBlue.btnFloat:before {
+  background: #5DC8CD;
+}
+
+.btnOrange.btnFloat:before {
+  background: #FFAA40;
+}
+
+.btnPurple.btnFloat:before {
+  background: #8D336A;
+}
+
+.btnFloat:before {
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.4);
+}
+
+.btnFloat:hover:before {
+  margin-top: -2px;
+  margin-left: 0px;
+  transform: scale(1.1, 1.1);
+  -ms-transform: scale(1.1, 1.1);
+  -webkit-transform: scale(1.1, 1.1);
+  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
+}
+
+/* 추가 버튼 */
+.btnFloatAdd:before {
+  content: '추가';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  /* 나머지 스타일 속성들은 동일하게 유지 */
+}
+
+/* 삭제 버튼 */
+.btnFloatDelete:before {
+  content: '삭제';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  /* 나머지 스타일 속성들은 동일하게 유지 */
+}
+
+/* 수정 버튼 */
+.btnFloatEdit:before {
+  content: '뭐야';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  /* 나머지 스타일 속성들은 동일하게 유지 */
+}
+
+/* 다른 버튼 */
+.btnFloatOther:before {
+  content: '뭐임?';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  /* 나머지 스타일 속성들은 동일하게 유지 */
+}
+
+  .swal2-input {
+    margin-bottom: 5px; /* 각 입력 필드 아래의 마진 조절 */
+  }
+</style>
+
+
+
 <body>
+
 <%@ include file="/WEB-INF/views/P_header.jsp" %>
 
 <input type="hidden" id="user_id" value="${sessionScope.userid}">
@@ -143,6 +314,22 @@
         <button class="search-button">검색</button>
     </div>
 
+   <div class="container" style="margin-left: 280px; margin-bottom: 20px;">
+<!-- 	<a href="" title="Button border blue/green" class="button btnFloat btnBlueGreen btnFloatAdd">추가</a>
+	<a href="" title="Button border lightblue" class="button btnFloat btnLightBlue btnFloatDelete">삭제</a>
+	<a href="" title="Button border orange" class="button btnFloat btnOrange btnFloatEdit">뭐야</a>
+	<a href="" title="Button border purple" class="button btnFloat btnPurple btnFloatOther">뭐임?</a> -->
+	<button class="btn btn-primary m-2" id="alertStart" style="width: 150px; height: 50px;">버튼</button>
+	<button class="btn btn-secondary m-2" id="confirmStart">Confirm 실행</button>
+	<button class="btn btn-success m-2" id="promptStart">Prompt 실행</button>
+	<button class="btn btn-danger m-2" id="toastStart">Toast 실행</button>
+	<button class="btn btn-warning m-2" id="ajaxStart">Ajax 실행 (깃헙 아이디 검색)</button>
+	
+	
+    <div class="clear"></div>
+  </div>
+	
+	
     <table class="styled-table">
         <thead>
         <tr>
@@ -224,6 +411,184 @@ function sort(name) {
         }
     });
 }
+
+
+$().ready(function () {
+	  
+	  $("#alertStart").click(function () {
+	    Swal.fire({
+	      icon: 'success',
+	      title: 'Alert가 실행되었습니다.',
+	      text: '이곳은 내용이 나타나는 곳입니다.',
+	    });
+	  });
+	  
+	  
+	  $("#confirmStart").click(function () {
+	    Swal.fire({
+	      title: '정말로 그렇게 하시겠습니까?',
+	      text: "다시 되돌릴 수 없습니다. 신중하세요.",
+	      icon: 'warning',
+	      showCancelButton: true,
+	      confirmButtonColor: '#3085d6',
+	      cancelButtonColor: '#d33',
+	      confirmButtonText: '승인',
+	      cancelButtonText: '취소',
+	      reverseButtons: true, // 버튼 순서 거꾸로
+	      
+	    }).then((result) => {
+	      if (result.isConfirmed) {
+	        Swal.fire(
+	          '승인이 완료되었습니다.',
+	          '화끈하시네요~!',
+	          'success'
+	        )
+	      }
+	    })
+	  });
+	  
+	  
+	  
+
+	  
+	  $(document).on('click', '#promptStart', function () {
+		  (async () => {
+		    const { value: formValues, dismiss: dismissReason } = await Swal.fire({
+		      title: '정보 입력',
+		      html:
+		        '<input id="swal-input1" class="swal2-input" placeholder="이름">' +
+		        '<input id="swal-input2" class="swal2-input" placeholder="직위">' +
+		        '<input id="swal-input3" class="swal2-input" placeholder="핸드폰">' +
+		        '<input id="swal-input4" class="swal2-input" placeholder="이메일">' +
+		        '<input id="swal-input5" class="swal2-input" placeholder="부서">' +
+		        '<input id="swal-input6" class="swal2-input" placeholder="회사">' +
+		        '<input id="swal-input7" class="swal2-input" placeholder="회사 전화">' +
+		        '<input id="swal-input8" class="swal2-input" placeholder="회사 주소">' +
+		        '<input id="swal-input9" class="swal2-input" placeholder="메모">' +
+		        '<input id="swal-input10" class="swal2-input" placeholder="그룹">',
+
+		      focusConfirm: false,
+		      showCancelButton: true,
+		      position: 'top',
+		      customClass: {
+		        popup: 'swal2-custom',
+		        confirmButton: 'swal2-confirm',
+		        cancelButton: 'swal2-cancel'
+		      },
+		      onBeforeOpen: (popup) => {
+		        popup.style.marginTop = '200px';
+		        const confirmButton = popup.querySelector('.swal2-confirm');
+		        const cancelButton = popup.querySelector('.swal2-cancel');
+		      },
+		      preConfirm: () => {
+		        const values = [
+		          $('#swal-input1').val(),
+		          $('#swal-input2').val(),
+		          $('#swal-input3').val(),
+		          $('#swal-input4').val(),
+		          $('#swal-input5').val(),
+		          $('#swal-input6').val(),
+		          $('#swal-input7').val(),
+		          $('#swal-input8').val(),
+		          $('#swal-input9').val(),
+		          $('#swal-input10').val()
+		        ];
+
+		        const isValid = values.every(value => value !== '' && value !== null);
+
+		        if (!isValid) {
+		          Swal.showValidationMessage('모든 필드를 입력하세요.');
+		        }
+
+		        return values;
+		      }
+		    });
+
+		    if (dismissReason === Swal.DismissReason.cancel) {
+		      Swal.fire('입력이 취소되었습니다.');
+		    } else if (formValues) {
+		      const message =
+		        '입력된 내용:\n' +
+		        '이름: ' + formValues[0] + '\n' +
+		        '직위: ' + formValues[1] + '\n' +
+		        '핸드폰: ' + formValues[2] + '\n' +
+		        '이메일: ' + formValues[3] + '\n' +
+		        '부서: ' + formValues[4] + '\n' +
+		        '회사: ' + formValues[5] + '\n' +
+		        '회사 전화: ' + formValues[6] + '\n' +
+		        '회사 주소: ' + formValues[7] + '\n' +
+		        '메모: ' + formValues[8] + '\n' +
+		        '그룹: ' + formValues[9];
+
+		      Swal.fire({
+		        icon: 'success',
+		        title: '성공',
+		        text: message
+		      });
+		    }
+		  })();
+		});
+
+
+
+	  
+	  
+	  $("#toastStart").click(function () {
+	    const Toast = Swal.mixin({
+	      toast: true,
+	      position: 'center-center',
+	      showConfirmButton: false,
+	      timer: 3000,
+	      timerProgressBar: true,
+	      didOpen: (toast) => {
+	        toast.addEventListener('mouseenter', Swal.stopTimer)
+	        toast.addEventListener('mouseleave', Swal.resumeTimer)
+	      }
+	    })
+
+	    Toast.fire({
+	      icon: 'success',
+	      title: 'toast 알림이 정상적으로 실행 되었습니다.'
+	    })
+	  });
+	  
+	  
+	  $("#ajaxStart").click(function () { 
+	    Swal.fire({
+	      title: 'Submit your Github username',
+	      input: 'text',
+	      inputAttributes: {
+	        autocapitalize: 'off'
+	      },
+	      showCancelButton: true,
+	      confirmButtonText: 'Look up',
+	      showLoaderOnConfirm: true,
+	      preConfirm: (login) => {
+	        return fetch(`//api.github.com/users/${login}`)
+	          .then(response => {
+	            if (!response.ok) {
+	              throw new Error(response.statusText)
+	            }
+	            return response.json()
+	          })
+	          .catch(error => {
+	            Swal.showValidationMessage(
+	              `Request failed: ${error}`
+	            )
+	          })
+	      },
+	      allowOutsideClick: () => !Swal.isLoading()
+	    }).then((result) => {
+	      if (result.isConfirmed) {
+	        Swal.fire({
+	          title: `${result.value.login}'s avatar`,
+	          imageUrl: result.value.avatar_url
+	        })
+	      }
+	    })
+	  });
+	  
+	});
 
 </script>
 </html>
