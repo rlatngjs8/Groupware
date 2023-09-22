@@ -12,5 +12,4 @@ html, body {height: 100%; margin:0; font-size:14px;}
 
 .mailFileName{border: 1px solid lightgray; padding:4px 12px 4px 12px; border-radius:4px;}
 .mailFileName label {color:gray;}
-.mailFileName p {margin:2px 0 2px 0;}
-.mailFileName p:hover {background-color: #F2F2F2;}
+.mfd:hover {background-color: #F2F2F2;}

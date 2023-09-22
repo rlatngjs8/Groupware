@@ -8,7 +8,7 @@
 <style>
 /* 노멀라이즈 시작 */
 body, ul, li {
-  margin: 5;
+  margin: 0;
   padding: 0;
   list-style: none;   /* 해당 태그의 list-style을 none으로 하는 것으로 ●을 제거한다 */
 }
@@ -44,7 +44,7 @@ body {
   position: fixed;
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
-  margin-top : -1%;
+  margin-top: -1%;
 }
 
 /* 아이콘 시작 */
@@ -102,7 +102,7 @@ body {
   color: white;
   font-size: 1.4rem;
   font-weight: bold;
-  padding-top: 12px;
+  padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 50px;
   transition: .5s;
@@ -173,49 +173,46 @@ body {
       <a href="/"><img src="/P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
       <ul>
         <li>
-          <a href="/"> 홈</a>
+          <a href="/manageHome">관리자홈</a>
         </li>
         <li>
-          <a href="/contact/company">연락처</a>
+          <a href="showEmployee">직원관리</a>
         </li>
         <li>
-          <a href="#">메일</a>
+          <a href="#">-</a>
         </li>
         <li>
-          <a href="/community">게시판</a>
+          <a href="#">-</a>
         </li>
         <li>
-          <a href="#">캘린더</a>
+            <a href="#">-</a>
         </li>
         <li>
-            <a href="#">예약</a>
+            <a href="#">-</a>
         </li>
         <li>
-            <a href="#">근태관리</a>
+            <a href="#">-</a>
         </li>
         <li>
-            <a href="#">전자결재</a>
+            <a href="#">-</a>
         </li>
         <li>
-            <a href="#">자료실</a>
+            <a href="#">-</a>
         </li>
         <li>
-            <a href="#">문의</a>
-        </li>
-        <li>
-            <a href="#">조직도</a>
+            <a href="#">-</a>
         </li>
       </ul>
     </header>
 
     <div class="nav">
     	<div class="search-bar">
-    	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
+    	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()" style="width: 80%"><button class="search-button" id="search-button"><img src="/P_img/free-icon-magnifier-71403.png"></button>
     	</div>
-    	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
-    	<img src="img/${profileIMG}" class="profile">
+    	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
+    	<a href="#"><img src="/P_img/bell.png" alt="공지"></a>    	
+    	<a href="#"><img src="/P_img/bell.png" alt="공지"></a> 
+    	<img src="/img/${profileIMG}" class="profile">
 	</div>
 </body>
 

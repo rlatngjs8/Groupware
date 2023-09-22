@@ -29,6 +29,9 @@
     .profile-name {
         text-align: center;
     }
+    #btnLogout{
+    	margin-left: 15%;
+    }
 </style>
 </head>
 <body>

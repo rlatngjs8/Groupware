@@ -1,0 +1,67 @@
+@charset "UTF-8";
+.sideBar{
+	width: 200px; 
+	height: 810px;
+	float: left;
+}
+#calendar{
+	width:1400px;
+}
+.pageCalendar{
+	width: 1600px;
+	margin-left: 250px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+.addPlanBtn{
+	margin-left : 15px;
+	width: 150px;
+	height: 44px;
+	font-size: 14px;
+	border: 1px solid #888;
+    background: #fff;
+    border-radius: 4px;
+    transition: all .2s;
+    font-weight: normal;
+    cursor: pointer;
+}
+.addPlanBtn:hover{
+	transform: translateY(-5px);
+	box-shadow: 1px 1px 20px #ddd;
+}
+.calendar{
+	border-left:1px solid grey; 
+	padding-left: 10px;
+}
+.c_title{
+	cursor: pointer;
+}
+/* 일요일 날짜 빨간색 */
+.fc-day-sun a {
+  color: red;
+  text-decoration: none;
+}
+
+/* 토요일 날짜 파란색 */
+.fc-day-sat a {
+  color: blue;
+  text-decoration: none;
+}
+.fc-day-sun{
+	background-color: #fff0f5;
+}
+.fc-day-sat{
+	background-color: #a4ebeb;
+}
+div.fc-daygrid-day-frame:has(a.koreanHoliday){
+	background-color: #fff0f5;;
+}
+.fc-prev-button{
+	float: left;
+}
+.fc-toolbar-title{
+	float: left;
+}
+.fc-prev-button, .fc-next-button{
+	background-color: rgb(106, 176, 173);
+}
