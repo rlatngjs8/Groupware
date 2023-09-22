@@ -3,116 +3,133 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
-    <%@ include file="P_header.jsp" %>
-    <style>
-        /* 전체 페이지 스타일 */
-        body {
-            background-color: #f2f2f2;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        /* 게시물 컨테이너 스타일 */
-        .Post_Content {
-            padding: 20px;
-            border-bottom: 1px solid #ccc;
-        }
+<meta charset="UTF-8">
+<link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
+<title>GrouNexa:게시판 ${bpost.communityTitle}</title>
+<%@ include file="P_header.jsp" %>
+<style>
+    /* 전체 페이지 스타일 */
+    body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    /* 게시물 컨테이너 스타일 */
+    .Post_Content {
+        padding: 20px;
+        border-bottom: 1px solid #ccc;
+    }
 
-        /* 게시물 제목 스타일 */
-        h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
+    /* 게시물 제목 스타일 */
+    h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
 
-        /* 게시물 정보 스타일 */
-        .Post_Content span {
-            margin-right: 10px;
-            color: #888;
-        }
+    /* 게시물 정보 스타일 */
+    .Post_Content span {
+        margin-right: 10px;
+        color: #888;
+    }
 
-        /* 댓글 입력 부분 스타일 */
-        .comment-input {
-            margin-top: 20px;
-        }
+    /* 댓글 입력 부분 스타일 */
+    .comment-input {
+        margin-top: 20px;
+    }
 
-		/* 댓글 스타일 */
-		.comment {
-		    margin-top: 20px;
-		}
-		
-		.comment .comment-box {
-		    border-bottom: 1px solid #ccc;
-		    padding: 10px 0;
-		}
-		
-		.comment .comment-comment_Userid {
-		    font-weight: bold;
-		    margin-right: 10px;
-		}
-		
-		.comment .comment-comment_Date {
-		    color: #888;
-		    margin-right: 10px;
-		}
-		
-		.comment .comment-comment {
-		    margin-top: 5px;
-		}
-		/* 좋아요 버튼 스타일 */
-#like-button {
-    display: inline-block;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 10px; /* 좋아요 버튼 사이의 간격을 조절 */
-}
+	/* 댓글 스타일 */
+	.comment {
+	    margin-top: 20px;
+	}
+	
+	.comment .comment-box {
+	    border-bottom: 1px solid #ccc;
+	    padding: 10px 0;
+	}
+	
+	.comment .comment-comment_Userid {
+	    font-weight: bold;
+	    margin-right: 10px;
+	}
+	
+	.comment .comment-comment_Date {
+	    color: #888;
+	    margin-right: 10px;
+	}
+	
+	.comment .comment-comment {
+	    margin-top: 5px;
+	}
+	/* 좋아요 버튼 스타일 */
+	/* 큰 버튼 스타일 */
+	.big-button {
+	    display: block;
+	    background-color: rgb(106, 176, 173);
+	    color: #fff;
+	    text-align: center;
+	    text-decoration: none;
+	    padding: 10px 20px;
+	    margin-bottom: 20px;
+	    font-size: 18px;
+	    border-radius: 5px;
+	}
+	
+	.page-side a:hover {
+	    background-color: #cfcfcf;
+	}
+	#like-button {
+	    display: inline-block;
+	    background-color: #4CAF50;
+	    color: white;
+	    border: none;
+	    padding: 10px 20px;
+	    text-align: center;
+	    text-decoration: none;
+	    font-size: 16px;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    margin-right: 10px; /* 좋아요 버튼 사이의 간격을 조절 */
+	}
+	
+	#like-button:hover {
+	    background-color: #45a049;
+	}
+	
+	/* 댓글 입력 부분 스타일 */
+	.comment-input {
+	    margin-top: 20px;
+	    display: flex; /* 내용을 가로로 정렬 */
+	}
+	
+	.comment-input input[type="text"] {
+	    flex-grow: 0.5; /* 입력 필드가 남은 공간을 채우도록 설정 */
+	    padding: 10px;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	    margin-right: 10px; /* 입력 필드와 버튼 사이의 간격 조절 */
+	}
+	
+	.comment-input input[type="button"] {
+	    background-color: #4CAF50;
+	    color: white;
+	    border: none;
+	    padding: 10px 20px;
+	    text-align: center;
+	    text-decoration: none;
+	    font-size: 16px;
+	    border-radius: 4px;
+	    cursor: pointer;
+	}
+	
+	.comment-input input[type="button"]:hover {
+	    background-color: #45a049;
+	}
+			.page-side a:hover {
+			    background-color: #cfcfcf;
+			}
+</style>
 
-#like-button:hover {
-    background-color: #45a049;
-}
-
-/* 댓글 입력 부분 스타일 */
-.comment-input {
-    margin-top: 20px;
-    display: flex; /* 내용을 가로로 정렬 */
-}
-
-.comment-input input[type="text"] {
-    flex-grow: 1; /* 입력 필드가 남은 공간을 채우도록 설정 */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 10px; /* 입력 필드와 버튼 사이의 간격 조절 */
-}
-
-.comment-input input[type="button"] {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.comment-input input[type="button"]:hover {
-    background-color: #45a049;
-}
-		.page-side a:hover {
-		    background-color: #cfcfcf;
-		}
-    </style>
-    <title>커뮤니티</title>
 </head>
 <body>
 
@@ -127,33 +144,40 @@
 </div>
     <div class="Main_Content">
         <div class="Post_Content">
+        <input type="hidden" value="${bpost.communityID}" id="seq">
             <h3>제목: ${bpost.communityTitle}</h3>
-            <span>작성자: ${bpost.userid}</span>
-            <span>작성시간: ${bpost.createdTime}</span>
-            <p>내용: ${bpost.content}</p>
+            <span>작성자: ${bpost.name} ${bpost.position}</span>
+            <span>작성시간: ${bpost.createdTime}</span> <span>${modidel}</span>
+            <p>${bpost.content}</p>
             <input type="checkbox"><img alt="" src="">
+            <span>조회수: ${bpost.views}</span><span>좋아요 :${bpost.likes}</span>
         </div>
         <div class="comment-input">
-            <span>댓글 : </span><input type="text" id="comment-input"><input type="button" id="comment-submit" onclick="submitComment()" value="작성">
-            <span>조회수: ${bpost.views}</span><span>좋아요 :${bpost.likes}</span>
+            <span>댓글 : </span><input type="text" id="comment-input"><input type="button" id="comment-submit" onclick="submitComment()" value="작성">          
         </div>
         <div class="comment">
         	<span>댓글 목록</span>
-        	
 	            <c:forEach items="${alComment}" var="alComment">
-	            <div class="comment-box">
-	                <span class="comment-comment_Userid">작성자: ${alComment.comment_Name} ${alComment.comment_Position}</span>
-	                <span class="comment-comment_Date">작성시간: ${alComment.comment_Date}</span><br>
-	                <span class="comment-comment">${alComment.comment}</span>
-	                
-	            </div>
-	            </c:forEach>
-            
+				    <div class="comment-box">
+				        <span class="comment-comment_Userid">작성자: ${alComment.comment_Name} ${alComment.comment_Position}</span><br>
+				        <span class="comment-comment_Date">${alComment.comment_Date}</span><br>
+				        <span class="comment-comment">${alComment.comment}</span>
+				        <input type="hidden" value="${alComment.commentID}" class="cmtID">
+				        <input type="hidden" value="${alComment.cmtAuthorID}" class="cAuID">
+				        <c:choose>
+				            <c:when test="${userid eq alComment.cmtAuthorID or sessionScope.userid eq 'admin'}">
+				                <a href="#" class="edit_comment">수정</a>
+				                <a href="#" class="del_commnet">삭제</a>
+				            </c:when>
+				        </c:choose>
+				    </div>
+				</c:forEach>
+
         </div>
-        <div>${modidel}</div>
     </div>
 </body>
 <script>
+
 function submitComment() {
 	let comment = document.getElementById("comment-input").value; // 입력된 댓글 내용 가져오기
     let postId = ${bpost.communityID}; // 게시물 ID, 필요한 경우 서버로부터 받아와야 함
@@ -180,7 +204,8 @@ function submitComment() {
     });
 }
 //JavaScript와 jQuery를 사용한 AJAX 요청
-$(document).on('click', '#like-button', function () {
+$(document)
+.on('click', '#like-button', function () {
     var postId = $(this).data('post-id');
     
     $.ajax({
@@ -195,6 +220,24 @@ $(document).on('click', '#like-button', function () {
             $('#post-' + postId + ' span').text(response.likeCount + ' likes');
         }
     });
+})
+.on('click','#btnUpdate',function(){
+	let seq = $("#seq").val()
+	console.log(seq);
+	document.location="/community_view_update?seq="+seq;
+})
+.on('click','#btnDelete',function(){
+	 if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+			let seq = $("#seq").val()
+			document.location="/deletepost?seq="+seq;
+	 }else{   //취소
+	     return false;
+	 }
+})
+.on('click', '.cmtdel', function () {
+    let cmtID = $(this).siblings('.cmtID').val();
+    let cAuID = $(this).siblings('.cAuID').val();
+    console.log(cmtID, cAuID);
 });
 
 </script>

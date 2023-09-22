@@ -89,17 +89,39 @@ public class P_controller {
 		String writer=(String) session.getAttribute("userid");
 		try {
 			if(writer.equals(oriwri)){
-				model.addAttribute("modidel","<a href='/write'>글쓰기</a>&nbsp;&nbsp;<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
+				model.addAttribute("modidel","<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
 				return "P_community_view";
 			}else {
 				model.addAttribute("modidel","");
-				model.addAttribute("write","<a href='/community_write'>글쓰기</a>&nbsp;");
 				return "P_community_view";
 			}
 		} catch(Exception e) {
 			model.addAttribute("modidel","");
 			return "P_community_view";
 		}
+	}
+	@GetMapping("/community_view_update")
+	public String updateview(HttpServletRequest req,Model model) {
+		int seqno= Integer.parseInt(req.getParameter("seq"));
+		P_BoardDTO bdto = bdao.view(seqno);
+		model.addAttribute("bpost",bdto);
+		return "P_view_update";
+	}
+	@PostMapping("/updatepost")
+	@ResponseBody
+	public String updatepost(HttpServletRequest req,Model model) {
+		int seqno= Integer.parseInt(req.getParameter("seq"));
+		String title=req.getParameter("title");
+		String content=req.getParameter("content");
+		bdao.updateBoard(seqno,title,content);
+		return "community_view?seqno="+seqno;
+	}
+	@GetMapping("/deletepost")
+	public String deletepost(HttpServletRequest req,Model model) {
+		int seqno= Integer.parseInt(req.getParameter("seq"));
+		bdao.deleteBoardcmt(seqno);
+		bdao.deleteBoard(seqno);
+		return "redirect:/community";
 	}
 	@PostMapping("/addComment")
 	@ResponseBody
@@ -109,7 +131,6 @@ public class P_controller {
 		int  seqno= Integer.parseInt(req.getParameter("postId"));
 		String cmt = req.getParameter("comment");
 		bdao.addComment(seqno,cmt,EmpID);
-		
 		return "community_view?seqno="+seqno;
 	}
 }

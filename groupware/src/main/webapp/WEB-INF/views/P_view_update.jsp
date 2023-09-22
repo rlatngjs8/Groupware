@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
-<title>글쓰기</title>
+<title>글 수정</title>
 <style>
     body {
         background-color: #f2f2f2;
@@ -61,11 +61,12 @@
 <%@ include file="P_header.jsp" %>
 <link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
 <body>
+<input type="hidden" value="${bpost.communityID}" id="seq">
 <div id="editorContainer">
     <div id="smarteditor">
-        <span>제목</span><input type="text" id="community_title" name="community_title">
+        <span>제목</span><input type="text" id="community_title" name="community_title" value="${bpost.communityTitle}">
         <textarea name="editorTxt" id="editorTxt" rows="20" cols="10">
-        내용을 입력하세요
+        ${bpost.content}
         </textarea>
     </div>
     <input type="button" value="완료" id="submitButton" />
@@ -95,20 +96,21 @@
     submitPost = function() {
         oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", [])
         let content = document.getElementById("editorTxt").value
-        let title = document.getElementById("community_title").value
-        if(content == '' || title=="") {
-            alert("제목 혹은 내용을 입력해주세요.")
+
+        if(content == '') {
+            alert("내용을 입력해주세요.")
             oEditors.getById["editorTxt"].exec("FOCUS")
             return
         } else {
             let post = {
+            	seq: $("#seq").val(),
                 title: $("#community_title").val(),
                 content: content
             }
 
             $.ajax({
                 type: "POST",
-                url: "/savepost",
+                url: "/updatepost",
                 data: post,
                 success: function(data) {
                     console.log('success')
@@ -123,4 +125,3 @@
         }
     }
 </script>
-</html>

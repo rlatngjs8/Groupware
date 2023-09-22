@@ -12,5 +12,9 @@ public interface P_BoardDAO {
 	P_BoardDTO view(int seqno);
 	void hitup(int seqno);
 	void addComment(int seqno, String cmt, int empID);
-	ArrayList<P_BoardDTO> getComment(int seqno);	
+	ArrayList<P_BoardDTO> getComment(int seqno);
+	void updateBoard(int seq, String title, String content);
+	void deleteBoard(int seqno);
+	void deleteBoardcmt(int seqno);
+	void deleteComments(int seqno);		
 }
