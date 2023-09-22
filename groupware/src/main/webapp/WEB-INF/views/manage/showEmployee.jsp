@@ -104,6 +104,10 @@ input[type="checkbox"] {
 		<!-- 인클루드 자리 -->
 		<%@ include file="employee_signup.jsp"%>
 	</div>
+	<div class="loading-container" id="loading-container" style= "display:none;">
+    	<div class="loading"></div>
+    	<div id="loading-text">loading</div>
+	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 
