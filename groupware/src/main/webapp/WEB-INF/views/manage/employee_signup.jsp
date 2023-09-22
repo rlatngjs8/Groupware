@@ -116,7 +116,7 @@ input[type="text"], input[type="email"], input[type="date"], input[type="submit"
 
 img#previewIMG {
 	width: 150px;
-	height: 150px;
+	height: 170px;
 	margin-top: 10px;
 }
 </style>
@@ -129,6 +129,7 @@ img#previewIMG {
 				<!-- 프로필이미지 -->
 				<label class="lblclass">프로필이미지</label> 
 				<img id="previewIMG" src="/img/default_profile.png" alt="미리보기 이미지">
+				<br>
 				<input type="file" placeholder="프로필이미지" id="profileIMG" name="profileIMG">
 				<!-- 이름 -->
 				<label class="lblclass">이름</label> 
