@@ -193,7 +193,7 @@ public class SuController {
 			
 			edao.editEMP(name, departmentID, position, phoneNumber, address, email, salary,
 					fileName, userid);
-			Thread.sleep(4000);
+			Thread.sleep(3500);
 			System.out.println("성공");
 			return "redirect:/manage/account?userid="+userid;
 		} catch (Exception e) {

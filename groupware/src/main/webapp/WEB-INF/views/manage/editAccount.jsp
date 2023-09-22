@@ -33,6 +33,7 @@ body {
     #exImage {
         max-width: 200px;
         max-height: 200px;
+        
     }
      table {
         width: 100%;
@@ -133,7 +134,7 @@ body {
             border-radius: 100%;
             margin: 40px auto;
         	margin-top: -30%;
-        	background-color: #fff;
+			background-color: rgba(255, 255, 255, 0.6);
         }
 
 
@@ -362,11 +363,8 @@ $('#btnBack').click(function(){
 	window.history.back();
 })
 $('#btnSubmit').click(function(){
-// 	$('#frmEdit').submit();
 	$('#loading-container').show();
 	alert("수정완료");
-// 	var userid = $('#userid').val();
-// 	window.location.href="account?userid="+userid;
 })
 });
 
