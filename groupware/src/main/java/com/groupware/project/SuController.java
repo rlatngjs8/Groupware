@@ -24,6 +24,8 @@ public class SuController {
 	private EmployeesDAO edao;
 	@Value("${image.upload.directory}")
 	private String imageUploadDirectory;
+	@Autowired
+	   private CalendarDAO cdao;
 
 	@GetMapping("/manage/manageHome")
 	public String manageHome() {
@@ -81,6 +83,10 @@ public class SuController {
 
 			edao.signup(userid, password, name, departmentID, position, birthdate, phoneNumber, address, email, salary,
 					fileName, hireDate);
+			
+			String namebirth = name+" 생일";
+			
+//			cdao.birthdayToC(namebirth, birthdate);
 			Thread.sleep(3000);
 			System.out.println("성공");
 			return "redirect:/manage/showEmployee";
