@@ -181,6 +181,7 @@ body {
         </li>
         <li>
           <a href="#">메일</a>
+          <a href="/mailFolder1">메일</a>
         </li>
         <li>
           <a href="/community">게시판</a>
