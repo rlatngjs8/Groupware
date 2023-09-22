@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT  a.CommentID,b.Name AS Comment_Name, a.Content AS COMMENT,a.CreatedTime AS Comment_Date, b.Position AS Comment_Position,
 		b.Userid AS CmtAuthorID
 		FROM comments a INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
-		where a.ParentID = #{param1} 
+		where a.ParentID = #{param1} order by CreatedTime desc
 	</select>
 
 	<delete id="deleteBoard">
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteComments">
 	    delete from comments where CommentID=#{param1}
 	</delete>
-	<update id="updateboard">
+	<update id="updateBoard">
 		update communities set CommunityTitle=#{param2},Content=#{param3}
 		where CommunityID=#{param1}
 	</update>
@@ -51,4 +51,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from communities
 	</select>
 
+
+	<update id="updateComment">
+		update comments set Content=#{param3}
+		where CommentID=#{param1}
+	</update>
+	<delete id="deleteComment">
+	    delete from comments where CommentID=#{param1}
+	</delete>
+	
 </mapper>

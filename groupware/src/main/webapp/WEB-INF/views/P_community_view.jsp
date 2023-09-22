@@ -31,6 +31,8 @@
     .Post_Content span {
         margin-right: 10px;
         color: #888;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     /* 댓글 입력 부분 스타일 */
@@ -166,13 +168,16 @@
 				        <input type="hidden" value="${alComment.cmtAuthorID}" class="cAuID">
 				        <c:choose>
 				            <c:when test="${userid eq alComment.cmtAuthorID or sessionScope.userid eq 'admin'}">
-				                <a href="#" class="edit_comment">수정</a>
-				                <a href="#" class="del_commnet">삭제</a>
+				                <input type="button" class="showupdatecmt" value="수정">
+									<div class="updatecmtbox" style="display: none;">
+									    <input type="text" class="updatecmt" value="${alComment.comment}">
+									    <input type="button" class="doupdatecmt" value="확인">
+									</div>
+									<div>삭제</div>
 				            </c:when>
 				        </c:choose>
 				    </div>
 				</c:forEach>
-
         </div>
     </div>
 </body>
@@ -205,41 +210,47 @@ function submitComment() {
 }
 //JavaScript와 jQuery를 사용한 AJAX 요청
 $(document)
-.on('click', '#like-button', function () {
-    var postId = $(this).data('post-id');
-    
+.on('click', '.showupdatecmt', function () {
+    $(this).siblings('.updatecmtbox').toggle();
+})
+.on('click', '.doupdatecmt', function () {
+    let cmtID = $(this).siblings('.cmtID').val();
+    let updatecmt = $(this).siblings('.updatecmt').val();
+    console.log(cmtID,updatecmt)
     $.ajax({
-        type: 'POST',
-        url: '/like/' + postId,
-        success: function (response) {
-            if (response.liked) {
-                $('#like-button').text('Unlike');
-            } else {
-                $('#like-button').text('Like');
-            }
-            $('#post-' + postId + ' span').text(response.likeCount + ' likes');
+        type: "POST",
+        url: "/updateComment",
+        data: {
+            cmtID: cmtID,
+            updatecmt: updatecmt
+        },
+        success: function(response) {
+            console.log("댓글 수정 성공:", response);
+            document.location=response;
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("댓글 수정 실패:", errorThrown);
         }
     });
-})
-.on('click','#btnUpdate',function(){
-	let seq = $("#seq").val()
-	console.log(seq);
-	document.location="/community_view_update?seq="+seq;
-})
-.on('click','#btnDelete',function(){
-	 if (confirm("정말 삭제하시겠습니까??") == true){    //확인
-			let seq = $("#seq").val()
-			document.location="/deletepost?seq="+seq;
-	 }else{   //취소
-	     return false;
-	 }
 })
 .on('click', '.cmtdel', function () {
     let cmtID = $(this).siblings('.cmtID').val();
     let cAuID = $(this).siblings('.cAuID').val();
-    console.log(cmtID, cAuID);
+    $.ajax({
+        type: "POST",
+        url: "/deleteComment", // 여기를 댓글 삭제를 처리하는 엔드포인트 URL로 변경해야 합니다.
+        data: {
+            cmtID: cmtID,
+        },
+        success: function(response) {
+            console.log("댓글 삭제 성공:", response);
+            document.location=response;
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("댓글 삭제 실패:", errorThrown);
+        }
+    });
 });
 
 </script>
-
 </html>

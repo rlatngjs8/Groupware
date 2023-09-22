@@ -1,8 +1,6 @@
 package com.groupware.project;
 
-/**
- * 
- */
+
 public class P_BoardDTO {
 	
 	Integer CommunityID;

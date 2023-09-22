@@ -52,7 +52,7 @@ public class P_controller {
 			if(pno==i) {
 				pagestr += i+"&nbsp;";
 			}else {
-				pagestr+="<a href='/?pageno="+i+"'>"+i+"</a>&nbsp;";
+				pagestr+="<a href='/community?pageno="+i+"'>"+i+"</a>&nbsp;";
 			}
 		}
 		model.addAttribute("pagestr",pagestr);
@@ -88,7 +88,7 @@ public class P_controller {
 		HttpSession session = req.getSession();
 		String writer=(String) session.getAttribute("userid");
 		try {
-			if(writer.equals(oriwri)){
+			if(writer.equals(oriwri)||writer.equals("관리자1")){
 				model.addAttribute("modidel","<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
 				return "P_community_view";
 			}else {
@@ -133,4 +133,20 @@ public class P_controller {
 		bdao.addComment(seqno,cmt,EmpID);
 		return "community_view?seqno="+seqno;
 	}
+	@PostMapping("/updateComment")
+	@ResponseBody
+	public String updatcomment(HttpServletRequest req,Model model) {
+		int  cmtID= Integer.parseInt(req.getParameter("cmtID"));
+		String updatecmt = req.getParameter("updatecmt");
+		bdao.updateComment(cmtID,updatecmt);
+		return "community_view?seqno="+Integer.parseInt(req.getParameter("postId"));
+	}
+	/*
+	 * @PostMapping("/deleteComment")
+	 * 
+	 * @ResponseBody public String deletecomment(HttpServletRequest req,Model model)
+	 * { int cmtID= Integer.parseInt(req.getParameter("cmtID"));
+	 * bdao.deleteComment(cmtID); return
+	 * "community_view?seqno="+Integer.parseInt(req.getParameter("postId")); }
+	 */
 }

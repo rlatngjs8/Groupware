@@ -16,5 +16,8 @@ public interface P_BoardDAO {
 	void updateBoard(int seq, String title, String content);
 	void deleteBoard(int seqno);
 	void deleteBoardcmt(int seqno);
-	void deleteComments(int seqno);		
+
+	
+	void updateComment(int cmtID, String cmt);
+//	void deleteComment(int cmtID);		
 }
