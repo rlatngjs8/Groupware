@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="manage_header.jsp" %>
 맵핑 아직 안함
 </body>
 </html>

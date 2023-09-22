@@ -83,6 +83,7 @@ $(document)
 	let thistext = $(this).find('.efileHidden').text();
 // 	console.log(thistext);
 	document.location="/mailFiledownload?attachment="+thistext;
+// 	document.location="/filedownload.do";
 });
 </script>
 </html>

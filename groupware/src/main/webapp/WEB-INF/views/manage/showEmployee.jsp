@@ -28,7 +28,7 @@ h2.horizontal-layout {
 	border-radius: 5px;
 	margin: 20px auto;
 	padding: 20px;
-	width: 80%;
+	width: 70%;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -43,7 +43,7 @@ th, td {
 }
 
 th {
-	background-color: #007bff;
+	background-color: rgb(106, 176, 173);
 	color: #fff;
 }
 
@@ -54,11 +54,15 @@ tr:nth-child(even) {
 input[type="checkbox"] {
 	margin-right: 5px;
 }
+#viewName, #viewUserid {
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
-	<h3>직원통합관리</h3>
+<%@ include file="manage_header.jsp" %>
 	<div class="table-container">
+	<h3>직원통합관리</h3>
 		<button class="btn" id="createEmployeeBtn">+ 직원생성</button>
 		<button class="btn" id="deleteEMP">- 직원삭제</button>
 		<br>
