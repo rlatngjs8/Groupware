@@ -11,15 +11,6 @@
 </head>
 <style>
 #mailFolder1 {color:black; font-weight:bold;}
-#rmailTable {width:100%; border-collapse:collapse; table-layout: auto; min-width:700px;}
-#rmailTable td {height:28px; line-height:28px; padding:10px 20px 10px 40px; border:1px solid lightgray; border-width: 1px 0 0 0;}
-#rmailTable tr {cursor:pointer;}
-#rmailTable td:nth-child(1) {width:30px;}
-#rmailTable td:nth-child(2) {width:30px; padding:0;}
-#rmailTable td:nth-child(3) {width:100px;}
-#rmailTable td:nth-child(5) {width:130px;}
-#rmailTable tr:first-child td {border: none;}
-#rmailTable tr:last-child td {border-width: 1px 0 1px 0;}
 input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 0 auto; cursor: pointer;}
 #emailReadImg {width: 20px; height: 20px; vertical-align:middle;}
 </style>
@@ -29,12 +20,12 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 	<jsp:include page="mailLeftDiv.jsp"></jsp:include>
 	<div id="mDivMain">
 		<p id="mailSideTitle">받은메일함</p>
-		<c:if test='${rlist==""}'><p class="mline"></p><br><br><br><br><br><h2 style="text-align:center;">받은 메일이 없습니다.</h2></c:if>
+		<c:if test='${rlist==""}'><p class="mline"></p><br><br><br><br><br><h2 style="text-align:center;">받은 메일이 없습니다.</h2><br><br><br><br><br><br><br><br><br></c:if>
 		<c:if test='${rlist!=""}'>
 		<div style="height:28px; padding:10px 0 10px 40px;">
-			<input type="checkbox" name="chk" id="mCheckAll">
-			&nbsp;&nbsp;&nbsp;<input type=button id="mRead" class="whiteBtn mFolderBtn" value="읽음">
-			&nbsp;&nbsp;&nbsp;<input type=button id="mDelete" class="whiteBtn mFolderBtn" value="삭제">
+			<input type="checkbox" name="mChkAll" id="mCheckAll">
+			&nbsp;&nbsp;&nbsp;<input type=button id="mRead" class="mFolderBtn" value="읽음">
+			&nbsp;&nbsp;&nbsp;<input type=button id="mDelete" class="mFolderBtn" value="삭제">
 		</div>
 		<p class="mline"></p>
 		<table id="rmailTable">
@@ -42,7 +33,7 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 		<%-- 	${r.emailid} ${r.name} ${r.email} ${r.subject} ${r.content} ${r.senderemployeeid} ${r.receiveremployeeid} ${r.sendtime} --%>
 			
 			<tr>
-				<td class="rMailChk"><input type="checkbox" class="mChk" name="mChk"></td>
+				<td class="rMailChk"><input type="checkbox" class="mChk" name="mChk"><div id="rEmailid" class="divHidden">${r.emailid}</div></td>
 				<td class="rMailReadOrNot">
 					<div class="divHidden emailReceive">${r.emailReceive}</div>
 					<div id="emailReadImg">
@@ -51,22 +42,39 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 					</div>
 				</td>
 				<td id="rMailName">${r.name}</td>
-				<td id="rMailTitle">${r.subject}<div id="rEmailid" class="divHidden">${r.emailid}</div></td>
+				<td id="rMailTitle">${r.subject}</td>
 				<td class="erSendtime">${r.sendtime}/</td>
 			</tr>
 			</c:forEach>
 		</table>
 		</c:if>
+		<br>
+		<div id="mailPageDiv">
+			<div id="mailPno" class="divHidden">${pageno}</div>
+			<div id="mailPcnt" class="divHidden">${pagecnt}</div>
+			<input type=button id="mPrev" class="mFolderBtn2" value="이전">
+			&nbsp;${pagestr}&nbsp;
+			<input type=button id="mNext" class="mFolderBtn2" value="다음"></div>
+		<br><br>
 	</div>
 </div>
 </body>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 let mailChklist = [];
-
+let mChkFirst;
+let mChkStart;
 $(document)
 .ready(function(){
+	window.location;
 	$('.mFolderBtn').css("width","45px");
+// 	$('#mRead').mouseover(function(){ //css
+// 		$('#mRead').addClass('mFolderBtn2');
+// //	 	$('#Read').css({"color":"#6AB0AD","border-color":"#6AB0AD","cursor":"pointer"});
+// 	},function(){
+// 		$('#mRead').removeClass('mFolderBtn2');
+// 	});
+	
 	$('.erSendtime').addClass(function(index){
 		return 'erSendtime' + index;
 	});
@@ -81,10 +89,45 @@ $(document)
  			$('.emailReceive:eq('+i+')').parent().siblings('#rMailName, #rMailTitle').css('font-weight','bold');
  		}
 	}
+ 	if($('#mailPno').text()=="1"){
+ 		$('#mPrev').css({"color":"lightgray","border-color":"lightgray"});
+ 	}
+ 	if($('#mailPno').text()==$('#mailPcnt').text()){
+ 		$('#mNext').css({"color":"lightgray","border-color":"lightgray"});
+ 	}
 
 })
+.on('click','#mNext',function(){
+// 	if()
+	$.ajax({url:'/mailNext',type:'post',dataType:'text',
+		success:function(data){
+			if(data=="noMove"){
+				return false;
+			}
+			console.log("/mailNext 성공");	
+			document.location="/mailFolder1?pageno="+data;
+		},
+		error:function(data){
+			alert("/mailNext 오류");
+		}
+	});
+})
+.on('click','#mPrev',function(){
+	$.ajax({url:'/mailPrev',type:'post',dataType:'text',
+		success:function(data){
+			if(data=="noMove"){
+				return false;
+			}
+			console.log("/mailPrev 성공");
+			document.location="/mailFolder1?pageno="+data;
+		},
+		error:function(data){
+			alert("/mailPrev 오류");
+		}
+	});
+})	
 .on('click','#mCheckAll',function(){
-	let checklist = [];
+// 	let checklist = [];
 	if($('#mCheckAll').is(":checked")){
 		$("input[name=mChk]").prop("checked", true);//prop으로 속성값 추가
 		$('#mDelete, #mRead').css({"color":"black","border-color":"black","cursor":"pointer"});
@@ -93,30 +136,25 @@ $(document)
 		$("input[name=mChk]").prop("checked", false);
 		$('#mDelete, #mRead').css({"color":"lightgray","border-color":"lightgray","cursor":"default"});
 	}
-// 	$("input[name=mChk]:checked").each(function(i){
-// 		let tp = $(this).siblings('#pid').text();  //같은 라인에 있는 형제를 가지고 오는 siblings (pid 체크)
-// 		if(tp!=''){ //checkall의 값 제외
-// 			checklist.push(tp);
-// 		}
-// 	});
-	mailChklist = checklist;
+	$("input[name=mChk]:checked").each(function(i){
+		let nowRead = $(this).parent().siblings().children('.emailReceive').text();
+		if(nowRead=="1"){
+			$('#mRead').val("안 읽음");
+			$('#mRead').css("width","60px");
+		}
+		if(nowRead=="0"){
+			$('#mRead').val("읽음");
+			$('#mRead').css("width","45px");
+			return false;
+		}
+	});
 })
 .on('click','.mChk',function(){
+// 	let checklist = [];
+	
 	let chkL = $(".mChk").length;
 	let chkchkL = $(".mChk:checked").length;
-	console.log($(this).parent().siblings().children('.emailReceive').text());
-	let nowRead = $(this).parent().siblings().children('.emailReceive').text();
-
-	if(nowRead=="1"){
-		$('#mRead').val("안 읽음");
-		$('#mRead').css("width","60px");
-		cnt=1;
-	} else if(nowRead=="0"){
-		$('#mRead').val("읽음");
-		$('#mRead').css("width","45px");
-		
-	}
-		
+// 	console.log($(this).parent().siblings().children('.emailReceive').text()); //0은 안읽음 1은 읽음 2는 삭제	
 	if(chkL==chkchkL){
 		$("#mCheckAll").prop("checked", true);
 	} else {
@@ -127,6 +165,97 @@ $(document)
 	} else {
 		$('#mDelete, #mRead').css({"color":"lightgray","border-color":"lightgray","cursor":"default"});
 	}
+	
+	if (event.shiftKey){
+		console.log("A");
+// 		let now = $(this).parent().siblings().children('.emailReceive').text();
+		console.log($(".mChk").index(this));
+		let mChk1 = $(".mChk").index(this);
+// 		console.log($("input[name=mChk]:checked").lastIndex());
+		if(mChkStart>mChk1){
+			let temp = mChk1;
+			mChk1 = mChkStart;
+			mChkStart = temp;
+		}
+		$("input[name=mChk]").each(function(i){ //mChkFirst부터 mChk 까지 체크하는 문 만들기
+			if(i>mChkStart && i<mChk1){
+				if($(".mChk:eq("+mChkStart+")").is(":checked") && $(".mChk:eq("+mChk1+")").is(":checked")){
+					$(".mChk:eq("+i+")").prop("checked", true);
+				} else if (!$(".mChk:eq("+mChkStart+")").is(":checked") && !$(".mChk:eq("+mChk1+")").is(":checked")) {
+					$(".mChk:eq("+i+")").prop("checked", false);
+				}	
+			}
+		});
+	} 
+	mChkStart = $(".mChk").index(this);
+	
+// 	console.log(mChkStart+"ANC");
+	
+	$("input[name=mChk]:checked").each(function(i){
+		let nowRead = $(this).parent().siblings().children('.emailReceive').text();
+		if(nowRead=="1"){
+			$('#mRead').val("안 읽음");
+			$('#mRead').css("width","60px");
+		}
+		if(nowRead=="0" || chkchkL==0){
+			$('#mRead').val("읽음");
+			$('#mRead').css("width","45px");
+			return false;
+		}
+	});
+})
+.on('click','#mRead',function(){
+	let checklist = [];
+	$("input[name=mChk]:checked").each(function(i){
+		let tp = $(this).siblings('#rEmailid').text(); 
+		console.log(tp);
+		if(tp!=''){	
+			checklist.push(tp);
+		}
+	});
+	mailChklist = checklist;
+	if($('#mRead').val()=="읽음"){
+		$.ajax({url:'/mailRead',data:{mailChklist:JSON.stringify(mailChklist)},type:'post',dataType:'text',
+			success:function(data){
+				console.log("/mailRead 성공");	
+				location.reload();
+			},
+			error:function(data){
+				alert("/mailRead 오류");
+			}
+		});
+	}
+	if($('#mRead').val()=="안 읽음"){
+		$.ajax({url:'/mailNotRead',data:{mailChklist:JSON.stringify(mailChklist)},type:'post',dataType:'text',
+			success:function(data){
+				console.log("/mailNotRead 성공");	
+				location.reload();
+			},
+			error:function(data){
+				alert("/mailRead 오류");
+			}
+		});
+	}
+})
+.on('click','#mDelete',function(){
+	let checklist = [];
+	$("input[name=mChk]:checked").each(function(i){
+		let tp = $(this).siblings('#rEmailid').text(); 
+		console.log(tp);
+		if(tp!=''){	
+			checklist.push(tp);
+		}
+	});
+	mailChklist = checklist;
+	$.ajax({url:'/mailDelete',data:{mailChklist:JSON.stringify(mailChklist)},type:'post',dataType:'text',
+		success:function(data){
+			console.log("/mailDelete 성공");	
+			location.reload();
+		},
+		error:function(data){
+			alert("/mailRead 오류");
+		}
+	});
 })
 .on('click','#rmailTable tr',function(e){
 	if($(e.target).hasClass("mChk") || $(e.target).hasClass("rMailChk")){
@@ -134,9 +263,9 @@ $(document)
     }
 	let tp = $(this).find('#rEmailid').text(); 
 	
-	$.ajax({url:'/mailRead', data:{eid:tp}, type:'post',
+	$.ajax({url:'/mailReadUpdate', data:{eid:tp}, type:'post',
 		success:function(data){
-			console.log("/mailRead 성공");
+			console.log("/mailReadUpdate 성공");
 		 	document.location="/mailDetail?eid="+tp; 
 		},
 		error:function(data){
@@ -145,6 +274,13 @@ $(document)
 		}
 	});
 });
+
+window.onpageshow = function(event) { //뒤로가기 감지
+    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+    	location.reload();
+        console.log('back button event');
+    }
+}
 
 </script>
 </html>

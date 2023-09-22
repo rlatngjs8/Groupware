@@ -71,7 +71,6 @@ $(document)
 		$('#mailFileContent3, #mailC3').remove();
 		$('.mailFileName').css({"height":"80px","line-height":"80px"});
 	}
-    
 	//
 	let C1 = $('#mailC1').text();
 	let C2 = $('#mailC2').text();

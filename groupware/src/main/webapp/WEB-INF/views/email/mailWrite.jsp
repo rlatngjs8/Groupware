@@ -35,13 +35,13 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 		<input type="button" id="btnMailSend" class="whiteBtn" value="보내기">
 		<br><br>
 		<table id="mailTable">
-		<tr><td>받는사람</td><td><input type=text autofocus id="mInputEmail" class="mInputText" value="hong@example.com"></td></tr>
+		<tr><td>받는사람</td><td><input type=text autofocus id="mInputEmail" class="mInputText" value="ge@example.com"></td></tr>
 		<tr><td>참조</td><td><input type=text id="mInputCC" class="mInputText"></td></tr>
 		<tr><td>제목</td><td><input type=text id="mInputTitle" class="mInputText" value="안녕하세요."></td></tr>
 		<tr><td>파일첨부</td><td><label for="mailFile" id="mFileLabel">파일선택</label><input type=file id="mailFile" class="mInputText" multiple></td></tr>
 <!-- 		<tr><td>파일첨부</td><td><input type=file id="mailFile" class="mInputText" multiple></td></tr> -->
 		<tr><td></td><td><div class="mailFileName"><label>파일은 3개까지 선택 가능합니다.</label></div></td></tr>
-		<tr><td colspan=2><textarea rows=29 id="mInputContent" class="font_rnffla"></textarea></td></tr>
+		<tr><td colspan=2><textarea rows=25 id="mInputContent" class="font_rnffla"></textarea></td></tr>
 		</table>
 	</div>
 </div>

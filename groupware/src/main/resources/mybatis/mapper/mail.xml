@@ -5,6 +5,9 @@
 <!-- <select id="selectMyEmp" resultType="com.groupware.project.MailDTO"> -->
 <!-- 	select EmployeeID, Name, DepartmentID, Position, Email from employees where email=#{param1} -->
 <!-- </select> -->
+<select id="selectEmpid" resultType="Integer">
+	select employeeid from employees where userid=#{param1}
+</select>
 <select id="selectEmpEmail" resultType="com.groupware.project.MailDTO">
 	select employeeid, name, departmentid, position, email from employees where email=#{param1}
 </select>
@@ -17,7 +20,15 @@
 	select a.emailid, a.emailReceive, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
 		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
 				  		inner join employees c ON a.SenderEmployeeID=c.EmployeeId where receiveremployeeid=#{param1}
-				  					 AND (a.emailreceive=0 OR a.emailreceive=1);
+				  					 AND (a.emailreceive=0 OR a.emailreceive=1)
+				  					 order by a.emailid desc limit #{param2},#{param3}
+</select>
+<select id="selectSendMail" resultType="com.groupware.project.MailDTO"> 
+	select a.emailid, a.emailReceive, b.name, b.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
+		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
+				  		inner join employees c ON a.SenderEmployeeID=c.EmployeeId where senderemployeeid=#{param1}
+				  					 AND (a.emailsend=0 OR a.emailsend=1)
+				  					 order by a.emailid desc limit #{param2},#{param3}
 </select>
 <!-- 이메일디테일 이메일정보와 받은사람 이름 이메일 -->
 <select id="selectDetailMail" resultType="com.groupware.project.MailDTO"> 
@@ -34,7 +45,19 @@
 <select id="selectMaxemailid" resultType="Integer">
 	select ifnull(max(emailid),0) from emails
 </select>
-<update id="updateEmailReceive1">
-	update emails set emailreceive=1 where emailid=#{param1};
+<update id="updateEmailReceive0">
+	update emails set emailreceive=0 where emailid=#{param1}
 </update>
+<update id="updateEmailReceive1">
+	update emails set emailreceive=1 where emailid=#{param1}
+</update>
+<update id="updateEmailReceive2">
+	update emails set emailreceive=2 where emailid=#{param1}
+</update>
+<select id="selectReceiverEmailscnt" resultType="Integer">
+	select count(*) from emails where receiveremployeeid=#{param1} and (emailreceive=0 or emailreceive=1)
+</select>
+<select id="selectSenderEmailscnt" resultType="Integer">
+	select count(*) from emails where senderemployeeid=#{param1} and (emailsend=0 or emailsend=1)
+</select>
 </mapper>
