@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <link href='css/ko_addPlan.css' rel='stylesheet' />
 <%@ include file ="P_header.jsp" %>
-<title>일정추가</title>
+<title>일정 상세</title>
 </head>
 <body>
 <div class='pageCalendar'>
@@ -15,17 +15,18 @@
 		<button class="addPlanBtn" id="addPlanBtn">일정등록</button>
 		<button class="addPlanBtn" id="btnReservation">회의실 예약</button>
 	</div>
-	<form method="post" action="/planInsert">
+	<form method="post" action="/planUpdate">
 		<div class="addPlan">
 				<div class="addPlanTitle">
-					<h2>일정등록</h2>
+					<h2>일정상세</h2>
 				</div>
 				<div>
 					<table class="tbl_tit">
 						<tbody>
 								<tr>
 									<td>
-										<input id="ipt_tit" name="ipt_tit" class="ipt_tit" type="text" maxlength="500" required>
+										<input type='hidden' name='c_num'value="${getDetails.calendar_no}">
+										<input id="ipt_tit" name="ipt_tit" class="ipt_tit" type="text" maxlength="500" value="${getDetails.calendar_title}" required>
 									</td>
 								</tr>
 								<tr>
@@ -38,7 +39,7 @@
 									                <% String hour = String.format("%02d", i); %>
 									                <option value="<%= hour %>">T<%= hour %>:00:00</option>
 									            <% } %>
-									        </select> <input type="text" id="startHidden" name="startHidden"> ~ 
+									        </select> <input type="hidden" id="startHidden" name="startHidden"> ~ 
 										<input type="date" id="endDate" required>
 									        <select id="endHour" required>
 									            <!-- 시간 드롭다운 옵션 생성 -->
@@ -47,7 +48,7 @@
 									                <% String hour = String.format("%02d", i); %>
 									                <option value="<%= hour %>">T<%= hour %>:00:00</option>
 									            <% } %>
-									        </select> <input type="text" id="endHidden" name="endHidden">
+									        </select> <input type="hidden" id="endHidden" name="endHidden">
 										<input type="checkbox" id="allDay"><span>종일</span>
 									</td>
 								</tr>
@@ -56,12 +57,13 @@
 					<table class="tbl_tit" style="margin-top: 40px">
 						<tbody>
 							<tr>
-								<td class="content">내용 :</td><td><textarea class="contentArea" name="contentArea" required></textarea></td>
+								<td class="content">내용 :</td><td><textarea class="contentArea" name="contentArea" required>${getDetails.calendar_memo}</textarea></td>
 							</tr>
 							<tr>
 								<td align="center" colspan="2">
-									<input type="submit" id="btnSend" class="btnPlan" value="확인">&nbsp;
+									<input type="submit" id="btnSend" class="btnPlan" value="수정">&nbsp;
 									<input type="button" id="btnCancel" class="btnPlan" value="취소">
+									<input type="button" id="btnDelete" class="btnPlan" value="삭제">						
 								</td>
 							</tr>					
 						</tbody>
@@ -75,12 +77,27 @@
 <script>
 $(document)
 .ready(function(){
+	if(19>"${getDetails.calendar_start}".length){
+		$('#startDate').val("${getDetails.calendar_start}");
+	}else{
+		startDate="${getDetails.calendar_start}".substr(0,10);
+		startHour="${getDetails.calendar_start}".substr(10,9);
+		$('#startDate').val(startDate);
+		$("#startHour option:contains("+startHour+")").prop("selected", true);
+	}
+	if(19>"${getDetails.calendar_end}".length){
+		$('#endDate').val("${getDetails.calendar_end}");
+	}else{
+		endDate="${getDetails.calendar_end}".substr(0,10);
+		endHour="${getDetails.calendar_end}".substr(10,9);
+		$('#endDate').val(endDate);
+		$("#endHour option:contains("+endHour+")").prop("selected", true);
+	}
+	
 	var today = new Date();	// 현재 날짜를 가져오기
 	
 	var formattedDate = today.toISOString().substr(0, 10);	// 년도, 월, 일을 YYYY-MM-DD 형식으로 변환
 	
-	$('#startDate').val(formattedDate);		// 시작 날짜 기본값 오늘로 설정
-	$('#endDate').val(formattedDate);		// 끝 날짜 기본값 오늘로 설정
     $('#startHidden').val($('#startDate').val()+$("#startHour option:selected").text());
     $('#endHidden').val($('#endDate').val()+$("#endHour option:selected").text());
 })
@@ -90,6 +107,10 @@ $(document)
 })
 .on('click','#btnCancel',function(){		// 취소 눌렀을 때
 	document.location="/ko_calendar"
+})
+.on('click','#btnDelete',function(){		// 삭제버튼 클릭했을 때
+	if(!confirm('삭제하시겠습니까?')) return false;
+	document.location="/ko_calendarDelete?c_no=${getDetails.calendar_no}"
 })
 .on('click','#c_title', function(){		//캘린더 title을 클릭했을 때
 	document.location="/ko_calendar";

@@ -3,9 +3,17 @@
 	width: 200px; 
 	height: 810px;
 	float: left;
+	background-color: white;
+    border-radius: 5px;
 }
 #calendar{
 	width:1400px;
+	background-color: white;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    
 }
 .pageCalendar{
 	width: 1600px;
@@ -15,6 +23,7 @@
 }
 .addPlanBtn{
 	margin-left : 15px;
+	margin-top : 15px;
 	width: 150px;
 	height: 44px;
 	font-size: 14px;
@@ -62,6 +71,13 @@ div.fc-daygrid-day-frame:has(a.koreanHoliday){
 .fc-toolbar-title{
 	float: left;
 }
-.fc-prev-button, .fc-next-button{
+.fc .fc-button-primary{
 	background-color: rgb(106, 176, 173);
+}
+.fc .fc-toolbar-title {
+	margin-right:15px;
+	margin-left:15px;
+}
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 2.0em;
 }
