@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="/P_css/thumblike.css" rel="stylesheet" type="text/css">
 <link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <title>GrouNexa:게시판 ${bpost.communityTitle}</title>
 <%@ include file="P_header.jsp" %>
 <style>
@@ -80,23 +82,7 @@
 	.page-side a:hover {
 	    background-color: #cfcfcf;
 	}
-	#like-button {
-	    display: inline-block;
-	    background-color: #4CAF50;
-	    color: white;
-	    border: none;
-	    padding: 10px 20px;
-	    text-align: center;
-	    text-decoration: none;
-	    font-size: 16px;
-	    border-radius: 4px;
-	    cursor: pointer;
-	    margin-right: 10px; /* 좋아요 버튼 사이의 간격을 조절 */
-	}
-	
-	#like-button:hover {
-	    background-color: #45a049;
-	}
+
 	
 	/* 댓글 입력 부분 스타일 */
 	.comment-input {
@@ -127,9 +113,9 @@
 	.comment-input input[type="button"]:hover {
 	    background-color: #45a049;
 	}
-			.page-side a:hover {
-			    background-color: #cfcfcf;
-			}
+	.page-side a:hover {
+	    background-color: #cfcfcf;
+	}
 </style>
 
 </head>
@@ -151,7 +137,14 @@
             <span>작성자: ${bpost.name} ${bpost.position}</span>
             <span>작성시간: ${bpost.createdTime}</span> <span>${modidel}</span>
             <p>${bpost.content}</p>
-            <input type="checkbox"><img alt="" src="">
+			    <div class="like-container">
+			        <button class="like-button" id="like-button">
+			            <i class="far fa-thumbs-up thumbs-up-icon"></i>
+			            <i class="fas fa-thumbs-up thumbs-up-filled-icon"></i>
+			        </button>
+			        <input type="hidden" value="${chklike}" id="chklike">
+			        <input type="hidden" value="${user}" id="user">
+			    </div>
             <span>조회수: ${bpost.views}</span><span>좋아요 :${bpost.likes}</span>
         </div>
         <div class="comment-input">
@@ -159,98 +152,29 @@
         </div>
         <div class="comment">
         	<span>댓글 목록</span>
-	            <c:forEach items="${alComment}" var="alComment">
-				    <div class="comment-box">
-				        <span class="comment-comment_Userid">작성자: ${alComment.comment_Name} ${alComment.comment_Position}</span><br>
-				        <span class="comment-comment_Date">${alComment.comment_Date}</span><br>
-				        <span class="comment-comment">${alComment.comment}</span>
-				        <input type="hidden" value="${alComment.commentID}" class="cmtID">
-				        <input type="hidden" value="${alComment.cmtAuthorID}" class="cAuID">
-				        <c:choose>
-				            <c:when test="${userid eq alComment.cmtAuthorID or sessionScope.userid eq 'admin'}">
-				                <input type="button" class="showupdatecmt" value="수정">
-									<div class="updatecmtbox" style="display: none;">
-									    <input type="text" class="updatecmt" value="${alComment.comment}">
-									    <input type="button" class="doupdatecmt" value="확인">
-									</div>
-									<div>삭제</div>
-				            </c:when>
-				        </c:choose>
-				    </div>
-				</c:forEach>
+            <c:forEach items="${alComment}" var="alComment">
+			    <div class="comment-box">
+			        <span class="comment-comment_Userid">작성자: ${alComment.comment_Name} ${alComment.comment_Position}</span><br>
+			        <span class="comment-comment_Date">${alComment.comment_Date}</span><br>
+			        <span class="comment-comment">${alComment.comment}</span>
+			        <input type="hidden" value="${alComment.commentID}" class="cmtID">
+			        <input type="hidden" value="${alComment.cmtAuthorID}" class="cAuID">
+			        <c:choose>
+			            <c:when test="${userid eq alComment.cmtAuthorID or sessionScope.userid eq 'admin'}">
+			                <input type="button" class="showupdatecmt" value="수정">
+			                <input type="button" class="cmtdel" value="삭제">
+								<div class="updatecmtbox" style="display: none;">
+								    <input type="text" class="updatecmt" value="${alComment.comment}">
+								    <input type="button" class="doupdatecmt" value="확인">
+								</div>
+								
+			            </c:when>
+			        </c:choose>
+			    </div>
+			</c:forEach>
         </div>
     </div>
 </body>
-<script>
-
-function submitComment() {
-	let comment = document.getElementById("comment-input").value; // 입력된 댓글 내용 가져오기
-    let postId = ${bpost.communityID}; // 게시물 ID, 필요한 경우 서버로부터 받아와야 함
-
-    // AJAX를 사용하여 서버로 댓글 데이터 전송
-    $.ajax({
-        type: "POST", // 또는 "GET" 등 HTTP 요청 방법 설정
-        url: "/addComment", // 댓글을 추가하는 서버 엔드포인트 URL
-        data: {
-            postId: postId, // 게시물 ID
-            comment: comment // 댓글 내용
-        },
-        success: function(response) {
-            // 댓글 등록 성공 시 페이지 업데이트 또는 다른 작업 수행
-            console.log("댓글 등록 성공:", response);
-            // 페이지 새로고침 또는 댓글 목록 업데이트 등을 수행할 수 있음
-            document.location=response;
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            // 댓글 등록 실패 시 오류 처리
-            console.error("댓글 등록 실패:", errorThrown);
-            // 오류 처리 로직 추가
-        }
-    });
-}
-//JavaScript와 jQuery를 사용한 AJAX 요청
-$(document)
-.on('click', '.showupdatecmt', function () {
-    $(this).siblings('.updatecmtbox').toggle();
-})
-.on('click', '.doupdatecmt', function () {
-    let cmtID = $(this).siblings('.cmtID').val();
-    let updatecmt = $(this).siblings('.updatecmt').val();
-    console.log(cmtID,updatecmt)
-    $.ajax({
-        type: "POST",
-        url: "/updateComment",
-        data: {
-            cmtID: cmtID,
-            updatecmt: updatecmt
-        },
-        success: function(response) {
-            console.log("댓글 수정 성공:", response);
-            document.location=response;
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error("댓글 수정 실패:", errorThrown);
-        }
-    });
-})
-.on('click', '.cmtdel', function () {
-    let cmtID = $(this).siblings('.cmtID').val();
-    let cAuID = $(this).siblings('.cAuID').val();
-    $.ajax({
-        type: "POST",
-        url: "/deleteComment", // 여기를 댓글 삭제를 처리하는 엔드포인트 URL로 변경해야 합니다.
-        data: {
-            cmtID: cmtID,
-        },
-        success: function(response) {
-            console.log("댓글 삭제 성공:", response);
-            document.location=response;
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error("댓글 삭제 실패:", errorThrown);
-        }
-    });
-});
-
-</script>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src='P_js/P_communityview.js'></script>
 </html>

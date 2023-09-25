@@ -18,6 +18,12 @@ public interface P_BoardDAO {
 	void deleteBoardcmt(int seqno);
 
 	
-	void updateComment(int cmtID, String cmt);
-//	void deleteComment(int cmtID);		
+	void updateComment(int cmtID, String updatecmt);
+	void deleteComment(int cmtID);
+	
+	int chklike(String writer, int seqno);	
+	void like(int seqno, int empID);
+	void undolike(int seqno, int empID);
+	void deletelike(int seqno);
+		
 }

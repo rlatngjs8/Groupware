@@ -152,7 +152,7 @@ ORDER BY
 	  Email COLLATE utf8mb4_unicode_ci;
 </select>
 
->>>>>>> refs/remotes/origin/seunghwan
+
 <!-- 밑에는개인 연락처 필터링 -->
 <select id="getListPaAll" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
 	select * from address_book where Writer_id = #{param1}

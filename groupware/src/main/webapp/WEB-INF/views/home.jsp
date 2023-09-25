@@ -49,7 +49,6 @@
     	</div>
     	<button id=btnLogout >임시 로그아웃</button>
     </div>
-    <button id=btnLogout >임시 로그아웃</button>
     <!-- 공지사항 박스 -->
     <div class="announcement-box">
     

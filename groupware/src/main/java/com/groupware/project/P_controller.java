@@ -61,8 +61,6 @@ public class P_controller {
 	}
 	@GetMapping("/community_write")
 	public String community_write(HttpServletRequest req, Model model) {
-		HttpSession session = req.getSession();
-		Integer EmpId=(int) session.getAttribute("EmpId");
 		return "P_community_write";
 	}
 	@PostMapping("/savepost")
@@ -86,7 +84,15 @@ public class P_controller {
 		model.addAttribute("alComment",alComment);
 		model.addAttribute("bpost",bdto);
 		HttpSession session = req.getSession();
+		
 		String writer=(String) session.getAttribute("userid");
+		model.addAttribute("user",writer);
+		int chklike = bdao.chklike(writer,seqno);
+		if (chklike == 1) {
+			model.addAttribute("chklike",true);
+		} else {
+			model.addAttribute("chklike",false);
+		}
 		try {
 			if(writer.equals(oriwri)||writer.equals("관리자1")){
 				model.addAttribute("modidel","<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
@@ -121,6 +127,7 @@ public class P_controller {
 		int seqno= Integer.parseInt(req.getParameter("seq"));
 		bdao.deleteBoardcmt(seqno);
 		bdao.deleteBoard(seqno);
+		bdao.deletelike(seqno);
 		return "redirect:/community";
 	}
 	@PostMapping("/addComment")
@@ -139,14 +146,32 @@ public class P_controller {
 		int  cmtID= Integer.parseInt(req.getParameter("cmtID"));
 		String updatecmt = req.getParameter("updatecmt");
 		bdao.updateComment(cmtID,updatecmt);
-		return "community_view?seqno="+Integer.parseInt(req.getParameter("postId"));
+		return "community_view?seqno="+Integer.parseInt(req.getParameter("seqno"));
 	}
-	/*
-	 * @PostMapping("/deleteComment")
-	 * 
-	 * @ResponseBody public String deletecomment(HttpServletRequest req,Model model)
-	 * { int cmtID= Integer.parseInt(req.getParameter("cmtID"));
-	 * bdao.deleteComment(cmtID); return
-	 * "community_view?seqno="+Integer.parseInt(req.getParameter("postId")); }
-	 */
+	
+	 @PostMapping("/deleteComment")
+	 @ResponseBody 
+	 public String deletecomment(HttpServletRequest req,Model model){ 
+		 int cmtID= Integer.parseInt(req.getParameter("cmtID"));
+		 bdao.deleteComment(cmtID); 
+		 return "community_view?seqno="+Integer.parseInt(req.getParameter("seqno")); 
+	}
+	@PostMapping("/like")
+	@ResponseBody
+	public String like(HttpServletRequest req,Model model) {
+		int  seqno= Integer.parseInt(req.getParameter("seqno"));
+		HttpSession session = req.getSession();
+		int EmpID= (int) session.getAttribute("EmpId");
+		bdao.like(seqno,EmpID); 
+		return "1";
+	}
+	@PostMapping("/undolike")
+	@ResponseBody
+	public String undolike(HttpServletRequest req,Model model) {
+		int  seqno= Integer.parseInt(req.getParameter("seqno"));
+		HttpSession session = req.getSession();
+		int EmpID= (int) session.getAttribute("EmpId");
+		bdao.undolike(seqno,EmpID);
+		return "0";
+	}
 }
