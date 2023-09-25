@@ -13,6 +13,7 @@
 	<div class='sideBar'>
 		<h2 id="c_title" class="c_title" style="margin-left:15px">캘린더</h2>
 		<button class="addPlanBtn" id="addPlanBtn">일정등록</button>
+		<button class="addPlanBtn" id="btnReservation">회의실 예약</button>
 	</div>
 	<form method="post" action="/planInsert">
 		<div class="addPlan">

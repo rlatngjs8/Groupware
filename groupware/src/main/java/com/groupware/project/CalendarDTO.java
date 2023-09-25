@@ -6,6 +6,7 @@ public class CalendarDTO {
 	String calendar_memo;
 	String calendar_start;
 	String calendar_end;
+	int birthday;
 	public int getCalendar_no() {
 		return calendar_no;
 	}

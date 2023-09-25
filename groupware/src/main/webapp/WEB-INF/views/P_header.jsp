@@ -45,6 +45,7 @@ body {
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
   margin-top : -1%;
+  margin-left: -1%;
 }
 
 /* 아이콘 시작 */
@@ -180,6 +181,7 @@ body {
         </li>
         <li>
           <a href="#">메일</a>
+          <a href="/mailFolder1">메일</a>
         </li>
         <li>
           <a href="/community">게시판</a>

@@ -1,6 +1,7 @@
 package com.groupware.project;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,10 +25,12 @@ public class SuController {
 	private EmployeesDAO edao;
 	@Value("${image.upload.directory}")
 	private String imageUploadDirectory;
+	@Autowired
+	   private CalendarDAO cdao;
 
 	@GetMapping("/manage/manageHome")
 	public String manageHome() {
-		return "manage/manageHome";
+		return "/manage/manageHome";
 	}
 	
 	@GetMapping("/manage/showEmployee")
@@ -75,13 +77,42 @@ public class SuController {
 			String email = req.getParameter("email");
 			String salary = req.getParameter("salary");
 			String hireDate = req.getParameter("hireDate");
+			
+			
+			String fileName;
 
-			String fileName = userid + "_" + name + ".jpg";
-			String filePath = imageUploadDirectory + "/" + fileName;
-			profileIMG.transferTo(new File(filePath));
+	        if (profileIMG != null && !profileIMG.isEmpty()) {
+	            // 프로필 이미지가 제공된 경우 업로드
+	            fileName = userid + "_" + name + ".jpg";
+	            String filePath = imageUploadDirectory + "/" + fileName;
+	            profileIMG.transferTo(new File(filePath));
+	        } else {
+	            // 프로필 이미지가 없는 경우 기본 이미지 사용 및 복사
+	            String defaultImageName = "default_profile.png";
+	            fileName = userid + "_" + name + ".jpg";
+	            String defaultImagePath = imageUploadDirectory + "/" + defaultImageName;
+	            String targetImagePath = imageUploadDirectory + "/" + fileName;
+
+	            // 기본 이미지 파일을 복사하여 새 파일 생성
+	            File defaultImageFile = new File(defaultImagePath);
+	            File targetImageFile = new File(targetImagePath);
+	            Files.copy(defaultImageFile.toPath(), targetImageFile.toPath());
+	        }
+
+			
+			
+
+//			String fileName = userid + "_" + name + ".jpg";
+//			String filePath = imageUploadDirectory + "/" + fileName;
+//			profileIMG.transferTo(new File(filePath));
 
 			edao.signup(userid, password, name, departmentID, position, birthdate, phoneNumber, address, email, salary,
 					fileName, hireDate);
+			
+			String namebirth = name+" 생일";
+			
+			cdao.birthdayToC(namebirth, birthdate);
+			Thread.sleep(3000);
 			System.out.println("성공");
 			return "redirect:/manage/showEmployee";
 		} catch (Exception e) {
@@ -118,23 +149,24 @@ public class SuController {
 	@GetMapping("/manage/account")
 	public String account(HttpServletRequest req, Model model) {
 			String userid = req.getParameter("userid");
-			ArrayList<EmployeesDTO> alEmp = edao.getListSelect(userid);
+			EmployeesDTO alEmp = edao.getListSelect(userid);
 			
-			model.addAttribute("Elist",alEmp);
-			return "/manage/account";
+			model.addAttribute("emp",alEmp);
+			System.out.println(alEmp.getProfilePicture());
+			return "manage/account";
 	}
 	
 	@GetMapping("/manage/editAccount")
 	public String editAccount(HttpServletRequest req, Model model) {
 		String userid = req.getParameter("userid");
-		ArrayList<EmployeesDTO> alEmp = edao.getListSelect(userid);
+		EmployeesDTO alEmp = edao.getListSelect(userid);
 		
-		model.addAttribute("Elist", alEmp);
-		return "/manage/editAccount";
+		model.addAttribute("emp", alEmp);
+		return "manage/editAccount";
 	}
 	
 	@PostMapping("/editEMP")
-	public String editEMP(HttpServletRequest req) {
+	public String editEMP(HttpServletRequest req, @RequestParam(name = "profileIMG") MultipartFile profileIMG) {
 		try {
 			String userid = req.getParameter("userid");
 			String name = req.getParameter("name");
@@ -144,34 +176,57 @@ public class SuController {
 			String address = req.getParameter("address");
 			String email = req.getParameter("email");
 			String salary = req.getParameter("salary");
-			
-			   System.out.println("userid: " + userid);
-		        System.out.println("name: " + name);
-		        System.out.println("departmentID: " + departmentID);
-		        System.out.println("position: " + position);
-		        System.out.println("phoneNumber: " + phoneNumber);
-		        System.out.println("address: " + address);
-		        System.out.println("email: " + email);
-		        System.out.println("salary: " + salary);
 
-
-//			String fileName = userid + "_" + name + ".jpg";
-//			String filePath = imageUploadDirectory + "/" + fileName;
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
-	        MultipartFile profileIMG = multipartRequest.getFile("profileIMG");
+			String imgName = req.getParameter("imgName");
 			String fileName = "";
-			
-			if (profileIMG != null && !profileIMG.isEmpty()) {
-				fileName = userid + "_" + name + ".jpg";
+
+	        // 새로운 이미지 파일을 업로드하는 경우
+	        if (profileIMG != null && !profileIMG.isEmpty()) {
+	            String deleteFile = imageUploadDirectory + "/" + imgName;
+
+	            // 이미지 삭제
+	            File fileToDelete = new File(deleteFile);
+	            if (fileToDelete.exists() && fileToDelete.isFile()) {
+	                if (fileToDelete.delete()) {
+	                    System.out.println("기존 이미지 파일 삭제 성공: " + deleteFile);
+	                } else {
+	                    System.out.println("기존 이미지 파일 삭제 실패: " + deleteFile);
+	                }
+	            } else {
+	                System.out.println("기존 이미지 파일이 존재하지 않습니다: " + deleteFile);
+	            }
+
+	         // 새로운 이미지 파일 업로드
+	            fileName = userid + "_" + name + ".jpg";
 	            String filePath = imageUploadDirectory + "/" + fileName;
 	            profileIMG.transferTo(new File(filePath));
+	        } else {
+	            // 새로운 이미지 파일을 업로드하지 않고 이름만 변경한 경우,
+	            // 기존 이미지 파일 이름을 변경된 이름으로 수정
+	            fileName = userid + "_" + name + ".jpg";
+	            String oldFilePath = imageUploadDirectory + "/" + imgName;
+	            String newFilePath = imageUploadDirectory + "/" + fileName;
+	            
+	            File oldFile = new File(oldFilePath);
+	            File newFile = new File(newFilePath);
+
+	            if (oldFile.exists() && oldFile.isFile()) {
+	                if (oldFile.renameTo(newFile)) {
+	                    System.out.println("이미지 파일 이름 변경 성공: " + oldFilePath + " -> " + newFilePath);
+	                } else {
+	                    System.out.println("이미지 파일 이름 변경 실패: " + oldFilePath + " -> " + newFilePath);
+	                }
+	            } else {
+	                System.out.println("기존 이미지 파일이 존재하지 않습니다: " + oldFilePath);
+	            }
 	        }
 
 			
 			edao.editEMP(name, departmentID, position, phoneNumber, address, email, salary,
 					fileName, userid);
+			Thread.sleep(4000);
 			System.out.println("성공");
-			return "/manage/editAccount";
+			return "redirect:/manage/account?userid="+userid;
 		} catch (Exception e) {
 			System.out.println("실패");
 			e.printStackTrace();
@@ -180,55 +235,5 @@ public class SuController {
 		}
 	}
 	
-// @PostMapping("/EMPmodify")
-// public String EMPmodify(HttpServletRequest req, @RequestParam("profileIMG") MultipartFile profileIMG) {
-//         // 클라이언트에서 전송된 데이터 파라미터를 가져옵니다.
-//         String userid = req.getParameter("userid"); // 직원의 사용자 아이디
-//         String name = req.getParameter("name"); // 수정된 이름
-//         int departmentID = Integer.parseInt(req.getParameter("department")); // 수정된 부서
-//         String position = req.getParameter("position"); // 수정된 직급
-//         String phoneNumber = req.getParameter("phoneNumber"); // 수정된 전화번호
-//         String address = req.getParameter("address"); // 수정된 주소
-//         String email = req.getParameter("email"); // 수정된 이메일
-//         String salary = req.getParameter("salary"); // 수정된 급여
-//
-//         System.out.println("userid=" + userid);
-//         System.out.println("phoneNumber=" + phoneNumber);
-//
-//         String filePath = null;
-//         // 프로필 이미지 파일을 서버에 업로드하고, 기존 이미지 파일 삭제
-//         if (!profileIMG.isEmpty()) {
-//             // 이미지 파일명을 생성 (userid_name.jpg 형식)
-//             String fileName = userid + "_" + name + ".jpg"; // 예시로 확장자는 jpg로 가정합니다.
-//
-//             // 업로드할 이미지 파일의 경로를 설정 (예: /uploads/userid_name.jpg)
-//             filePath = imageUploadDirectory + "/" + fileName;
-//
-//             // 이미지 파일을 서버에 저장
-//             try {
-//														profileIMG.transferTo(new File(filePath));
-//												} catch (IllegalStateException | IOException e) {
-//														// TODO Auto-generated catch block
-//														e.printStackTrace();
-//												}
-//
-//             // 기존 프로필 이미지 파일을 삭제
-//             String previousImageFileName = userid + "_" + name + ".jpg";
-//             String previousImageFilePath = imageUploadDirectory + "/" + previousImageFileName;
-//             File previousImageFile = new File(previousImageFilePath);
-//
-//             // 파일을 삭제하기 전에 존재 여부를 확인하는 것이 안전합니다.
-//             if (previousImageFile.exists()) {
-//                 previousImageFile.delete();
-//             }
-//         }
-//
-//         // 수정된 직원 정보를 데이터베이스에 저장 (이 부분은 데이터베이스 처리를 위한 DAO 클래스를 활용해야 합니다)
-//         // edao.modify() 메서드에는 이미지 파일 경로도 포함되어야 합니다.
-//         edao.modify(name, departmentID, position, phoneNumber, address, email, salary, filePath, userid);
-//
-//         // 수정이 성공적으로 처리되었음을 클라이언트에 응답
-//         return "/manage/account";
-//     }
  }
 

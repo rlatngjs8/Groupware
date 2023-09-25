@@ -36,7 +36,7 @@ public class MailFile {
 		}  catch (UnsupportedEncodingException e1) {
             e1.printStackTrace();
         }
-		String path = "C:/Users/1234/git/Groupware/groupware/src/main/resources/static/img/"+attachment;
+		String path = "C:/Users/1234/git/Groupware/groupware/src/main/resources/static/mailImg/"+attachment;
 		
 		try {
 			Path filePath = Paths.get(path); //경로표현

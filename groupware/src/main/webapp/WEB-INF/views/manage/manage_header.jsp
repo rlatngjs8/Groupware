@@ -173,7 +173,7 @@ body {
       <a href="/"><img src="/P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
       <ul>
         <li>
-          <a href="/manageHome">관리자홈</a>
+          <a href="manageHome">관리자홈</a>
         </li>
         <li>
           <a href="showEmployee">직원관리</a>

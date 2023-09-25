@@ -37,50 +37,68 @@ public class HwanController {
 		return "contact/detail";
 	}
 	
-	/*
-	 * @SuppressWarnings("unchecked")
-	 * 
-	 * @GetMapping("/get_addressBook")
-	 * 
-	 * @ResponseBody public String get_addressBook(HttpServletRequest req, Model
-	 * model) { String userid = req.getParameter("userid"); String filter =
-	 * req.getParameter("filter"); // 필터 값을 받아옵니다. ArrayList<EmployeesDTO>
-	 * addressBook = null; // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다. if
-	 * ("all".equals(filter)) { addressBook = empdao.getListAll(userid); } else if
-	 * ("ㄱ".equals(filter)){ addressBook = empdao.getListGa(userid); } else if
-	 * ("ㄴ".equals(filter)){ addressBook = empdao.getListNa(userid); } else if
-	 * ("ㄷ".equals(filter)){ addressBook = empdao.getListDa(userid); }else if
-	 * ("ㄹ".equals(filter)){ addressBook = empdao.getListRa(userid); } else if
-	 * ("ㅁ".equals(filter)){ addressBook = empdao.getListMa(userid); } else if
-	 * ("ㅂ".equals(filter)){ addressBook = empdao.getListBa(userid); } else if
-	 * ("ㅅ".equals(filter)){ addressBook = empdao.getListSa(userid); } else if
-	 * ("ㅇ".equals(filter)){ addressBook = empdao.getListAa(userid); } else if
-	 * ("ㅈ".equals(filter)){ addressBook = empdao.getListJa(userid); } else if
-	 * ("ㅊ".equals(filter)){ addressBook = empdao.getListCha(userid); } else if
-	 * ("ㅌ".equals(filter)){ addressBook = empdao.getListTa(userid); } else if
-	 * ("ㅍ".equals(filter)){ addressBook = empdao.getListPa(userid); } else if
-	 * ("ㅎ".equals(filter)){ addressBook = empdao.getListHa(userid); } else if
-	 * ("AZ".equals(filter)){ addressBook = empdao.getListAZ(userid); }
-	 * 
-	 * JSONArray ja = new JSONArray(); for (int i = 0; i < addressBook.size(); i++)
-	 * { JSONObject jo = new JSONObject(); jo.put("employeeID",
-	 * addressBook.get(i).getEmployeeID()); jo.put("userid",
-	 * addressBook.get(i).getUserid()); jo.put("password",
-	 * addressBook.get(i).getPassword()); jo.put("name",
-	 * addressBook.get(i).getName()); jo.put("departmentID",
-	 * addressBook.get(i).getDepartmentID()); jo.put("position",
-	 * addressBook.get(i).getPosition()); jo.put("birthday",
-	 * addressBook.get(i).getBirthdate()); jo.put("phoneNumber",
-	 * addressBook.get(i).getPhoneNumber()); jo.put("address",
-	 * addressBook.get(i).getAddress()); jo.put("email",
-	 * addressBook.get(i).getEmail()); jo.put("salary",
-	 * addressBook.get(i).getSalary()); jo.put("profilePicture",
-	 * addressBook.get(i).getProfilePicture()); jo.put("hireDate",
-	 * addressBook.get(i).getHireDate()); jo.put("managerEmployeeID",
-	 * addressBook.get(i).getManagerEmployeeID()); ja.add(jo); } return
-	 * ja.toJSONString(); }
-	 */
+
+<<<<<<< HEAD
+
+//	 
+//	  @SuppressWarnings("unchecked")
+//	  @GetMapping("/get_addressBook")
+//	  @ResponseBody public String get_addressBook(HttpServletRequest req, Model model) { String userid = req.getParameter("userid"); String filter =
+//	  String name = req.getParameter("name");
+//	  
+//	  ArrayList<AddressbookDTO> addressBook = null;
+//	  ("all".equals(name)) { addressBook = empdao.getListAll(userid); } else if
+//	  ("name".equals(name)){ addressBook = empdao.getList_sort_name(userid); } else if
+//	  ("department".equals(name)){ addressBook = empdao.getList_sort_department(userid); } else if
+//	  ("position".equals(name)){ addressBook = empdao.getList_sort_position(userid); }else if
+//	  ("birthdate".equals(name)){ addressBook = empdao.getList_sort_birthdate(userid); } else if
+//	  ("phone".equals(name)){ addressBook = empdao.getList_sort_phone(userid); } else if
+//	  ("email".equals(name)){ addressBook = empdao.getList_sort_email(userid); } else if
+//
+//	  
+//	  JSONArray ja = new JSONArray(); for (int i = 0; i < addressBook.size(); i++)
+//	  { JSONObject jo = new JSONObject(); jo.put("employeeID",
+//	  addressBook.get(i).getEmployeeID()); jo.put("userid",
+//	  addressBook.get(i).getUserid()); jo.put("password",
+//	  addressBook.get(i).getPassword()); jo.put("name",
+//	  addressBook.get(i).getName()); jo.put("departmentID",
+//	  addressBook.get(i).getDepartmentID()); jo.put("position",
+//	  addressBook.get(i).getPosition()); jo.put("birthday",
+//	  addressBook.get(i).getBirthdate()); jo.put("phoneNumber",
+//	  addressBook.get(i).getPhoneNumber()); jo.put("address",
+//	  addressBook.get(i).getAddress()); jo.put("email",
+//	  addressBook.get(i).getEmail()); jo.put("salary",
+//	  addressBook.get(i).getSalary()); jo.put("profilePicture",
+//	  addressBook.get(i).getProfilePicture()); jo.put("hireDate",
+//	  addressBook.get(i).getHireDate()); jo.put("managerEmployeeID",
+//	  addressBook.get(i).getManagerEmployeeID()); ja.add(jo); } return
+//	 ja.toJSONString(); }
+//	 
+//	
+=======
+	    JSONArray ja = new JSONArray();
+	    for (int i = 0; i < addressBook.size(); i++) {
+	        JSONObject jo = new JSONObject();
+	        jo.put("employeeID", addressBook.get(i).getEmployeeID());
+	        jo.put("userid", addressBook.get(i).getUserid());
+	        jo.put("password", addressBook.get(i).getPassword());
+	        jo.put("name", addressBook.get(i).getName());
+	        jo.put("departmentID", addressBook.get(i).getDepartmentID());
+	        jo.put("position", addressBook.get(i).getPosition());
+//	        jo.put("birthday", addressBook.get(i).getBirthday());
+	        jo.put("phoneNumber", addressBook.get(i).getPhoneNumber());
+	        jo.put("address", addressBook.get(i).getAddress());
+	        jo.put("email", addressBook.get(i).getEmail());
+	        jo.put("salary", addressBook.get(i).getSalary());
+	        jo.put("profilePicture", addressBook.get(i).getProfilePicture());
+	        jo.put("hireDate", addressBook.get(i).getHireDate());
+	        jo.put("managerEmployeeID", addressBook.get(i).getManagerEmployeeID());
+	        ja.add(jo);
+	    }
+	    return ja.toJSONString();
+	}
 	
+>>>>>>> refs/remotes/origin/Gyu
 	@SuppressWarnings("unchecked")
 	@GetMapping("/get_personal_addressBook")
 	@ResponseBody
@@ -171,17 +189,29 @@ public class HwanController {
 	public String updateContact(HttpServletRequest req, Model model) {
 	    String Name = req.getParameter("name");
 	    String Position = req.getParameter("position");
-	    String Phone = req.getParameter("position");
+	    String Phone = req.getParameter("phone");
 	    String Email = req.getParameter("email");
 	    String Department = req.getParameter("department");
 	    String Company = req.getParameter("company");
 	    String CompanyPhone = req.getParameter("companyPhone");
 	    String CompanyAddress = req.getParameter("companyAddress");
 	    String Memo = req.getParameter("memo");
-	    String Group = req.getParameter("group");
+	    String Group = req.getParameter("groupName");
 	    int addressBookId = Integer.parseInt(req.getParameter("addressBookId"));
 
-	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
+	    // 디버깅을 위한 값 출력
+	    System.out.println("Name: " + Name);
+	    System.out.println("Position: " + Position);
+	    System.out.println("Phone: " + Phone);
+	    System.out.println("Email: " + Email);
+	    System.out.println("Department: " + Department);
+	    System.out.println("Company: " + Company);
+	    System.out.println("CompanyPhone: " + CompanyPhone);
+	    System.out.println("CompanyAddress: " + CompanyAddress);
+	    System.out.println("Memo: " + Memo);
+	    System.out.println("Group: " + Group);
+	    System.out.println("addressBookId: " + addressBookId);
+
 	    empdao.updateContact(Name, Position, Phone, Email, Department, Company, CompanyPhone, CompanyAddress, Memo, Group, addressBookId);
 
 	    return "";
@@ -190,6 +220,18 @@ public class HwanController {
 	@GetMapping("/contact/test")
 	public String test() {
 		return "contact/test";
+	}
+	
+	@PostMapping("/Delete_emp")
+	@ResponseBody
+	public String Delete_emp(HttpServletRequest req, Model model) {
+	    int addressBookId = Integer.parseInt(req.getParameter("addressBookId"));
+
+	    System.out.println("addressBookId: " + addressBookId);
+
+	    empdao.Delete_emp(addressBookId);
+
+	    return "";
 	}
 
 
