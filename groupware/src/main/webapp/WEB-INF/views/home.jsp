@@ -60,7 +60,7 @@
     <!-- 캘린더박스 -->
     <div class="calender-box">
 	    <div id="calendarContainer">
-	   
+<!-- 	   	<iframe id="calendarIframe" src="/ko_calendar" frameborder="0" scrolling="no" style="width: 100%; height: 400px;"></iframe> -->
 	    </div>
     </div>
     <!-- 결재대기 목록박스 -->
@@ -77,22 +77,23 @@
 $(document).on('click','#btnLogout',function(){
     window.location.href = "/logout";
  })
- $(document).ready(function() {
-    // ko_calendar.jsp의 특정 부분을 비동기적으로 로드합니다.
-    $.ajax({
-        url: "ko_calendar.jsp",
-        type: "GET",
-        dataType: "html",
-        success: function(data) {
-            // 로드한 데이터 중에서 <div class='pageCalendar'> 부분만 추출하여 표시합니다.
-            var pageCalendarContent = $(data).find(".pageCalendar");
-            $("#calendarContainer").html(pageCalendarContent);
-        },
-        error: function() {
-            // 로드 실패 시 처리
-            console.log("오류 발생");
-        }
-    });
+ 
+// div에 캘린더 불러오고싶은데 안됨
+$(document).ready(function(){
+// 	$('#calendarContainer').load('WEB-INF/views/ko_calendar.jsp #calendar');
+	$.ajax({
+		url:'/ko_calendar',
+		type:'get',
+		dataType:'html',
+		success:function(response){
+			var divContent = $(response).find('#calendar').html();
+			
+			$('#calendarContainer').html(divContent);
+		},
+		error:function(){
+			console.error('ajax 요청 실패');
+		}
+	})
 });
 </script>
 </html>
