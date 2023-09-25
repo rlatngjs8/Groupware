@@ -63,13 +63,17 @@
 <update id="editEMP">
 	update employees set name=#{param1}, departmentID=#{param2}, position=#{param3}, phoneNumber=#{param4}, address=#{param5}, email=#{param6}, salary=#{param7}, profilePicture=#{param8} where userid=#{param9}
 </update>
+
 <select id="getListAll" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
-	select * from employees 
+	SELECT employees.*, departments.DepartmentName
+	FROM employees
+	LEFT JOIN departments ON employees.DepartmentID = departments.DepartmentID;
 </select>
 
 <select id="getList_sort_name" resultType="com.groupware.project.EmployeesDTO">
-	SELECT *
+	SELECT *, departments.DepartmentName
 	FROM employees
+	INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
 	ORDER BY 
 	  CASE
 	    WHEN Name COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
@@ -98,8 +102,9 @@ ORDER BY
 
 <select id="getList_sort_position" resultType="com.groupware.project.EmployeesDTO">
     <!-- 주소록 가져오는데 사용 -->
-	SELECT *
+	SELECT *, departments.DepartmentName
 	FROM employees
+	INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
 	ORDER BY 
 	  CASE
 	    WHEN Position COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
@@ -112,8 +117,9 @@ ORDER BY
 
 
 <select id="getList_sort_birthdate" resultType="com.groupware.project.EmployeesDTO">
-SELECT *
+SELECT *, departments.DepartmentName
 FROM employees
+INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
 ORDER BY 
   CASE
     WHEN Birthdate COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
@@ -126,8 +132,9 @@ ORDER BY
 
 
 <select id="getList_sort_phone" resultType="com.groupware.project.EmployeesDTO">
-	SELECT *
+	SELECT *, departments.DepartmentName
 	FROM employees
+	INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
 	ORDER BY 
 	  CASE
 	    WHEN PhoneNumber COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
@@ -140,19 +147,22 @@ ORDER BY
 
 
 <select id="getList_sort_email" resultType="com.groupware.project.EmployeesDTO">
-   	SELECT *
-	FROM employees
-	ORDER BY 
-	  CASE
-	    WHEN Email COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
-	    WHEN Email COLLATE utf8mb4_unicode_ci REGEXP '^[A-Za-z]' THEN 2 
-	    WHEN Email COLLATE utf8mb4_unicode_ci REGEXP '^[0-9]' THEN 3 
-	    ELSE 4 
-	  END,
-	  Email COLLATE utf8mb4_unicode_ci;
+SELECT *, departments.DepartmentName
+FROM employees
+INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+ORDER BY
+  CASE
+    WHEN Email COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
+    WHEN Email COLLATE utf8mb4_unicode_ci REGEXP '^[A-Za-z]' THEN 2 
+    WHEN Email COLLATE utf8mb4_unicode_ci REGEXP '^[0-9]' THEN 3 
+    ELSE 4 
+  END,
+  Email COLLATE utf8mb4_unicode_ci;
+
 </select>
 
->>>>>>> refs/remotes/origin/seunghwan
+
+
 <!-- 밑에는개인 연락처 필터링 -->
 <select id="getListPaAll" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
 	select * from address_book where Writer_id = #{param1}

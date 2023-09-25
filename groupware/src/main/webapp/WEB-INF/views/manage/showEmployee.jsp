@@ -71,13 +71,13 @@ input[type="checkbox"] {
 			<thead>
 				<tr>
 					<th><input type="checkbox" id="selectAllCheckbox"></th>
-					<th>이름</th>
-					<th>사번</th>
-					<th>부서명</th>
-					<th>직급</th>
-					<th>이메일</th>
-					<th>전화번호</th>
-					<th>입사일</th>
+					<th onclick="sort('name')">이름</th>
+					<th onclick="sort('id')">사번</th>
+					<th onclick="sort('department')">부서명</th>
+					<th onclick="sort('position')">직급</th>
+					<th onclick="sort('email')">이메일</th>
+					<th onclick="sort('phone')">전화번호</th>
+					<th onclick="sort('hiredate')">입사일</th>
 				</tr>
 			</thead>
 			<tbody>
