@@ -35,7 +35,7 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 		<input type="button" id="btnMailSend" class="whiteBtn" value="보내기">
 		<br><br>
 		<table id="mailTable">
-		<tr><td>받는사람</td><td><input type=text autofocus id="mInputEmail" class="mInputText" value="ge@example.com"></td></tr>
+		<tr><td>받는사람</td><td><input type=text autofocus id="mInputEmail" class="mInputText"></td></tr>
 		<tr><td>참조</td><td><input type=text id="mInputCC" class="mInputText"></td></tr>
 		<tr><td>제목</td><td><input type=text id="mInputTitle" class="mInputText" value="안녕하세요."></td></tr>
 		<tr><td>파일첨부</td><td><label for="mailFile" id="mFileLabel">파일선택</label><input type=file id="mailFile" class="mInputText" multiple></td></tr>
@@ -53,6 +53,7 @@ const dataTransfer = new DataTransfer();
 $(document)
 .ready(function(){
 	console.log("내 사원아이디: "+$('#mailMyEmpID').text());
+	$('#mInputEmail').val("${email}");
 })
 .on('click','.mfx',function(){
 // 	console.log($(this).siblings('.mfn').text());
@@ -61,6 +62,10 @@ $(document)
     console.log("dataTransfer =>",dataTransfer.files);
     $('#mailFile')[0].files = dataTransfer.files;
     $('.mfd')[$('.mfx').index(this)].remove();
+    if($('.mfn').length==0){
+        $('.mailFileName').children('label').text("파일은 3개까지 선택 가능합니다.");
+    	$('.mailFileName').children('label').css("padding","0 12px 0 12px");
+    }
 })
 .on('change','#mailFile',function(){
 	let mailFile = $('#mailFile')[0].files;
@@ -79,6 +84,7 @@ $(document)
           console.log("dataTransfer =>",dataTransfer.files);
 //           console.log("input FIles =>", $('#mailFile')[0].files);
 		$('.mailFileName').children('label').text("");
+		$('.mailFileName').children('label').css("padding","0");
     }
 })
 .on('click','.mfn',function(event){
@@ -95,10 +101,6 @@ $(document)
         $('#mailFile')[0].files = dataTransfer.files;
         console.log("dataTransfer =>",dataTransfer.files);
     }
-    if($('.mfn').length==0){
-        $('.mailFileName').children('label').text("파일은 3개까지 선택 가능합니다.");
-    }
-
 })
 .on('click','#btnMailSend',function(){
 	console.log(dataTransfer.files.length);
@@ -144,7 +146,7 @@ $(document)
 				document.location="/mailFolder1"; 
 			},
 			error:function(data){
-				alert("오류");
+				alert("존재하지 않는 이메일입니다.");
 				return false;
 			}
 		});
@@ -178,6 +180,7 @@ $('.mailFileName').on("dragenter", function(e){
 	}
 	$('#mailFile')[0].files = dataTransfer.files;
 	$('.mailFileName').children('label').text("");
+	$('.mailFileName').children('label').css("padding","0");
 });
 
 let maxSize = 5368709120; //5GB

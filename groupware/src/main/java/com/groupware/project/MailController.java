@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -34,19 +38,19 @@ public class MailController implements WebMvcConfigurer {
 	@Autowired
 	private MailDAO mdao;
 	
-//	public static void sessionL(HttpServletRequest req) {
-//		//로그인임시
-//		HttpSession s = req.getSession();
-//		s.setAttribute("empID", 17);
-//		//로그인임시
-//	}
-	public void sessionL(HttpServletRequest req) {
+	public static void sessionL(HttpServletRequest req) {
+		//로그인임시
 		HttpSession s = req.getSession();
-		String userid = (String) s.getAttribute("userid");
-		int eid = mdao.selectEmpid(userid);
-		s.setAttribute("empID", eid);
-//		System.out.println(eid);
+		s.setAttribute("empID", 35);
+		//로그인임시
 	}
+//	public void sessionL(HttpServletRequest req) {
+//		HttpSession s = req.getSession();
+//		String userid = (String) s.getAttribute("userid");
+//		int eid = mdao.selectEmpid(userid);
+//		s.setAttribute("empID", eid);
+////		System.out.println(eid);
+//	}
 	public void page(HttpServletRequest req, Model model) {
 		sessionL(req);
 		HttpSession s = req.getSession();
@@ -74,7 +78,7 @@ public class MailController implements WebMvcConfigurer {
 		int totalpage = (int) Math.ceil(pagecount/5.0);
 		ArrayList<MailDTO> receiveEmail = mdao.selectRecMail(eid,mpageStart,mpageSize);
 		
-		System.out.println(cnt+","+pagecount+","+totalpage);
+//		System.out.println(cnt+","+pagecount+","+totalpage);
 		String pagestr = "";
 	
 		if(mailPno<4) {
@@ -102,12 +106,12 @@ public class MailController implements WebMvcConfigurer {
 		model.addAttribute("pagecnt",pagecount);
 		
 		if(receiveEmail.size()==0) {
-			System.out.println(receiveEmail);
+//			System.out.println(receiveEmail);
 			model.addAttribute("rlist", "");
 		} else {
 			model.addAttribute("rlist", receiveEmail);
 		}
-		
+		s.setAttribute("rs", "receive");
 		return "email/mailFolder1";
 	}
 	@PostMapping("/mailNext")
@@ -145,9 +149,9 @@ public class MailController implements WebMvcConfigurer {
 		int pagecount = (int) Math.ceil(cnt/15.0); 
 		pageCnt = pagecount;
 		int totalpage = (int) Math.ceil(pagecount/5.0);
-		ArrayList<MailDTO> receiveEmail = mdao.selectSendMail(eid,mpageStart,mpageSize);
+		ArrayList<MailDTO> sendEmail = mdao.selectSendMail(eid,mpageStart,mpageSize);
 		
-		System.out.println(cnt+","+pagecount+","+totalpage);
+//		System.out.println(cnt+","+pagecount+","+totalpage);
 		String pagestr = "";
 	
 		if(mailPno<4) {
@@ -174,18 +178,75 @@ public class MailController implements WebMvcConfigurer {
 		model.addAttribute("pageno",mailPno);
 		model.addAttribute("pagecnt",pagecount);
 		
-		if(receiveEmail.size()==0) {
-			System.out.println(receiveEmail);
+		if(sendEmail.size()==0) {
+//			System.out.println(receiveEmail);
 			model.addAttribute("rlist", "");
 		} else {
-			model.addAttribute("rlist", receiveEmail);
+			model.addAttribute("rlist", sendEmail);
 		}
+		s.setAttribute("rs", "send");
 		return "email/mailFolder2";
+	}
+	@GetMapping("/trashcanFolder")
+	public String trashcanFolder(HttpServletRequest req, Model model) {
+		sessionL(req);
+		page(req,model);
+		HttpSession s = req.getSession();
+		int eid = (Integer) s.getAttribute("empID");
+		
+		int cnt=mdao.selectTrashCancnt(eid);
+		int pagecount = (int) Math.ceil(cnt/15.0); 
+		pageCnt = pagecount;
+		int totalpage = (int) Math.ceil(pagecount/5.0);
+		ArrayList<MailDTO> trashcan = mdao.selectTrashCanMail(eid,mpageStart,mpageSize);
+		String pagestr = "";
+	
+		if(mailPno<4) {
+			for(int i=1; i<=pagecount; i++) {
+				if(i>5) {
+					break;
+				}
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/trashcanFolder?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		} else {
+			for(int i=mailPno-2; i<=mailPno+2; i++) {
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/trashcanFolder?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		}
+		model.addAttribute("pagestr",pagestr);
+		model.addAttribute("pageno",mailPno);
+		model.addAttribute("pagecnt",pagecount);
+		
+		if(trashcan.size()==0) {
+//			System.out.println(receiveEmail);
+			model.addAttribute("rlist", "");
+		} else {
+			model.addAttribute("rlist", trashcan);
+		}
+		s.setAttribute("rs", "trash");
+		model.addAttribute("eid", eid);
+		return "email/trashcanFolder";
 	}
 	
 	@GetMapping("/mailWrite")
 	public String mailWrite(HttpServletRequest req, Model model) {
 		sessionL(req);
+		return "email/mailWrite";
+	}
+	@GetMapping("/mailWrite2")
+	public String mailWrite2(HttpServletRequest req, Model model) {
+		sessionL(req);
+		String email = req.getParameter("email");
+		System.out.println(email);
+		model.addAttribute("email",email);
 		return "email/mailWrite";
 	}
 	@PostMapping("/mailSend")
@@ -213,9 +274,9 @@ public class MailController implements WebMvcConfigurer {
 				if(i==0) {
 					try {
 						attachment1 = (eid+1)+"_"+i+"."+uploadFileName;
-						System.out.println(attachment1);
+//						System.out.println(attachment1);
 						attachment1 = URLEncoder.encode(attachment1, "UTF-8"); //16진수로
-						System.out.println(attachment1);
+//						System.out.println(attachment1);
 						uploadFileName = attachment1;
 					}  catch (UnsupportedEncodingException e1) {
 			            e1.printStackTrace();
@@ -224,9 +285,9 @@ public class MailController implements WebMvcConfigurer {
 				if(i==1) {
 					try {
 						attachment2 = (eid+1)+"_"+i+"."+uploadFileName;
-						System.out.println(attachment2);
+//						System.out.println(attachment2);
 						attachment2 = URLEncoder.encode(attachment2, "UTF-8"); //16진수로
-						System.out.println(attachment2);
+//						System.out.println(attachment2);
 						uploadFileName = attachment2;
 					}  catch (UnsupportedEncodingException e1) {
 			            e1.printStackTrace();
@@ -235,9 +296,9 @@ public class MailController implements WebMvcConfigurer {
 				if(i==2) {
 					try {
 						attachment3 = (eid+1)+"_"+i+"."+uploadFileName;
-						System.out.println(attachment3);
+//						System.out.println(attachment3);
 						attachment3 = URLEncoder.encode(attachment3, "UTF-8"); //16진수로
-						System.out.println(attachment3);
+//						System.out.println(attachment3);
 						uploadFileName = attachment3;
 					}  catch (UnsupportedEncodingException e1) {
 			            e1.printStackTrace();
@@ -271,56 +332,129 @@ public class MailController implements WebMvcConfigurer {
 	@ResponseBody
 	public void mailRead(HttpServletRequest req, Model model) {
 		String mlist = req.getParameter("mailChklist");
-		mlist = mlist.replace("[","");
-		mlist = mlist.replace("]","");
-		mlist = mlist.replace("\"","");
+		mlist = mlist.replace("[","").replace("]","").replace("\"","");
+//		System.out.println(mlist);
 		String[] mlist2 = mlist.split(",");
 		int emailid;
 		
-		for(int i=0; i<mlist2.length;i++) {
-			emailid = Integer.parseInt(mlist2[i]);
-			mdao.updateEmailReceive1(emailid);	
-		}
+		String now = req.getParameter("now");
+		String trashChklist = req.getParameter("trashChklist");
+		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
+//		System.out.println(trashChklist);
+		String[] trashChklist2 = trashChklist.split(",");
+//		System.out.println(trashChklist2[0]);
+		
+		if (now.equals("receive")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				mdao.updateEmailReceive1(emailid);	
+			}
+		} else if (now.equals("send")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				mdao.updateEmailSend1(emailid);	
+			}
+		} else if (now.equals("trash")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				if (trashChklist2[i].equals("tR")) {
+					System.out.println("tR실행");
+					mdao.updateEmailReceive1(emailid);	
+				} else if (trashChklist2[i].equals("tS")) {
+					System.out.println("tS실행");
+					mdao.updateEmailSend1(emailid);	
+				}
+			}
+		} 
 	}
 	@PostMapping("/mailNotRead")
 	@ResponseBody
 	public void mailNotRead(HttpServletRequest req, Model model) {
 		String mlist = req.getParameter("mailChklist");
-		mlist = mlist.replace("[","");
-		mlist = mlist.replace("]","");
-		mlist = mlist.replace("\"","");
+		mlist = mlist.replace("[","").replace("]","").replace("\"","");
 		String[] mlist2 = mlist.split(",");
 		int emailid;
 		
-		for(int i=0; i<mlist2.length;i++) {
-			emailid = Integer.parseInt(mlist2[i]);
-			mdao.updateEmailReceive0(emailid);	
-		}
+		String now = req.getParameter("now");
+		String trashChklist = req.getParameter("trashChklist");
+		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
+		String[] trashChklist2 = trashChklist.split(",");
+		
+		if (now.equals("receive")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				mdao.updateEmailReceive0(emailid);	
+			}
+		} else if (now.equals("send")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				mdao.updateEmailSend0(emailid);	
+			}
+		} else if (now.equals("trash")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				if (trashChklist2[i].equals("tR")) {
+//					System.out.println("tR실행");
+					mdao.updateEmailReceive0(emailid);	
+				} else if (trashChklist2[i].equals("tS")) {
+//					System.out.println("tS실행");
+					mdao.updateEmailSend0(emailid);	
+				}
+			}
+		} 
+		
 	}
 	@PostMapping("/mailDelete")
 	@ResponseBody
 	public void mailDelete(HttpServletRequest req, Model model) {
 		String mlist = req.getParameter("mailChklist");
-		mlist = mlist.replace("[","");
-		mlist = mlist.replace("]","");
-		mlist = mlist.replace("\"","");
+		mlist = mlist.replace("[","").replace("]","").replace("\"","");
 		String[] mlist2 = mlist.split(",");
 		int emailid;
 		
-		for(int i=0; i<mlist2.length;i++) {
-			emailid = Integer.parseInt(mlist2[i]);
-			mdao.updateEmailReceive2(emailid);	
-		}
+		String now = req.getParameter("now");
+		String trashChklist = req.getParameter("trashChklist");
+		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
+		String[] trashChklist2 = trashChklist.split(",");
+		
+		if (now.equals("receive")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				mdao.updateEmailReceive2(emailid);	
+			}
+		} else if (now.equals("send")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				mdao.updateEmailSend2(emailid);	
+			}
+		} else if (now.equals("trash")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				if (trashChklist2[i].equals("tR")) {
+					mdao.updateEmailReceive3(emailid);	
+				} else if (trashChklist2[i].equals("tS")) {
+					mdao.updateEmailSend3(emailid);	
+				}
+			}
+		} 
 	}
 	@PostMapping("/mailReadUpdate")
 	@ResponseBody
 	public void mailReadUpdate(HttpServletRequest req, Model model) {
 		int emailid = Integer.parseInt(req.getParameter("eid"));
-		mdao.updateEmailReceive1(emailid);
+		String now = req.getParameter("now");
+//		System.out.println(now);
+		if (now.equals("receive")) {
+			mdao.updateEmailReceive1(emailid);
+		} else if (now.equals("send")) {
+			mdao.updateEmailSend1(emailid);
+		}
+
 	}
 	@GetMapping("/mailDetail")
 	public String mailDetail(HttpServletRequest req, Model model) {
 		sessionL(req);
+		HttpSession s = req.getSession();
 		int emailid = Integer.parseInt(req.getParameter("eid"));
 //		System.out.println(emailid);
 		MailDTO detailMail = mdao.selectDetailMail(emailid);
@@ -338,6 +472,49 @@ public class MailController implements WebMvcConfigurer {
         model.addAttribute("C1", C1);
         model.addAttribute("C2", C2);
         model.addAttribute("C3", C3);
+        
+        String stime = detailMail.getSendtime();
+        String time = stime.substring(11,16);
+        String time3 = stime.substring(13,16);
+//        System.out.println(time.substring(0,2));
+        int time2 = Integer.parseInt(time.substring(0,2));
+        if(time2>12) {
+        	time2 = time2 % 12;
+        	time="오후 "+time2+time3;
+        	
+        } else {
+        	time="오전 "+time;
+        }
+        
+        stime = stime.substring(0,10); //날짜까지만
+        String[] stime2 =stime.split("-");
+//        System.out.println(stime2[0]+stime2[1]+stime2[2]);
+        int ldate0 = Integer.parseInt(stime2[0]);
+        int ldate1 = Integer.parseInt(stime2[1]);
+        int ldate2 = Integer.parseInt(stime2[2]);
+
+        LocalDate date = LocalDate.of(ldate0, ldate1, ldate2);
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        int dayOfWeekNumber = dayOfWeek.getValue();
+//        System.out.println(dayOfWeekNumber);  //요일(숫자)
+        
+        String down = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN);
+        model.addAttribute("date",stime+" ("+down+") "+time);
+        String rs = (String) s.getAttribute("rs");
+        model.addAttribute("rs",rs);
+        
 		return "email/mailDetail";
+	}
+	@PostMapping("/mdDelete")
+	@ResponseBody
+	public void mdDelete(HttpServletRequest req, Model model) {
+		int emailid = Integer.parseInt(req.getParameter("emailid"));
+		String now = req.getParameter("now");
+		if (now.equals("receive")) {
+			mdao.updateEmailReceive2(emailid);	
+		} else if (now.equals("send")) {
+			mdao.updateEmailSend2(emailid);	
+		}
+
 	}
 }
