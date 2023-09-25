@@ -10,7 +10,7 @@
 <%@ include file="../P_header.jsp" %>
 </head>
 <style>
-#mailFolder1 {color:black; font-weight:bold;}
+#trashcanFolder {color:black; font-weight:bold;}
 input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 0 auto; cursor: pointer;}
 </style>
 <body style="font-size:14px; background-color:white;">
@@ -18,9 +18,9 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 <!-- 	<div style="width:210px; background-color: rgb(106, 176, 173);"></div> -->
 	<jsp:include page="mailLeftDiv.jsp"></jsp:include>
 	<div id="mDivMain">
-		<div id="mailNow" class="divHidden">receive</div>
-		<p id="mailSideTitle">받은메일함</p>
-		<c:if test='${rlist==""}'><p class="mline"></p><br><br><br><br><br><h2 style="text-align:center;">받은 메일이 없습니다.</h2><br><br><br><br><br><br><br><br><br></c:if>
+		<div id="mailNow" class="divHidden">trash</div>
+		<p id="mailSideTitle">휴지통</p>
+		<c:if test='${rlist==""}'><p class="mline"></p><br><br><br><br><br><h2 style="text-align:center;">메일이 없습니다.</h2><br><br><br><br><br><br><br><br><br></c:if>
 		<c:if test='${rlist!=""}'>
 		<div style="height:28px; padding:10px 0 10px 40px;">
 			<input type="checkbox" name="mChkAll" id="mCheckAll">
@@ -28,18 +28,28 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 			&nbsp;&nbsp;&nbsp;<input type=button id="mDelete" class="mFolderBtn" value="삭제">
 		</div>
 		<p class="mline"></p>
+<%-- 		<div id="eid">${eid}</div> --%>
 		<table id="rmailTable">
 			<c:forEach items="${rlist}" var="r">
-		<%-- 	${r.emailid} ${r.name} ${r.email} ${r.subject} ${r.content} ${r.senderemployeeid} ${r.receiveremployeeid} ${r.sendtime} --%>
-			
 			<tr>
 				<td class="rMailChk"><input type="checkbox" class="mChk" name="mChk"><div id="rEmailid" class="divHidden">${r.emailid}</div></td>
 				<td class="rMailReadOrNot">
-					<div class="divHidden emailRS">${r.emailReceive}</div>
-					<div id="emailReadImg">
-						<c:if test='${r.emailReceive=="0"}'><img src='mailpageImg/mailIcon0.png'></c:if>
-						<c:if test='${r.emailReceive!="0"}'><img src='mailpageImg/mailIcon1.png'></c:if>
-					</div>
+					<c:if test='${eid==r.senderemployeeid}'>
+						<div class="divHidden emailRS">${r.emailSend}</div>
+						<div id="emailReadImg">
+							<c:if test='${r.emailSend=="0"}'><img src='mailpageImg/mailIcon0.png'></c:if>
+							<c:if test='${r.emailSend!="0"}'><img src='mailpageImg/mailIcon1.png'></c:if>
+						</div>
+						<div id="mailNow2" class="divHidden">tS</div>
+					</c:if>
+					<c:if test='${eid==r.receiveremployeeid}'>
+						<div class="divHidden emailRS">${r.emailReceive}</div>
+						<div id="emailReadImg">
+							<c:if test='${r.emailReceive=="0"}'><img src='mailpageImg/mailIcon0.png'></c:if>
+							<c:if test='${r.emailReceive!="0"}'><img src='mailpageImg/mailIcon1.png'></c:if>
+						</div>
+						<div id="mailNow2" class="divHidden">tR</div>
+					</c:if>
 				</td>
 				<td id="rMailName">${r.name}</td>
 				<td id="rMailTitle">${r.subject}</td>
@@ -62,5 +72,8 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="js/email.js"></script>
 <script>
+// $(document)
+// .ready(function(){
+// });
 </script>
 </html>
