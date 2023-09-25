@@ -1,5 +1,6 @@
 package com.groupware.project;
 
+
 public class P_BoardDTO {
 	
 	Integer CommunityID;
@@ -67,11 +68,26 @@ public class P_BoardDTO {
 	public void setName(String name) {
 		Name = name;
 	}
+	int CommentID;
 	String Comment;
 	String Comment_Date;
 	String Comment_Name;
 	String Comment_Position;
+	String CmtAuthorID;
 	
+	
+	public String getCmtAuthorID() {
+		return CmtAuthorID;
+	}
+	public void setCmtAuthorID(String cmtAuthorID) {
+		CmtAuthorID = cmtAuthorID;
+	}
+	public int getCommentID() {
+		return CommentID;
+	}
+	public void setCommentID(int commentID) {
+		CommentID = commentID;
+	}
 	public String getComment_Position() {
 		return Comment_Position;
 	}
