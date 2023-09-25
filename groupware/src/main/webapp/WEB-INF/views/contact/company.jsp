@@ -371,18 +371,10 @@ hr.hr-3 {
   border-top: 1px solid #8c8c8c;
 }
 
-#per_name {
-    cursor: pointer; /* 커서 스타일 변경 */
-}
-
-#per_name:hover {
-    background-color: lightgray; /* hover 효과 */
-}
-
 		
 		        /* 사이드바 스타일 */
 		.sidebar {
-			margin-left: 210px;
+			margin-left: 195px;
 		    height: 100%;
 		    width: 250px;
 		    position: fixed;
@@ -410,7 +402,47 @@ hr.hr-3 {
 		    margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
 		    padding: 20px; /* 콘텐츠 패딩 설정 */
 		}
-        /* 추가적인 스타일링을 원하는 대로 추가하세요 */
+#pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#pagination a {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #000;
+}
+
+#pagination a:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.name-col {
+    width: 150px; /* 이름 열 너비 */
+}
+
+.department-col {
+    width: 120px; /* 부서 열 너비 */
+}
+
+.position-col {
+    width: 100px; /* 직위 열 너비 */
+}
+
+.phone-col {
+    width: 130px; /* 휴대폰 열 너비 */
+}
+
+.email-col {
+    width: 200px; /* Email 열 너비 */
+}
+
     </style>
 </head>
 <body>
@@ -426,31 +458,33 @@ hr.hr-3 {
 		</div>
     </aside>
 	<main class="main">
-	    <h1>주소록</h1>		
-	    <!-- 주소록 목록을 나타내는 테이블 예시 -->
+    <h1>주소록</h1>
+
+    <!-- 주소록 목록을 나타내는 테이블 예시 -->
     <table class="styled-table">
         <thead> 
         <tr>
-            <th onclick="sort('name')">이름</th>
-            <th onclick="sort('department')">부서</th>
-            <th onclick="sort('position')">직위</th>
-            <th onclick="sort('phone')">휴대폰</th>
-            <th onclick="sort('email')">Email</th>
-            <th onclick="sort('birthdate')">생일</th>
-            <th onclick="sort('group')">그룹</th>
+            <th class="name-col" onclick="sort('name', currentPage)">이름</th>
+            <th class="department-col" onclick="sort('department', currentPage)">부서</th>
+            <th class="position-col" onclick="sort('position', currentPage)">직위</th>
+            <th class="phone-col" onclick="sort('phone', currentPage)">휴대폰</th>
+            <th class="email-col" onclick="sort('email', currentPage)">Email</th>
         </tr>
         </thead>
         <tbody id="contactListBody">
-
+            <!-- 이 부분에 주소록 데이터를 동적으로 추가합니다. -->
         </tbody>
     </table>
-	</main>    
+    
+    <!-- 페이지네이션을 원하는 위치에 배치합니다. -->
+    <div id="pagination"></div>
+</main>
+
     <!-- 필요한 JavaScript 파일 또는 스크립트 태그를 추가하세요 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script>
 
 		 $(document).ready(function () {
-			 sort('all');
 		    // "selectAll" 체크박스의 변경 이벤트를 감지
 		    $('#selectAll').change(function() {
 		        // "selectAll" 체크박스의 상태를 가져옴
@@ -461,65 +495,89 @@ hr.hr-3 {
 		    });
         }); 
 		 
-		 function sort(name) {
-			    console.log('개인 주소록 불러옴');
-			    console.log(userid);
-			    $.ajax({
-			        url: '/get_addressBook',
-			        data: { name: name }, // 필터 값을 서버로 전송
-			        type: 'get',
-			        dataType: 'json',
-			        success: function(data) {
-			            console.log('주소록 데이터 불러오기', data);
-			            const tableBody = $('#contactListBody');
-			            tableBody.empty(); // 기존 데이터를 지웁니다.
-			            if (data.length === 0) {
-			                // 데이터가 없는 경우 빈 테이블 행을 추가
-			                const newRow = $('<tr>');
-			                newRow.append('<td colspan="11" style="text-align: center;">' +
-			                    '<p>데이터가 없습니다.</p>' +
-			                    '<div style="text-align: center;">' +
-			                    '<button id="openModalButton" class="btn btn-primary">빠른 등록</button>' +
-			                    '</div>' +
-			                    '</td>');
-			                $('#no_contactListBody').append(newRow);
-			            } else {
-			                // 데이터가 있는 경우 연락처를 추가
-			                for (let i = 0; i < data.length; i++) {
-			                    const newRow = $('<tr>');
-			                    newRow.append('<td id="per_name" style="cursor: pointer;">' + data[i]['name'] + '</td>');
-			                    newRow.append('<td id="per_department">' + data[i]['department'] + '</td>');
-			                    newRow.append('<td id="per_position">' + data[i]['position'] + '</td>'); // 부서 정보를 추가
-			                    newRow.append('<td id="per_phone">' + data[i]['phone'] + '</td>');
-			                    newRow.append('<td id="per_email"><a href="mailto:' + data[i]['email'] + '">' + data[i]['email'] + '</a></td>');
-			                    newRow.append('<td id="per_group_name">' + data[i]['group_name'] + '</td>');
-			                    $('#contactListBody').append(newRow);
-			                }
-			            }
-			        },
-			        error: function(xhr, status, error) {
-			            console.error('주소록 데이터 불러오기 에러:', status, error);
-			            // 에러 처리를 수행할 수 있습니다. 예를 들어, 사용자에게 오류 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
-			        }
-			    });
-			}
 		 
+		 let currentPage = 1; // 현재 페이지 번호
+		 const perPage = 10; // 한 페이지당 표시할 데이터 수
 
-        // 주소록 추가 기능
-        $('#addContact').click(function () {
-            insert_personal_address_book();
-        });
+		 // 페이지 번호를 클릭할 때 호출되는 함수
+		 function changePage(page) {
+		     currentPage = page;
+		     console.log('changePage 함수 호출: 페이지', currentPage);
+		     sort('all',currentPage);
+		 }
 
-        //토스트 메세지
-		 function showToast(message) {
-			  const toast = document.getElementById('toast');
-			  toast.textContent = message;
-			  toast.style.display = 'block';
+		 function sort(name, page) {
+		     console.log('sort 함수 호출: name', name, 'page', page);
+		     $.ajax({
+		         url: '/get_addressBook',
+		         data: { name: name, page: page }, // 필터 값을 서버로 전송
+		         type: 'get',
+		         dataType: 'json',
+		         success: function(data) {
+		             console.log('주소록 데이터 불러오기', data);
+		             const tableBody = $('#contactListBody');
+		             tableBody.empty(); // 기존 데이터를 지웁니다.
+		             if (data.length === 0) {
+		                 // 데이터가 없는 경우 빈 테이블 행을 추가
+		                 const newRow = $('<tr>');
+		                 newRow.append('<td colspan="5" style="text-align: center;">' +
+		                     '<p>데이터가 없습니다.</p>' +
+		                     '<div style="text-align: center;">' +
+		                     '<button id="openModalButton" class="btn btn-primary">빠른 등록</button>' +
+		                     '</div>' +
+		                     '</td>');
+		                 $('#no_contactListBody').append(newRow);
+		             } else {
+		                 // 데이터가 있는 경우 연락처를 추가
+		                    for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {
+		                     const newRow = $('<tr>');
+		                     newRow.append('<td id="per_name" style=" text-align: center;">' + data[i]['name'] + '</td>');
+		                     newRow.append('<td id="per_department" style="text-align: center;">' + data[i]['department'] + '</td>');
+		                     newRow.append('<td id="per_position" style="text-align: center;">' + data[i]['position'] + '</td>');
+		                     newRow.append('<td id="per_phone" style="text-align: center;">' + data[i]['phone'] + '</td>');
+		                     newRow.append('<td id="per_email" style="text-align: center;"><a href="mailto:' + data[i]['email'] + '">' + data[i]['email'] + '</a></td>');
+		                     $('#contactListBody').append(newRow);
+		                 }
+		             }
+		             // 페이지네이션 업데이트
+		             updatePagination(data.length);
+		         },
+		         error: function(xhr, status, error) {
+		             console.error('주소록 데이터 불러오기 에러:', status, error);
+		             // 에러 처리를 수행할 수 있습니다. 예를 들어, 사용자에게 오류 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+		         }
+		     });
+		 }
+		 
+		 function updatePagination(totalPage) {
+			    const totalPages = Math.ceil(totalPage / perPage);
+			    let paginationHTML = '';
 
-			  setTimeout(function() {
-			    toast.style.display = 'none';
-			  }, 3000); // 3초 후에 숨김
+			    for (let i = 1; i <= totalPages; i++) {
+			        if (i === currentPage) {
+			            paginationHTML += '<span>' + i + '</span>';
+			        } else {
+			        	paginationHTML += "<a href='#' onclick='changePage(" + i + ")'>" + i + "</a>";
+			        }
+			    }
+			    
+			    $("#pagination").html(paginationHTML);
 			}
+
+		 // 페이지 로딩 시 초기 데이터 가져오기
+		 $(document).ready(function() {
+		     sort('all', currentPage);
+		     console.log('문서가 로드되었습니다.');
+		 });
+
+		 // 주소록 추가 기능
+		 $('#addContact').click(function () {
+		     console.log('주소록 추가 버튼 클릭');
+		     insert_personal_address_book();
+		 });
+
+
+		 
         
 
     </script>

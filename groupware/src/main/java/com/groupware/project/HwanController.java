@@ -22,6 +22,9 @@ public class HwanController {
 	@Autowired
 	private EmployeesDAO empdao;
 	
+	@Autowired
+	private AttendanceDAO Attdao;
+	
 	@GetMapping("/contact/company")
 	public String company() {
 		return "contact/company";
@@ -37,65 +40,56 @@ public class HwanController {
 		return "contact/detail";
 	}
 	
-
-
-//	 
-//	  @SuppressWarnings("unchecked")
-//	  @GetMapping("/get_addressBook")
-//	  @ResponseBody public String get_addressBook(HttpServletRequest req, Model model) { String userid = req.getParameter("userid"); String filter =
-//	  String name = req.getParameter("name");
-//	  
-//	  ArrayList<AddressbookDTO> addressBook = null;
-//	  ("all".equals(name)) { addressBook = empdao.getListAll(userid); } else if
-//	  ("name".equals(name)){ addressBook = empdao.getList_sort_name(userid); } else if
-//	  ("department".equals(name)){ addressBook = empdao.getList_sort_department(userid); } else if
-//	  ("position".equals(name)){ addressBook = empdao.getList_sort_position(userid); }else if
-//	  ("birthdate".equals(name)){ addressBook = empdao.getList_sort_birthdate(userid); } else if
-//	  ("phone".equals(name)){ addressBook = empdao.getList_sort_phone(userid); } else if
-//	  ("email".equals(name)){ addressBook = empdao.getList_sort_email(userid); } else if
-//
-//	  
-//	  JSONArray ja = new JSONArray(); for (int i = 0; i < addressBook.size(); i++)
-//	  { JSONObject jo = new JSONObject(); jo.put("employeeID",
-//	  addressBook.get(i).getEmployeeID()); jo.put("userid",
-//	  addressBook.get(i).getUserid()); jo.put("password",
-//	  addressBook.get(i).getPassword()); jo.put("name",
-//	  addressBook.get(i).getName()); jo.put("departmentID",
-//	  addressBook.get(i).getDepartmentID()); jo.put("position",
-//	  addressBook.get(i).getPosition()); jo.put("birthday",
-//	  addressBook.get(i).getBirthdate()); jo.put("phoneNumber",
-//	  addressBook.get(i).getPhoneNumber()); jo.put("address",
-//	  addressBook.get(i).getAddress()); jo.put("email",
-//	  addressBook.get(i).getEmail()); jo.put("salary",
-//	  addressBook.get(i).getSalary()); jo.put("profilePicture",
-//	  addressBook.get(i).getProfilePicture()); jo.put("hireDate",
-//	  addressBook.get(i).getHireDate()); jo.put("managerEmployeeID",
-//	  addressBook.get(i).getManagerEmployeeID()); ja.add(jo); } return
-//	 ja.toJSONString(); }
-//	 
-//	
-//	    JSONArray ja = new JSONArray();
-//	    for (int i = 0; i < addressBook.size(); i++) {
-//	        JSONObject jo = new JSONObject();
-//	        jo.put("employeeID", addressBook.get(i).getEmployeeID());
-//	        jo.put("userid", addressBook.get(i).getUserid());
-//	        jo.put("password", addressBook.get(i).getPassword());
-//	        jo.put("name", addressBook.get(i).getName());
-//	        jo.put("departmentID", addressBook.get(i).getDepartmentID());
-//	        jo.put("position", addressBook.get(i).getPosition());
-////	        jo.put("birthday", addressBook.get(i).getBirthday());
-//	        jo.put("phoneNumber", addressBook.get(i).getPhoneNumber());
-//	        jo.put("address", addressBook.get(i).getAddress());
-//	        jo.put("email", addressBook.get(i).getEmail());
-//	        jo.put("salary", addressBook.get(i).getSalary());
-//	        jo.put("profilePicture", addressBook.get(i).getProfilePicture());
-//	        jo.put("hireDate", addressBook.get(i).getHireDate());
-//	        jo.put("managerEmployeeID", addressBook.get(i).getManagerEmployeeID());
-//	        ja.add(jo);
-//	    }
-//	    return ja.toJSONString();
-//	}
+	@GetMapping("/attendance_management/attendance")
+	public String attendance() {
+		return "attendance_management/attendance";
+	}
 	
+	@PostMapping("/insert_checkIn")
+	@ResponseBody
+	public String insert_checkIn(HttpServletRequest req, Model model) {
+	    String userid = req.getParameter("userid");
+	    String date = req.getParameter("date");
+	    String startTime = req.getParameter("startTime");
+	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
+	    Attdao.insert_checkIn(userid, date, startTime);
+	    return "redirect:/attendance_management/attendance";
+	}
+	
+
+	@GetMapping("/get_addressBook")
+	@ResponseBody
+	public String get_addressBook(HttpServletRequest req, Model model) {
+		String name = req.getParameter("name");
+		ArrayList<EmployeesDTO> addressBook = null;
+		
+		if ("all".equals(name)) {
+	        addressBook = empdao.getListAll();
+	    } else if ("name".equals(name)){
+	    	addressBook = empdao.getList_sort_name();
+	    } else if ("department".equals(name)){
+	    	addressBook = empdao.getList_sort_department();
+	    } else if ("position".equals(name)){
+	    	addressBook = empdao.getList_sort_position();
+	    } else if ("phone".equals(name)){
+	    	addressBook = empdao.getList_sort_phone();
+	    } else if ("email".equals(name)){ 
+	    	addressBook = empdao.getList_sort_email();
+	    }
+		
+		JSONArray ja = new JSONArray();
+	    for (int i = 0; i < addressBook.size(); i++) {
+	        JSONObject jo = new JSONObject();
+	        jo.put("name", addressBook.get(i).getName());
+	        jo.put("department", addressBook.get(i).getDepartmentName()); // 직책 필드 추가
+	        jo.put("position", addressBook.get(i).getPosition()); // 전화번호 필드 추가
+	        jo.put("phone", addressBook.get(i).getPhoneNumber()); // 이메일 필드 추가
+	        jo.put("email", addressBook.get(i).getEmail()); // 부서 필드 추가
+	        ja.add(jo);
+	    }
+	    return ja.toJSONString();
+	}
+
 	@SuppressWarnings("unchecked")
 	@GetMapping("/get_personal_addressBook")
 	@ResponseBody
@@ -171,7 +165,6 @@ public class HwanController {
 
 	    return "redirect:/contact/personal";
 	}
-	
 	
 	@PostMapping("/delete_addressBook")
 	@ResponseBody

@@ -389,7 +389,7 @@ hr.hr-3 {
 		
 		        /* 사이드바 스타일 */
 		.sidebar {
-			margin-left: 210px;
+			margin-left: 185px;
 		    height: 100%;
 		    width: 250px;
 		    position: fixed;
@@ -417,6 +417,46 @@ hr.hr-3 {
 		    margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
 		    padding: 20px; /* 콘텐츠 패딩 설정 */
 		}
+		.name-col {
+    width: 150px; /* 이름 열 너비 */
+}
+
+.position-col {
+    width: 120px; /* 직위 열 너비 */
+}
+
+.phone-col {
+    width: 130px; /* 휴대폰 열 너비 */
+}
+
+.email-col {
+    width: 200px; /* Email 열 너비 */
+}
+
+.department-col {
+    width: 120px; /* 부서 열 너비 */
+}
+
+.company-col {
+    width: 150px; /* 회사 열 너비 */
+}
+
+.company-phone-col {
+    width: 150px; /* 회사전화 열 너비 */
+}
+
+.company-address-col {
+    width: 200px; /* 회사주소 열 너비 */
+}
+
+.memo-col {
+    width: 220px; /* 메모 열 너비 */
+}
+
+.group-col {
+    width: 120px; /* 그룹 열 너비 */
+}
+		
   
 </style>
 
@@ -443,18 +483,18 @@ hr.hr-3 {
         <button class="search-button">검색</button>
     </div>
 
-   <div class="container" style="margin-bottom: 20px;">
+<!--    <div class="container" style="margin-bottom: 20px;"> -->
 <!-- <a href="" title="Button border blue/green" class="button btnFloat btnBlueGreen btnFloatAdd">추가</a>
 	<a href="" title="Button border lightblue" class="button btnFloat btnLightBlue btnFloatDelete">삭제</a>
 	<a href="" title="Button border orange" class="button btnFloat btnOrange btnFloatEdit">뭐야</a>
 	<a href="" title="Button border purple" class="button btnFloat btnPurple btnFloatOther">뭐임?</a> 
 	<button class="btn btn-primary m-2" id="alertStart" style="width: 150px; height: 50px;">버튼</button>  -->
-	<div class="btnLine">
-		<button class="btn btn-primary m-2" id="promptStart">등 록</button>
-		<button class="btn btn-danger m-2" id="confirmStart">삭 제</button>
-		<button class="btn btn-danger m-2" id="toastStart">Toast 실행</button>
-		<button class="btn btn-warning m-2" id="ajaxStart">Ajax 실행 (깃헙 아이디 검색)</button>
-	</div>
+	<div class="btnLine" style="margin-left: 275px; margin-bottom: 30px;">
+		<button class="btn btn-primary m-2" id="promptStart" style="width: 100px; height: 50px;">등 록</button>
+		<button class="btn btn-danger m-2" id="confirmStart" style="width: 100px; height: 50px;">삭 제</button>
+<!-- 		<button class="btn btn-danger m-2" id="toastStart">Toast 실행</button>
+		<button class="btn btn-warning m-2" id="ajaxStart">Ajax 실행 (깃헙 아이디 검색)</button> -->
+<!-- 	</div> -->
   </div>
 
 	
@@ -462,16 +502,16 @@ hr.hr-3 {
         <thead>
         <tr>
             <th><input type="checkbox" id="selectAll"></th>
-            <th onclick="sort('name')">이름</th>
-            <th onclick="sort('position')">직위</th>
-            <th onclick="sort('phone')">휴대폰</th>
-            <th onclick="sort('email')">Email</th>
-            <th onclick="sort('department')">부서</th>
-            <th onclick="sort('company')">회사</th>
-            <th onclick="sort('companyPhone')">회사전화</th>
-            <th onclick="sort('companyAddress')">회사주소</th>
-            <th onclick="sort('memo')">메모</th>
-            <th onclick="sort('group')">그룹</th>
+            <th class="name-col" onclick="sort('name', currentPage)">이름</th>
+            <th class="position-col" onclick="sort('position', currentPage)">직위</th>
+            <th class="phone-col" onclick="sort('phone', currentPage)">휴대폰</th>
+            <th class="email-col" onclick="sort('email', currentPage)">Email</th>
+            <th class="department-col" onclick="sort('department', currentPage)">부서</th>
+            <th class="company-col" onclick="sort('company', currentPage)">회사</th>
+            <th class="company-phone-col" onclick="sort('companyPhone', currentPage)">회사전화</th>
+            <th class="company-address-col" onclick="sort('companyAddress', currentPage)">회사주소</th>
+            <th class="memo-col" onclick="sort('memo', currentPage)">메모</th>
+            <th class="group-col" onclick="sort('group', currentPage)">그룹</th>
         </tr>
         </thead>
         <tbody id="contactListBody">
@@ -484,7 +524,6 @@ hr.hr-3 {
 <script>
 //jQuery를 사용하여 모달을 제어합니다.
 $(document).ready(function() {
-    sort('all');
 });
 
 //#per_name 열을 클릭했을 때 페이지 이동
@@ -510,13 +549,23 @@ $('#contactListBody').on('click', 'tr', function(event) {
     }
 });
 
-function sort(name) {
+let currentPage = 1; // 현재 페이지 번호
+const perPage = 10; // 한 페이지당 표시할 데이터 수
+
+// 페이지 번호를 클릭할 때 호출되는 함수
+function changePage(page) {
+    currentPage = page;
+    console.log('changePage 함수 호출: 페이지', currentPage);
+    sort('all',currentPage);
+}
+
+function sort(name, page) {
     console.log('개인 주소록 불러옴');
     const userid = $('#user_id').val();
     console.log(userid);
     $.ajax({
         url: '/get_personal_addressBook',
-        data: { userid: userid, name: name }, // 필터 값을 서버로 전송
+        data: { userid: userid, name: name , page:page}, // 필터 값을 서버로 전송
         type: 'get',
         dataType: 'json',
         success: function(data) {
@@ -535,23 +584,24 @@ function sort(name) {
                 $('#no_contactListBody').append(newRow);
             } else {
                 // 데이터가 있는 경우 연락처를 추가
-                for (let i = 0; i < data.length; i++) {
+		            for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {
                     const newRow = $('<tr>');
-                    newRow.append('<td><input type="checkbox" id="perCheckbox"></td>');
-                    newRow.append('<td id="per_name" style="cursor: pointer;">' + data[i]['name'] + '</td>');
-                    newRow.append('<td id="per_position">' + data[i]['position'] + '</td>'); // 부서 정보를 추가
-                    newRow.append('<td id="per_phone">' + data[i]['phone'] + '</td>');
-                    newRow.append('<td id="per_email"><a href="mailto:' + data[i]['email'] + '">' + data[i]['email'] + '</a></td>');
-                    newRow.append('<td id="per_department">' + data[i]['department'] + '</td>');
-                    newRow.append('<td id="per_company">' + data[i]['company'] + '</td>');
-                    newRow.append('<td id="per_company_phone">' + data[i]['company_phone'] + '</td>');
-                    newRow.append('<td id="per_company_address">' + data[i]['company_address'] + '</td>');
-                    newRow.append('<td id="per_memo">' + data[i]['memo'] + '</td>');
-                    newRow.append('<td id="per_group_name">' + data[i]['group_name'] + '</td>');
+                    newRow.append('<td style="text-align: center;"><input type="checkbox" id="perCheckbox"></td>');
+                    newRow.append('<td id="per_name" style="cursor: pointer; text-align: center;">' + data[i]['name'] + '</td>');
+                    newRow.append('<td id="per_position" style="text-align: center;">' + data[i]['position'] + '</td>');
+                    newRow.append('<td id="per_phone" style="text-align: center;">' + data[i]['phone'] + '</td>');
+                    newRow.append('<td id="per_email" style="text-align: center;"><a href="mailto:' + data[i]['email'] + '">' + data[i]['email'] + '</a></td>');
+                    newRow.append('<td id="per_department" style="text-align: center;">' + data[i]['department'] + '</td>');
+                    newRow.append('<td id="per_company" style="text-align: center;">' + data[i]['company'] + '</td>');
+                    newRow.append('<td id="per_company_phone" style="text-align: center;">' + data[i]['company_phone'] + '</td>');
+                    newRow.append('<td id="per_company_address" style="text-align: center;">' + data[i]['company_address'] + '</td>');
+                    newRow.append('<td id="per_memo" style="text-align: center;">' + data[i]['memo'] + '</td>');
+                    newRow.append('<td id="per_group_name" style="text-align: center;">' + data[i]['group_name'] + '</td>');
                     newRow.append('<input type="hidden" class="address-book-id" value="' + data[i]['address_book_id'] + '">');
                     $('#contactListBody').append(newRow);
                 }
             }
+            updatePagination(data.length);
         },
         error: function(xhr, status, error) {
             console.error('주소록 데이터 불러오기 에러:', status, error);
@@ -559,7 +609,27 @@ function sort(name) {
         }
     });
 }
-//aa
+
+function updatePagination(totalPage) {
+    const totalPages = Math.ceil(totalPage / perPage);
+    let paginationHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === currentPage) {
+            paginationHTML += '<span>' + i + '</span>';
+        } else {
+        	paginationHTML += "<a href='#' onclick='changePage(" + i + ")'>" + i + "</a>";
+        }
+    }
+    
+    $("#pagination").html(paginationHTML);
+}
+
+// 페이지 로딩 시 초기 데이터 가져오기
+$(document).ready(function() {
+ sort('all', currentPage);
+ console.log('문서가 로드되었습니다.');
+});
 
 
 //전체 선택 체크박스 클릭 이벤트 처리
