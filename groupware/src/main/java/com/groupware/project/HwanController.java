@@ -44,20 +44,6 @@ public class HwanController {
 	public String attendance() {
 		return "attendance_management/attendance";
 	}
-	
-
-	@PostMapping("/insert_checkIn")
-	@ResponseBody
-	public String insert_checkIn(HttpServletRequest req, Model model) {
-	    String userid = req.getParameter("userid");
-	    String date = req.getParameter("date");
-	    String startTime = req.getParameter("startTime");
-	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
-	    Attdao.insert_checkIn(userid, date, startTime);
-
-	    return "redirect:/attendance_management/attendance";
-	}
-	
 
 	@GetMapping("/get_addressBook")
 	@ResponseBody
@@ -226,6 +212,38 @@ public class HwanController {
 
 	    return "";
 	}
+	
+
+	@PostMapping("/insert_checkOut")
+	@ResponseBody
+	public String insert_checkOut(HttpServletRequest req, Model model) {
+	    String userid = req.getParameter("userid");
+	    String date = req.getParameter("date");
+	    String endTime = req.getParameter("endTime");
+
+	    // 로그 메시지 출력
+	    System.out.println("userid: " + userid);
+	    System.out.println("date: " + date);
+	    System.out.println("endTime: " + endTime);
+
+	    Attdao.insert_checkOut(userid, date, endTime);
+
+	    return "";
+	}
+	
+	@PostMapping("/insert_checkIn")
+	@ResponseBody
+	public String insert_checkIn(HttpServletRequest req, Model model) {
+	    String userid = req.getParameter("userid");
+	    String date = req.getParameter("date");
+	    String startTime = req.getParameter("startTime");
+	    String AttendanceStatus = req.getParameter("AttendanceStatus");
+	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
+	    Attdao.insert_checkIn(userid, date, startTime, AttendanceStatus);
+	    //redirect:/attendance_management/attendance"
+	    return "";
+	}
+
 
 
 }
