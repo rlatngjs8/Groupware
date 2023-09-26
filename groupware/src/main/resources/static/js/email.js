@@ -154,7 +154,7 @@ $(document)
 			checklist.push(tp);
 		}
 		let tp2 = $(this).parent().siblings().children('#mailNow2').text(); 
-//		console.log(tp2);
+		console.log(tp2);
 		if(tp2!=''){	
 			checklist2.push(tp2);
 		}
@@ -182,7 +182,7 @@ $(document)
 				location.reload();
 			},
 			error:function(data){
-				alert("/mailRead 오류");
+				alert("/mailNotRead 오류");
 			}
 		});
 	}
@@ -211,7 +211,7 @@ $(document)
 			location.reload();
 		},
 		error:function(data){
-			alert("/mailRead 오류");
+			alert("/mailDelete 오류");
 		}
 	});
 })
@@ -220,8 +220,9 @@ $(document)
         return ;
     }
 	let tp = $(this).find('#rEmailid').text(); 
+	let now2 = $(this).find('#mailNow2').text(); 
 	
-	$.ajax({url:'/mailReadUpdate', data:{eid:tp,now:$('#mailNow').text()}, type:'post',
+	$.ajax({url:'/mailReadUpdate', data:{eid:tp,now:$('#mailNow').text(),now2:now2}, type:'post',
 		success:function(data){
 			console.log("/mailReadUpdate 성공");
 		 	document.location="/mailDetail?eid="+tp; 

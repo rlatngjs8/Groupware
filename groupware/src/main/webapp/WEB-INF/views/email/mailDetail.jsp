@@ -19,8 +19,6 @@
 #dmailTable td:nth-child(1) {width:60px;}
 #dmailTable td:nth-child(2) {padding:7px 20px 7px 0px;}
 /* #dmailTable tr:last-child td:nth-child(1) {border:1px solid lightgray;} */
-.emailbox {width:auto; height: 21px; line-height:21px; border:1px solid #6AB0AD; border-radius:14px; 
-			padding: 3px 5px 3px 6px; margin-left:10px; background-color:rgba(106, 176, 173, 0.1);}
 </style>
 <body style="font-size:14px; background-color:white;">
 <div style="display:flex; height: 100%;">
@@ -39,9 +37,9 @@
 	<p class="mline"></p>
 	<table id="dmailTable">
 		<tr><td colspan=2 id="mdSubject"><h2 style="margin-bottom:5px;">${dmail.subject}</h2></td></tr>
-		<tr><td style="font-weight:bold;">보낸사람</td><td>${dmail2.name}<label id="emailbox1" class="emailbox">${dmail2.email}</label></td></tr>
+		<tr><td style="font-weight:bold;">보낸사람</td><td id="namebox1">${dmail2.name}<label id="emailbox1" class="emailbox">${dmail2.email}</label></td></tr>
 		<tr><td style="font-weight:bold;">받은사람</td><td>${dmail.name}<label id="emailbox2" class="emailbox">${dmail.email}</label></td></tr>
-		<tr><td colspan=2>${date}<div style="padding:7px;"></div><p class="mline"></td></tr>
+		<tr><td colspan=2 id="emailDate">${date}<div style="padding:7px;"></div><p class="mline"></td></tr>
 		<tr><td colspan=2 style="padding-top:14px;">
 			<div class="mailFileName">
 <%-- 			<a href="img path" download="download file name></a>  --%>
@@ -107,10 +105,16 @@ $(document)
 .on('click','#mAnswer',function(){
 // 	document.location="/mailWrite2?email="+$('#emailbox1').text();
 	//0925
-	$.ajax({url:'/mdAnswer',data:{emailid:$('#rEmailid').text(),now:$('#mailNow').text()},type:'post',dataType:'text',
+	let name = $('#namebox1').text();
+	let email = $('#emailbox1').text();
+	let email2 = $('#emailbox2').text();
+	let emailDate = $('#emailDate').text();
+	let subject = "Re: "+$('#mdSubject').text();
+	let content = $('#mailDContent').text();
+	$.ajax({url:'/mdAnswer',data:{name:name,email:email,email2:email2,emailDate:emailDate,subject:subject,content:content},type:'post',dataType:'text',
 		success:function(data){
 			console.log("/mdAnswer 성공");	
-			
+			document.location="/mailWrite2";
 		},
 		error:function(data){
 			alert("/mdAnswer 오류");

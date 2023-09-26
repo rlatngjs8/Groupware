@@ -59,12 +59,15 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 		</table>
 		</c:if>
 		<br>
+		<c:if test='${rlist!=""}'>
 		<div id="mailPageDiv">
 			<div id="mailPno" class="divHidden">${pageno}</div>
 			<div id="mailPcnt" class="divHidden">${pagecnt}</div>
 			<input type=button id="mPrev" class="mFolderBtn2" value="이전">
 			&nbsp;${pagestr}&nbsp;
-			<input type=button id="mNext" class="mFolderBtn2" value="다음"></div>
+			<input type=button id="mNext" class="mFolderBtn2" value="다음">
+		</div>
+		</c:if>
 		<br><br>
 	</div>
 </div>

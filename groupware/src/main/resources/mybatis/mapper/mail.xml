@@ -14,6 +14,9 @@
 <select id="selectEmpEmail2" resultType="Integer">
 	select employeeid from employees where email=#{param1}
 </select>
+<!-- <insert id="insertRecentEmail" parameterType="java.util.HashMap"> -->
+<!-- 	insert into employees set recentemail=#{param2} where employeeid=#{param1} -->
+<!-- </insert> -->
 <insert id="insertEmails" parameterType="java.util.HashMap">
 	insert into emails set subject=#{param1},content=#{param2},senderemployeeid=#{param3},
 	receiveremployeeid=#{param4},attachment1=#{param5},attachment2=#{param6},attachment3=#{param7}

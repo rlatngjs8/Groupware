@@ -38,19 +38,19 @@ public class MailController implements WebMvcConfigurer {
 	@Autowired
 	private MailDAO mdao;
 	
-	public static void sessionL(HttpServletRequest req) {
-		//로그인임시
-		HttpSession s = req.getSession();
-		s.setAttribute("empID", 35);
-		//로그인임시
-	}
-//	public void sessionL(HttpServletRequest req) {
+//	public static void sessionL(HttpServletRequest req) {
+//		//로그인임시
 //		HttpSession s = req.getSession();
-//		String userid = (String) s.getAttribute("userid");
-//		int eid = mdao.selectEmpid(userid);
-//		s.setAttribute("empID", eid);
-////		System.out.println(eid);
+//		s.setAttribute("empID", 82);
+//		//로그인임시
 //	}
+	public void sessionL(HttpServletRequest req) {
+		HttpSession s = req.getSession();
+		String userid = (String) s.getAttribute("userid");
+		int eid = mdao.selectEmpid(userid);
+		s.setAttribute("empID", eid);
+//		System.out.println(eid);
+	}
 	public void page(HttpServletRequest req, Model model) {
 		sessionL(req);
 		HttpSession s = req.getSession();
@@ -239,14 +239,48 @@ public class MailController implements WebMvcConfigurer {
 	@GetMapping("/mailWrite")
 	public String mailWrite(HttpServletRequest req, Model model) {
 		sessionL(req);
+		HttpSession s = req.getSession();
+		s.setAttribute("mdAnswer_email", "");
+		s.setAttribute("mdAnswer_subject", "");
+		s.setAttribute("mdAnswer_content", "");
+		s.setAttribute("mdAnswer_content2", "");
 		return "email/mailWrite";
 	}
 	@GetMapping("/mailWrite2")
 	public String mailWrite2(HttpServletRequest req, Model model) {
 		sessionL(req);
-		String email = req.getParameter("email");
-		System.out.println(email);
+		HttpSession s = req.getSession();
+		String email = (String) s.getAttribute("mdAnswer_email");
+		String subject = (String) s.getAttribute("mdAnswer_subject");
+		String content = (String) s.getAttribute("mdAnswer_content");
+		String content2 = (String) s.getAttribute("mdAnswer_content2");
+		System.out.println(content+", "+content2);
 		model.addAttribute("email",email);
+		model.addAttribute("subject", subject);
+		model.addAttribute("content", content);
+		model.addAttribute("content2", content2);
+		return "email/mailWrite";
+	}
+	@PostMapping("/mdAnswer")
+	@ResponseBody
+	public String mdAnswer(HttpServletRequest req, Model model) {
+		sessionL(req);
+		String name = req.getParameter("name");
+		String email = req.getParameter("email");
+		String email2 = req.getParameter("email2");
+		String emailDate = req.getParameter("emailDate");
+		String subject = req.getParameter("subject");
+		String content = req.getParameter("content");
+		HttpSession s = req.getSession();
+//		System.out.println(email+"A");
+		String content2 = "--- Original Message ---&#13;&#10;From : "+name+" <"+email+">&#13;&#10;"
+					+"To : "+email2+"&#13;&#10;"
+					+"Date : "+emailDate+"&#13;&#10;"
+					+"Subject : "+subject+"&#13;&#10;";
+		s.setAttribute("mdAnswer_email", email);
+		s.setAttribute("mdAnswer_subject", subject);
+		s.setAttribute("mdAnswer_content", content);
+		s.setAttribute("mdAnswer_content2", content2);
 		return "email/mailWrite";
 	}
 	@PostMapping("/mailSend")
@@ -263,7 +297,10 @@ public class MailController implements WebMvcConfigurer {
 		HttpSession s = req.getSession();
 		int senderEmployeeID = (Integer) s.getAttribute("empID");
 		String receiverEmail = req.getParameter("receiverEmail");
-		MailDTO mdto = mdao.selectEmpEmail(receiverEmail); //이메일값을 받아서 이메일값으로 사원아이디를추적하여 최종적으로 insert해야함.
+		System.out.println(receiverEmail);
+		String receiverEmail2[] = receiverEmail.split(" ");
+
+//		MailDTO mdto = mdao.selectEmpEmail(receiverEmail); //이메일값을 받아서 이메일값으로 사원아이디를추적하여 최종적으로 insert해야함.
 		int eid = mdao.selectMaxemailid();
 		
 		String uploadFileName = "";
@@ -313,19 +350,11 @@ public class MailController implements WebMvcConfigurer {
 			}	
 		}
 		
-		//receiver 받는사람 정보//
-		int recID = mdto.getEmployeeid();
-//		String recName = mdto.getName();
-//		int recDpartID = mdto.getDepartmentid();
-//		String recPosition = mdto.getPosition();
-//		String recEmail = mdto.getEmail();
-//		System.out.println(empID+","+empName+","+DpartID+","+empPosition+","+empEmail);
-		////
-		
-		//임시
-		mdao.insertEmails(subject, content, senderEmployeeID, recID,
-				attachment1, attachment2, attachment3);
-		
+		for(int i=0; i<receiverEmail2.length;i++) {
+			MailDTO mdto = mdao.selectEmpEmail(receiverEmail2[i]);
+			//receiver 받는사람 정보//
+			int recID = mdto.getEmployeeid();
+		}		
 		return "mailFolder1";
 	}
 	@PostMapping("/mailRead")
@@ -379,6 +408,7 @@ public class MailController implements WebMvcConfigurer {
 		String trashChklist = req.getParameter("trashChklist");
 		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
 		String[] trashChklist2 = trashChklist.split(",");
+//		System.out.println(trashChklist);
 		
 		if (now.equals("receive")) {
 			for(int i=0; i<mlist2.length;i++) {
@@ -393,6 +423,7 @@ public class MailController implements WebMvcConfigurer {
 		} else if (now.equals("trash")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
+				System.out.println(emailid);
 				if (trashChklist2[i].equals("tR")) {
 //					System.out.println("tR실행");
 					mdao.updateEmailReceive0(emailid);	
@@ -402,7 +433,6 @@ public class MailController implements WebMvcConfigurer {
 				}
 			}
 		} 
-		
 	}
 	@PostMapping("/mailDelete")
 	@ResponseBody
@@ -443,12 +473,19 @@ public class MailController implements WebMvcConfigurer {
 	public void mailReadUpdate(HttpServletRequest req, Model model) {
 		int emailid = Integer.parseInt(req.getParameter("eid"));
 		String now = req.getParameter("now");
+		String now2 = req.getParameter("now2");
 //		System.out.println(now);
 		if (now.equals("receive")) {
 			mdao.updateEmailReceive1(emailid);
 		} else if (now.equals("send")) {
 			mdao.updateEmailSend1(emailid);
-		}
+		} else if (now.equals("trash")) {
+			if (now2.equals("tR")) {
+				mdao.updateEmailReceive1(emailid);	
+			} else if (now2.equals("tS")) {
+				mdao.updateEmailSend1(emailid);	
+			}
+		} 
 
 	}
 	@GetMapping("/mailDetail")
