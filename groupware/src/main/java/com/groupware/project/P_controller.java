@@ -59,6 +59,47 @@ public class P_controller {
 		model.addAttribute("blist",ja);
 		return "P_community";
 	}
+	@GetMapping("/doboardsearch")
+	@SuppressWarnings("unchecked")
+	public String doboardsearch(HttpServletRequest req,Model model) {
+		String search = req.getParameter("search");
+		int start,psize;
+		String page = req.getParameter("pageno");
+		if(page==null || page.equals("")) {
+			page="1";
+		}
+		int pno=Integer.parseInt(page);
+		start = (pno-1)*10;
+		psize = 10;
+		ArrayList<P_BoardDTO> alBoard=bdao.getsearch(start, psize,search);
+		JSONArray ja = new JSONArray();
+		for(int i=0; i<alBoard.size();i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("CommunityID", alBoard.get(i).getCommunityID());
+			jo.put("CommunityTitle", alBoard.get(i).getCommunityTitle());
+			jo.put("Name", alBoard.get(i).getName());
+			jo.put("Position", alBoard.get(i).getPosition());
+			jo.put("Content", alBoard.get(i).getContent());
+			jo.put("Views", alBoard.get(i).getViews());
+			jo.put("Likes", alBoard.get(i).getLikes());
+			jo.put("CreatedTime", alBoard.get(i).getCreatedTime());
+			ja.add(jo);
+		}
+		ja.toJSONString();
+		int cnt=bdao.getTotal();
+		int pagecount = (int) Math.ceil(cnt/10.0);
+		String pagestr="";
+		for(int i=1; i<=pagecount;i++) {
+			if(pno==i) {
+				pagestr += i+"&nbsp;";
+			}else {
+				pagestr+="<a href='/community?pageno="+i+"'>"+i+"</a>&nbsp;";
+			}
+		}
+		model.addAttribute("pagestr",pagestr);
+		model.addAttribute("blist",ja);
+		return "P_community";
+	}
 	@GetMapping("/community_write")
 	public String community_write(HttpServletRequest req, Model model) {
 		return "P_community_write";

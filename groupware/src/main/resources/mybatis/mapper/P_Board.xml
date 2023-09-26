@@ -16,7 +16,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="savepost">
 		insert into communities set CommunityTitle=#{param1},Content=#{param2},AuthorEmployeeID=#{param3},CreatedTime=now()
 	</insert>
-
+	<select id="getsearch" resultType="com.groupware.project.P_BoardDTO">
+    SELECT a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position, COUNT(c.CommunityID) AS Likes
+	FROM communities a
+	INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+	LEFT JOIN boardlikes c ON a.CommunityID = c.CommunityID
+	WHERE a.Content LIKE CONCAT('%',#{param3},'%') OR a.CommunityTitle LIKE CONCAT('%',#{param3},'%')
+	GROUP BY a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
+	ORDER BY a.CreatedTime DESC
+	LIMIT #{param1}, #{param2}
+    </select>
 	<select id="view" resultType="com.groupware.project.P_BoardDTO">
 		SELECT a.CommunityID,  b.Userid,a.CommunityTitle,b.Name,b.Position, a.Content, a.Views, COUNT(c.CommunityID) AS Likes, a.CreatedTime 
 		FROM communities a 

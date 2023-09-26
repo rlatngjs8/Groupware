@@ -10,7 +10,6 @@
 .post-container {
     border: 1px solid #ccc;
     margin-bottom: 20px;
-    margin-right: 15%;
     padding: 10px;
     background-color: #f9f9f9;
 }
@@ -71,6 +70,17 @@
 .page-side a:hover {
     background-color: #cfcfcf;
 }
+.board-search-bar {
+  
+  border-radius: 8px;
+  padding: 5px;
+  text-align: center;
+}
+
+.board-search-bar input[type="text"] {
+    padding:5px ;
+    font-size :20px ;
+}
 </style>
 <meta charset="UTF-8">
 <title>게시판</title>
@@ -89,6 +99,9 @@
     </div> -->
 </div>
 <div class="Main_Content">
+<div class="board-search-bar">
+<input type="text" placeholder="게시판 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
+</div>
 <c:forEach items="${blist}" var="blist">
 	<div class="post-container">
 	<a href="/community_view?seqno=${blist.CommunityID}">
@@ -105,7 +118,25 @@
             </a>
         </div>
 </c:forEach>
+<div class="board-search-bar">
+<input type="text" placeholder="게시판 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
+</div>
 <div style="margin-left:auto;margin-right:auto;text-align:center">${pagestr}</div>
 </div>
 </body>
+<script>
+$(document)	 
+.on('click','#search-board-button',function(){
+	let search = $('#board-search-bar').val();
+	console.log(search);
+	document.location="doboardsearch?search="+search;
+	return false;
+})
+function boardenterkey() {
+	if (window.event.keyCode == 13) {
+    	// 엔터키가 눌렸을 때
+		document.getElementById("search-board-button").click();
+    }
+}
+</script>
 </html>
