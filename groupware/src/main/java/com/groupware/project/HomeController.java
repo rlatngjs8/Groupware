@@ -25,8 +25,11 @@ public class HomeController {
 			HttpSession session = req.getSession(false); // 세션이 존재하면 가져오고, 존재하지 않으면 새로 생성하지 않도록 설정
 			if (session != null && session.getAttribute("userid") != null) {
 				// 세션에 userid가 이미 설정되어 있으면 "home" 페이지로 리디렉션
-				String profileIMG=(String)session.getAttribute("profileIMG");
-				model.addAttribute("profileIMG", profileIMG);
+//				String profileIMG=(String)session.getAttribute("profileIMG");
+//				model.addAttribute("profileIMG", profileIMG);
+				String userid = (String) session.getAttribute("userid");
+				EmployeesDTO alEmp = edao.getListSelect(userid);
+				model.addAttribute("emp",alEmp);
 				return "home";
 			} else {
 				// 세션에 userid가 없으면 로그인 페이지 표시

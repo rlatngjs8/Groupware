@@ -52,7 +52,7 @@ public class P_controller {
 			if(pno==i) {
 				pagestr += i+"&nbsp;";
 			}else {
-				pagestr+="<a href='/?pageno="+i+"'>"+i+"</a>&nbsp;";
+				pagestr+="<a href='/community?pageno="+i+"'>"+i+"</a>&nbsp;";
 			}
 		}
 		model.addAttribute("pagestr",pagestr);
@@ -61,8 +61,6 @@ public class P_controller {
 	}
 	@GetMapping("/community_write")
 	public String community_write(HttpServletRequest req, Model model) {
-		HttpSession session = req.getSession();
-		Integer EmpId=(int) session.getAttribute("EmpId");
 		return "P_community_write";
 	}
 	@PostMapping("/savepost")
@@ -86,20 +84,51 @@ public class P_controller {
 		model.addAttribute("alComment",alComment);
 		model.addAttribute("bpost",bdto);
 		HttpSession session = req.getSession();
+		
 		String writer=(String) session.getAttribute("userid");
+		model.addAttribute("user",writer);
+		int chklike = bdao.chklike(writer,seqno);
+		if (chklike == 1) {
+			model.addAttribute("chklike",true);
+		} else {
+			model.addAttribute("chklike",false);
+		}
 		try {
-			if(writer.equals(oriwri)){
-				model.addAttribute("modidel","<a href='/write'>글쓰기</a>&nbsp;&nbsp;<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
+			if(writer.equals(oriwri)||writer.equals("관리자1")){
+				model.addAttribute("modidel","<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
 				return "P_community_view";
 			}else {
 				model.addAttribute("modidel","");
-				model.addAttribute("write","<a href='/community_write'>글쓰기</a>&nbsp;");
 				return "P_community_view";
 			}
 		} catch(Exception e) {
 			model.addAttribute("modidel","");
 			return "P_community_view";
 		}
+	}
+	@GetMapping("/community_view_update")
+	public String updateview(HttpServletRequest req,Model model) {
+		int seqno= Integer.parseInt(req.getParameter("seq"));
+		P_BoardDTO bdto = bdao.view(seqno);
+		model.addAttribute("bpost",bdto);
+		return "P_view_update";
+	}
+	@PostMapping("/updatepost")
+	@ResponseBody
+	public String updatepost(HttpServletRequest req,Model model) {
+		int seqno= Integer.parseInt(req.getParameter("seq"));
+		String title=req.getParameter("title");
+		String content=req.getParameter("content");
+		bdao.updateBoard(seqno,title,content);
+		return "community_view?seqno="+seqno;
+	}
+	@GetMapping("/deletepost")
+	public String deletepost(HttpServletRequest req,Model model) {
+		int seqno= Integer.parseInt(req.getParameter("seq"));
+		bdao.deleteBoardcmt(seqno);
+		bdao.deleteBoard(seqno);
+		bdao.deletelike(seqno);
+		return "redirect:/community";
 	}
 	@PostMapping("/addComment")
 	@ResponseBody
@@ -109,7 +138,40 @@ public class P_controller {
 		int  seqno= Integer.parseInt(req.getParameter("postId"));
 		String cmt = req.getParameter("comment");
 		bdao.addComment(seqno,cmt,EmpID);
-		
 		return "community_view?seqno="+seqno;
+	}
+	@PostMapping("/updateComment")
+	@ResponseBody
+	public String updatcomment(HttpServletRequest req,Model model) {
+		int  cmtID= Integer.parseInt(req.getParameter("cmtID"));
+		String updatecmt = req.getParameter("updatecmt");
+		bdao.updateComment(cmtID,updatecmt);
+		return "community_view?seqno="+Integer.parseInt(req.getParameter("seqno"));
+	}
+	
+	 @PostMapping("/deleteComment")
+	 @ResponseBody 
+	 public String deletecomment(HttpServletRequest req,Model model){ 
+		 int cmtID= Integer.parseInt(req.getParameter("cmtID"));
+		 bdao.deleteComment(cmtID); 
+		 return "community_view?seqno="+Integer.parseInt(req.getParameter("seqno")); 
+	}
+	@PostMapping("/like")
+	@ResponseBody
+	public String like(HttpServletRequest req,Model model) {
+		int  seqno= Integer.parseInt(req.getParameter("seqno"));
+		HttpSession session = req.getSession();
+		int EmpID= (int) session.getAttribute("EmpId");
+		bdao.like(seqno,EmpID); 
+		return "1";
+	}
+	@PostMapping("/undolike")
+	@ResponseBody
+	public String undolike(HttpServletRequest req,Model model) {
+		int  seqno= Integer.parseInt(req.getParameter("seqno"));
+		HttpSession session = req.getSession();
+		int EmpID= (int) session.getAttribute("EmpId");
+		bdao.undolike(seqno,EmpID);
+		return "0";
 	}
 }

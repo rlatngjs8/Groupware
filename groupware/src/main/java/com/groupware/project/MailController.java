@@ -29,49 +29,157 @@ public class MailController implements WebMvcConfigurer {
 //    		.addResourceLocations("file:///C:/Users/1234/git/Groupware/groupware/src/main/resources/static/img"); //내 로컬 폴더	
 //   	}
 	
+	int mpageStart, mpageSize, mailPno, pageCnt;
+	
 	@Autowired
 	private MailDAO mdao;
 	
-	public static void sessionL(HttpServletRequest req) {
-		//로그인임시
+//	public static void sessionL(HttpServletRequest req) {
+//		//로그인임시
+//		HttpSession s = req.getSession();
+//		s.setAttribute("empID", 17);
+//		//로그인임시
+//	}
+	public void sessionL(HttpServletRequest req) {
 		HttpSession s = req.getSession();
-		s.setAttribute("empID", 17);
-		//로그인임시
+		String userid = (String) s.getAttribute("userid");
+		int eid = mdao.selectEmpid(userid);
+		s.setAttribute("empID", eid);
+//		System.out.println(eid);
+	}
+	public void page(HttpServletRequest req, Model model) {
+		sessionL(req);
+		HttpSession s = req.getSession();
+		int eid = (Integer) s.getAttribute("empID");
+		
+		String page = req.getParameter("pageno");
+		if(page==null || page.equals("")) {
+			page="1";
+		}
+		mailPno = Integer.parseInt(page);
+		mpageStart = (mailPno-1)*15;
+		mpageSize = 15;
 	}
 	
-	@GetMapping("/mailFolder0")
-	public String mailFolder0(HttpServletRequest req, Model model) {
-		sessionL(req);
-		return "email/mailFolder0";
-	}
 	@GetMapping("/mailFolder1")
 	public String mailFolder1(HttpServletRequest req, Model model) {
 		sessionL(req);
-		//로그인임시
+		page(req,model);
 		HttpSession s = req.getSession();
 		int eid = (Integer) s.getAttribute("empID");
-		//로그인임시
-		ArrayList<MailDTO> receiveEmail = mdao.selectRecMail(eid);
-//		System.out.println(receiveEmail.size());
-//		System.out.println(receiveEmail.get(0).getSenderemployeeid());
+		
+		int cnt=mdao.selectReceiverEmailscnt(eid); //전체 메일 수
+		int pagecount = (int) Math.ceil(cnt/15.0); 
+		pageCnt = pagecount;
+		int totalpage = (int) Math.ceil(pagecount/5.0);
+		ArrayList<MailDTO> receiveEmail = mdao.selectRecMail(eid,mpageStart,mpageSize);
+		
+		System.out.println(cnt+","+pagecount+","+totalpage);
+		String pagestr = "";
+	
+		if(mailPno<4) {
+			for(int i=1; i<=pagecount; i++) {
+				if(i>5) {
+					break;
+				}
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		} else {
+			for(int i=mailPno-2; i<=mailPno+2; i++) {
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		}
+		model.addAttribute("pagestr",pagestr);
+		model.addAttribute("pageno",mailPno);
+		model.addAttribute("pagecnt",pagecount);
+		
 		if(receiveEmail.size()==0) {
 			System.out.println(receiveEmail);
 			model.addAttribute("rlist", "");
 		} else {
 			model.addAttribute("rlist", receiveEmail);
 		}
-//		MailDTO senderName = selectSenderName();
-
+		
 		return "email/mailFolder1";
+	}
+	@PostMapping("/mailNext")
+	@ResponseBody
+	public String mailNext(HttpServletRequest req, Model model) {
+		sessionL(req);
+//		System.out.println(mailPno);
+		if(mailPno==pageCnt) {
+			return "noMove";
+		}
+		mailPno = mailPno + 1;
+		String nowPno = Integer.toString(mailPno);
+		return nowPno;
+	}
+	@PostMapping("/mailPrev")
+	@ResponseBody
+	public String mailPrev(HttpServletRequest req, Model model) {
+		sessionL(req);
+//		System.out.println(mailPno);
+		if(mailPno==1) {
+			return "noMove";
+		}
+		mailPno = mailPno - 1;
+		String nowPno = Integer.toString(mailPno);
+		return nowPno;
 	}
 	@GetMapping("/mailFolder2")
 	public String mailFolder2(HttpServletRequest req, Model model) {
 		sessionL(req);
-		//로그인임시
+		page(req,model);
 		HttpSession s = req.getSession();
 		int eid = (Integer) s.getAttribute("empID");
-		//로그인임시
-
+		
+		int cnt=mdao.selectSenderEmailscnt(eid); //전체 메일 수
+		int pagecount = (int) Math.ceil(cnt/15.0); 
+		pageCnt = pagecount;
+		int totalpage = (int) Math.ceil(pagecount/5.0);
+		ArrayList<MailDTO> receiveEmail = mdao.selectSendMail(eid,mpageStart,mpageSize);
+		
+		System.out.println(cnt+","+pagecount+","+totalpage);
+		String pagestr = "";
+	
+		if(mailPno<4) {
+			for(int i=1; i<=pagecount; i++) {
+				if(i>5) {
+					break;
+				}
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder2?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		} else {
+			for(int i=mailPno-2; i<=mailPno+2; i++) {
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder2?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		}
+		model.addAttribute("pagestr",pagestr);
+		model.addAttribute("pageno",mailPno);
+		model.addAttribute("pagecnt",pagecount);
+		
+		if(receiveEmail.size()==0) {
+			System.out.println(receiveEmail);
+			model.addAttribute("rlist", "");
+		} else {
+			model.addAttribute("rlist", receiveEmail);
+		}
 		return "email/mailFolder2";
 	}
 	
@@ -80,38 +188,10 @@ public class MailController implements WebMvcConfigurer {
 		sessionL(req);
 		return "email/mailWrite";
 	}
-//	@PostMapping("/mailSend")
-//	@ResponseBody
-//	public String mailSend(HttpServletRequest req, Model model) {
-//		String subject = req.getParameter("subject");
-//		String content = req.getParameter("content");
-////		int senderEmployeeID = Integer.parseInt(req.getParameter("senderEmployeeID"));
-//		HttpSession s = req.getSession();
-//		int senderEmployeeID = (Integer) s.getAttribute("empID");
-//		String receiverEmail = req.getParameter("receiverEmail");
-//		MailDTO mdto = mdao.selectEmpEmail(receiverEmail); //이메일값을 받아서 이메일값으로 사원아이디를추적하여 최종적으로 insert해야함.
-//		
-//		//receiver 받는사람 정보//
-//		int recID = mdto.getEmployeeid();
-//		String recName = mdto.getName();
-//		int recDpartID = mdto.getDepartmentid();
-//		String recPosition = mdto.getPosition();
-//		String recEmail = mdto.getEmail();
-////		System.out.println(empID+","+empName+","+DpartID+","+empPosition+","+empEmail);
-//		////
-//		
-//		//임시
-//		String attachment1="";
-//		String attachment2="";
-//		String attachment3="";
-//		mdao.insertEmails(subject, content, senderEmployeeID, recID,
-//				attachment1, attachment2, attachment3);
-//		return "mailFolder1";
-//	}
 	@PostMapping("/mailSend")
 	@ResponseBody
 	public String mailSend(HttpServletRequest req, Model model, HttpServletResponse response, MultipartFile[] uploadFile) {		
-		String uploadFolder = "C:/Users/1234/git/Groupware/groupware/src/main/resources/static/img";
+		String uploadFolder = "C:/Users/1234/git/Groupware/groupware/src/main/resources/static/mailImg";
 		File uploadPath = new File(uploadFolder); //폴더만들고 업로드
 		if(uploadPath.exists() == false) {//폴더 없을 시에만 폴더생성.
 			uploadPath.mkdirs();
@@ -186,6 +266,57 @@ public class MailController implements WebMvcConfigurer {
 				attachment1, attachment2, attachment3);
 		
 		return "mailFolder1";
+	}
+	@PostMapping("/mailRead")
+	@ResponseBody
+	public void mailRead(HttpServletRequest req, Model model) {
+		String mlist = req.getParameter("mailChklist");
+		mlist = mlist.replace("[","");
+		mlist = mlist.replace("]","");
+		mlist = mlist.replace("\"","");
+		String[] mlist2 = mlist.split(",");
+		int emailid;
+		
+		for(int i=0; i<mlist2.length;i++) {
+			emailid = Integer.parseInt(mlist2[i]);
+			mdao.updateEmailReceive1(emailid);	
+		}
+	}
+	@PostMapping("/mailNotRead")
+	@ResponseBody
+	public void mailNotRead(HttpServletRequest req, Model model) {
+		String mlist = req.getParameter("mailChklist");
+		mlist = mlist.replace("[","");
+		mlist = mlist.replace("]","");
+		mlist = mlist.replace("\"","");
+		String[] mlist2 = mlist.split(",");
+		int emailid;
+		
+		for(int i=0; i<mlist2.length;i++) {
+			emailid = Integer.parseInt(mlist2[i]);
+			mdao.updateEmailReceive0(emailid);	
+		}
+	}
+	@PostMapping("/mailDelete")
+	@ResponseBody
+	public void mailDelete(HttpServletRequest req, Model model) {
+		String mlist = req.getParameter("mailChklist");
+		mlist = mlist.replace("[","");
+		mlist = mlist.replace("]","");
+		mlist = mlist.replace("\"","");
+		String[] mlist2 = mlist.split(",");
+		int emailid;
+		
+		for(int i=0; i<mlist2.length;i++) {
+			emailid = Integer.parseInt(mlist2[i]);
+			mdao.updateEmailReceive2(emailid);	
+		}
+	}
+	@PostMapping("/mailReadUpdate")
+	@ResponseBody
+	public void mailReadUpdate(HttpServletRequest req, Model model) {
+		int emailid = Integer.parseInt(req.getParameter("eid"));
+		mdao.updateEmailReceive1(emailid);
 	}
 	@GetMapping("/mailDetail")
 	public String mailDetail(HttpServletRequest req, Model model) {

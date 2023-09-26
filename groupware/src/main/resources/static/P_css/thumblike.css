@@ -1,0 +1,62 @@
+@charset "UTF-8";
+/* 기본 스타일링 */
+
+.like-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.like-button {
+    width: 50px;
+    height: 50px;
+    
+    border: none;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.2s ease-in-out;
+    position: relative;
+}
+
+.like-button:hover {
+    transform: scale(1.1);
+}
+
+.thumbs-up-icon, .thumbs-up-filled-icon {
+    font-size: 24px;
+    color: #3498db;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.thumbs-up-icon {
+    opacity: 1;
+}
+
+.thumbs-up-filled-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+    color: #3498db;
+}
+
+.like-button.liked .thumbs-up-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+    color: #3498db;
+}
+
+.like-button.liked .thumbs-up-filled-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    color: #3498db;
+}
+
+.like-count {
+    font-size: 18px;
+    margin-top: 10px;
+    color: #333;
+}

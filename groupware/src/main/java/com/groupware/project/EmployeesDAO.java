@@ -9,7 +9,15 @@ import org.apache.ibatis.annotations.Mapper;
 public interface EmployeesDAO {
 
 		int login(String userid, String password);
-		ArrayList<EmployeesDTO> getListAll(String userid);
+		ArrayList<EmployeesDTO> getListAll();
+		ArrayList<EmployeesDTO> getList_sort_name();
+		ArrayList<EmployeesDTO> getList_sort_department();
+		ArrayList<EmployeesDTO> getList_sort_position();
+		ArrayList<EmployeesDTO> getList_sort_birthdate();
+		ArrayList<EmployeesDTO> getList_sort_phone();
+		ArrayList<EmployeesDTO> getList_sort_email();
+
+		
 		ArrayList<EmployeesDTO> getListOne(String userid);
 		void insert_addressBook (String Name,String Position ,String Phone, String Email,String Department ,String Company,String CompanyPhone, String CompanyAddress , String Memo ,String Group,String userid );
 		ArrayList<EmployeesDTO> getList(int start, int psize);
@@ -30,10 +38,10 @@ public interface EmployeesDAO {
 		
 		
 		
-
+		int Delete_emp(int addressBookId);
 		int delete_addressBook(int addressBookIds);
 		int getTotal();
-		void updateContact (String Name,String Position ,String Phone, String Email,String Department ,String Company,String CompanyPhone, String CompanyAddress , String Memo ,String Group,int addressBookId );
+		int updateContact (String Name,String Position ,String Phone, String Email,String Department ,String Company,String CompanyPhone, String CompanyAddress , String Memo ,String Group,int addressBookId );
 		void signup(String userid, String password, String name, String departmentID, String position,
 														String bithdate, String phoneNumber, String address, String email, String salary, String profileImg, String hireDate);
 		
@@ -42,4 +50,5 @@ public interface EmployeesDAO {
 //						String phoneNumber, String address, String email, String salary, String filePath, String userid);
 		void editEMP(String name, String departmentID, String position, String phoneNumber, String address,
 				String email, String salary, String fileName, String userid);
+		void selfEdit(String password, String phoneNumber, String address, String email, String userid);
 }

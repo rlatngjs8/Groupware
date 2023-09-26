@@ -56,7 +56,6 @@
         padding: 10px;
         text-align: left;
     }
-
 </style>
 </head>
 <body>
@@ -66,10 +65,12 @@
 <%--     <c:forEach items="${Elist}" var="emp"> --%>
         <div id="image">
         <input type="hidden" id="userid" value="${emp.userid}">
-            <label class="lblclass">
+            <label>
+            <p style="font-weight:bold;">프로필이미지</p>
 <%--             	[${emp.profilePicture}] --%>
                 <img src="/img/${emp.profilePicture}" id="exProfileIMG">
             </label>
+            <p style="font-size:12px">⚠️ 이미지가 제대로 나오지 않는다면 새로고침(f5)를 눌러주세요.</p>
         </div>
         <table>
             <tr>

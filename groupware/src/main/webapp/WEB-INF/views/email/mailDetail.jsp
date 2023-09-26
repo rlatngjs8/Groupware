@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <link href="css/emailCSS.css" rel="stylesheet" type="text/css"/>
 <title>메일</title>
+<%@ include file="../P_header.jsp" %>
 </head>
 <style>
 #rmailTable {width:100%; border-collapse:collapse;}
@@ -13,12 +14,16 @@
 #mailFolder1 {color:black; font-weight:bold;}
 .mailFileContent {cursor:pointer; height:40px; line-height:40px;}
 </style>
-<body>
+<body style="font-size:14px; background-color:white;">
 <div style="display:flex; height: 100%;">
 	<jsp:include page="mailLeftDiv.jsp"></jsp:include>
 	<div id="mDivMain">
 	<!-- 	c:if 처리하기 -->
 	<p id="mailSideTitle">받은메일함</p>
+	<div style="height:28px; padding:10px 0 10px 10px;">
+			&nbsp;&nbsp;&nbsp;<input type=button id="mDelete" class="whiteBtn" value="삭제">
+	</div>
+	<p class="mline"></p>
 	<table id="rmailTable">
 		<tr><td>보낸사람</td><td>${dmail2.name}</td></tr>
 		<tr><td>받은사람</td><td>${dmail.name}</td></tr>
@@ -66,7 +71,6 @@ $(document)
 		$('#mailFileContent3, #mailC3').remove();
 		$('.mailFileName').css({"height":"80px","line-height":"80px"});
 	}
-    
 	//
 	let C1 = $('#mailC1').text();
 	let C2 = $('#mailC2').text();

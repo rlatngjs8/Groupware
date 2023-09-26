@@ -115,7 +115,7 @@ input[type="text"], input[type="email"], input[type="date"], input[type="submit"
 }
 
 img#previewIMG {
-	width: 150px;
+	width: 160px;
 	height: 170px;
 	margin-top: 10px;
 }
@@ -265,7 +265,7 @@ img#previewIMG {
 			<form id="frmsignup" action="/signup" method="post" enctype="multipart/form-data">
 				<!-- 프로필이미지 -->
 				<label class="lblclass">프로필이미지</label> 
-				<img id="previewIMG" src="/img/default_profile.png" alt="미리보기 이미지">
+				<img id="previewIMG" src="/img/default_profile.png" alt="미리보기 이미지" name="defaultIMG">
 				<br>
 				<input type="file" placeholder="프로필이미지" id="profileIMG" name="profileIMG">
 				<!-- 이름 -->
@@ -333,20 +333,6 @@ img#previewIMG {
 	</body>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-
-//파일 업로드 필드의 값이 변경되었을 때 미리보기 이미지 업데이트
-// $('#profileIMG').change(function() {
-//   var input = this;
-//   var reader = new FileReader();
-
-//   reader.onload = function(e) {
-//     $('#previewIMG').attr('src', e.target.result);
-// //     $('#previewIMG').show(); // 이미지를 보이도록 설정
-//   };
-
-//   reader.readAsDataURL(input.files[0]);
-// });
-// ----
 $(document).ready(function() {
   // 페이지 로드 시 이미지 설정
   updatePreviewImage();

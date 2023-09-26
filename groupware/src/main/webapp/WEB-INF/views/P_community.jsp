@@ -98,7 +98,7 @@
                 <span class="post-views-likes">
                 	<span class="post-author">작성자 : ${blist.Name} ${blist.Position}</span><br>
                     <span>조회수: ${blist.Views}</span><br>
-                    <span><img src="/P_img/like.png" style="width:20px;height:20px">좋아요 : ${blist.Likes}</span><br>
+                    <span><img src="/P_img/like.png" style="width:20px;height:20px"> ${blist.Likes}</span><br>
                 </span>
                 <span class="post-time">${blist.CreatedTime}</span>
             </span>
