@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE a.CommunityID=#{param1} 
 	</select>
 	<select id="chklike" resultType="int">
-		SELECT COUNT(*) FROM boardlikes WHERE Employeeid = #{param1} AND communityid = #{param2};
+		SELECT COUNT(*) FROM boardlikes a INNER JOIN employees b ON a.employeeid=b.employeeid WHERE b.userid= #{param1} AND communityid = #{param2};
 	</select>
 
 	<update id="hitup">

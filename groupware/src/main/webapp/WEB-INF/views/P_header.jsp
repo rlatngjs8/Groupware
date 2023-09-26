@@ -226,23 +226,22 @@ body {
       <a href="/"><img src="/P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
       <ul>
         <li>
-          <a href="/"> 홈</a>
+          <a href="/">홈</a>
         </li>
         <li>
           <a href="/contact/company">연락처</a>
         </li>
         <li>
-          <a href="#">메일</a>
           <a href="/mailFolder1">메일</a>
         </li>
         <li>
           <a href="/community">게시판</a>
         </li>
         <li>
-          <a href="#">캘린더</a>
+          <a href="/ko_calendar">캘린더</a>
         </li>
         <li>
-            <a href="#">예약</a>
+            <a href="/ko_reservation">예약</a>
         </li>
         <li>
             <a href="#">근태관리</a>

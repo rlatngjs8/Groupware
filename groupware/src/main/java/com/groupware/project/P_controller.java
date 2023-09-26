@@ -84,14 +84,15 @@ public class P_controller {
 		model.addAttribute("alComment",alComment);
 		model.addAttribute("bpost",bdto);
 		HttpSession session = req.getSession();
-		
 		String writer=(String) session.getAttribute("userid");
 		model.addAttribute("user",writer);
 		int chklike = bdao.chklike(writer,seqno);
-		if (chklike == 1) {
+		if (chklike >= 1) {
 			model.addAttribute("chklike",true);
+			
 		} else {
 			model.addAttribute("chklike",false);
+			
 		}
 		try {
 			if(writer.equals(oriwri)||writer.equals("관리자1")){

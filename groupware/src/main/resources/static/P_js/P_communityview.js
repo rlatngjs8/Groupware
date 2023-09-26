@@ -2,11 +2,13 @@
 $(document)
 .ready(function(){
 	let likeButton = $('#like-button');
-    let isLiked = !$('#chklike').val();
-	if (isLiked) {
+    let isLiked = $('#chklike').val();
+    console.log(isLiked);
+	if (isLiked === 'true') {
         likeButton.addClass('liked');
     } else {
         likeButton.removeClass('liked');
+        
     }
 })
 .on('click', '#btnUpdate', function () {
@@ -104,7 +106,6 @@ $('#like-button').click(function () {
         	EmpId:EmpId
         },
         success: function (data) {
-            //document.location = data; // 페이지 새로고침 또는 리다이렉션
         	console.log(data);
         }
     });
