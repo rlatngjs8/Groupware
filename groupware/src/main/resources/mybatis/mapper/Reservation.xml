@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+				 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupware.project.ReservationDAO">
+<select id="getMeetingrooms" resultType="com.groupware.project.MeetingroomsDTO">
+	select roomID, roomName from meetingrooms
+</select>
+<insert id="reservationMeetingrooms">
+	insert into calendar set calendar_title=#{param1}, calendar_memo=#{param4}, calendar_start=#{param2}, calendar_end=#{param3}, writer=#{param5}, reservation=1
+</insert>
+<insert id="reservations">
+	insert into reservations set RoomID=#{param1}, ReserverEmployeeID=#{param2}, reservationDate=#{param3}, starttime=#{param4}, endtime=#{param5}
+</insert>
+<select id="getTime" resultType="com.groupware.project.ReservationDTO">
+	select ReservationID,RoomID,ReserverEmployeeID,reservationDate,starttime,endtime from reservations where RoomID=#{param1} AND reservationDate=#{param2}
+</select>
+</mapper>
