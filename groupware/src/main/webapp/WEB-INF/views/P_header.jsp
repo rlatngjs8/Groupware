@@ -209,6 +209,7 @@ body {
     	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
     	</div>
     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
+    	<div id="pHedaerEmailAlarm"></div>
     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
     	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
     	<img src="img/${profileIMG}" class="profile">
@@ -218,6 +219,18 @@ body {
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script>
 $(document)
+.ready(function(){
+	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+		success:function(data){
+			console.log("/pHeaderAlarm 성공");
+			console.log(data);
+			$('#pHedaerEmailAlarm').text(data);
+		},
+		error:function(data){
+			alert("/pHeaderAlarm 오류");
+		}
+	});
+})
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();
 	console.log(search);

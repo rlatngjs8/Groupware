@@ -585,4 +585,12 @@ public class MailController implements WebMvcConfigurer {
 		}
 
 	}
+	@PostMapping("/pHeaderAlarm")
+	@ResponseBody
+	public int pHeaderAlarm(HttpServletRequest req, Model model) {
+		HttpSession s = req.getSession();
+		int eid = (Integer) s.getAttribute("empID");
+		int cnt = mdao.selectemailAlarmcnt(eid);
+		return cnt;
+	}
 }
