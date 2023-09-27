@@ -279,6 +279,11 @@ body {
             </ul>
         </li>
         </ul>
+    	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
+    	<div id="pHedaerEmailAlarm"></div>
+    	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
+    	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
+    	<img src="img/${profileIMG}" class="profile">
 	</div>
 	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
@@ -294,6 +299,16 @@ $(document)
 		alert("권한이 없습니다");
 		return false;
 	)
+	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+		success:function(data){
+			console.log("/pHeaderAlarm 성공");
+			console.log(data);
+			$('#pHedaerEmailAlarm').text(data);
+		},
+		error:function(data){
+			alert("/pHeaderAlarm 오류");
+		}
+	});
 })
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();

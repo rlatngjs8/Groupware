@@ -13,14 +13,12 @@
 .mailFileName {height:120px; line-height:120px;}
 .mailFileContent {cursor:pointer; height:40px; line-height:40px; padding-left: 12px; padding-right: 12px;}
 .mailFileContent:hover {background-color:#F2F2F2;}
-#mdSubject {}
 #dmailTable {width:100%; border-collapse:collapse; table-layout: auto; min-width:700px; font-size:13px;}
 #dmailTable td {height:28px; line-height:28px; padding:7px 20px 7px 40px;}
 #dmailTable td:nth-child(1) {width:60px;}
 #dmailTable td:nth-child(2) {padding:7px 20px 7px 0px;}
 /* #dmailTable tr:last-child td:nth-child(1) {border:1px solid lightgray;} */
-.emailbox {width:auto; height: 21px; line-height:21px; border:1px solid #6AB0AD; border-radius:14px; 
-			padding: 3px 5px 3px 6px; margin-left:10px; background-color:rgba(106, 176, 173, 0.1);}
+#emailbox2 {white-space: nowrap;}
 </style>
 <body style="font-size:14px; background-color:white;">
 <div style="display:flex; height: 100%;">
@@ -28,6 +26,8 @@
 	<div id="mDivMain">
 	<!-- 	c:if 처리하기 -->
 	<div id="mailNow" class="divHidden">${rs}</div>
+	<c:if test='${trs=="tS"}'><div id="mailNow2" class="divHidden">tS</div></c:if>
+	<c:if test='${trs=="tR"}'><div id="mailNow2" class="divHidden">tR</div></c:if>
 	<c:if test='${rs=="receive"}'><p id="mailSideTitle">받은메일함</p></c:if>
 	<c:if test='${rs=="send"}'><p id="mailSideTitle">보낸메일함</p></c:if>
 	<c:if test='${rs=="trash"}'><p id="mailSideTitle">휴지통</p></c:if>
@@ -39,9 +39,17 @@
 	<p class="mline"></p>
 	<table id="dmailTable">
 		<tr><td colspan=2 id="mdSubject"><h2 style="margin-bottom:5px;">${dmail.subject}</h2></td></tr>
-		<tr><td style="font-weight:bold;">보낸사람</td><td>${dmail2.name}<label id="emailbox1" class="emailbox">${dmail2.email}</label></td></tr>
-		<tr><td style="font-weight:bold;">받은사람</td><td>${dmail.name}<label id="emailbox2" class="emailbox">${dmail.email}</label></td></tr>
-		<tr><td colspan=2>${date}<div style="padding:7px;"></div><p class="mline"></td></tr>
+		<tr><td style="font-weight:bold;">보낸사람</td><td id="namebox1"><label id="emailbox1" class="emailbox">${dmail2.name} &#60;${dmail2.email}&#62;</label></td></tr>
+		<tr><td style="font-weight:bold;">받은사람</td>
+		<td>
+			<c:if test='${dlist==""}'><label id="emailbox2" class="emailbox">${dmail.name} &#60;${dmail.email}&#62;</label></c:if>
+			<c:if test='${dlist!=""}'>
+			<c:forEach items="${dlist}" var="d">
+				<label id="emailbox2" class="emailbox">${d.name} &#60;${d.email}&#62;</label>
+			</c:forEach>
+			</c:if>
+		</td></tr>
+		<tr><td colspan=2 id="emailDate">${date}<div style="padding:7px;"></div><p class="mline"></td></tr>
 		<tr><td colspan=2 style="padding-top:14px;">
 			<div class="mailFileName">
 <%-- 			<a href="img path" download="download file name></a>  --%>
@@ -107,10 +115,16 @@ $(document)
 .on('click','#mAnswer',function(){
 // 	document.location="/mailWrite2?email="+$('#emailbox1').text();
 	//0925
-	$.ajax({url:'/mdAnswer',data:{emailid:$('#rEmailid').text(),now:$('#mailNow').text()},type:'post',dataType:'text',
+	let name = $('#namebox1').text();
+	let email = $('#emailbox1').text();
+	let email2 = $('#emailbox2').text();
+	let emailDate = $('#emailDate').text();
+	let subject = "Re: "+$('#mdSubject').text();
+	let content = $('#mailDContent').text();
+	$.ajax({url:'/mdAnswer',data:{name:name,email:email,email2:email2,emailDate:emailDate,subject:subject,content:content},type:'post',dataType:'text',
 		success:function(data){
 			console.log("/mdAnswer 성공");	
-			
+			document.location="/mailWrite2";
 		},
 		error:function(data){
 			alert("/mdAnswer 오류");
@@ -119,7 +133,7 @@ $(document)
 })
 .on('click','#mDelete',function(){
 	console.log($('#rEmailid').text());
-	$.ajax({url:'/mdDelete',data:{emailid:$('#rEmailid').text(),now:$('#mailNow').text()},type:'post',dataType:'text',
+	$.ajax({url:'/mdDelete',data:{emailid:$('#rEmailid').text(),now:$('#mailNow').text(),now2:$('#mailNow2').text()},type:'post',dataType:'text',
 		success:function(data){
 			console.log("/mdDelete 성공");	
 			if($('#mailNow').text()=="receive"){
@@ -127,7 +141,7 @@ $(document)
 			} else if($('#mailNow').text()=="send") {
 				document.location="/mailFolder2";
 			} else if($('#mailNow').text()=="trash") {
-				document.location="/mailFolder2";
+				document.location="/trashcanFolder";
 			}
 		},
 		error:function(data){

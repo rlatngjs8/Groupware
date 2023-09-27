@@ -10,13 +10,16 @@ public interface MailDAO {
 	MailDTO selectEmpEmail(String email);
 	int selectEmpEmail2(String email);
 	int insertEmails(String subject,String content,int senderemployeeid,int receiveremployeeid,
-			String attachment1,String attachment2,String attachment3);
+			String attachment1,String attachment2,String attachment3,int multiplesend);
 	ArrayList<MailDTO> selectRecMail(int receiveremployeeid, int limit1, int limit2);
 	ArrayList<MailDTO> selectSendMail(int senderemployeeid, int limit1, int limit2);
 	ArrayList<MailDTO> selectTrashCanMail(int employeeid, int limit1, int limit2);
 
+	int selectemailAlarmcnt(int receiveremployeeid);
 	MailDTO selectDetailMail(int emailid);
 	MailDTO selectSenderName(int emailid);
+	ArrayList<MailDTO> selectmultipleEid(int multiplesend);
+	MailDTO selectmultipleEmail(int employeeid);
 	int selectMaxemailid();
 	void updateEmailReceive0(int emailid);
 	void updateEmailReceive1(int emailid);

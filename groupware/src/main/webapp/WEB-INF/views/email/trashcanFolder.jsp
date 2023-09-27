@@ -34,24 +34,32 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 			<tr>
 				<td class="rMailChk"><input type="checkbox" class="mChk" name="mChk"><div id="rEmailid" class="divHidden">${r.emailid}</div></td>
 				<td class="rMailReadOrNot">
-					<c:if test='${eid==r.senderemployeeid}'>
-						<div class="divHidden emailRS">${r.emailSend}</div>
+					<c:if test='${eid==r.senderemployeeid && eid!=r.receiveremployeeid}'>
+						<div class="divHidden emailRS">${r.emailsend}</div>
 						<div id="emailReadImg">
-							<c:if test='${r.emailSend=="0"}'><img src='mailpageImg/mailIcon0.png'></c:if>
-							<c:if test='${r.emailSend!="0"}'><img src='mailpageImg/mailIcon1.png'></c:if>
+							<c:if test='${r.emailsend=="0"}'><img src='mailpageImg/mailIcon0.png'></c:if>
+							<c:if test='${r.emailsend!="0"}'><img src='mailpageImg/mailIcon1.png'></c:if>
 						</div>
 						<div id="mailNow2" class="divHidden">tS</div>
 					</c:if>
-					<c:if test='${eid==r.receiveremployeeid}'>
-						<div class="divHidden emailRS">${r.emailReceive}</div>
+					<c:if test='${eid==r.receiveremployeeid && eid!=r.senderemployeeid}'>
+						<div class="divHidden emailRS">${r.emailreceive}</div>
 						<div id="emailReadImg">
-							<c:if test='${r.emailReceive=="0"}'><img src='mailpageImg/mailIcon0.png'></c:if>
-							<c:if test='${r.emailReceive!="0"}'><img src='mailpageImg/mailIcon1.png'></c:if>
+							<c:if test='${r.emailreceive=="0"}'><img src='mailpageImg/mailIcon0.png'></c:if>
+							<c:if test='${r.emailreceive!="0"}'><img src='mailpageImg/mailIcon1.png'></c:if>
 						</div>
 						<div id="mailNow2" class="divHidden">tR</div>
 					</c:if>
+					<c:if test='${eid==r.senderemployeeid && eid==r.receiveremployeeid}'>
+						<div class="divHidden emailRS">${r.emailsend}</div>
+						<div id="emailReadImg">
+							<c:if test='${r.emailsend=="0"}'><img src='mailpageImg/mailIcon0.png'></c:if>
+							<c:if test='${r.emailsend!="0"}'><img src='mailpageImg/mailIcon1.png'></c:if>
+						</div>
+						<div id="mailNow2" class="divHidden">tS</div>
+					</c:if>
 				</td>
-				<td id="rMailName">${r.name}</td>
+				<td id="rMailName"><div>${r.name}&#60;${r.email}&#62;</div></td>
 				<td id="rMailTitle">${r.subject}</td>
 				<td class="erSendtime">${r.sendtime}/</td>
 			</tr>
@@ -59,12 +67,15 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 		</table>
 		</c:if>
 		<br>
+		<c:if test='${rlist!=""}'>
 		<div id="mailPageDiv">
 			<div id="mailPno" class="divHidden">${pageno}</div>
 			<div id="mailPcnt" class="divHidden">${pagecnt}</div>
 			<input type=button id="mPrev" class="mFolderBtn2" value="이전">
 			&nbsp;${pagestr}&nbsp;
-			<input type=button id="mNext" class="mFolderBtn2" value="다음"></div>
+			<input type=button id="mNext" class="mFolderBtn2" value="다음">
+		</div>
+		</c:if>
 		<br><br>
 	</div>
 </div>
