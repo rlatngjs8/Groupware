@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,6 +43,39 @@ public class HwanController {
 	public String attendance() {
 		return "attendance_management/attendance";
 	}
+	
+
+	@PostMapping("/insert_checkOut")
+	@ResponseBody
+	public String insert_checkOut(HttpServletRequest req, Model model, HttpSession session) {
+		
+	    String userid = req.getParameter("userid");
+	    String date = req.getParameter("date");
+	    String endTime = req.getParameter("endTime");
+
+	    // 로그 메시지 출력
+	    System.out.println("userid: " + userid);
+	    System.out.println("date: " + date);
+	    System.out.println("endTime: " + endTime);
+
+	    Attdao.insert_checkOut(userid, date, endTime);
+
+	    return "";
+	}
+	
+	@PostMapping("/insert_checkIn")
+	@ResponseBody
+	public String insert_checkIn(HttpServletRequest req, Model model) {
+	    String userid = req.getParameter("userid");
+	    String date = req.getParameter("date");
+	    String startTime = req.getParameter("startTime");
+	    String AttendanceStatus = req.getParameter("AttendanceStatus");
+	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
+	    Attdao.insert_checkIn(userid, date, startTime, AttendanceStatus);
+	    //redirect:/attendance_management/attendance"
+	    return "";
+	}
+	
 
 	@GetMapping("/get_addressBook")
 	@ResponseBody
@@ -213,36 +245,55 @@ public class HwanController {
 	    return "";
 	}
 	
-
-	@PostMapping("/insert_checkOut")
+	@SuppressWarnings("unchecked")
+	@GetMapping("/get_attendance")
 	@ResponseBody
-	public String insert_checkOut(HttpServletRequest req, Model model) {
+	public String get_attendance(HttpServletRequest req, Model model) {
 	    String userid = req.getParameter("userid");
-	    String date = req.getParameter("date");
-	    String endTime = req.getParameter("endTime");
-
-	    // 로그 메시지 출력
-	    System.out.println("userid: " + userid);
-	    System.out.println("date: " + date);
-	    System.out.println("endTime: " + endTime);
-
-	    Attdao.insert_checkOut(userid, date, endTime);
-
-	    return "";
+	    String name = req.getParameter("name");
+	    ArrayList<AttendanceDTO> attendance = null;
+	    
+	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
+	    if ("all".equals(name)) {
+	    	attendance = Attdao.getListAll();
+	    } else if ("name".equals(name)){
+	    	attendance = Attdao.getList_sort_name();
+	    } else if ("department".equals(name)){
+	    	attendance = Attdao.getList_sort_department();
+	    } else if ("date".equals(name)){
+	    	attendance = Attdao.getList_sort_date();
+	    } 
+	    
+	    JSONArray ja = new JSONArray();
+	    for (int i = 0; i < attendance.size(); i++) {
+	        JSONObject jo = new JSONObject();
+	        jo.put("Userid", attendance.get(i).getUserid());
+	        jo.put("name", attendance.get(i).getName());
+	        jo.put("departmentname", attendance.get(i).getDepartmentName()); // 직책 필드 추가
+	        jo.put("date", attendance.get(i).getDate()); // 전화번호 필드 추가
+	        jo.put("attendancestatus", attendance.get(i).getAttendanceStatus()); // 이메일 필드 추가
+	        jo.put("vacationtype", attendance.get(i).getVacationType()); // 부서 필드 추가
+	        jo.put("remarks", attendance.get(i).getRemarks()); // 회사 필드 추가
+	        jo.put("overtimehours", attendance.get(i).getOvertimeHours()); // 회사 전화번호 필드 추가
+	        jo.put("starttime", attendance.get(i).getStartTime()); // 회사 주소 필드 추가
+	        jo.put("endtime", attendance.get(i).getEndTime()); // 메모 필드 추가
+	        jo.put("attendanceid", attendance.get(i).getAttendanceID()); // 그룹 이름 필드 추가
+	        jo.put("employeeid", attendance.get(i).getEmployeeID()); // 작성자 ID 필드 추가
+	        ja.add(jo);
+	    }
+	    return ja.toJSONString();
 	}
 	
-	@PostMapping("/insert_checkIn")
-	@ResponseBody
-	public String insert_checkIn(HttpServletRequest req, Model model) {
-	    String userid = req.getParameter("userid");
-	    String date = req.getParameter("date");
-	    String startTime = req.getParameter("startTime");
-	    String AttendanceStatus = req.getParameter("AttendanceStatus");
-	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
-	    Attdao.insert_checkIn(userid, date, startTime, AttendanceStatus);
-	    //redirect:/attendance_management/attendance"
-	    return "";
+	@GetMapping("/month_time")
+	public String month_time(HttpServletRequest req, Model model) {
+	    ArrayList<AttendanceDTO> month_time = Attdao.month_time();
+	    model.addAttribute("time", month_time);
+
+	    // 원하는 뷰 이름을 반환
+	    return "attendance_management/attendance"; // 뷰 이름은 실제 프로젝트에서 사용하는 뷰의 이름으로 변경해야 합니다.
 	}
+
+	
 
 
 

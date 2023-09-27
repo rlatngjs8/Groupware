@@ -20,7 +20,7 @@
 .sidebar {
 	margin-left: 185px;
     height: 100%;
-    width: 300px;
+    width: 250px;
     position: fixed;
     top: 0;
     left: 0;
@@ -54,21 +54,30 @@
 	  height: 100px; /* 토스트 창의 높이를 조절합니다. */
 	}
 	
-  .main {
-        margin-left: 500px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
-        padding: 20px; /* 콘텐츠 패딩 설정 */
-    }
+            /* 메인 컨테이너 */
+        .main {
+            max-width: 1450px;
+            margin-left: 450px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
+         	margin-top:20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-    .header {
-        text-align: center;
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    .month-navigation {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        /* 헤더 스타일 */
+        .header {
+            text-align: center;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px;
+        }
+        /* 월 네비게이션 스타일 */
+        .month-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
 
     .month-navigation button {
         font-size: 18px;
@@ -90,26 +99,124 @@
         margin-bottom: 20px;
     }
 
-    .attendance-summary div {
-        text-align: center;
-    }
+
+     .attendance-summary div {
+         flex-basis: calc(50% - 10px);
+         background-color: #f0f0f0;
+         padding: 10px;
+         margin: 5px;
+         text-align: center;
+     }
 
     .attendance-summary div span {
         font-weight: bold;
     }
     .weekly-summary {
         text-align: center;
+        margin-top: 20px;
     }
 
-    .weekly-summary h2 {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
 
-    .weekly-summary p {
-        font-size: 16px;
-        margin: 5px 0;
-    }
+     .weekly-summary h2 {
+         background-color: #007BFF;
+         color: #fff;
+         padding: 10px;
+         text-align: center;
+     }
+
+      .weekly-summary p {
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        body {
+  color: #666;
+  font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+th,
+td {
+  padding: 6px 15px;
+}
+th {
+  background: #42444e;
+  color: #fff;
+  text-align: left;
+}
+tr:first-child th:first-child {
+  border-top-left-radius: 6px;
+}
+tr:first-child th:last-child {
+  border-top-right-radius: 6px;
+}
+td {
+  border-right: 1px solid #c6c9cc;
+  border-bottom: 1px solid #c6c9cc;
+}
+td:first-child {
+  border-left: 1px solid #c6c9cc;
+}
+tr:nth-child(even) td {
+  background: #eaeaed;
+}
+tr:last-child td:first-child {
+  border-bottom-left-radius: 6px;
+}
+tr:last-child td:last-child {
+  border-bottom-right-radius: 6px;
+}
+/* CSS를 사용하여 텍스트를 가운데 정렬 */
+th {
+  text-align: center; /* 가운데 정렬 */
+}
+/* CSS를 사용하여 텍스트를 가운데 정렬하고 호버 및 커서 포인터 스타일 추가 */
+th.name-col,
+th.department-col,
+th.date-col {
+  text-align: center; /* 가운데 정렬 */
+  cursor: pointer; /* 커서 포인터 스타일 추가 */
+}
+
+/* 호버 시 적용할 스타일 */
+th.name-col:hover,
+th.department-col:hover,
+th.date-col:hover {
+	background-color: #f0f0f0; /* 밝은 회색 배경색으로 변경 */
+  color: white; /* 텍스트 색상을 흰색으로 변경 */
+}
+
+#pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#pagination a {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #000;
+}
+
+#pagination a:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+/* 버튼 배경색을 초록색(성공)으로 변경 */
+.btn-success {
+  background-color: var(--bs-teal);
+  color: #fff; /* 텍스트 색상 변경 (선택 사항) */
+}
+    
     
     
     </style>
@@ -127,26 +234,23 @@
             <p>주간 누적 근무시간: <span id="weekly_hours">40</span> 시간</p>
      
             <hr>
-      		<button class="btn btn-primary m-2" id="btnCheckIn">출근하기</button>
-			<button class="btn btn-secondary m-2" id="btnCheckOut">퇴근하기</button>
-            <label for="status_select">근무상태 변경:</label>
+      		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
+			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
+<!--             <label for="status_select">근무상태 변경:</label> -->
             
-   <select id="status_select">
+<!--    <select id="status_select">
         <option value="업무상태변경" selected disabled hidden>근무상태변경</option>
         <option value="업무">업무</option>
         <option value="업무종료">업무종료</option>
         <option value="외근">외근</option>
         <option value="출장">출장</option>
         <option value="반차">반차</option>
-    </select>
+    </select> -->
     
         </section>
-		<button class="btn btn-success m-2" id="">Prompt 실행</button>
-		<button class="btn btn-danger m-2" id="toastStart">Toast 실행</button>
-		<button class="btn btn-warning m-2" id="ajaxStart">Ajax 실행 (깃헙 아이디 검색)</button>
 
-        내 근태관리
         <section id="my_attendance_section">
+        <br><br><br><br>
             <h2>내 근태관리</h2>
             <ul>
                 <li><a href="#">내 근태현황</a></li>
@@ -170,15 +274,15 @@
 
 			<div class="attendance-summary">
 	    <div>
-	        <span>이번주 누적:</span>
+	        <span>이번달 누적:</span>
 	        <p>X 시간</p>
 	    </div>
 	    <div>
-	        <span>이번주 초과:</span>
+	        <span>이번달 초과:</span>
 	        <p>Y 시간</p>
 	    </div>
 	    <div>
-	        <span>이번주 잔여:</span>
+	        <span>이번달 잔여:</span>
 	        <p>Z 시간</p>
 	    </div>
 	    <div>
@@ -191,12 +295,36 @@
 	    </div>
 	</div>
 
-        <div class="weekly-summary">
-            <h2>1주차</h2>
-            <p>1주차 근무 시간: C 시간</p>
-            <!-- 다른 주차 정보도 추가하세요 -->
-        </div>
+        
+
+<table>
+  <thead>
+    <tr>
+      <th class="name-col" onclick="sort('name', currentPage)">부서원</th>
+      <th class="department-col" onclick="sort('department', currentPage)">부서명</th>
+      <th class="date-col" onclick="sort('date', currentPage)">날짜</th>
+      <th>출 근</th>
+      <th>퇴 근</th>
+      <th>출결상태</th>
+      <th>휴 가</th>
+    </tr>
+  </thead>
+  <tbody id="attendanceListBody">
+   
+  </tbody>
+
+</table>
+  <div id="pagination"></div>
+
     </main>
+    
+<c:forEach items="${time}" var="item">
+    <input type="hidden" id="start_time" value="${item.startTime}">
+    <input type="hidden" id="end_time" value="${item.endTime}">
+    <input type="hidden" id="date" value="${item.date}">
+</c:forEach>
+
+    
 </body>
      <script>
         $(document).ready(function () {
@@ -204,24 +332,102 @@
             setInterval(updateTime, 1000);
             // 페이지 로드시 초기 시간 업데이트
             updateTime();
-         // 2023년 12월의 첫 날과 마지막 날을 구합니다.
-            const firstDayOfMonth = new Date(2023, 11, 1); // 월은 0부터 시작하므로 12월은 11로 표시합니다.
-            const lastDayOfMonth = new Date(2023, 11, 0);
-
-            // 첫 날의 요일과 마지막 날의 날짜를 가져옵니다.
-            const firstDayOfWeek = firstDayOfMonth.getDay(); // 0 (일요일)부터 6 (토요일)까지입니다.
-            const lastDateOfMonth = lastDayOfMonth.getDate(); // 해당 월의 마지막 날짜를 가져옵니다.
-
-            // 첫 날이 일요일이 아니면 한 주를 더 추가합니다.
-            const additionalWeek = firstDayOfWeek !== 0 ? 1 : 0;
-
-            // 2023년 12월의 총 주 수 계산
-            const totalWeeksInDecember = Math.ceil((lastDateOfMonth + additionalWeek) / 7);
-
-            console.log("2023년 12월은 총 " + totalWeeksInDecember + " 주 있습니다.");
-
         });
+        
+		 // 페이지 로딩 시 초기 데이터 가져오기
+		 $(document).ready(function() {
+		     sort('all', currentPage);
+		     console.log('문서가 로드되었습니다.');
+		 });
+	        $(document).ready(function() {
+/* 	            // 출근 버튼 클릭 시 실행되는 함수
+	            $("#btnCheckIn").click(function() {
+	                // 출근 버튼 비활성화
+	                $(this).prop("disabled", true);
+	                
+	                // 퇴근 버튼 활성화
+	                $("#btnCheckOut").prop("disabled", false);
+	            });
 
+	            // 퇴근 버튼 클릭 시 실행되는 함수
+	            $("#btnCheckOut").click(function() {
+	                // 출근 버튼 비활성화
+	                $("#btnCheckIn").prop("disabled", true);
+	                
+	                // 퇴근 버튼 비활성화
+	                $(this).prop("disabled", true);
+
+	                // 자정에 출근 버튼 초기화
+	                resetButtonsAtMidnight();
+	            });
+
+	            // 페이지 로드 시 버튼 상태 복원
+	            restoreButtonState();
+
+	            // 자정에 버튼 초기화 함수 호출
+	            function resetButtonsAtMidnight() {
+	                const now = new Date();
+	                const midnight = new Date(now);
+	                midnight.setHours(24, 0, 0, 0); // 자정 시간으로 설정
+
+	                const timeUntilMidnight = midnight - now;
+
+	                setTimeout(function() {
+	                    // 출근 버튼 활성화
+	                    $("#btnCheckIn").prop("disabled", false);
+	                    
+	                    // 퇴근 버튼 비활성화
+	                    $("#btnCheckOut").prop("disabled", true);
+
+	                    // 자정 다음 날에도 초기화 함수 호출 (반복)
+	                    resetButtonsAtMidnight();
+	                }, timeUntilMidnight);
+	            }
+
+	            // 로컬 스토리지에서 버튼 상태 복원
+	            function restoreButtonState() {
+	                const attendanceStatus = localStorage.getItem("attendanceStatus");
+	                
+	                if (attendanceStatus === "checkedIn") {
+	                    // 출근 상태인 경우
+	                    // 퇴근 버튼 비활성화
+	                    $("#btnCheckOut").prop("disabled", true);
+	                } else {
+	                    // 기본적으로 출근 버튼 활성화
+	                    $("#btnCheckIn").prop("disabled", false);
+	                }
+	            } */
+	        });
+		 
+		 
+	        
+	        function month_time() {
+	            const userid = $("#userid").val();
+	            $.ajax({
+	                url: '/month_time',
+	                data: { userid: userid }, // 필터 값을 서버로 전송
+	                type: 'get',
+	                dataType: 'json',
+	                success: function(data) {
+	                    console.log('주소록 데이터 불러오기', data);
+	                    const tableBody = $('#attendanceListBody');
+	                    tableBody.empty(); // 기존 데이터를 지웁니다.
+	                    // 데이터가 있는 경우 연락처를 추가
+	                    for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {
+	                        // 데이터를 테이블에 추가하는 코드를 작성하세요.
+	                    }
+	                    // 페이지네이션 업데이트
+	                    updatePagination(data.length);
+	                },
+	                error: function(xhr, status, error) {
+	                    console.error('주소록 데이터 불러오기 에러:', status, error);
+	                    // 에러 처리를 수행할 수 있습니다. 예를 들어, 사용자에게 오류 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+	                }
+	            });
+	        }
+	    	
+	    
+	        
         // 업무시간 퇴근시간 설정
         const workStartTime = new Date();
         workStartTime.setHours(9, 0, 0);
@@ -243,6 +449,14 @@
         var options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
         var dateStr = currentTime.toLocaleDateString('ko-KR', options);
         var dateParts = dateStr.split(' ');
+        
+        var date = $("#date").val();
+   
+		 // 페이지 로딩 시 초기 데이터 가져오기
+		 $(document).ready(function() {
+		     console.log(dateParts[1].replace('.', ''));
+		     console.log("date",date);
+		 });
 
         // 시간 업데이트 함수 정의
         function updateTime() {
@@ -294,74 +508,6 @@
                 });
             });
 
-            $("#promptStart").click(function () {
-                (async () => {
-                    const { value: getName } = await Swal.fire({
-                        title: '당신의 이름을 입력하세요.',
-                        text: '그냥 예시일 뿐이니 정보유출 같은건 없습니다.',
-                        input: 'text',
-                        inputPlaceholder: '이름을 입력..'
-                    })
-
-                    if (getName) {
-                        Swal.fire(`: ${getName}`)
-                    }
-                })()
-            });
-
-            $("#toastStart").click(function () {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'center-center',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-
-                Toast.fire({
-                    icon: 'success',
-                    title: '정상적으로 출근이 완료되었습니다'
-                })
-            });
-
-            $("#ajaxStart").click(function () {
-                Swal.fire({
-                    title: 'Submit your Github username',
-                    input: 'text',
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
-                    showCancelButton: true,
-                    confirmButtonText: 'Look up',
-                    showLoaderOnConfirm: true,
-                    preConfirm: (login) => {
-                        return fetch(`//api.github.com/users/${login}`)
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error(response.statusText)
-                                }
-                                return response.json()
-                            })
-                            .catch(error => {
-                                Swal.showValidationMessage(
-                                    `Request failed: ${error}`
-                                )
-                            })
-                    },
-                    allowOutsideClick: () => !Swal.isLoading()
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: `${result.value.login}'s avatar`,
-                            imageUrl: result.value.avatar_url
-                        })
-                    }
-                })
-            });
         });
 
         function insert_checkIn() {
@@ -436,6 +582,11 @@
                             title: '출근이 완료되었습니다.',
                             text: '오늘도 화이팅.',
                         });
+                        // 출근 버튼 비활성화
+                        $("#btnCheckIn").prop("disabled", true);
+
+                        // 퇴근 버튼 활성화
+                        $("#btnCheckOut").prop("disabled", false);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -504,6 +655,11 @@
                             title: '퇴근이 완료되었습니다.',
                             text: '좋은 하루 보내세요',
                         });
+                        // 출근 버튼 활성화
+                        $("#btnCheckIn").prop("disabled", true);
+
+                        // 퇴근 버튼 비활성화
+                        $("#btnCheckOut").prop("disabled", true);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -516,6 +672,64 @@
                 }
             });
         }
+		 
+		 let currentPage = 1; // 현재 페이지 번호
+		 const perPage = 10; // 한 페이지당 표시할 데이터 수
+
+		 // 페이지 번호를 클릭할 때 호출되는 함수
+		 function changePage(page) {
+		     currentPage = page;
+		     console.log('changePage 함수 호출: 페이지', currentPage);
+		     sort('all',currentPage);
+		 }
+
+		 function sort(name, page) {
+		     console.log('sort 함수 호출: name', name, 'page', page);
+		     $.ajax({
+		         url: '/get_attendance',
+		         data: { name: name, page: page }, // 필터 값을 서버로 전송
+		         type: 'get',
+		         dataType: 'json',
+		         success: function(data) {
+		             console.log('주소록 데이터 불러오기', data);
+		             const tableBody = $('#attendanceListBody');
+		             tableBody.empty(); // 기존 데이터를 지웁니다.
+		                 // 데이터가 있는 경우 연락처를 추가
+		                    for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {
+		                     const newRow = $('<tr>');
+		                     newRow.append('<td id="att_name" style="width: 70px; text-align: center;">' + data[i]['name'] + '</td>');
+		                     newRow.append('<td id="att_departmentname" style="width: 100px; text-align: center;">' + data[i]['departmentname'] + '</td>');
+		                     newRow.append('<td id="att_date" style="width: 100px; text-align: center;">' + data[i]['date'] + '</td>');
+		                     newRow.append('<td id="att_starttime" style="width: 120px; text-align: center;">' + data[i]['starttime'] + '</td>');
+		                     newRow.append('<td id="att_endtime" style="width: 120px; text-align: center;">' + data[i]['endtime'] + '</td>');
+		                     newRow.append('<td id="att_attendancestatus" style="width: 150px; text-align: center;">' + data[i]['attendancestatus'] + '</td>');
+		                     newRow.append('<td id="att_vacationtype" style="width: 100px; text-align: center;">' + (data[i]['vacationtype'] ? data[i]['vacationtype'] : '') + '</td>');
+		                     $('#attendanceListBody').append(newRow);
+		             }
+		             // 페이지네이션 업데이트
+		             updatePagination(data.length);
+		         },
+		         error: function(xhr, status, error) {
+		             console.error('주소록 데이터 불러오기 에러:', status, error);
+		             // 에러 처리를 수행할 수 있습니다. 예를 들어, 사용자에게 오류 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+		         }
+		     });
+		 }
+		 
+		 function updatePagination(totalPage) {
+			    const totalPages = Math.ceil(totalPage / perPage);
+			    let paginationHTML = '';
+
+			    for (let i = 1; i <= totalPages; i++) {
+			        if (i === currentPage) {
+			            paginationHTML += '<span>' + i + '</span>';
+			        } else {
+			        	paginationHTML += "<a href='#' onclick='changePage(" + i + ")'>" + i + "</a>";
+			        }
+			    }
+			    
+			    $("#pagination").html(paginationHTML);
+			}
         
 
         
