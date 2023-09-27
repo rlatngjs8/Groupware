@@ -44,7 +44,7 @@ body {
   position: fixed;
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
-  margin-top : -1%;
+  margin-top : -1.4%;
   margin-left: -1%;
 }
 
@@ -101,7 +101,7 @@ body {
 .side-bar ul > li > a {
   display: block;
   color: white;
-  font-size: 1.4rem;
+  font-size: 17px;
   font-weight: bold;
   padding-top: 12px;
   padding-bottom: 20px;
@@ -232,7 +232,6 @@ body {
           <a href="/contact/company">연락처</a>
         </li>
         <li>
-          <a href="#">메일</a>
           <a href="/mailFolder1">메일</a>
         </li>
         <li>
@@ -251,7 +250,7 @@ body {
             <a href="#">전자결재</a>
         </li>
         <li>
-            <a href="#">자료실</a>
+            <a href="/documentLibrary">자료실</a>
         </li>
         <li>
             <a href="#">문의</a>
@@ -274,7 +273,7 @@ body {
             <ul class="hide">
             	
             	<li><a href="/"> 홈</a></li>
-            	<li><a href="/myinfo">정보수정</a></li>
+            	<li><a href="/myInfo">정보수정</a></li>
                 <li><a href="/logout">로그아웃</a></li>
                 
             </ul>

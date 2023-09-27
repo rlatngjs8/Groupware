@@ -44,7 +44,7 @@ body {
   position: fixed;
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
-  margin-top: -1%;
+  margin-top: -1.4%;
 }
 
 /* 아이콘 시작 */
@@ -100,7 +100,7 @@ body {
 .side-bar ul > li > a {
   display: block;
   color: white;
-  font-size: 1.4rem;
+  font-size: 17px;
   font-weight: bold;
   padding-top: 20px;
   padding-bottom: 20px;

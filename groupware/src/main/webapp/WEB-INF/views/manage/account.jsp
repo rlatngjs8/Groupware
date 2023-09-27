@@ -139,11 +139,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $("#btnBack").click(function(){
-	window.location.href="/manage/showEmployee";
+	window.location.href="/showEmployee";
 })
 $("#btnEdit").click(function(){
 	var userid = $('#userid').val();
-	window.location.href="/manage/editAccount?userid="+userid;
+	window.location.href="/editAccount?userid="+userid;
 })
 </script>
 </html>

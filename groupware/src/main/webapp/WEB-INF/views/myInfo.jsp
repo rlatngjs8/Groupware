@@ -160,10 +160,10 @@
     
     <!-- 모달로 수정만든후에 저장 버튼 누르면 info에 업데이트 -->
     <!-- 로딩 중도 띄워야 함 -->
-	   <div class="modal" id="editSelf">
+	  <div class="modal" id="editSelf">
 			<!-- 인클루드 자리 -->
 				<%@ include file="editSelf.jsp"%>
-			</div>
+		</div>
     
   </div>
 </body>
