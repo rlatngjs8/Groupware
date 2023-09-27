@@ -6,12 +6,18 @@
 	select roomID, roomName from meetingrooms
 </select>
 <insert id="reservationMeetingrooms">
-	insert into calendar set calendar_title=#{param1}, calendar_memo=#{param4}, calendar_start=#{param2}, calendar_end=#{param3}, writer=#{param5}, reservation=1
+	insert into calendar set calendar_title=#{param1}, calendar_memo=#{param4}, calendar_start=#{param2}, calendar_end=#{param3}, writer=#{param5}, reservation=1, connectionID=#{param6}
 </insert>
 <insert id="reservations">
-	insert into reservations set RoomID=#{param1}, ReserverEmployeeID=#{param2}, reservationDate=#{param3}, starttime=#{param4}, endtime=#{param5}
+	insert into reservations set RoomID=#{param1}, ReserverEmployeeID=#{param2}, reservationDate=#{param3}, starttime=#{param4}, endtime=#{param5}, connectionID=#{param6}
 </insert>
 <select id="getTime" resultType="com.groupware.project.ReservationDTO">
-	select ReservationID,RoomID,ReserverEmployeeID,reservationDate,starttime,endtime from reservations where RoomID=#{param1} AND reservationDate=#{param2}
+	select ReservationID,RoomID,ReserverEmployeeID,reservationDate,starttime,endtime,connectionID from reservations where RoomID=#{param1} AND reservationDate=#{param2}
+</select>
+<select id="getReservationDetailsR" resultType="com.groupware.project.ReservationDTO">
+	select ReservationID,RoomID,ReserverEmployeeID,reservationDate,starttime,endtime,connectionID from reservations where connectionID=#{param1}
+</select>
+<select id="getTimeDetails" resultType="com.groupware.project.ReservationDTO">
+	select ReservationID,RoomID,ReserverEmployeeID,reservationDate,starttime,endtime,connectionID from reservations where RoomID=#{param1} AND reservationDate=#{param2} and connectionID!=#{param3}
 </select>
 </mapper>

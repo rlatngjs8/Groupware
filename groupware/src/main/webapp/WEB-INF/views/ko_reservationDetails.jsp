@@ -43,7 +43,7 @@
 								            <!-- 0부터 23까지의 시간 옵션을 생성합니다. -->
 								            <% for (int i=8; i<22; i++) { %>
 								                <% String hour = String.format("%02d", i); %>
-								                <option value="<%= hour %>">T<%= hour %>:00:00</option>
+								                <option value="<%= i %>">T<%= hour %>:00:00</option>
 								            <% } %>
 								        </select> 
 								        <input type="text" id="startHidden" name="startHidden"> ~ 
@@ -52,7 +52,7 @@
 								            <!-- 0부터 23까지의 시간 옵션을 생성합니다. -->
 								            <% for (int i=9; i<23; i++) { %>
 								                <% String hour = String.format("%02d", i); %>
-								                <option value="<%= hour %>">T<%= hour %>:00:00</option>
+								                <option value="<%= i %>">T<%= hour %>:00:00</option>
 								            <% } %>
 								        </select> 
 								        <input type="text" id="endHidden" name="endHidden">
@@ -63,10 +63,10 @@
 					<table class="tbl_tit" style="margin-top: 40px">
 						<tbody>
 							<tr class="contentTr">
-								<td class="content">작성자 :</td><td class="content"><input class="writer" name="writer" type="text" value="${name}" readonly></td>
+								<td class="content">작성자 :</td><td class="content"><input class="writer" name="writer" type="text" value="${getDetailsC.writer}" readonly></td>
 							</tr>
 							<tr class="contentTr">
-								<td class="content">목적 :</td><td><textarea class="contentArea" name="contentArea" required></textarea></td>
+								<td class="content">목적 :</td><td><textarea class="contentArea" name="contentArea" required>${getDetailsC.calendar_memo}</textarea></td>
 							</tr>
 							<tr class="contentTr">
 								<td align="center" colspan="2">
@@ -83,10 +83,140 @@
 </body>
 <script src='https://code.jquery.com/jquery-Latest.js'></script>
 <script>
-console.log(${m1});
 $(document)
+.ready(function(){
+	$("#meetingrooms option:contains(${getDetailsC.calendar_title})").prop("selected",true);	//방 선택
+	$('#roomNameHidden').val($("#meetingrooms option:selected").text());						//선택된 방 이름 히든에 넣기
+	$('#roomIdHidden').val($("#meetingrooms option:selected").val());							//선택된 방 코드 히든에 넣기
+	startDate="${getDetailsC.calendar_start}".substr(0,10);										//날짜값 꺼내기
+	startHour="${getDetailsC.calendar_start}".substr(10,9);										//시작 시간 꺼내기
+	$('#startDate').val(startDate);																//꺼낸 날짜 선택하기
+	$("#startHour option:contains("+startHour+")").prop("selected", true);						//꺼낸 시작 시간 선택하기
+	$('#sHourHidden').val($('#startHour option:selected').val());								//선택된 시간 value 히든에 넣기
+	endHour="${getDetailsC.calendar_end}".substr(10,9);											//끝 시간 꺼내기
+	$("#endHour option:contains("+endHour+")").prop("selected", true);							//꺼낸 끝 시간 선택하기
+	$('#eHourHidden').val($('#endHour option:selected').val());									//선택된 끝 시간의 value 히든에 넣기
+	$('#startHidden').val($('#startDate').val()+$("#startHour option:selected").text());		//선택된 날짜와 시작시간의 값 합쳐서 히든에 넣기
+	$('#endHidden').val($('#startDate').val()+$("#endHour option:selected").text());
+	$.post('/getTimeDetails',{roomId:$('#roomIdHidden').val(), date:$('#startDate').val(), connectionID:"${getDetailsR.connectionID}"},
+			function(data){
+				if(data.length==0){
+					return false;
+				}else{
+					for(let i=0; i<data.length; i++){
+					    $('#startHour option').filter(function() {
+					        return parseInt(this.value) >= parseInt(data[i].starttime) && parseInt(this.value) < parseInt(data[i].endtime);
+					    }).prop('disabled', true); // 시작 시간보다 작거나 같은 옵션을 비활성화합니다.
+					    $('#endHour option').filter(function() {
+					        return parseInt(this.value) > parseInt(data[i].starttime) && parseInt(this.value) <= parseInt(data[i].endtime);
+					    }).prop('disabled', true); // 예약되어 있는 시간은 선택 불가 (끝 시간)
+					    if(parseInt($('#startHour option:selected').val())<parseInt(data[i].endtime)){
+						    $('#endHour option').filter(function() {
+							    	return parseInt(data[i].endtime) < parseInt(this.value);
+							    }).prop('disabled', true);
+					    }
+					}
+				}    
+	},'json');
+})
 .on('click','#btnReservation',function(){	//회의실 예약버튼을 클릭했을 때
 	document.location="/ko_reservation"
+})
+.on('click','#btnCancel',function(){		// 취소 눌렀을 때
+	document.location="/ko_calendar"
+})
+$('#meetingrooms').on('change', function(){				//회의실 변경
+	$('#roomIdHidden').val($("#meetingrooms option:selected").val());
+	$('#roomNameHidden').val($("#meetingrooms option:selected").text());
+	$('#startHour option').prop('disabled', false); // 모든 옵션을 활성화합니다.
+	$('#endHour option').prop('disabled', false); // 모든 옵션을 활성화합니다.
+	$.post('/getTimeDetails',{roomId:$('#roomIdHidden').val(), date:$('#startDate').val(), connectionID:"${getDetailsR.connectionID}"},
+			function(data){
+				if(data.length==0){
+					return false;
+				}else{
+					$('#startHour option').prop('disabled', false); // 모든 옵션을 활성화합니다.
+					$('#endHour option').prop('disabled', false); // 모든 옵션을 활성화합니다.
+					for(let i=0; i<data.length; i++){
+					    $('#startHour option').filter(function() {
+					        return parseInt(this.value) >= parseInt(data[i].starttime) && parseInt(this.value) < parseInt(data[i].endtime);
+					    }).prop('disabled', true); // 예약되어 있는 시간은 선택 불가 (시작시간)
+					    $('#endHour option').filter(function() {
+					        return parseInt(this.value) > parseInt(data[i].starttime) && parseInt(this.value) <= parseInt(data[i].endtime);
+					    }).prop('disabled', true); // 예약되어 있는 시간은 선택 불가 (끝 시간)
+					    if(parseInt($('#startHour option:selected').val())<parseInt(data[i].endtime)){
+						    $('#endHour option').filter(function() {
+							    	return parseInt(data[i].endtime) < parseInt(this.value);
+							    }).prop('disabled', true);
+					    }
+					}
+				}
+	},'json');
+})
+$('#startDate').on('change', function() {		// 시작 날짜 변경했을 때
+    var startDate = $(this).val();
+    $('#startHidden').val(startDate+$("#startHour option:selected").text());
+    $('#endHidden').val(startDate+$("#endHour option:selected").text());
+	$('#startHour option').prop('disabled', false); // 모든 옵션을 활성화합니다.
+	$('#endHour option').prop('disabled', false); // 모든 옵션을 활성화합니다.
+	$.post('/getTime',{roomId:$('#roomIdHidden').val(), date:$('#startDate').val()},
+			function(data){
+				if(data.length==0){
+					return false;
+				}else{
+					for(let i=0; i<data.length; i++){
+					    $('#startHour option').filter(function() {
+					        return parseInt(this.value) >= parseInt(data[i].starttime) && parseInt(this.value) < parseInt(data[i].endtime);
+					    }).prop('disabled', true); // 시작 시간보다 작거나 같은 옵션을 비활성화합니다.
+					    $('#endHour option').filter(function() {
+					        return parseInt(this.value) > parseInt(data[i].starttime) && parseInt(this.value) <= parseInt(data[i].endtime);
+					    }).prop('disabled', true); // 예약되어 있는 시간은 선택 불가 (끝 시간)
+					    if(parseInt($('#startHour option:selected').val())<parseInt(data[i].endtime)){
+						    $('#endHour option').filter(function() {
+							    	return parseInt(data[i].endtime) < parseInt(this.value);
+							    }).prop('disabled', true);
+					    }
+					}
+				}
+			    
+	},'json');
+})
+$('#startHour').on('change', function(){		// 시작 시간 변경했을 때
+	$('#startHidden').val($('#startDate').val()+$("#startHour option:selected").text());
+	var startHour = parseInt($('#startHour').val());	// 선택된 시작 시간을 가져옴
+    $('#endHour option').filter(function() {
+        return parseInt(this.value) <= startHour;
+    }).prop('disabled', true); // 시작 시간보다 작거나 같은 옵션을 비활성화합니다.
+    $("#endHour").val(startHour+1);
+	$('#endHidden').val($('#startDate').val()+$("#endHour option:selected").text());
+	$('#sHourHidden').val($('#startHour option:selected').val());
+	$('#eHourHidden').val($('#endHour option:selected').val());
+	$.post('/getTime',{roomId:$('#roomIdHidden').val(), date:$('#startDate').val()},
+			function(data){
+				if(data.length==0){
+					return false;
+				}else{
+					for(let i=0; i<data.length; i++){
+					    $('#startHour option').filter(function() {
+					        return parseInt(this.value) >= parseInt(data[i].starttime) && parseInt(this.value) < parseInt(data[i].endtime);
+					    }).prop('disabled', true); // 시작 시간보다 작거나 같은 옵션을 비활성화합니다.
+					    $('#endHour option').filter(function() {
+					        return parseInt(this.value) > parseInt(data[i].starttime) && parseInt(this.value) <= parseInt(data[i].endtime);
+					    }).prop('disabled', true); // 예약되어 있는 시간은 선택 불가 (끝 시간)	
+					    if(parseInt($('#startHour option:selected').val())<parseInt(data[i].endtime)){
+					    $('#endHour option').filter(function() {
+						    	return parseInt(data[i].endtime) < parseInt(this.value);
+						    }).prop('disabled', true);
+					    }
+					}
+					
+				}
+			    
+	},'json');
+})
+$('#endHour').on('change', function(){		// 끝 시간 변경했을 때
+	$('#endHidden').val($('#startDate').val()+$("#endHour option:selected").text());
+	$('#eHourHidden').val($('#endHour option:selected').val());
 })
 </script>
 </html>

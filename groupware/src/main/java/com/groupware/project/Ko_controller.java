@@ -1,6 +1,7 @@
 package com.groupware.project;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -42,6 +43,7 @@ public class Ko_controller {
 			jo.put("calendar_end", alCalendar.get(i).calendar_end);
 			jo.put("birthday", alCalendar.get(i).birthday);
 			jo.put("reservation", alCalendar.get(i).reservation);
+			jo.put("connectionID", alCalendar.get(i).connectionID);
 			ja.add(jo);
 		}
 		return ja.toJSONString();
@@ -101,13 +103,16 @@ public class Ko_controller {
 	}
 	@PostMapping("reservationMeetingrooms")		//회의실 예약하기
 	public String reservationMeetingrooms(HttpServletRequest req) {
+		UUID uuid = UUID.randomUUID();
+		String connectionID = uuid.toString();
+		System.out.println(connectionID);
 		HttpSession session = req.getSession(false);
 		String roomName = req.getParameter("roomNameHidden");
 		String start = req.getParameter("startHidden");
 		String end = req.getParameter("endHidden");
 		String writer = req.getParameter("writer");
 		String content = req.getParameter("contentArea");
-		rdao.reservationMeetingrooms(roomName,start,end,content,writer);
+		rdao.reservationMeetingrooms(roomName,start,end,content,writer,connectionID);
 		
 		int roomID = Integer.parseInt(req.getParameter("roomIdHidden"));
 		int reserverEmpID = (int)session.getAttribute("EmpId");
@@ -115,7 +120,7 @@ public class Ko_controller {
 		String startTime = req.getParameter("sHourHidden");
 		String endTime = req.getParameter("eHourHidden");
 		System.out.println(reserverEmpID);
-		rdao.reservations(roomID,reserverEmpID,reservationDate,startTime,endTime);
+		rdao.reservations(roomID,reserverEmpID,reservationDate,startTime,endTime,connectionID);
 		return "ko_calendar";
 	}
 	@PostMapping("/getTime")	//예약된 시간들 체크하기
@@ -140,7 +145,7 @@ public class Ko_controller {
 		return ja.toJSONString();
 	}
 	@GetMapping("ko_reservationDetails")
-	public String ko_reservationDetails(HttpServletRequest req, Model model) {
+	public String ko_reservationDetails(HttpServletRequest req, Model model) {		// 예약 상세페이지로 이동
 		ArrayList<MeetingroomsDTO> alMeetingrooms = rdao.getMeetingrooms();
 		JSONArray ja = new JSONArray();
 		for(int i=0; i<alMeetingrooms.size(); i++) {
@@ -150,8 +155,42 @@ public class Ko_controller {
 			ja.add(jo);			
 		}
 		ja.toJSONString();
-		System.out.println(ja);
 		model.addAttribute("meetingrooms",ja);
+		
+		 String connectionID = req.getParameter("c_no");
+		 System.out.println(connectionID);
+		 
+		 CalendarDTO cdto = cdao.getReservationDetailsC(connectionID);
+		 System.out.println(cdto);
+		 model.addAttribute("getDetailsC",cdto);
+		 
+		 ReservationDTO rdto = rdao.getReservationDetailsR(connectionID);
+		 System.out.println(rdto);
+		 model.addAttribute("getDetailsR", rdto);
+		
 		return "ko_reservationDetails";
+	}
+	@PostMapping("/getTimeDetails")	//예약된 시간들 체크하기
+	@ResponseBody
+	public String getTimeDetails(HttpServletRequest req) {
+		int roomId = Integer.parseInt(req.getParameter("roomId"));
+		String startDate = req.getParameter("date");
+		String connectionID = req.getParameter("connectionID");
+		System.out.println("check:"+roomId+"+"+startDate+"+"+connectionID);
+		ArrayList<ReservationDTO> alReservation = rdao.getTimeDetails(roomId,startDate,connectionID);
+		JSONArray ja = new JSONArray();
+		for(int i=0; i<alReservation.size(); i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("reservationID",alReservation.get(i).reservationID);
+			jo.put("roomID",alReservation.get(i).roomID);
+			jo.put("reserverEmployeeID",alReservation.get(i).reserverEmployeeID);
+			jo.put("reservationDate",alReservation.get(i).reservationDate);
+			jo.put("starttime",alReservation.get(i).starttime);
+			jo.put("endtime",alReservation.get(i).endtime);
+			jo.put("connectionID",alReservation.get(i).connectionID);
+			ja.add(jo);
+		}
+		System.out.println(ja);
+		return ja.toJSONString();
 	}
 }

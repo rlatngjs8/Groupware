@@ -52,14 +52,13 @@ document.addEventListener('DOMContentLoaded', function() {
 				        }
 			      	};
 		 		}else if(item.reservation==1){
-		 			console.log(item.reservation);
 		 			return{
 		 				id: item.calendar_no,
 		 				title: item.calendar_title+" 예약",
 		 				start: item.calendar_start,
 		 				end: item.calendar_end,
 		 				color:"#16a765",
-		 				url: "/ko_reservationDetails"
+		 				url: "/ko_reservationDetails?c_no="+item.connectionID
 		 			};
 		 		}else{
 			      	return {

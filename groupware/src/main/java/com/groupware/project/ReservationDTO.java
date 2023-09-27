@@ -7,6 +7,13 @@ public class ReservationDTO {
 	String reservationDate;
 	String starttime;
 	String endtime;
+	String connectionID;
+	public String getConnectionID() {
+		return connectionID;
+	}
+	public void setConnectionID(String connectionID) {
+		this.connectionID = connectionID;
+	}
 	public int getReservationID() {
 		return reservationID;
 	}

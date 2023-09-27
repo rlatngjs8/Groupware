@@ -9,13 +9,7 @@ public class CalendarDTO {
 	int birthday;
 	int reservation;
 	String writer;
-	public int getReservation() {
-		return reservation;
-	}
-	public void setReservation(int reservation) {
-		this.reservation = reservation;
-	}
-	
+	String connectionID;
 	public int getCalendar_no() {
 		return calendar_no;
 	}
@@ -24,18 +18,6 @@ public class CalendarDTO {
 	}
 	public String getCalendar_title() {
 		return calendar_title;
-	}
-	public int getBirthday() {
-		return birthday;
-	}
-	public void setBirthday(int birthday) {
-		this.birthday = birthday;
-	}
-	public String getWriter() {
-		return writer;
-	}
-	public void setWriter(String writer) {
-		this.writer = writer;
 	}
 	public void setCalendar_title(String calendar_title) {
 		this.calendar_title = calendar_title;
@@ -57,5 +39,29 @@ public class CalendarDTO {
 	}
 	public void setCalendar_end(String calendar_end) {
 		this.calendar_end = calendar_end;
+	}
+	public int getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(int birthday) {
+		this.birthday = birthday;
+	}
+	public int getReservation() {
+		return reservation;
+	}
+	public void setReservation(int reservation) {
+		this.reservation = reservation;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	public String getConnectionID() {
+		return connectionID;
+	}
+	public void setConnectionID(String connectionID) {
+		this.connectionID = connectionID;
 	}
 }

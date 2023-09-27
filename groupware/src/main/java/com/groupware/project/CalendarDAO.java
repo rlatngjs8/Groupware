@@ -12,4 +12,5 @@ public interface CalendarDAO {
 	void planUpdate(int c_num, String title, String start, String end, String content);
 	void planDelete(int c_num);
 	void birthdayToC(String birthday, String birthdate);
+	CalendarDTO getReservationDetailsC(String connectionID);
 }
