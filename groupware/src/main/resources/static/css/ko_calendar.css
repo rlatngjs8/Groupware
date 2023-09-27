@@ -81,3 +81,15 @@ div.fc-daygrid-day-frame:has(a.koreanHoliday){
 .fc .fc-toolbar.fc-header-toolbar {
     margin-bottom: 2.0em;
 }
+.sideBarTbl{
+	margin-top:20px;
+	margin-left : 15px;
+}
+.planTd{
+	width:130px;
+}
+.circle{
+	width:15px; 
+	height:15px; 
+	border-radius:100%
+}

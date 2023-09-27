@@ -45,12 +45,21 @@ document.addEventListener('DOMContentLoaded', function() {
 			          	title: item.calendar_title,
 			          	start: item.calendar_start,
 			          	end: item.calendar_end,
-			          	color: "blue",
+			          	color: "#ffad46",
 				        rrule: {
 				            freq: 'yearly',
 				            dtstart:item.calendar_start
 				        }
 			      	};
+		 		}else if(item.reservation==1){
+		 			return{
+		 				id: item.calendar_no,
+		 				title: item.calendar_title+" 예약",
+		 				start: item.calendar_start,
+		 				end: item.calendar_end,
+		 				color:"#16a765",
+		 				url: "/ko_reservationDetails?c_no="+item.connectionID
+		 			};
 		 		}else{
 			      	return {
 			      		id: item.calendar_no,
@@ -85,6 +94,19 @@ document.addEventListener('DOMContentLoaded', function() {
 		<h2 class="c_title" id="c_title" style="margin-left:15px;">캘린더</h2>
 		<button class="addPlanBtn" id="addPlanBtn">일정등록</button>
 		<button class="addPlanBtn" id="btnReservation">회의실 예약</button>
+		<table class="sideBarTbl">
+			<tbody>
+			<tr>
+				<td class="planTd">일정</td><td><div class="circle" style="background-color:#cd74e6;"></div></td>
+			</tr>
+			<tr>
+				<td class="planTd">직원 생일</td><td><div class="circle" style="background-color:#ffad46;"></div></td>
+			</tr>
+			<tr>
+				<td class="planTd">회의실 예약</td><td><div class="circle" style="background-color:#16a765;"></div></td>
+			</tr>
+			</tbody>
+		</table>
 	</div>
 	<div id='calendar' class="calendar"></div>
 </div>
@@ -94,6 +116,8 @@ $(document)
 .on('click','#addPlanBtn',function(){	//일정등록버튼을 클릭했을 때
 	document.location="/ko_addPlan"
 })
-
+.on('click','#btnReservation',function(){	//회의실 예약버튼을 클릭했을 때
+	document.location="/ko_reservation"
+})
 </script>
 </html>
