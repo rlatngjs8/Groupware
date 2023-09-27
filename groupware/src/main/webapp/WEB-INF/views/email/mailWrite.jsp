@@ -16,7 +16,7 @@
 /* .mInputText {width:99%; border-width: 0 0 1px; border-color: black; outline:none; font-size:14px; */
 /*  			caret-color:#6AB0AD; padding:9px 0 9px 4px;}  */
 /* .mInputText:focus {border-color: #6AB0AD;} */
-.mInputText {width:99%; border-width: 0; oudivInputEmailtline:none; font-size:14px;
+.mInputText {width:99%; border-width: 0; outline:none; font-size:14px;
  			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
 .mInputEmail {width:auto; height:28px; border-width: 0; outline:none; font-size:14px;
  			caret-color:#6AB0AD; padding:9px 0 9px 4px; background-color:transparent;}
@@ -31,12 +31,14 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 .mfx {cursor: pointer;}
 #btnMailSend {width:62px; height:28px; padding: 3px 10px 3px 10px; font-weight:bold; margin-left:40px;}
 #divInputEmail {padding:0; margin: 0;
-			 height:28px;width:99%; border: 1px solid black; border-width: 0 0 1px; font-size:14px; 
+			 height:28px; height: auto; width:99%; border: 1px solid black; border-width: 0 0 1px; font-size:14px; 
 			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
+#divInputEmail:focus-within {border-color: #6AB0AD;}
 .divInputE {height:28px;width:99%; border: 1px solid black; border-width: 0 0 1px; font-size:14px; 
 			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
 .divInputE:focus-within {border-color: #6AB0AD;}
-.ppEmailbox {margin:7px 0 7px 0;}
+.ppEmailbox {margin:7px 0 7px 0; display:inline-block;}
+#emailbox {white-space: nowrap;}
 #emailXBtn {border: 0px; background-color:transparent;}
 </style>
 <body style="font-size:14px; background-color:white;">
@@ -48,7 +50,7 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 		<input type="button" id="btnMailSend" class="whiteBtn" value="보내기">
 		<br><br>
 		<table id="mailTable">
-		<tr><td>받는사람</td><td id=""><div id="divInputEmail"><input type=text autofocus id="mInputEmail" class="mInputEmail" value="${email}"></div></td></tr>
+		<tr><td>받는사람</td><td><div id="divInputEmail"><input type=text autofocus id="mInputEmail" class="mInputEmail" value="${email}"></div></td></tr>
 		<tr><td>제목</td><td><div class="divInputE"><input type=text id="mInputTitle" class="mInputText" value="${subject}"></div></td></tr>
 		<tr><td>파일첨부</td><td><label for="mailFile" id="mFileLabel">파일선택</label><input type=file id="mailFile" class="mInputText" multiple></td></tr>
 <!-- 		<tr><td>파일첨부</td><td><input type=file id="mailFile" class="mInputText" multiple></td></tr> -->
@@ -82,9 +84,10 @@ $(document)
 			$('#mInputEmail').before("<div class='ppEmailbox'><label id='emailbox"+cnt+"' class='emailbox'>"+text+" <input type=button id=emailXBtn value=X></label></div>");
 			$('#mInputEmail').val("");
 			cnt++;
-			let height = 29*cnt;
-			$('#divInputEmail').css("height",height+"px");
-			$('#tdInputEmail').css("height",height+"px");
+			
+// 			let height = 29*cnt;
+// 			$('#divInputEmail').css("height",height+"px");
+// 			$('#tdInputEmail').css("height",height+"px");
 			$('#mInputEmail').focus();
 		}
 	})
@@ -96,9 +99,11 @@ $(document)
 			$('#mInputEmail').before("<div class='ppEmailbox'><label id='emailbox"+cnt+"' class='emailbox'>"+text+" <input type=button id=emailXBtn value=X></label></div>");
 			$('#mInputEmail').val("");
 			cnt++;
-			let height = 29*cnt;
-			$('#divInputEmail').css("height",height+"px");
-			$('#tdInputEmail').css("height",height+"px");
+			console.log($('.ppEmailbox').width());
+// 			console.log($('#mInputEmail').offsetTop);
+// 			let height = 29*cnt;
+// 			$('#divInputEmail').css("height",height+"px");
+// 			$('#tdInputEmail').css("height",height+"px");
 			$('#mInputEmail').focus();
 		}
 	}

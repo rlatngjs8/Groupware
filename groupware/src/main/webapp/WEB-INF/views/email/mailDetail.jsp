@@ -13,12 +13,12 @@
 .mailFileName {height:120px; line-height:120px;}
 .mailFileContent {cursor:pointer; height:40px; line-height:40px; padding-left: 12px; padding-right: 12px;}
 .mailFileContent:hover {background-color:#F2F2F2;}
-#mdSubject {}
 #dmailTable {width:100%; border-collapse:collapse; table-layout: auto; min-width:700px; font-size:13px;}
 #dmailTable td {height:28px; line-height:28px; padding:7px 20px 7px 40px;}
 #dmailTable td:nth-child(1) {width:60px;}
 #dmailTable td:nth-child(2) {padding:7px 20px 7px 0px;}
 /* #dmailTable tr:last-child td:nth-child(1) {border:1px solid lightgray;} */
+#emailbox2 {white-space: nowrap;}
 </style>
 <body style="font-size:14px; background-color:white;">
 <div style="display:flex; height: 100%;">
@@ -37,8 +37,16 @@
 	<p class="mline"></p>
 	<table id="dmailTable">
 		<tr><td colspan=2 id="mdSubject"><h2 style="margin-bottom:5px;">${dmail.subject}</h2></td></tr>
-		<tr><td style="font-weight:bold;">보낸사람</td><td id="namebox1">${dmail2.name}<label id="emailbox1" class="emailbox">${dmail2.email}</label></td></tr>
-		<tr><td style="font-weight:bold;">받은사람</td><td>${dmail.name}<label id="emailbox2" class="emailbox">${dmail.email}</label></td></tr>
+		<tr><td style="font-weight:bold;">보낸사람</td><td id="namebox1"><label id="emailbox1" class="emailbox">${dmail2.name} &#60;${dmail2.email}&#62;</label></td></tr>
+		<tr><td style="font-weight:bold;">받은사람</td>
+		<td>
+			<c:if test='${dlist==""}'><label id="emailbox2" class="emailbox">${dmail.name} &#60;${dmail.email}&#62;</label></c:if>
+			<c:if test='${dlist!=""}'>
+			<c:forEach items="${dlist}" var="d">
+				<label id="emailbox2" class="emailbox">${d.name} &#60;${d.email}&#62;</label>
+			</c:forEach>
+			</c:if>
+		</td></tr>
 		<tr><td colspan=2 id="emailDate">${date}<div style="padding:7px;"></div><p class="mline"></td></tr>
 		<tr><td colspan=2 style="padding-top:14px;">
 			<div class="mailFileName">

@@ -38,19 +38,19 @@ public class MailController implements WebMvcConfigurer {
 	@Autowired
 	private MailDAO mdao;
 	
-//	public static void sessionL(HttpServletRequest req) {
-//		//로그인임시
-//		HttpSession s = req.getSession();
-//		s.setAttribute("empID", 82);
-//		//로그인임시
-//	}
-	public void sessionL(HttpServletRequest req) {
+	public static void sessionL(HttpServletRequest req) {
+		//로그인임시
 		HttpSession s = req.getSession();
-		String userid = (String) s.getAttribute("userid");
-		int eid = mdao.selectEmpid(userid);
-		s.setAttribute("empID", eid);
-//		System.out.println(eid);
+		s.setAttribute("empID", 85);
+		//로그인임시
 	}
+//	public void sessionL(HttpServletRequest req) {
+//		HttpSession s = req.getSession();
+//		String userid = (String) s.getAttribute("userid");
+//		int eid = mdao.selectEmpid(userid);
+//		s.setAttribute("empID", eid);
+////		System.out.println(eid);
+//	}
 	public void page(HttpServletRequest req, Model model) {
 		sessionL(req);
 		HttpSession s = req.getSession();
@@ -354,7 +354,14 @@ public class MailController implements WebMvcConfigurer {
 			MailDTO mdto = mdao.selectEmpEmail(receiverEmail2[i]);
 			//receiver 받는사람 정보//
 			int recID = mdto.getEmployeeid();
-		}		
+			if(receiverEmail2.length==1) {
+				mdao.insertEmails(subject, content, senderEmployeeID, recID,
+						attachment1, attachment2, attachment3,0);
+			} else {
+				mdao.insertEmails(subject, content, senderEmployeeID, recID,
+						attachment1, attachment2, attachment3,eid+1);
+			}
+		}	
 		return "mailFolder1";
 	}
 	@PostMapping("/mailRead")
@@ -495,7 +502,31 @@ public class MailController implements WebMvcConfigurer {
 		int emailid = Integer.parseInt(req.getParameter("eid"));
 //		System.out.println(emailid);
 		MailDTO detailMail = mdao.selectDetailMail(emailid);
-		model.addAttribute("dmail", detailMail);
+		int ms = detailMail.getMultiplesend();
+		
+		ArrayList<MailDTO> multipleEmail2 = new ArrayList<MailDTO>();
+		
+		if(ms!=0) {
+//			System.out.println(ms);
+			ArrayList<MailDTO> multipleEid = mdao.selectmultipleEid(ms);
+//			System.out.println(multipleEid.size());
+			for(int i=0; i<multipleEid.size(); i++) {
+//				System.out.println(multipleEid.get(i).getReceiveremployeeid());
+				int multipleEid2 = multipleEid.get(i).getReceiveremployeeid();
+				MailDTO multipleEmail = mdao.selectmultipleEmail(multipleEid2);
+//				System.out.println(multipleEmail.getName()+multipleEmail.getEmail());
+//				model.addAttribute("mailgetname"+i,multipleEmail.getName());
+//				model.addAttribute("mailgetemail"+i,multipleEmail.getEmail());
+				multipleEmail2.add(multipleEmail);
+			}
+			model.addAttribute("dlist", multipleEmail2);
+//			System.out.println(multipleEmail2.get(0).getName()+multipleEmail2.get(0).getEmail());
+		} else {
+			model.addAttribute("dlist", "");
+			model.addAttribute("dmail", detailMail);
+		}
+//		System.out.println(multipleEmail2.get(0).getName());
+		
 		MailDTO detailMail2 = mdao.selectSenderName(emailid);
 		model.addAttribute("dmail2", detailMail2);
 		String C1 = ""; String C2 = ""; String C3 = "";
