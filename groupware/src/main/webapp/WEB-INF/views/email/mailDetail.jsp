@@ -26,6 +26,8 @@
 	<div id="mDivMain">
 	<!-- 	c:if 처리하기 -->
 	<div id="mailNow" class="divHidden">${rs}</div>
+	<c:if test='${trs=="tS"}'><div id="mailNow2" class="divHidden">tS</div></c:if>
+	<c:if test='${trs=="tR"}'><div id="mailNow2" class="divHidden">tR</div></c:if>
 	<c:if test='${rs=="receive"}'><p id="mailSideTitle">받은메일함</p></c:if>
 	<c:if test='${rs=="send"}'><p id="mailSideTitle">보낸메일함</p></c:if>
 	<c:if test='${rs=="trash"}'><p id="mailSideTitle">휴지통</p></c:if>
@@ -131,7 +133,7 @@ $(document)
 })
 .on('click','#mDelete',function(){
 	console.log($('#rEmailid').text());
-	$.ajax({url:'/mdDelete',data:{emailid:$('#rEmailid').text(),now:$('#mailNow').text()},type:'post',dataType:'text',
+	$.ajax({url:'/mdDelete',data:{emailid:$('#rEmailid').text(),now:$('#mailNow').text(),now2:$('#mailNow2').text()},type:'post',dataType:'text',
 		success:function(data){
 			console.log("/mdDelete 성공");	
 			if($('#mailNow').text()=="receive"){
@@ -139,7 +141,7 @@ $(document)
 			} else if($('#mailNow').text()=="send") {
 				document.location="/mailFolder2";
 			} else if($('#mailNow').text()=="trash") {
-				document.location="/mailFolder2";
+				document.location="/trashcanFolder";
 			}
 		},
 		error:function(data){

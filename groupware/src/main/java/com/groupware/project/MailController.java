@@ -478,6 +478,7 @@ public class MailController implements WebMvcConfigurer {
 	@PostMapping("/mailReadUpdate")
 	@ResponseBody
 	public void mailReadUpdate(HttpServletRequest req, Model model) {
+		HttpSession s = req.getSession();
 		int emailid = Integer.parseInt(req.getParameter("eid"));
 		String now = req.getParameter("now");
 		String now2 = req.getParameter("now2");
@@ -488,9 +489,11 @@ public class MailController implements WebMvcConfigurer {
 			mdao.updateEmailSend1(emailid);
 		} else if (now.equals("trash")) {
 			if (now2.equals("tR")) {
-				mdao.updateEmailReceive1(emailid);	
+				mdao.updateEmailReceive1(emailid);
+				s.setAttribute("trs", "tR");
 			} else if (now2.equals("tS")) {
 				mdao.updateEmailSend1(emailid);	
+				s.setAttribute("trs", "tS");
 			}
 		} 
 
@@ -570,6 +573,8 @@ public class MailController implements WebMvcConfigurer {
         model.addAttribute("date",stime+" ("+down+") "+time);
         String rs = (String) s.getAttribute("rs");
         model.addAttribute("rs",rs);
+        String trs = (String) s.getAttribute("trs");
+        model.addAttribute("trs",trs);
         
 		return "email/mailDetail";
 	}
@@ -578,11 +583,22 @@ public class MailController implements WebMvcConfigurer {
 	public void mdDelete(HttpServletRequest req, Model model) {
 		int emailid = Integer.parseInt(req.getParameter("emailid"));
 		String now = req.getParameter("now");
+		String now2 = req.getParameter("now2");
 		if (now.equals("receive")) {
 			mdao.updateEmailReceive2(emailid);	
 		} else if (now.equals("send")) {
 			mdao.updateEmailSend2(emailid);	
-		}
+		} else if (now.equals("trash")) {
+			if (now2.equals("tR")) {
+//				System.out.println("tR실행");
+				mdao.updateEmailReceive3(emailid);	
+				model.addAttribute("trs","");
+			} else if (now2.equals("tS")) {
+//				System.out.println("tS실행");
+				mdao.updateEmailSend3(emailid);	
+				model.addAttribute("trs","");
+			}
+		} 
 
 	}
 	@PostMapping("/pHeaderAlarm")
