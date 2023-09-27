@@ -26,5 +26,13 @@ public interface P_BoardDAO {
 	void undolike(int seqno, int empID);
 	void deletelike(int seqno);
 	ArrayList<P_BoardDTO> getsearch(int start, int psize, String search);
+	ArrayList<P_BoardDTO> getalist(int start, int psize);
+	int getaTotal();
+	int saveapost(String title, String content, int empId);
+	P_BoardDTO aview(int seqno);
+	void updateaBoard(int seqno, String title, String content);
+	void deleteaBoard(int seqno);
+	void ahitup(int seqno);
+	ArrayList<P_BoardDTO> getasearch(int start, int psize, String search);
 		
 }

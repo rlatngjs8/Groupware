@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,8 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class P_controller {
+	@Value("${image.upload.directory}")
+	private String imageUploadDirectory;
 	@Autowired
 	private P_BoardDAO bdao;
 	@SuppressWarnings("unchecked")
@@ -93,7 +96,7 @@ public class P_controller {
 			if(pno==i) {
 				pagestr += i+"&nbsp;";
 			}else {
-				pagestr+="<a href='/community?pageno="+i+"'>"+i+"</a>&nbsp;";
+				pagestr+="<a href='/doboardsearch?search="+i+"'>"+i+"</a>&nbsp;";
 			}
 		}
 		model.addAttribute("pagestr",pagestr);
@@ -215,5 +218,142 @@ public class P_controller {
 		int EmpID= (int) session.getAttribute("EmpId");
 		bdao.undolike(seqno,EmpID);
 		return "0";
+	}
+	@GetMapping("/announcement")
+	public String announcement(HttpServletRequest req,Model model) {
+		int start,psize;
+		String page = req.getParameter("pageno");
+		if(page==null || page.equals("")) {
+			page="1";
+		}
+		int pno=Integer.parseInt(page);
+		start = (pno-1)*10;
+		psize = 10;
+		ArrayList<P_BoardDTO> alBoard=bdao.getalist(start, psize);
+		JSONArray ja = new JSONArray();
+		for(int i=0; i<alBoard.size();i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("CommunityID", alBoard.get(i).getCommunityID());
+			jo.put("CommunityTitle", alBoard.get(i).getCommunityTitle());
+			jo.put("Name", alBoard.get(i).getName());
+			jo.put("Position", alBoard.get(i).getPosition());
+			jo.put("Content", alBoard.get(i).getContent());
+			jo.put("Views", alBoard.get(i).getViews());
+			jo.put("CreatedTime", alBoard.get(i).getCreatedTime());
+			ja.add(jo);
+		}
+		ja.toJSONString();
+		int cnt=bdao.getaTotal();
+		int pagecount = (int) Math.ceil(cnt/10.0);
+		String pagestr="";
+		for(int i=1; i<=pagecount;i++) {
+			if(pno==i) {
+				pagestr += i+"&nbsp;";
+			}else {
+				pagestr+="<a href='/announcement?pageno="+i+"'>"+i+"</a>&nbsp;";
+			}
+		}
+		model.addAttribute("pagestr",pagestr);
+		model.addAttribute("blist",ja);
+		return "P_announcement";
+	}
+	@GetMapping("/announcement_write")
+	public String announcementwrite(HttpServletRequest req,Model model) {
+		return "P_announcement_write";
+	}
+	@PostMapping("/announcement_savepost")
+	@ResponseBody
+	public String announcementsavepost(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		int EmpId=(int) session.getAttribute("EmpId");
+		String title=req.getParameter("title");
+		String content=req.getParameter("content");
+		bdao.saveapost(title, content, EmpId);
+		return "/announcement";
+	}
+	@GetMapping("/announcement_view")
+	public String announcementviewpost(HttpServletRequest req,Model model) {
+		int seqno = Integer.parseInt(req.getParameter("seqno"));
+		P_BoardDTO bdto = bdao.aview(seqno);
+		String oriwri=bdto.getUserid();
+		bdao.ahitup(seqno);
+		model.addAttribute("bpost",bdto);
+		HttpSession session = req.getSession();
+		String writer=(String) session.getAttribute("userid");
+		model.addAttribute("user",writer);
+		try {
+			if(writer.equals(oriwri)||writer.equals("관리자1")){
+				model.addAttribute("modidel","<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
+				return "P_announcement_view";
+			}else {
+				model.addAttribute("modidel","");
+				return "P_announcement_view";
+			}
+		} catch(Exception e) {
+			model.addAttribute("modidel","");
+			return "P_announcement_view";
+		}
+	}
+	@GetMapping("/announcement_view_update")
+	public String updateannouncement(HttpServletRequest req,Model model) {
+		int seqno= Integer.parseInt(req.getParameter("seq"));
+		P_BoardDTO bdto = bdao.aview(seqno);
+		model.addAttribute("bpost",bdto);
+		return "P_announcement_update";
+	}
+	@PostMapping("/updateapost")
+	@ResponseBody
+	public String updateapost(HttpServletRequest req,Model model) {
+		int seqno= Integer.parseInt(req.getParameter("seq"));
+		String title=req.getParameter("title");
+		String content=req.getParameter("content");
+		bdao.updateaBoard(seqno,title,content);
+		return "/announcement_view?seqno="+seqno;
+	}
+	@GetMapping("/deleteapost")
+	public String deleteapost(HttpServletRequest req,Model model) {
+		int seqno= Integer.parseInt(req.getParameter("seq"));
+		bdao.deleteaBoard(seqno);
+		return "/announcement";
+	}
+	@GetMapping("/doaboardsearch")
+	@SuppressWarnings("unchecked")
+	public String dobaoardsearch(HttpServletRequest req,Model model) {
+		String search = req.getParameter("search");
+		int start,psize;
+		String page = req.getParameter("pageno");
+		if(page==null || page.equals("")) {
+			page="1";
+		}
+		int pno=Integer.parseInt(page);
+		start = (pno-1)*10;
+		psize = 10;
+		ArrayList<P_BoardDTO> alBoard=bdao.getasearch(start, psize,search);
+		JSONArray ja = new JSONArray();
+		for(int i=0; i<alBoard.size();i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("CommunityID", alBoard.get(i).getCommunityID());
+			jo.put("CommunityTitle", alBoard.get(i).getCommunityTitle());
+			jo.put("Name", alBoard.get(i).getName());
+			jo.put("Position", alBoard.get(i).getPosition());
+			jo.put("Content", alBoard.get(i).getContent());
+			jo.put("Views", alBoard.get(i).getViews());
+			jo.put("CreatedTime", alBoard.get(i).getCreatedTime());
+			ja.add(jo);
+		}
+		ja.toJSONString();
+		int cnt=bdao.getaTotal();
+		int pagecount = (int) Math.ceil(cnt/10.0);
+		String pagestr="";
+		for(int i=1; i<=pagecount;i++) {
+			if(pno==i) {
+				pagestr += i+"&nbsp;";
+			}else {
+				pagestr+="<a href='/doaboardsearch?search="+i+"'>"+i+"</a>&nbsp;";
+			}
+		}
+		model.addAttribute("pagestr",pagestr);
+		model.addAttribute("blist",ja);
+		return "P_announcement";
 	}
 }

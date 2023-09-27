@@ -265,8 +265,8 @@ body {
     	<div class="search-bar">
     	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button" ><img src="P_img/free-icon-magnifier-71403.png"></button>
     	</div>
-    	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  
+    	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
+    	<a href="#"><img src="/P_img/bell.png" alt="공지"></a>  
     	<ul>
         <li class="menu">
             <img src="img/${profileIMG}" class="profile">
@@ -280,12 +280,21 @@ body {
         </li>
         </ul>
 	</div>
+	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
 
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script>
 
-$(document)	 
+$(document)
+.ready(function(){
+	let sessionid = $("#sessionid").val()
+	console.log($("#sessionid").val())
+	if(sessionid == null || sessionid == ""{}
+		alert("권한이 없습니다");
+		return false;
+	)
+})
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();
 	console.log(search);

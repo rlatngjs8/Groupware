@@ -90,21 +90,21 @@
 <body>
 
 <div class="page-side">
-    <h1>게시판</h1>
+    <h1>자유 게시판</h1>
     <a href='/community_write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
-<!--     <div>
-        <a href='/#'>아이디어 공유</a><br>
-        <a href='/#'>휴가</a><br>
-        <a href='/#	'>프로젝트</a><br>
-    </div> -->
+	<div>
+        <a href='/announcement'>공지사항</a><br>
+        <a href='/community'>자유게시판</a>
+    </div>
 </div>
 <div class="Main_Content">
 <div class="board-search-bar">
 <input type="text" placeholder="게시판 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
 </div>
+<ul>
 <c:forEach items="${blist}" var="blist">
-	<div class="post-container">
-	<a href="/community_view?seqno=${blist.CommunityID}">
+	<li class="post-container">
+	<div onclick="location.href='/community_view?seqno=${blist.CommunityID}';" style=" cursor: pointer;">
             <span class="post-title">${blist.CommunityTitle}</span><br><br>
             <span class="post-content">${blist.Content}</span><br><br>
             <span class="post-info">
@@ -115,13 +115,14 @@
                 </span>
                 <span class="post-time">${blist.CreatedTime}</span>
             </span>
-            </a>
-        </div>
+            </div>
+        </li>
 </c:forEach>
+</ul>
 <div class="board-search-bar">
 <input type="text" placeholder="게시판 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
 </div>
-<div style="margin-left:auto;margin-right:auto;text-align:center">${pagestr}</div>
+<div style="margin-left:auto;margin-right:auto;text-align:center;font-size: x-large">${pagestr}</div>
 </div>
 </body>
 <script>
