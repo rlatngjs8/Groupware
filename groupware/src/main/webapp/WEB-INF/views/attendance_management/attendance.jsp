@@ -223,6 +223,8 @@ th.date-col:hover {
 <body>
 <%@ include file="/WEB-INF/views/P_header.jsp" %>
 <input type="hidden" id="user_id" value="${sessionScope.userid}">
+<input type="hidden" id="user_name" value="${name}">
+
     <aside>
 			<div class="sidebar">
   <section id="attendance_section">
@@ -267,15 +269,16 @@ th.date-col:hover {
         </div>
 
         <div class="month-navigation">
-            <button>&lt;</button>
-            <span>2023년 9월</span>
-            <button>&gt;</button>
+            <button id="prevMonthButton">&lt;</button>
+            <span id="current_month"></span>
+            
+            <button id="nextMonthButton">&gt;</button>
         </div>
 
 			<div class="attendance-summary">
 	    <div>
 	        <span>이번달 누적:</span>
-	        <p>X 시간</p>
+	        <p id="accumulated_time"></p>
 	    </div>
 	    <div>
 	        <span>이번달 초과:</span>
@@ -283,7 +286,7 @@ th.date-col:hover {
 	    </div>
 	    <div>
 	        <span>이번달 잔여:</span>
-	        <p>Z 시간</p>
+	        <p id="remaining_time">Z 시간</p>
 	    </div>
 	    <div>
 	        <span>이번달 누적:</span>
@@ -294,6 +297,7 @@ th.date-col:hover {
 	        <p>B 시간</p>
 	    </div>
 	</div>
+
 
         
 
@@ -327,76 +331,64 @@ th.date-col:hover {
     
 </body>
      <script>
+     
         $(document).ready(function () {
             // 1초마다 updateTime 함수를 호출하여 시간 업데이트
             setInterval(updateTime, 1000);
             // 페이지 로드시 초기 시간 업데이트
             updateTime();
+            console.log("안녕",  $("#user_name").val() );
         });
         
-		 // 페이지 로딩 시 초기 데이터 가져오기
-		 $(document).ready(function() {
-		     sort('all', currentPage);
-		     console.log('문서가 로드되었습니다.');
-		 });
+        $(document).ready(function() {
+            var currentMonth = new Date().getMonth() + 1; // 현재 월 (1월은 0, 12월은 11)
+            var currentYear = new Date().getFullYear(); // 현재 년도
+
+            // 월 레이블 업데이트 함수
+            function updateMonthLabel(year, month) {
+                // 월을 두 자리 숫자로 표시하도록 수정
+                var formattedMonth = month.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+                $("#current_month").text(year + "년 " + formattedMonth + "월");
+            }
+
+            // 이전 달로 이동하는 함수
+            function goToPreviousMonth() {
+                if (currentMonth === 1) {
+                    currentMonth = 12;
+                    currentYear--;
+                } else {
+                    currentMonth--;
+                }
+                updateMonthLabel(currentYear, currentMonth);
+                sort('all', currentPage);
+            }
+
+            // 다음 달로 이동하는 함수
+            function goToNextMonth() {
+                if (currentMonth === 12) {
+                    currentMonth = 1;
+                    currentYear++;
+                } else {
+                    currentMonth++;
+                }
+                updateMonthLabel(currentYear, currentMonth);
+                sort('all', currentPage);
+            }
+
+            // 이전 달 버튼 클릭 이벤트
+            $("#prevMonthButton").click(goToPreviousMonth);
+
+            // 다음 달 버튼 클릭 이벤트
+            $("#nextMonthButton").click(goToNextMonth);
+
+            // 초기 월 레이블 설정
+            updateMonthLabel(currentYear, currentMonth);
+        });
+
+		 
+		 
 	        $(document).ready(function() {
-/* 	            // 출근 버튼 클릭 시 실행되는 함수
-	            $("#btnCheckIn").click(function() {
-	                // 출근 버튼 비활성화
-	                $(this).prop("disabled", true);
-	                
-	                // 퇴근 버튼 활성화
-	                $("#btnCheckOut").prop("disabled", false);
-	            });
-
-	            // 퇴근 버튼 클릭 시 실행되는 함수
-	            $("#btnCheckOut").click(function() {
-	                // 출근 버튼 비활성화
-	                $("#btnCheckIn").prop("disabled", true);
-	                
-	                // 퇴근 버튼 비활성화
-	                $(this).prop("disabled", true);
-
-	                // 자정에 출근 버튼 초기화
-	                resetButtonsAtMidnight();
-	            });
-
-	            // 페이지 로드 시 버튼 상태 복원
-	            restoreButtonState();
-
-	            // 자정에 버튼 초기화 함수 호출
-	            function resetButtonsAtMidnight() {
-	                const now = new Date();
-	                const midnight = new Date(now);
-	                midnight.setHours(24, 0, 0, 0); // 자정 시간으로 설정
-
-	                const timeUntilMidnight = midnight - now;
-
-	                setTimeout(function() {
-	                    // 출근 버튼 활성화
-	                    $("#btnCheckIn").prop("disabled", false);
-	                    
-	                    // 퇴근 버튼 비활성화
-	                    $("#btnCheckOut").prop("disabled", true);
-
-	                    // 자정 다음 날에도 초기화 함수 호출 (반복)
-	                    resetButtonsAtMidnight();
-	                }, timeUntilMidnight);
-	            }
-
-	            // 로컬 스토리지에서 버튼 상태 복원
-	            function restoreButtonState() {
-	                const attendanceStatus = localStorage.getItem("attendanceStatus");
-	                
-	                if (attendanceStatus === "checkedIn") {
-	                    // 출근 상태인 경우
-	                    // 퇴근 버튼 비활성화
-	                    $("#btnCheckOut").prop("disabled", true);
-	                } else {
-	                    // 기본적으로 출근 버튼 활성화
-	                    $("#btnCheckIn").prop("disabled", false);
-	                }
-	            } */
+ 	           sort('all',currentPage);
 	        });
 		 
 		 
@@ -452,11 +444,6 @@ th.date-col:hover {
         
         var date = $("#date").val();
    
-		 // 페이지 로딩 시 초기 데이터 가져오기
-		 $(document).ready(function() {
-		     console.log(dateParts[1].replace('.', ''));
-		     console.log("date",date);
-		 });
 
         // 시간 업데이트 함수 정의
         function updateTime() {
@@ -682,20 +669,81 @@ th.date-col:hover {
 		     console.log('changePage 함수 호출: 페이지', currentPage);
 		     sort('all',currentPage);
 		 }
-
+		// 월 보내서 월단위로 체크하기 .
 		 function sort(name, page) {
 		     console.log('sort 함수 호출: name', name, 'page', page);
+		     // <span> 요소의 텍스트 가져오기
+		     var fullText = $('#current_month').text();
+
+		     // 문자열에서 숫자 추출하기 (정규식 사용)
+		     var matches = fullText.match(/\d+/g);
+			 console.log(matches)
+		     var month = matches[1];
+			 var year = matches[0];
+			 let totalSeconds = 0; // 누적 시간을 초로 저장하는 변수
+		     // 콘솔에 출력
+		     console.log("이번년", year); // 출력 결과: 이번달 10
 		     $.ajax({
 		         url: '/get_attendance',
-		         data: { name: name, page: page }, // 필터 값을 서버로 전송
+		         data: { name: name, page: page, month: month, year: year}, // 필터 값을 서버로 전송
 		         type: 'get',
 		         dataType: 'json',
 		         success: function(data) {
 		             console.log('주소록 데이터 불러오기', data);
 		             const tableBody = $('#attendanceListBody');
 		             tableBody.empty(); // 기존 데이터를 지웁니다.
-		                 // 데이터가 있는 경우 연락처를 추가
-		                    for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {
+		             let totalSeconds = 0; // 누적 시간을 초로 저장하는 변수
+
+		          // 데이터 반복 처리
+		          data.forEach(item => {
+				    if (item['name'] === $('#user_name').val()) {
+				        const startTimeString = item['starttime'];
+				        const endTimeString = item['endtime'];
+				
+				        const startTimeArray = startTimeString.split(':');
+				        const endTimeArray = endTimeString.split(':');
+				
+				        const startHour = parseInt(startTimeArray[0], 10);
+				        const startMinute = parseInt(startTimeArray[1], 10);
+				        const startSecond = parseInt(startTimeArray[2], 10);
+				        const endHour = parseInt(endTimeArray[0], 10);
+				        const endMinute = parseInt(endTimeArray[1], 10);
+				        const endSecond = parseInt(endTimeArray[2], 10);
+				
+				        const startTimeInSeconds = startHour * 3600 + startMinute * 60 + startSecond;
+				        const endTimeInSeconds = endHour * 3600 + endMinute * 60 + endSecond;
+				
+				        const diffInSeconds = endTimeInSeconds - startTimeInSeconds;
+				
+				        console.log('시작 시간 (초):', startTimeInSeconds);
+				        console.log('종료 시간 (초):', endTimeInSeconds);
+				        console.log('차이 (초):', diffInSeconds);
+				
+				        totalSeconds += diffInSeconds;
+				    }
+				});
+
+		       // 전체 누적 시간을 시, 분, 초로 변환
+		          const accumulatedHours = Math.floor(totalSeconds / 3600);
+		          const remainingSeconds = totalSeconds % 3600;
+		          const accumulatedMinutes = Math.floor(remainingSeconds / 60);
+		          const accumulatedSeconds = remainingSeconds % 60;
+
+		          // 시, 분, 초를 두 자리수로 포맷팅하여 문자열로 합치기
+		          const totalFormattedTime =
+		              ('00' + accumulatedHours).slice(-2) + ':' +
+		              ('00' + accumulatedMinutes).slice(-2) + ':' +
+		              ('00' + accumulatedSeconds).slice(-2);
+
+		          // 결과를 업데이트
+		          $('#accumulated_time').text(totalFormattedTime);         
+		             
+		             if (data.length === 0) {
+		                 const noDataMessage = $('<tr>');
+		                 noDataMessage.append('<td colspan="7" style="text-align: center;">출근 데이터가 없습니다</td>');
+		                 tableBody.append(noDataMessage);
+		             } else {
+		                 for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {
 		                     const newRow = $('<tr>');
 		                     newRow.append('<td id="att_name" style="width: 70px; text-align: center;">' + data[i]['name'] + '</td>');
 		                     newRow.append('<td id="att_departmentname" style="width: 100px; text-align: center;">' + data[i]['departmentname'] + '</td>');
@@ -705,6 +753,7 @@ th.date-col:hover {
 		                     newRow.append('<td id="att_attendancestatus" style="width: 150px; text-align: center;">' + data[i]['attendancestatus'] + '</td>');
 		                     newRow.append('<td id="att_vacationtype" style="width: 100px; text-align: center;">' + (data[i]['vacationtype'] ? data[i]['vacationtype'] : '') + '</td>');
 		                     $('#attendanceListBody').append(newRow);
+		                 }
 		             }
 		             // 페이지네이션 업데이트
 		             updatePagination(data.length);
@@ -730,7 +779,67 @@ th.date-col:hover {
 			    
 			    $("#pagination").html(paginationHTML);
 			}
-        
+		 
+		// 주어진 연도와 월에 대해 공휴일과 주말을 고려한 총 근무일 수를 계산하는 함수
+		 function calculateWorkingDays(year, month) {
+		     // 해당 월의 첫 날과 마지막 날을 구합니다.
+		     const firstDay = new Date(year, month - 1, 1);
+		     const lastDay = new Date(year, month, 0);
+
+		     let workingDays = 0;
+
+		     // 각 날짜를 확인하여 주말(토요일: 6, 일요일: 0)과 공휴일을 제외한 날을 카운트합니다.
+		     for (let day = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {
+		         const dayOfWeek = day.getDay();
+		         // 주말과 공휴일(공휴일 목록을 알고 있다면 여기에서 체크)을 제외합니다.
+		         if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+		             workingDays++;
+		         }
+		     }
+			 console.log("아으", workingDays);
+		     return workingDays;
+		 }
+		 
+		 $(document).ready(function() {
+			    var fullText = $('#current_month').text();
+			    var matches = fullText.match(/\d+/g);
+			    var year = parseInt(matches[0]);
+			    var month = parseInt(matches[1]);
+			    const workingDays = calculateWorkingDays(year, month);
+			    const hoursPerDay = 8;
+			    const totalWorkingHours = workingDays * hoursPerDay;
+
+			    // 현재까지의 누적 근무시간 (예: 초로 변환된 시간)
+			    var accumulatedTimeText = $("#accumulated_time").text();
+			    console.log("바보", accumulatedTimeText);
+			    const accumulatedTimeArray = accumulatedTimeText.split(':'); // 예상 포맷: 'xx:xx:xx'
+			    console.log("안녕하세요", accumulatedTimeArray);
+			    const accumulatedHours = parseInt(accumulatedTimeArray[0], 10);
+			    const accumulatedMinutes = parseInt(accumulatedTimeArray[1], 10);
+			    const accumulatedSeconds = parseInt(accumulatedTimeArray[2], 10);
+
+			    // 누적 시간을 초로 변환
+			    const accumulatedTimeInSeconds = accumulatedHours * 3600 + accumulatedMinutes * 60 + accumulatedSeconds;
+
+			    // 남은 시간 계산
+			    const remainingSeconds = totalWorkingHours * 3600 - accumulatedTimeInSeconds;
+			    const remainingFormattedHours = Math.floor(remainingSeconds / 3600);
+			    const remainingFormattedMinutes = Math.floor((remainingSeconds % 3600) / 60);
+			    const remainingFormattedSeconds = remainingSeconds % 60;
+			    
+			    const remainingFormattedTime = (remainingFormattedHours < 10 ? '0' : '') + remainingFormattedHours + ':' +
+			        (remainingFormattedMinutes < 10 ? '0' : '') + remainingFormattedMinutes + ':' +
+			        (remainingFormattedSeconds < 10 ? '0' : '') + remainingFormattedSeconds;
+
+			    console.log('남은 시간 (초):', remainingSeconds);
+			    console.log('남은 시간 (시간):', remainingFormattedHours);
+			    console.log('남은 시간 (분):', remainingFormattedMinutes);
+			    console.log('남은 시간 (초):', remainingFormattedSeconds);
+
+			    $('#remaining_time').text('남은 근무 시간: ' + remainingFormattedTime);
+			});
+
+
 
         
     </script>

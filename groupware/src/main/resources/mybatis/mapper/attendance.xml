@@ -27,17 +27,29 @@ WHERE userid = #{param1} AND date = #{param2};
 </update>
 
 <select id="getListAll">
-SELECT employees.*, attendance.AttendanceID, attendance.Date, attendance.StartTime, attendance.EndTime, attendance.AttendanceStatus, attendance.OvertimeHours, attendance.VacationType, attendance.Remarks, departments.DepartmentName
-FROM employees
-INNER JOIN attendance ON employees.Userid = attendance.userid
-INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID;
-</select>
-
-<select id="getList_sort_name">
-SELECT employees.*, attendance.AttendanceID, attendance.Date, attendance.StartTime, attendance.EndTime, attendance.AttendanceStatus, attendance.OvertimeHours, attendance.VacationType, attendance.Remarks,departments.DepartmentName
+SELECT employees.*, 
+       attendance.AttendanceID, 
+       attendance.Date, 
+       attendance.StartTime, 
+       attendance.EndTime, 
+       attendance.AttendanceStatus, 
+       attendance.OvertimeHours, 
+       attendance.VacationType, 
+       attendance.Remarks, 
+       departments.DepartmentName
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
 INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%');
+</select>
+
+
+<select id="getList_sort_name">
+SELECT employees.*, attendance.AttendanceID, attendance.Date, attendance.StartTime, attendance.EndTime, attendance.AttendanceStatus, attendance.OvertimeHours, attendance.VacationType, attendance.Remarks, departments.DepartmentName
+FROM employees
+INNER JOIN attendance ON employees.Userid = attendance.userid
+INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%')
 ORDER BY 
   CASE
     WHEN Name COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
@@ -46,7 +58,8 @@ ORDER BY
     ELSE 4 
   END,
   Name COLLATE utf8mb4_unicode_ci;
-  </select>
+</select>
+
   
 <select id="getList_sort_department">
 SELECT employees.*, 
@@ -62,6 +75,7 @@ SELECT employees.*,
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
 INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%')
 ORDER BY 
   CASE
     WHEN DepartmentName COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
@@ -86,6 +100,7 @@ ORDER BY
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
 INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%')
 ORDER BY 
   CASE
     WHEN Date COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
