@@ -51,7 +51,7 @@ public class Ko_controller {
 		String start = req.getParameter("startHidden");
 		String end = req.getParameter("endHidden");
 		String content = req.getParameter("contentArea");
-		cdao.planInsert(title,start,end,content);
+//		cdao.planInsert(title,start,end,content);
 		return "ko_calendar";
 	}
 	@GetMapping("ko_calendarDetails")		// 게시글 상세페이지로 이동

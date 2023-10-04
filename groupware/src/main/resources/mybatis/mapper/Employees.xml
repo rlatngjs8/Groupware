@@ -56,7 +56,7 @@
 
 
 <select id="getListSelect" resultType="com.groupware.project.EmployeesDTO">
-	select a.name, a.userid, b.departmentName, a.position, a.birthDate, a.phoneNumber, a.address, a.email, a.salary , a.hireDate, a.profilePicture
+	select a.name, a.userid, a.password, b.departmentName, a.position, a.birthDate, a.phoneNumber, a.address, a.email, a.salary , a.hireDate, a.profilePicture
 	from employees a inner join departments b on a.departmentID = b.departmentID
 	 where userid=#{userid}
 </select>
@@ -64,6 +64,9 @@
 	update employees set name=#{param1}, departmentID=#{param2}, position=#{param3}, phoneNumber=#{param4}, address=#{param5}, email=#{param6}, salary=#{param7}, profilePicture=#{param8} where userid=#{param9}
 </update>
 
+<update id="selfEdit">
+	update employees set password=#{param1}, phoneNumber=#{param2}, address=#{param3}, email=#{param4} where userid=#{param5}
+</update>
 <select id="getListAll" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
 	SELECT employees.*, departments.DepartmentName
 	FROM employees
@@ -160,8 +163,6 @@ ORDER BY
   Email COLLATE utf8mb4_unicode_ci;
 
 </select>
-
-
 
 <!-- 밑에는개인 연락처 필터링 -->
 <select id="getListPaAll" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
