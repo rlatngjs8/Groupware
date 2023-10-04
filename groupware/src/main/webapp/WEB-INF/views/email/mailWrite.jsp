@@ -12,13 +12,14 @@
 #mailTable {width:100%; border-collapse:collapse; min-width:600px;}
 #mailTable td {height:28px; padding:0 20px 20px 40px;}
 #mailTable td:nth-child(1) {width:90px; font-weight:bold;}
+#mailTable tr:nth-child(1) td{padding:0 18px 10px 40px;}
 #mailTable tr:last-child td {border: 1px solid lightgray; border-width:1px 0 0;}
 /* .mInputText {width:99%; border-width: 0 0 1px; border-color: black; outline:none; font-size:14px; */
 /*  			caret-color:#6AB0AD; padding:9px 0 9px 4px;}  */
 /* .mInputText:focus {border-color: #6AB0AD;} */
 .mInputText {width:99%; border-width: 0; outline:none; font-size:14px;
  			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
-.mInputEmail {width:auto; height:28px; border-width: 0; outline:none; font-size:14px;
+.mInputEmail {width:auto; height:16px; border-width: 0; outline:none; font-size:14px;
  			caret-color:#6AB0AD; padding:9px 0 9px 4px; background-color:transparent;}
 /* .mInputText::focus-within {border-color: #6AB0AD;} */
 textarea {width:99%; padding:15px 0 15px 0; border:none; outline:none; resize:none;}
@@ -32,14 +33,15 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 #btnMailSend {width:62px; height:28px; padding: 3px 10px 3px 10px; font-weight:bold; margin-left:40px;}
 #divInputEmail {padding:0; margin: 0;
 			 height:28px; height: auto; width:99%; border: 1px solid black; border-width: 0 0 1px; font-size:14px; 
-			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
+			caret-color:#6AB0AD; padding:6px 0 6px 4px;}
 #divInputEmail:focus-within {border-color: #6AB0AD;}
 .divInputE {height:28px;width:99%; border: 1px solid black; border-width: 0 0 1px; font-size:14px; 
 			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
 .divInputE:focus-within {border-color: #6AB0AD;}
 .ppEmailbox {margin:7px 0 7px 0; display:inline-block;}
 #emailbox {white-space: nowrap;}
-#emailXBtn {border: 0px; background-color:transparent;}
+#emailXBtn {border: 0px; background-color:transparent; cursor:pointer;}
+#emailXBtn:hover {background-color:#6AB0AD; border-radius:10px;}
 </style>
 <body style="font-size:14px; background-color:white;">
 <div style="display:flex; height: 100%;">
@@ -66,6 +68,17 @@ const dataTransfer = new DataTransfer();
 let cnt = 1;
 $(document)
 .ready(function(){
+	if($('#mInputEmail').val()!=""){
+		let text = $('#mInputEmail').val().split(' ').join('');
+		$('#mInputEmail').before("<div class='ppEmailbox'><label id='emailbox"+cnt+"' class='emailbox'>"+text+" <input type=button id=emailXBtn value=X></label></div>");
+		$('#mInputEmail').val("");
+		cnt++;
+		console.log($('.ppEmailbox').width());
+		$('#mInputEmail').focus();
+	}
+})
+.on('click','#emailXBtn',function(){
+	$(this).parent(".emailbox").remove();
 })
 .on('click','.mfx',function(){
 	dataTransfer.items.remove($('.mfx').index(this));
