@@ -34,6 +34,29 @@ $(document)
  	}
 
 })
+.on('click','#emailMark',function(){
+	let emailid = $(this).parent().siblings().children('#rEmailid').text();
+	let tp = $(this).siblings('#emailRmark').text(); 
+//	console.log($('.emailRmark').text());
+	console.log(emailid+tp);
+	
+	if($(this).find('#mStar').attr("src")=="mailpageImg/star0.png"){
+		$(this).find('#mStar').attr("src","mailpageImg/star1.png");
+		$(this).siblings('#emailRmark').text("1");
+	} else if($(this).find('#mStar').attr("src")=="mailpageImg/star1.png"){
+		$(this).find('#mStar').attr("src","mailpageImg/star0.png");
+		$(this).siblings('#emailRmark').text("0");
+	}
+	
+	$.ajax({url:'/rsMark',data:{emailid:emailid,now:$('#mailNow').text(),now2:tp}, type:'post',dataType:'text',
+		success:function(data){
+			console.log("/rsMark 성공");
+		},
+		error:function(data){
+			alert("/rsMark 오류");
+		}
+	});
+})
 .on('click','#mNext',function(){
 // 	if()
 	$.ajax({url:'/mailNext',type:'post',dataType:'text',
@@ -216,7 +239,7 @@ $(document)
 	});
 })
 .on('click','#rmailTable tr',function(e){
-	if($(e.target).hasClass("mChk") || $(e.target).hasClass("rMailChk")){
+	if($(e.target).hasClass("mChk") || $(e.target).hasClass("rMailChk") || $(e.target).hasClass("e_erm") || $(e.target).hasClass("rMailMark")){
         return ;
     }
 	let tp = $(this).find('#rEmailid').text(); 

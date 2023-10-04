@@ -25,7 +25,7 @@
 		<br>
 		<li><a href="/mailFolder1" id="mailFolder1">받은메일함</a></li>
 		<li><a href="/mailFolder2" id="mailFolder2">보낸메일함</a></li>
-<!-- 		<li><a href="/mailFolder3" id="mailFolder3">중요메일함</a></li> -->
+		<li><a href="/mailMark" id="mailMark">중요메일함</a></li>
 		<li><a href="/trashcanFolder" id="trashcanFolder">휴지통</a></li>
 <!-- 		<li><p style="border: 1px solid black; border-width: 0 0 1px; width:200px;"></p></li> -->
 	</ul>

@@ -24,21 +24,14 @@
 <!-- empid로 email받아서 받은메일함 작성 -->
 <select id="selectRecMail" resultType="com.groupware.project.MailDTO"> 
 	select a.emailid, a.emailreceive, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
-		 a.sendtime from emails a inner join employees c ON a.SenderEmployeeID=c.EmployeeId 
+		 a.sendtime, a.receivemark from emails a inner join employees c ON a.SenderEmployeeID=c.EmployeeId 
 		 				where receiveremployeeid=#{param1}
 				  					 AND (a.emailreceive=0 OR a.emailreceive=1) and tcreceive=0
 				  					 order by a.emailid desc limit #{param2},#{param3}
 </select>
-<!-- <select id="selectSendMail" resultType="com.groupware.project.MailDTO">  -->
-<!-- 	select a.emailid, a.emailsend, b.name, b.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid, -->
-<!-- 		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid  -->
-<!-- 				  		where senderemployeeid=#{param1} -->
-<!-- 				  					 AND (a.emailsend=0 OR a.emailsend=1) and tcsend=0 -->
-<!-- 				  					 order by a.emailid desc limit #{param2},#{param3} -->
-<!-- </select> -->
 <select id="selectSendMail" resultType="com.groupware.project.MailDTO"> 
 	select a.emailid, a.emailsend, b.name, b.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
-		 a.sendtime, a.multiplesend from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
+		 a.sendtime, a.multiplesend, a.sendmark from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
 				  			where senderemployeeid=#{param1}
 				  					 and (a.emailsend=0 or a.emailsend=1) and tcsend=0
 				  		and (multiplesend=0 or emailid in (select min(emailid) from emails group by multiplesend))
@@ -46,9 +39,16 @@
 </select>
 <select id="selectTrashCanMail" resultType="com.groupware.project.MailDTO"> 
 	select a.emailid, a.emailreceive, a.emailsend, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
-		 a.sendtime from emails a inner join employees c ON a.SenderEmployeeID=c.EmployeeId 
+		 a.sendtime, a.sendmark, a.receivemark from emails a inner join employees c ON a.SenderEmployeeID=c.EmployeeId 
 				  					where (senderemployeeid=#{param1} and tcsend=1) 
 				  						or (receiveremployeeid=#{param1} and tcreceive=1)
+				  					 order by a.emailid desc limit #{param2},#{param3}
+</select>
+<select id="selectMarkMail" resultType="com.groupware.project.MailDTO"> 
+	select a.emailid, a.emailreceive, a.emailsend, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
+		 a.sendtime, a.sendmark, a.receivemark from emails a inner join employees c ON a.SenderEmployeeID=c.EmployeeId 
+				  					where (senderemployeeid=85 and tcsend=0 and sendmark=1)
+				  						or (receiveremployeeid=85 and tcreceive=0 and receivemark=1)
 				  					 order by a.emailid desc limit #{param2},#{param3}
 </select>
 <select id="selectemailAlarmcnt" resultType="Integer">
@@ -100,6 +100,18 @@
 <update id="updateEmailSend3">
 	update emails set tcsend=2 where emailid=#{param1}
 </update>
+<update id="updateReceiveMark0">
+	update emails set receivemark=0 where emailid=#{param1}
+</update>
+<update id="updateReceiveMark1">
+	update emails set receivemark=1 where emailid=#{param1}
+</update>
+<update id="updateSendMark0">
+	update emails set sendmark=0 where emailid=#{param1}
+</update>
+<update id="updateSendMark1">
+	update emails set sendmark=1 where emailid=#{param1}
+</update>
 <select id="selectReceiverEmailscnt" resultType="Integer">
 	select count(*) from emails where receiveremployeeid=#{param1} and (emailreceive=0 or emailreceive=1) and tcreceive=0
 </select>
@@ -112,5 +124,8 @@
 </select>
 <select id="selectTrashCancnt" resultType="Integer">
 	select count(*) from emails where (senderemployeeid=#{param1} and tcsend=1) or (receiveremployeeid=#{param1} and tcreceive=1)
+</select>
+<select id="selectMarkcnt" resultType="Integer">
+	select count(*) from emails where (senderemployeeid=#{param1} and tcsend=0 and sendmark=1) or (receiveremployeeid=#{param1} and tcreceive=0 and receivemark=1)
 </select>
 </mapper>

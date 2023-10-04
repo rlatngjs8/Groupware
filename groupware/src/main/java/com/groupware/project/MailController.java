@@ -346,6 +346,74 @@ public class MailController implements WebMvcConfigurer {
 		}	
 		return "mailFolder1";
 	}
+	@GetMapping("/mailMark")
+	public String mailMark(HttpServletRequest req, Model model) {
+		sessionL(req);
+		page(req,model);
+		HttpSession s = req.getSession();
+		int eid = (Integer) s.getAttribute("empID");
+		
+		int cnt=mdao.selectMarkcnt(eid); //전체 메일 수
+		int pagecount = (int) Math.ceil(cnt/15.0); 
+		pageCnt = pagecount;
+		int totalpage = (int) Math.ceil(pagecount/5.0);
+		ArrayList<MailDTO> markEmail = mdao.selectMarkMail(eid,mpageStart,mpageSize);
+		
+		String pagestr = "";
+	
+		if(mailPno<4) {
+			for(int i=1; i<=pagecount; i++) {
+				if(i>5) {
+					break;
+				}
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		} else {
+			for(int i=mailPno-2; i<=mailPno+2; i++) {
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		}
+		model.addAttribute("pagestr",pagestr);
+		model.addAttribute("pageno",mailPno);
+		model.addAttribute("pagecnt",pagecount);
+		
+		if(markEmail.size()==0) {
+			model.addAttribute("rlist", "");
+		} else {
+			model.addAttribute("rlist", markEmail);
+		}
+		s.setAttribute("rs", "receive");
+		return "email/mailMark";
+	}
+	@PostMapping("/rsMark")
+	@ResponseBody
+	public void rsMark(HttpServletRequest req, Model model) {
+		int emailid = Integer.parseInt(req.getParameter("emailid"));
+		String now = req.getParameter("now");
+		int now2 = Integer.parseInt(req.getParameter("now2"));
+		System.out.println(emailid+", "+now);
+		if(now.equals("receive")) {
+			if (now2==1) {
+				mdao.updateReceiveMark0(emailid);
+			} else if (now2==0) {
+				mdao.updateReceiveMark1(emailid);	
+			}
+		} else if(now.equals("send")){
+			if (now2==1) {
+				mdao.updateSendMark0(emailid);
+			} else if (now2==0) {
+				mdao.updateSendMark1(emailid);	
+			}
+		}
+	}
 	@PostMapping("/mailRead")
 	@ResponseBody
 	public void mailRead(HttpServletRequest req, Model model) {
