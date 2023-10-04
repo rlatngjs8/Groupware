@@ -63,7 +63,7 @@
 <update id="editEMP">
 	update employees set name=#{param1}, departmentID=#{param2}, position=#{param3}, phoneNumber=#{param4}, address=#{param5}, email=#{param6}, salary=#{param7}, profilePicture=#{param8} where userid=#{param9}
 </update>
-<<<<<<< HEAD
+
 <update id="selfEdit">
 	update employees set password=#{param1}, phoneNumber=#{param2}, address=#{param3}, email=#{param4} where userid=#{param5}
 </update>

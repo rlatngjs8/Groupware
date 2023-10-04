@@ -124,10 +124,10 @@ $(document)
 	document.location="/ko_reservation"
 })
 .on('click','#btnCancel',function(){		// 취소 눌렀을 때
-	document.location="/ko_calendar"
+	document.location="/reservationList"
 })
 .on('click','#c_title', function(){		//캘린더 title을 클릭했을 때
-	document.location="/ko_reservation";
+	document.location="/reservationList";
 })
 $('#startDate').on('change', function() {		// 시작 날짜 변경했을 때
     var startDate = $(this).val();

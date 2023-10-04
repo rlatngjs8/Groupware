@@ -121,7 +121,7 @@ public class Ko_controller {
 		String endTime = req.getParameter("eHourHidden");
 		System.out.println(reserverEmpID);
 		rdao.reservations(roomID,reserverEmpID,reservationDate,startTime,endTime,connectionID);
-		return "ko_calendar";
+		return "reservationList";
 	}
 	@PostMapping("/getTime")	//예약된 시간들 체크하기
 	@ResponseBody
@@ -192,5 +192,32 @@ public class Ko_controller {
 		}
 		System.out.println(ja);
 		return ja.toJSONString();
+	}
+	@PostMapping("/reservationUpdate")	//예약 업데이트
+	public String reservationUpdate(HttpServletRequest req) {
+		String roomName = req.getParameter("roomNameHidden");
+		String start = req.getParameter("startHidden");
+		String end = req.getParameter("endHidden");
+		String content = req.getParameter("contentArea");
+		String connectionID = req.getParameter("connectionIDHidden");
+		rdao.reservationUpdateC(roomName,start,end,content,connectionID);
+		
+		int roomID = Integer.parseInt(req.getParameter("roomIdHidden"));
+		String reservationDate = req.getParameter("startDate");
+		String startTime = req.getParameter("sHourHidden");
+		String endTime = req.getParameter("eHourHidden");
+		rdao.reservationUpdateR(roomID,reservationDate,startTime,endTime,connectionID);
+		return "reservationList";
+	}
+	@GetMapping("/reservationList")	//예약 리스트
+	public String reservationList() {
+		return "reservationList";
+	}
+	@GetMapping("/reservationDelete")	//예약 삭제하기
+	public String reservationDelete(HttpServletRequest req) {
+		String connectionID = req.getParameter("connectionID");
+		rdao.reservationDeleteC(connectionID);
+		rdao.reservationDeleteR(connectionID);
+		return "reservationList";
 	}
 }

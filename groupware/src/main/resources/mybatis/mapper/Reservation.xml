@@ -20,4 +20,16 @@
 <select id="getTimeDetails" resultType="com.groupware.project.ReservationDTO">
 	select ReservationID,RoomID,ReserverEmployeeID,reservationDate,starttime,endtime,connectionID from reservations where RoomID=#{param1} AND reservationDate=#{param2} and connectionID!=#{param3}
 </select>
+<update id="reservationUpdateC">
+	update calendar set calendar_title=#{param1}, calendar_memo=#{param4}, calendar_start=#{param2}, calendar_end=#{param3} where connectionID=#{param5}
+</update>
+<update id="reservationUpdateR">
+	update reservations set RoomID=#{param1}, reservationDate=#{param2}, starttime=#{param3}, endtime=#{param4} where connectionID=#{param5}
+</update>
+<delete id="reservationDeleteC">
+	delete from calendar where connectionID=#{param1}
+</delete>
+<delete id="reservationDeleteR">
+	delete from reservations where connectionID=#{param1}
+</delete>
 </mapper>
