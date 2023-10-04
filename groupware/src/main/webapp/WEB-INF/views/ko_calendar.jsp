@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>CALENDAR</title>
 <link href='css/main.min.css' rel='stylesheet' />
 <link href='css/ko_calendar.css' rel='stylesheet' />
 <script src='https://cdn.jsdelivr.net/npm/rrule@2.6.4/dist/es5/rrule.min.js'></script>
@@ -93,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	<div class='sideBar'>
 		<h2 class="c_title" id="c_title" style="margin-left:15px;">캘린더</h2>
 		<button class="addPlanBtn" id="addPlanBtn">일정등록</button>
-		<button class="addPlanBtn" id="btnReservation">회의실 예약</button>
 		<table class="sideBarTbl">
 			<tbody>
 			<tr>
@@ -115,9 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
 $(document)
 .on('click','#addPlanBtn',function(){	//일정등록버튼을 클릭했을 때
 	document.location="/ko_addPlan"
-})
-.on('click','#btnReservation',function(){	//회의실 예약버튼을 클릭했을 때
-	document.location="/ko_reservation"
 })
 </script>
 </html>

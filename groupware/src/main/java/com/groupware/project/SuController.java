@@ -1,13 +1,23 @@
 package com.groupware.project;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import java.net.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +25,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.mysql.cj.xdevapi.JsonArray;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -335,15 +345,48 @@ public class SuController {
 		}
 	}
 	@GetMapping("/documentLibrary")
-	public String documentLibrary (HttpServletRequest req) {
-		HttpSession session = req.getSession();
-		String userid = (String) session.getAttribute("userid");
-		String name = (String) session.getAttribute("name");
-		
-		
-		return "document/documentLibrary";
+	public String documentLibrary(HttpServletRequest req, Model model, 
+	    @RequestParam(defaultValue = "1") int page,
+	    @RequestParam(defaultValue = "all") String documentType) {
+	    HttpSession session = req.getSession();
+	    String userid = (String) session.getAttribute("userid");
+	    String name = (String) session.getAttribute("name");
+
+	    // 페이지당 항목 수와 시작 위치 계산
+	    int itemsPerPage = 10; // 한 페이지당 보여줄 항목 수를 조정할 수 있습니다.
+	    int startIndex = (page - 1) * itemsPerPage;
+
+	    ArrayList<DocumentDTO> alDocu = null;
+	    if ("all".equals(documentType)) {
+	        // 전체 문서 목록 조회
+	        alDocu = ddao.getListForPage(startIndex, itemsPerPage);
+	    } else if ("individual".equals(documentType)) {
+	        // 개인 문서 목록 조회
+	        alDocu = ddao.getListUserForPage(userid, startIndex, itemsPerPage);
+	    }
+
+	    model.addAttribute("dlist", alDocu);
+
+	    // 개인 자료실 목록도 모델에 추가
+	    if ("individual".equals(documentType)) {
+	        ArrayList<DocumentDTO> alIndiDocu = ddao.getListUserForPage(userid, startIndex, itemsPerPage);
+	        model.addAttribute("indi", alIndiDocu);
+	    }
+
+	    // 전체 페이지 수 계산
+	    int totalItems = ddao.getCount();
+
+	    // 개인 자료실 데이터가 10개 미만인 경우 페이지 번호 표시 안 함
+	    boolean showPageNumbers = totalItems >= itemsPerPage;
+
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("documentType", documentType);
+	    model.addAttribute("showPageNumbers", showPageNumbers);
+
+	    return "document/documentLibrary";
 	}
-	
 	
 	@Value("${document.upload.directory}")
 	private String documentUploadDirectory;
@@ -376,6 +419,7 @@ public class SuController {
 	                ddao.insert(filename, userid, filetype, filesize, storageType);
 	            }
 	        }
+//	        Thread.sleep(4000);
 	        return "document/documentLibrary";
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -383,11 +427,45 @@ public class SuController {
 	        return "errorPage";
 	    }
 	}
-	@PostMapping("/allDocument")
-	public String allDocument(HttpServletRequest req, Model model) {
-		ArrayList<DocumentDTO> alDocu = ddao.getList();
+	@GetMapping("/documentDownload")
+	public ResponseEntity<Resource> downloadFile(@RequestParam("fileName") String fileName) throws IOException {
+	    // 업로드 디렉토리와 파일 이름을 사용하여 파일의 전체 경로 생성
+	    Path filePath = Paths.get(documentUploadDirectory).resolve(fileName);
 
-		model.addAttribute("dlist", alDocu);
-		return "document/documentLibrary";
+	    try {
+	        Resource resource = new UrlResource(filePath.toUri());
+
+	        // 파일이 존재하고 읽을 수 있다면 다운로드 응답을 생성
+	        if (resource.exists() && resource.isReadable()) {
+	            HttpHeaders responseHeaders = new HttpHeaders();
+
+	            // 파일 이름을 UTF-8로 URL 인코딩하고 '+'를 '%20'으로 대체
+	            String encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString())
+	                    .replace("+", "%20");
+
+	            // Content-Disposition 헤더에 인코딩된 파일 이름 추가
+	            String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
+	            responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION, contentDisposition);
+
+	            // URL을 생성할 때 인코딩된 파일 이름 포함
+	            String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+	                    .path("/documentDownload")
+	                    .queryParam("fileName", encodedFileName)
+	                    .toUriString();
+
+	            return ResponseEntity.ok()
+	                    .headers(responseHeaders)
+	                    .body(resource);
+	        } else {
+	            // 파일이 존재하지 않거나 읽을 수 없는 경우에 대한 처리
+	            // 예를 들어 에러 페이지를 표시하거나 다른 처리를 수행할 수 있습니다.
+	            return ResponseEntity.notFound().build();
+	        }
+	    } catch (MalformedURLException e) {
+	        // URL 생성 오류 처리
+	        e.printStackTrace();
+	        // 오류 페이지를 표시하거나 다른 처리를 수행할 수 있습니다.
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
 	}
 }

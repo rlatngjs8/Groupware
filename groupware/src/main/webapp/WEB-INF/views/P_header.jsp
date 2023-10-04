@@ -279,11 +279,11 @@ body {
             </ul>
         </li>
         </ul>
-    	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
-    	<div id="pHedaerEmailAlarm"></div>
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
-    	<img src="img/${profileIMG}" class="profile">
+<!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
+<!--     	<div id="pHedaerEmailAlarm"></div> -->
+<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
+<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  -->
+<%--     	<img src="img/${profileIMG}" class="profile"> --%>
 	</div>
 	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
@@ -295,10 +295,10 @@ $(document)
 .ready(function(){
 	let sessionid = $("#sessionid").val()
 	console.log($("#sessionid").val())
-	if(sessionid == null || sessionid == ""{}
+	if(sessionid == null || sessionid == "") {
 		alert("권한이 없습니다");
 		return false;
-	)
+	
 	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
 		success:function(data){
 			console.log("/pHeaderAlarm 성공");
@@ -309,6 +309,7 @@ $(document)
 			alert("/pHeaderAlarm 오류");
 		}
 	});
+}
 })
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();

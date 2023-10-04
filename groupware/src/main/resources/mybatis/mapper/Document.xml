@@ -5,4 +5,47 @@
 <insert id="insert">
 	insert into documentlibrary set documentTitle=#{param1}, writer=#{param2}, filetype=#{param3}, filesize=#{param4}, storageType=#{param5}
 </insert>
+<select id="getList" resultType="com.groupware.project.DocumentDTO">
+	select a.documentID, a.documentTitle, b.name, a.filetype, a.filesize, a.createdtime 
+	from documentlibrary a inner join employees b 
+	on a.writer = b.userid
+	where storageType = "all"
+	order by createdTime desc;
+</select>
+<select id="getListUser" resultType="com.groupware.project.DocumentDTO">
+	select a.documentID, a.documentTitle, b.name, a.filetype, a.filesize, a.createdtime 
+	from documentlibrary a inner join employees b 
+	on a.writer = b.userid
+	where storageType = #{param1}
+	order by createdTime desc;
+</select>
+<!-- getCount 메서드에 대한 SQL 쿼리 -->
+<select id="getCount" resultType="int">
+    SELECT COUNT(*) FROM documentlibrary;
+</select>
+<select id="getCountUser" resultType="int">
+	select count(*) from documentlibrary where storageType = #{param1}
+</select>
+<!-- getListUserForPage 메서드에 대한 SQL 쿼리 -->
+<select id="getListUserForPage" resultType="com.groupware.project.DocumentDTO">
+    SELECT a.documentID, a.documentTitle, b.name, a.filetype, a.filesize, a.createdtime 
+    FROM documentlibrary a
+    INNER JOIN employees b ON a.writer = b.userid
+    WHERE storageType = #{param1}
+    ORDER BY createdTime DESC
+    LIMIT #{param2}, #{param3};
+</select>
+
+<!-- getListForPage 메서드에 대한 SQL 쿼리 -->
+<select id="getListForPage" resultType="com.groupware.project.DocumentDTO">
+    SELECT a.documentID, a.documentTitle, b.name, a.filetype, a.filesize, a.createdtime 
+    FROM documentlibrary a
+    INNER JOIN employees b ON a.writer = b.userid
+    WHERE storageType = 'all'
+    ORDER BY createdTime DESC
+    LIMIT #{param1}, #{param2};
+</select>
+
 </mapper>
+
+

@@ -12,4 +12,8 @@ public interface ReservationDAO {
 	ArrayList<ReservationDTO> getTime(int roomId, String startDate);
 	ReservationDTO getReservationDetailsR(String connectionID);
 	ArrayList<ReservationDTO> getTimeDetails(int roomId, String startDate, String connectionID);
+	void reservationUpdateC(String roomName, String start, String end,String content, String connectionID);
+	void reservationUpdateR(int roomID, String reservationDate, String startTime, String endTime, String connectionID);
+	void reservationDeleteC(String connectionID);
+	void reservationDeleteR(String connectionID);
 }

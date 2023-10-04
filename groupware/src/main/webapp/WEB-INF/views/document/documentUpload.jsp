@@ -152,6 +152,17 @@
 
 const dataTransfer = new DataTransfer();
 
+//파일 크기를 KB 또는 MB로 변환하는 함수
+function convertFileSize(fileSizeInBytes) {
+  if (fileSizeInBytes < 1024) {
+    return fileSizeInBytes + ' B';
+  } else if (fileSizeInBytes < 1024 * 1024) {
+    return (fileSizeInBytes / 1024).toFixed(2) + ' KB';
+  } else {
+    return (fileSizeInBytes / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+}
+
 //파일 선택(input type="file) 엘리먼트의 onchange 이벤트 핸들러
 function handleFileSelect(input) {
  const fileInput = input;
@@ -172,7 +183,8 @@ function handleFileSelect(input) {
      checkboxCell.appendChild(checkbox);
      fileNameCell.textContent = file.name;
      fileExtensionCell.textContent = file.name.split('.').pop(); // 파일 확장자 가져오기
-     fileSizeCell.textContent = (file.size / 1024).toFixed(2) + ' KB'; // 크기를 KB로 변환하여 소수점 두 자리까지 표시
+  // 파일 크기를 KB 또는 MB로 변환하여 소수점 두 자리까지 표시
+     fileSizeCell.textContent = convertFileSize(file.size);
      fileStatusCell.textContent = "✅";
 
      // 셀을 행에 추가
