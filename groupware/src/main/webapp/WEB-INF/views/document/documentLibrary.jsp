@@ -305,7 +305,7 @@
 	    $('#indiDocument').hide();
 		});
  });
-    
+     
     
     // 페이지 번호 클릭 시 해당 documentType으로 이동
 	$('.pagination a').click(function (event) {
