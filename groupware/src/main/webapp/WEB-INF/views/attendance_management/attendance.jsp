@@ -686,6 +686,7 @@ th.date-col:hover {
             });
         }
 		 
+        
 		 let currentPage = 1; // 현재 페이지 번호
 		 const perPage = 10; // 한 페이지당 표시할 데이터 수
 

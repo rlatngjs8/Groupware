@@ -870,7 +870,7 @@ th.date-col:hover {
 	    
 	    console.log(nameTotalTimes); // nameTotalTimes 배열 확인용 로그
 	    return nameTotalTimes;
-	}
+	} 
 
 		 // 화면 출력 함수
 		 function displayData(data) {
