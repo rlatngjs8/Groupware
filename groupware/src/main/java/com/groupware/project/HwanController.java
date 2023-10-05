@@ -253,23 +253,19 @@ public class HwanController {
 	    String name = req.getParameter("name");
 	    String month = req.getParameter("month");
 	    String year = req.getParameter("year");
-	    
-	    //System.out.println("UserID: " + userid);
-	    System.out.println("Name: " + name);
-	    System.out.println("Month: " + month);
-	    System.out.println("Year: " + year);
+	    String userid = req.getParameter("userid");
 	    
 	    ArrayList<AttendanceDTO> attendance = null;
 	    
 	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
 	    if ("all".equals(name)) {
-	    	attendance = Attdao.getListAll(month, year);
+	    	attendance = Attdao.getListAll(month, year, userid);
 	    } else if ("name".equals(name)){
-	    	attendance = Attdao.getList_sort_name(month, year);
+	    	attendance = Attdao.getList_sort_name(month, year, userid);
 	    } else if ("department".equals(name)){
-	    	attendance = Attdao.getList_sort_department(month, year);
+	    	attendance = Attdao.getList_sort_department(month, year, userid);
 	    } else if ("date".equals(name)){
-	    	attendance = Attdao.getList_sort_date(month, year);
+	    	attendance = Attdao.getList_sort_date(month, year, userid);
 	    } 
 	    
 	    JSONArray ja = new JSONArray();
