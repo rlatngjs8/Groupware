@@ -471,4 +471,12 @@ public class SuController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	    }
 	}
+	@GetMapping("/approval")
+	public String approval() {
+		return "approval/approval";
+	}
+	@GetMapping("/writeApproval")
+	public String writeApproval() {
+		return "approval/writeApproval";
+	}
 }

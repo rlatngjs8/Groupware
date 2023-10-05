@@ -171,7 +171,7 @@
             <div class="sidebar">
                 <div class="upload">
                     <label>
-                        <h4>자료실</h4>
+                        <h4 style="font-size: 22px;">자료실</h4>
                         <button class="btn_upload" id="btn_upload">파일업로드</button>
                     </label>
                 </div>
