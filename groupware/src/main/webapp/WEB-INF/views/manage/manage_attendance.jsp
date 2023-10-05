@@ -18,7 +18,7 @@
 <style>
         /* 사이드바 스타일 */
 .sidebar {
-	margin-left: 190px;
+	margin-left: 210px;
     height: 100%;
     width: 250px;
     position: fixed;
@@ -58,10 +58,10 @@
 	
                     /* 메인 컨테이너 */
         .main {
-            max-width: 1435px;
+            max-width: 1405px;
             height: 850px;
 			max-height: 850px;
-            margin-left: 460px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
+            margin-left: 485px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
          	margin-top:20px;
             padding: 20px;
             background-color: #fff;
@@ -257,7 +257,7 @@ th.date-col:hover {
     
     </style>
 <body>
-<%@ include file="/WEB-INF/views/P_header.jsp" %>
+<%@ include file="manage_header.jsp" %>
 <input type="hidden" id="user_id" value="${sessionScope.userid}">
 <input type="hidden" id="user_name" value="${name}">
 
@@ -267,8 +267,8 @@ th.date-col:hover {
       		<h2><a href="/attendance_management/attendance">근태관리</a></h2>
             <p id="date_info">1</p>
             <p id="time_info"><span id="current_time"></span></p>
-      		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
-			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
+<!--       		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
+			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button> -->
 <!--             <label for="status_select">근무상태 변경:</label> -->
             
 <!--    <select id="status_select">
@@ -283,18 +283,18 @@ th.date-col:hover {
         </section>
         <hr>
         
-        <p id="checkin_time">출근시간: <span id="start_time"></span></p>
-        <p id="checkout_time">퇴근시간: <span id="end_time"></span></p>
+<!--         <p id="checkin_time">출근시간: <span id="start_time"></span></p>
+        <p id="checkout_time">퇴근시간: <span id="end_time"></span></p> -->
 
-<!--         <section id="my_attendance_section">
+ 		<section id="my_attendance_section">
         <br><br><br><br>
-            <h2>내 근태관리</h2>
+            <h2>전사 근태관리</h2>
             <ul>
-                <li><a href="#">내 근태현황</a></li>
+                <li><a href="/manage/company_attendance">전사 근태현황</a></li>
                 <li><a href="#">내 연차 내역</a></li>
                 <li><a href="#">내 인사정보</a></li>
             </ul>
-        </section> -->
+        </section> 
        </div>
     </aside>
     
@@ -310,18 +310,18 @@ th.date-col:hover {
         </div>
 
 			<div class="attendance-summary">
-	    <div>
+<!-- 	    <div>
 	        <span id="accumulated_month"></span>
 	        <p id="accumulated_time"></p>
 	    </div>
-<!-- 	    <div>
+	    <div>
 	        <span>이번달 초과:</span>
 	        <p>Y 시간</p>
-	    </div> -->
+	    </div>
 	    <div>
 	        <span id="remaining_month"></span>
 	        <p id="remaining_time"></p>
-	    </div>
+	    </div> -->
 	</div>
 
 
@@ -687,7 +687,7 @@ th.date-col:hover {
         }
 		 
 		 let currentPage = 1; // 현재 페이지 번호
-		 const perPage = 10; // 한 페이지당 표시할 데이터 수
+		 const perPage = 15; // 한 페이지당 표시할 데이터 수
 
 		 // 페이지 번호를 클릭할 때 호출되는 함수
 		 function changePage(page) {
@@ -712,7 +712,7 @@ th.date-col:hover {
 		     console.log("이번년", year); // 출력 결과: 이번달 10
 		     console.log("userid:", userid)
 		     $.ajax({
-		         url: '/get_attendance',
+		         url: '/get_manage_attendance',
 		         data: { name: name, page: page, month: month, year: year, userid: userid}, // 필터 값을 서버로 전송
 		         type: 'get',
 		         dataType: 'json',
@@ -725,29 +725,40 @@ th.date-col:hover {
 		             $("#remaining_month").text(month + "월 잔여")
 
 		          // 데이터 반복 처리
-		          data.forEach(item => {
-				    if (item['name'] === $('#user_name').val()) {
-				        const startTimeString = item['starttime'];
-				        const endTimeString = item['endtime'];
-				
-				        const startTimeArray = startTimeString.split(':');
-				        const endTimeArray = endTimeString.split(':');
-				
-				        const startHour = parseInt(startTimeArray[0], 10);
-				        const startMinute = parseInt(startTimeArray[1], 10);
-				        const startSecond = parseInt(startTimeArray[2], 10);
-				        const endHour = parseInt(endTimeArray[0], 10);
-				        const endMinute = parseInt(endTimeArray[1], 10);
-				        const endSecond = parseInt(endTimeArray[2], 10);
-				
-				        const startTimeInSeconds = startHour * 3600 + startMinute * 60 + startSecond;
-				        const endTimeInSeconds = endHour * 3600 + endMinute * 60 + endSecond;
-				
-				        const diffInSeconds = endTimeInSeconds - startTimeInSeconds;
-				
-				        totalSeconds += diffInSeconds;
-				    }
-				});
+		          // 이름별로 총 시간을 저장할 객체 생성
+					const nameTotalTimes = {};
+					
+					// 데이터 반복 처리
+					data.forEach(item => {
+					    const name = item['name'];
+					    const startTimeString = item['starttime'];
+					    const endTimeString = item['endtime'];
+					
+					    const startTimeArray = startTimeString.split(':');
+					    const endTimeArray = endTimeString.split(':');
+					
+					    const startHour = parseInt(startTimeArray[0], 10);
+					    const startMinute = parseInt(startTimeArray[1], 10);
+					    const startSecond = parseInt(startTimeArray[2], 10);
+					    const endHour = parseInt(endTimeArray[0], 10);
+					    const endMinute = parseInt(endTimeArray[1], 10);
+					    const endSecond = parseInt(endTimeArray[2], 10);
+					
+					    const startTimeInSeconds = startHour * 3600 + startMinute * 60 + startSecond;
+					    const endTimeInSeconds = endHour * 3600 + endMinute * 60 + endSecond;
+					
+					    const diffInSeconds = endTimeInSeconds - startTimeInSeconds;
+					
+					    // 이름이 같은 항목의 시간을 누적하여 저장
+					    if (name in nameTotalTimes) {
+					        nameTotalTimes[name] += diffInSeconds;
+					    } else {
+					        nameTotalTimes[name] = diffInSeconds;
+					    }
+					});
+					
+					// 각 이름별로 계산된 시간 출력
+					console.log("와우",nameTotalTimes);
 
 		       // 전체 누적 시간을 시, 분, 초로 변환
 		          const accumulatedHours = Math.floor(totalSeconds / 3600);
@@ -763,13 +774,16 @@ th.date-col:hover {
 
 		          // 결과를 업데이트
 		          $('#accumulated_time').text(totalFormattedTime);    
+		          console.log(totalFormattedTime);
+		          
+		       		
 		          
  		          const workingDays = calculateWorkingDays(year, month);
 				  const hoursPerDay = 8;
 				  const totalWorkingHours = workingDays * hoursPerDay;
 				  
 			      // 현재까지의 누적 근무시간 (예: 초로 변환된 시간)
-			      var accumulatedTimeText = $("#accumulated_time").text();
+			      var accumulatedTimeText = totalFormattedTime //$("#accumulated_time").text();
 			      const accumulatedTimeArray = accumulatedTimeText.split(':'); // 예상 포맷: 'xx:xx:xx'
 			      const accumulatedHoursss = parseInt(accumulatedTimeArray[0], 10);
 			      const accumulatedMinutesss = parseInt(accumulatedTimeArray[1], 10);
@@ -789,6 +803,7 @@ th.date-col:hover {
 			          (remainingFormattedSeconds < 10 ? '0' : '') + remainingFormattedSeconds;
  
 			      $('#remaining_time').text(remainingFormattedTime); 
+			      console.log(remainingFormattedTime);
 		             
 		             if (data.length === 0) {
 		                 const noDataMessage = $('<tr>');

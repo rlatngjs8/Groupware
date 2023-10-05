@@ -374,7 +374,7 @@ hr.hr-3 {
 		
 		        /* 사이드바 스타일 */
 		.sidebar {
-			margin-left: 195px;
+			margin-left: 190px;
 		    height: 100%;
 		    width: 250px;
 		    position: fixed;

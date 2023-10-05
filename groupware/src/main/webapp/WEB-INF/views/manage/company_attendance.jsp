@@ -18,7 +18,7 @@
 <style>
         /* 사이드바 스타일 */
 .sidebar {
-	margin-left: 190px;
+	margin-left: 210px;
     height: 100%;
     width: 250px;
     position: fixed;
@@ -58,10 +58,10 @@
 	
                     /* 메인 컨테이너 */
         .main {
-            max-width: 1435px;
+            max-width: 1405px;
             height: 850px;
 			max-height: 850px;
-            margin-left: 460px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
+            margin-left: 485px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
          	margin-top:20px;
             padding: 20px;
             background-color: #fff;
@@ -257,7 +257,7 @@ th.date-col:hover {
     
     </style>
 <body>
-<%@ include file="/WEB-INF/views/P_header.jsp" %>
+<%@ include file="manage_header.jsp" %>
 <input type="hidden" id="user_id" value="${sessionScope.userid}">
 <input type="hidden" id="user_name" value="${name}">
 
@@ -267,8 +267,8 @@ th.date-col:hover {
       		<h2><a href="/attendance_management/attendance">근태관리</a></h2>
             <p id="date_info">1</p>
             <p id="time_info"><span id="current_time"></span></p>
-      		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
-			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
+<!--       		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
+			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button> -->
 <!--             <label for="status_select">근무상태 변경:</label> -->
             
 <!--    <select id="status_select">
@@ -283,18 +283,18 @@ th.date-col:hover {
         </section>
         <hr>
         
-        <p id="checkin_time">출근시간: <span id="start_time"></span></p>
-        <p id="checkout_time">퇴근시간: <span id="end_time"></span></p>
+<!--         <p id="checkin_time">출근시간: <span id="start_time"></span></p>
+        <p id="checkout_time">퇴근시간: <span id="end_time"></span></p> -->
 
-<!--         <section id="my_attendance_section">
+ 		<section id="my_attendance_section">
         <br><br><br><br>
-            <h2>내 근태관리</h2>
+            <h2>전사 근태관리</h2>
             <ul>
-                <li><a href="#">내 근태현황</a></li>
+                <li><a href="/manage/company_attendance">전사 근태현황</a></li>
                 <li><a href="#">내 연차 내역</a></li>
                 <li><a href="#">내 인사정보</a></li>
             </ul>
-        </section> -->
+        </section> 
        </div>
     </aside>
     
@@ -310,18 +310,18 @@ th.date-col:hover {
         </div>
 
 			<div class="attendance-summary">
-	    <div>
+<!-- 	    <div>
 	        <span id="accumulated_month"></span>
 	        <p id="accumulated_time"></p>
 	    </div>
-<!-- 	    <div>
+	    <div>
 	        <span>이번달 초과:</span>
 	        <p>Y 시간</p>
-	    </div> -->
+	    </div>
 	    <div>
 	        <span id="remaining_month"></span>
 	        <p id="remaining_time"></p>
-	    </div>
+	    </div> -->
 	</div>
 
 
@@ -332,11 +332,8 @@ th.date-col:hover {
     <tr>
       <th class="name-col" onclick="sort('name', currentPage)">부서원</th>
       <th class="department-col" onclick="sort('department', currentPage)">부서명</th>
-      <th class="date-col" onclick="sort('date', currentPage)">날짜</th>
-      <th>출 근</th>
-      <th>퇴 근</th>
-      <th>출결상태</th>
-      <th>휴 가</th>
+      <th>누적 근무 시간</th>
+      <th>잔여 근무 시간</th>
     </tr>
   </thead>
   <tbody id="attendanceListBody">
@@ -357,6 +354,10 @@ th.date-col:hover {
     
 </body>
      <script>
+     
+	     let totalFormattedTime;
+	     let remainingFormattedTime;
+	     let accumulatedFormattedTime;
      
         $(document).ready(function () {
             // 1초마다 updateTime 함수를 호출하여 시간 업데이트
@@ -687,7 +688,7 @@ th.date-col:hover {
         }
 		 
 		 let currentPage = 1; // 현재 페이지 번호
-		 const perPage = 10; // 한 페이지당 표시할 데이터 수
+		 const perPage = 15; // 한 페이지당 표시할 데이터 수
 
 		 // 페이지 번호를 클릭할 때 호출되는 함수
 		 function changePage(page) {
@@ -695,12 +696,13 @@ th.date-col:hover {
 		     console.log('changePage 함수 호출: 페이지', currentPage);
 		     sort('all',currentPage);
 		 }
-		// 월 보내서 월단위로 체크하기 .
+/* 		// 월 보내서 월단위로 체크하기 .
 		 function sort(name, page) {
 		     console.log('sort 함수 호출: name', name, 'page', page);
 		     // <span> 요소의 텍스트 가져오기
 		     var fullText = $('#current_month').text();
-
+		     let totalFormattedTime;
+		     let remainingFormattedTime;
 		     // 문자열에서 숫자 추출하기 (정규식 사용)
 		     var matches = fullText.match(/\d+/g);
 			 console.log(matches)
@@ -712,7 +714,7 @@ th.date-col:hover {
 		     console.log("이번년", year); // 출력 결과: 이번달 10
 		     console.log("userid:", userid)
 		     $.ajax({
-		         url: '/get_attendance',
+		         url: '/get_manage_attendance',
 		         data: { name: name, page: page, month: month, year: year, userid: userid}, // 필터 값을 서버로 전송
 		         type: 'get',
 		         dataType: 'json',
@@ -720,75 +722,86 @@ th.date-col:hover {
 		             console.log('주소록 데이터 불러오기', data);
 		             const tableBody = $('#attendanceListBody');
 		             tableBody.empty(); // 기존 데이터를 지웁니다.
-		             let totalSeconds = 0; // 누적 시간을 초로 저장하는 변수
+		             //let totalSeconds = 0; // 누적 시간을 초로 저장하는 변수
 		             $("#accumulated_month").text(month + "월 누적")
 		             $("#remaining_month").text(month + "월 잔여")
 
-		          // 데이터 반복 처리
-		          data.forEach(item => {
-				    if (item['name'] === $('#user_name').val()) {
-				        const startTimeString = item['starttime'];
-				        const endTimeString = item['endtime'];
-				
-				        const startTimeArray = startTimeString.split(':');
-				        const endTimeArray = endTimeString.split(':');
-				
-				        const startHour = parseInt(startTimeArray[0], 10);
-				        const startMinute = parseInt(startTimeArray[1], 10);
-				        const startSecond = parseInt(startTimeArray[2], 10);
-				        const endHour = parseInt(endTimeArray[0], 10);
-				        const endMinute = parseInt(endTimeArray[1], 10);
-				        const endSecond = parseInt(endTimeArray[2], 10);
-				
-				        const startTimeInSeconds = startHour * 3600 + startMinute * 60 + startSecond;
-				        const endTimeInSeconds = endHour * 3600 + endMinute * 60 + endSecond;
-				
-				        const diffInSeconds = endTimeInSeconds - startTimeInSeconds;
-				
-				        totalSeconds += diffInSeconds;
-				    }
-				});
+					// 이름별로 초 값을 배열로 저장할 객체 생성
+					const nameTotalTimes = {};
+					
+					// 데이터 반복 처리
+					data.forEach(item => {
+					    const name = item['name'];
+					    const startTimeString = item['starttime'];
+					    const endTimeString = item['endtime'];
+					
+					    const startTimeArray = startTimeString.split(':');
+					    const endTimeArray = endTimeString.split(':');
+					
+					    const startHour = parseInt(startTimeArray[0], 10);
+					    const startMinute = parseInt(startTimeArray[1], 10);
+					    const startSecond = parseInt(startTimeArray[2], 10);
+					    const endHour = parseInt(endTimeArray[0], 10);
+					    const endMinute = parseInt(endTimeArray[1], 10);
+					    const endSecond = parseInt(endTimeArray[2], 10);
+					
+					    const startTimeInSeconds = startHour * 3600 + startMinute * 60 + startSecond;
+					    const endTimeInSeconds = endHour * 3600 + endMinute * 60 + endSecond;
+					
+					    const diffInSeconds = endTimeInSeconds - startTimeInSeconds;
+					
+					    // 이름별로 초 값을 배열에 저장
+					    if (name in nameTotalTimes) {
+					        nameTotalTimes[name].push(diffInSeconds);
+					    } else {
+					        nameTotalTimes[name] = [diffInSeconds];
+					    }
+					});
+					
+					// 각 이름별로 계산된 시간 출력
+					Object.keys(nameTotalTimes).forEach(name => {
+					    const totalSeconds = nameTotalTimes[name].reduce((acc, curr) => acc + curr, 0);
+					    const accumulatedHours = Math.floor(totalSeconds / 3600);
+					    const remainingSeconds = totalSeconds % 3600;
+					    const accumulatedMinutes = Math.floor(remainingSeconds / 60);
+					    const accumulatedSeconds = remainingSeconds % 60;
+					
+					    const totalFormattedTime =
+					        ('00' + accumulatedHours).slice(-2) + ':' +
+					        ('00' + accumulatedMinutes).slice(-2) + ':' +
+					        ('00' + accumulatedSeconds).slice(-2);
+					
+					    console.log('이름: ' + name + ', 누적 시간: ' + totalFormattedTime);
+					    
+		 		          const workingDays = calculateWorkingDays(year, month);
+						  const hoursPerDay = 8;
+						  const totalWorkingHours = workingDays * hoursPerDay;
+						  
+					      // 현재까지의 누적 근무시간 (예: 초로 변환된 시간)
+					      var accumulatedTimeText = totalFormattedTime //$("#accumulated_time").text();
+					      const accumulatedTimeArray = accumulatedTimeText.split(':'); // 예상 포맷: 'xx:xx:xx'
+					      const accumulatedHoursss = parseInt(accumulatedTimeArray[0], 10);
+					      const accumulatedMinutesss = parseInt(accumulatedTimeArray[1], 10);
+					      const accumulatedSecondsss = parseInt(accumulatedTimeArray[2], 10);
+		 
+					      // 누적 시간을 초로 변환
+					      const accumulatedTimeInSeconds = accumulatedHoursss * 3600 + accumulatedMinutesss * 60 + accumulatedSecondsss;
 
-		       // 전체 누적 시간을 시, 분, 초로 변환
-		          const accumulatedHours = Math.floor(totalSeconds / 3600);
-		          const remainingSecondss = totalSeconds % 3600;
-		          const accumulatedMinutes = Math.floor(remainingSecondss / 60);
-		          const accumulatedSeconds = remainingSecondss % 60;
+					      // 남은 시간 계산
+					      const remainingSecondss = totalWorkingHours * 3600 - accumulatedTimeInSeconds;
+					      const remainingFormattedHours = Math.floor(remainingSecondss / 3600);
+					      const remainingFormattedMinutes = Math.floor((remainingSecondss % 3600) / 60);
+					      const remainingFormattedSeconds = remainingSecondss % 60;
+					    
+					      const remainingFormattedTime = (remainingFormattedHours < 10 ? '0' : '') + remainingFormattedHours + ':' +
+					          (remainingFormattedMinutes < 10 ? '0' : '') + remainingFormattedMinutes + ':' +
+					          (remainingFormattedSeconds < 10 ? '0' : '') + remainingFormattedSeconds;
+		 
+					      $('#remaining_time').text(remainingFormattedTime); 
+					      console.log("이거이거이거이거" ,remainingFormattedTime);
+					});
 
-		          // 시, 분, 초를 두 자리수로 포맷팅하여 문자열로 합치기
-		          const totalFormattedTime =
-		              ('00' + accumulatedHours).slice(-2) + ':' +
-		              ('00' + accumulatedMinutes).slice(-2) + ':' +
-		              ('00' + accumulatedSeconds).slice(-2);
 
-		          // 결과를 업데이트
-		          $('#accumulated_time').text(totalFormattedTime);    
-		          
- 		          const workingDays = calculateWorkingDays(year, month);
-				  const hoursPerDay = 8;
-				  const totalWorkingHours = workingDays * hoursPerDay;
-				  
-			      // 현재까지의 누적 근무시간 (예: 초로 변환된 시간)
-			      var accumulatedTimeText = $("#accumulated_time").text();
-			      const accumulatedTimeArray = accumulatedTimeText.split(':'); // 예상 포맷: 'xx:xx:xx'
-			      const accumulatedHoursss = parseInt(accumulatedTimeArray[0], 10);
-			      const accumulatedMinutesss = parseInt(accumulatedTimeArray[1], 10);
-			      const accumulatedSecondsss = parseInt(accumulatedTimeArray[2], 10);
- 
-			      // 누적 시간을 초로 변환
-			      const accumulatedTimeInSeconds = accumulatedHoursss * 3600 + accumulatedMinutesss * 60 + accumulatedSecondsss;
-
-			      // 남은 시간 계산
-			      const remainingSeconds = totalWorkingHours * 3600 - accumulatedTimeInSeconds;
-			      const remainingFormattedHours = Math.floor(remainingSeconds / 3600);
-			      const remainingFormattedMinutes = Math.floor((remainingSeconds % 3600) / 60);
-			      const remainingFormattedSeconds = remainingSeconds % 60;
-			    
-			      const remainingFormattedTime = (remainingFormattedHours < 10 ? '0' : '') + remainingFormattedHours + ':' +
-			          (remainingFormattedMinutes < 10 ? '0' : '') + remainingFormattedMinutes + ':' +
-			          (remainingFormattedSeconds < 10 ? '0' : '') + remainingFormattedSeconds;
- 
-			      $('#remaining_time').text(remainingFormattedTime); 
 		             
 		             if (data.length === 0) {
 		                 const noDataMessage = $('<tr>');
@@ -799,11 +812,8 @@ th.date-col:hover {
 		                     const newRow = $('<tr>');
 		                     newRow.append('<td id="att_name" style="width: 70px; text-align: center;">' + data[i]['name'] + '</td>');
 		                     newRow.append('<td id="att_departmentname" style="width: 100px; text-align: center;">' + data[i]['departmentname'] + '</td>');
-		                     newRow.append('<td id="att_date" style="width: 100px; text-align: center;">' + data[i]['date'] + '</td>');
-		                     newRow.append('<td id="att_starttime" style="width: 120px; text-align: center;">' + data[i]['starttime'] + '</td>');
-		                     newRow.append('<td id="att_endtime" style="width: 120px; text-align: center;">' + data[i]['endtime'] + '</td>');
-		                     newRow.append('<td id="att_attendancestatus" style="width: 150px; text-align: center;">' + data[i]['attendancestatus'] + '</td>');
-		                     newRow.append('<td id="att_vacationtype" style="width: 100px; text-align: center;">' + (data[i]['vacationtype'] ? data[i]['vacationtype'] : '') + '</td>');
+		                     newRow.append('<td id="att_starttime" style="width: 120px; text-align: center;">' + totalFormattedTime + '</td>');
+		                     newRow.append('<td id="att_endtime" style="width: 120px; text-align: center;">' + remainingFormattedTime + '</td>');
 		                     $('#attendanceListBody').append(newRow);
 		                 }
 		             }
@@ -813,6 +823,111 @@ th.date-col:hover {
 		         error: function(xhr, status, error) {
 		             console.error('주소록 데이터 불러오기 에러:', status, error);
 		             // 에러 처리를 수행할 수 있습니다. 예를 들어, 사용자에게 오류 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+		         }
+		     });
+		 } */
+		 
+		// 데이터 처리 함수
+        function processData(data) {
+	    const nameTotalTimes = {};
+	
+	    data.forEach(item => {
+	        const name = item['name'];
+	        const departmentname = item['departmentname']; // 추가된 부분
+	        const startTimeString = item['starttime'];
+	        const endTimeString = item['endtime'];
+	        console.log(departmentname);
+	        console.log(name);
+	        
+	
+	        const startTimeArray = startTimeString.split(':');
+	        const endTimeArray = endTimeString.split(':');
+	
+	        const startHour = parseInt(startTimeArray[0], 10);
+	        const startMinute = parseInt(startTimeArray[1], 10);
+	        const startSecond = parseInt(startTimeArray[2], 10);
+	        const endHour = parseInt(endTimeArray[0], 10);
+	        const endMinute = parseInt(endTimeArray[1], 10);
+	        const endSecond = parseInt(endTimeArray[2], 10);
+	
+	        const startTimeInSeconds = startHour * 3600 + startMinute * 60 + startSecond;
+	        const endTimeInSeconds = endHour * 3600 + endMinute * 60 + endSecond;
+	
+	        const diffInSeconds = endTimeInSeconds - startTimeInSeconds;
+	
+	        if (name in nameTotalTimes) {
+	            nameTotalTimes[name].push({
+	                duration: diffInSeconds,
+	                departmentname: departmentname // departmentname 추가
+	            });
+	        } else {
+	            nameTotalTimes[name] = [{
+	                duration: diffInSeconds,
+	                departmentname: departmentname // departmentname 추가
+	            }];
+	        }
+	    });
+	    
+	    console.log(nameTotalTimes); // nameTotalTimes 배열 확인용 로그
+	    return nameTotalTimes;
+	}
+
+		 // 화면 출력 함수
+		 function displayData(data) {
+		     const tableBody = $('#attendanceListBody');
+		     tableBody.empty();
+
+		     if (Object.keys(data).length === 0) {
+		         const noDataMessage = $('<tr>');
+		         noDataMessage.append('<td colspan="7" style="text-align: center;">출근 데이터가 없습니다</td>');
+		         tableBody.append(noDataMessage);
+		     } else {
+		         // 데이터 출력 로직
+		         Object.keys(data).forEach(name => {
+		             const totalSeconds = data[name].reduce((acc, curr) => acc + curr, 0);
+		             const accumulatedHours = Math.floor(totalSeconds / 3600);
+		             const remainingSeconds = totalSeconds % 3600;
+		             const accumulatedMinutes = Math.floor(remainingSeconds / 60);
+		             const accumulatedSeconds = remainingSeconds % 60;
+
+		             const totalFormattedTime =
+		                 ('00' + accumulatedHours).slice(-2) + ':' +
+		                 ('00' + accumulatedMinutes).slice(-2) + ':' +
+		                 ('00' + accumulatedSeconds).slice(-2);
+
+		             // 데이터 행 추가
+		             const newRow = $('<tr>');
+		             newRow.append('<td id="att_name" style="width: 70px; text-align: center;">' + name + '</td>');
+		             newRow.append('<td id="att_starttime" style="width: 120px; text-align: center;">' + totalFormattedTime + '</td>');
+                     newRow.append('<td id="att_departmentname" style="width: 100px; text-align: center;">' + departmentname + '</td>');
+		             
+		             $('#attendanceListBody').append(newRow);
+		         });
+		     }
+
+		     // 페이지네이션 업데이트
+		     updatePagination(Object.keys(data).length);
+		 }
+
+		 // 데이터 요청 및 처리 함수
+		 function sort(name, page) {
+		     const fullText = $('#current_month').text();
+		     const matches = fullText.match(/\d+/g);
+		     const month = matches[1];
+		     const year = matches[0];
+		     const userid = $("#user_id").val();
+
+		     $.ajax({
+		         url: '/get_manage_attendance',
+		         data: { name: name, page: page, month: month, year: year, userid: userid },
+		         type: 'get',
+		         dataType: 'json',
+		         success: function(data) {
+		             const processedData = processData(data);
+		             displayData(processedData);
+		         },
+		         error: function(xhr, status, error) {
+		             console.error('주소록 데이터 불러오기 에러:', status, error);
 		         }
 		     });
 		 }
