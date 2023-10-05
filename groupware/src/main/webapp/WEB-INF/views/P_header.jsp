@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -29,7 +30,7 @@ a {
 /* 사이트의 높이를 5000px로 만들어 스크롤 생성 */
 body {
 /*   height: 5000px; */
-  background-color: #f1f1f1;
+  background-color: white;
 }
 
 /* 사이드바 시작 */
@@ -244,7 +245,7 @@ body {
             <a href="/ko_reservation">예약</a>
         </li>
         <li>
-            <a href="#">근태관리</a>
+            <a href="/attendance_management/attendance">근태관리</a>
         </li>
         <li>
             <a href="#">전자결재</a>
@@ -271,19 +272,12 @@ body {
         <li class="menu">
             <img src="img/${profileIMG}" class="profile">
             <ul class="hide">
-            	
             	<li><a href="/"> 홈</a></li>
             	<li><a href="/myInfo">정보수정</a></li>
                 <li><a href="/logout">로그아웃</a></li>
-                
             </ul>
         </li>
         </ul>
-<!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
-<!--     	<div id="pHedaerEmailAlarm"></div> -->
-<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
-<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  -->
-<%--     	<img src="img/${profileIMG}" class="profile"> --%>
 	</div>
 	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
@@ -298,7 +292,7 @@ $(document)
 	if(sessionid == null || sessionid == "") {
 		alert("권한이 없습니다");
 		return false;
-	
+	}
 	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
 		success:function(data){
 			console.log("/pHeaderAlarm 성공");
@@ -309,7 +303,6 @@ $(document)
 			alert("/pHeaderAlarm 오류");
 		}
 	});
-}
 })
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();

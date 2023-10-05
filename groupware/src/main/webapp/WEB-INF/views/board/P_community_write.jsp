@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
-<title>공지 쓰기</title>
+<title>글쓰기</title>
 <style>
     body {
         background-color: #f2f2f2;
@@ -58,7 +58,7 @@
     }
 </style>
 </head>
-<%@ include file="P_header.jsp" %>
+<%@ include file="../P_header.jsp" %>
 <link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
 <body>
 <div id="editorContainer">
@@ -108,7 +108,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/announcement_savepost",
+                url: "/savepost",
                 data: post,
                 success: function(data) {
                     console.log('success')
