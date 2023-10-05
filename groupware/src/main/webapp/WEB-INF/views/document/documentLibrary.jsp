@@ -161,7 +161,7 @@
             color: #fff;
             border: 1px solid #10665b;
         }
-    </style>
+</style>
 </head>
 <body>
     <%@ include file="/WEB-INF/views/P_header.jsp" %>
@@ -177,7 +177,7 @@
                 </div>
                 <br><br><br>
                 <div>
-                    <a href="/documentLibrary?documentType=all" id="all">전체 자료실</a><br><br><br>
+                    <a href="/documentLibrary?documentType=all" id="allDocu">전체 자료실</a><br><br><br>
                     <a href="/documentLibrary?documentType=individual" id="individual">개인 자료실</a>
                 </div>
             </div>
@@ -295,23 +295,18 @@
         $(document).on('click', '#closeModal', function () {
             $('#documentUpload').hide();
         });
-        $('#individual').click(function () {
-            console.log("개인 자료실 버튼이 클릭되었습니다.");
-            $('#indiDocument').show();
-            $('#allDocument').hide();
-            // h3 요소의 내용을 변경합니다.
-//             $('#indiDocumentTitle').text('개인 자료실');
-        });
-
-        $('#all').click(function () {
-            console.log("전체 자료실 버튼이 클릭되었습니다.");
-            $('#indiDocument').hide();
-            $('#allDocument').show();
-            // h3 요소의 내용을 변경합니다.
-//             $('#allDocumentTitle').text('전체 자료실');
-        });
-      
+      $(document).on('click', '#individual', function(){
+	    $('#indiDocument').show();
+	    $('#allDocument').hide();
+		});
+	
+	$(document).on('click', '#allDocu', function(){
+	    $('#allDocument').show();
+	    $('#indiDocument').hide();
+		});
  });
+    
+    
     // 페이지 번호 클릭 시 해당 documentType으로 이동
 	$('.pagination a').click(function (event) {
 	    event.preventDefault(); // 기본 링크 동작 방지
