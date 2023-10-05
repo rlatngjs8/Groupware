@@ -225,11 +225,17 @@ public class Ko_controller {
 	}
 	@PostMapping("/getNewNotice")
 	@ResponseBody
-	public String getNewNotice() {
-		System.out.println("ajax call");
-		int newNoticeCount = ndao.getNewNotice();
-		System.out.println("count="+newNoticeCount);
-		String noticeCount = Integer.toString(newNoticeCount);
-		return noticeCount;
+	public String getNewNotice(HttpServletRequest req) {
+		int empID=Integer.parseInt(req.getParameter("empID"));
+		ArrayList<NoticeDTO> alNotice = ndao.getNewNotice(empID);
+		JSONArray ja = new JSONArray();
+		for(int i=0; i<alNotice.size(); i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("type",alNotice.get(i).type);
+			jo.put("title",alNotice.get(i).title);
+			jo.put("time",alNotice.get(i).time);
+			ja.add(jo);
+		}	
+		return ja.toJSONString();
 	}
 }
