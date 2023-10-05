@@ -478,9 +478,6 @@ hr.hr-3 {
 		</div>
     </aside>
 <main class="main">
-       <div class="search-container">
-        <input type="text" class="search-input" placeholder="검색어를 입력하세요">
-        <button class="search-button">검색</button>
     </div>
 
 <!--    <div class="container" style="margin-bottom: 20px;"> -->
@@ -576,12 +573,11 @@ function sort(name, page) {
                 // 데이터가 없는 경우 빈 테이블 행을 추가
                 const newRow = $('<tr>');
                 newRow.append('<td colspan="11" style="text-align: center;">' +
-                    '<p>데이터가 없습니다.</p>' +
+                    '<p>새 연락처를 추가해주세요.</p>' +
                     '<div style="text-align: center;">' +
-                    '<button id="openModalButton" class="btn btn-primary">빠른 등록</button>' +
                     '</div>' +
                     '</td>');
-                $('#no_contactListBody').append(newRow);
+                $('#contactListBody').append(newRow);
             } else {
                 // 데이터가 있는 경우 연락처를 추가
 		            for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {

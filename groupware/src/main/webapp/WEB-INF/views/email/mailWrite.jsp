@@ -13,9 +13,14 @@
 #mailTable td {height:28px; padding:0 20px 20px 40px;}
 #mailTable td:nth-child(1) {width:90px; font-weight:bold;}
 #mailTable tr:last-child td {border: 1px solid lightgray; border-width:1px 0 0;}
-.mInputText {width:99%; border-width: 0 0 1px; border-color: black; outline:none; font-size:14px; 
-			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
-.mInputText:focus {border-color: #6AB0AD;}
+/* .mInputText {width:99%; border-width: 0 0 1px; border-color: black; outline:none; font-size:14px; */
+/*  			caret-color:#6AB0AD; padding:9px 0 9px 4px;}  */
+/* .mInputText:focus {border-color: #6AB0AD;} */
+.mInputText {width:99%; border-width: 0; outline:none; font-size:14px;
+ 			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
+.mInputEmail {width:auto; height:28px; border-width: 0; outline:none; font-size:14px;
+ 			caret-color:#6AB0AD; padding:9px 0 9px 4px; background-color:transparent;}
+/* .mInputText::focus-within {border-color: #6AB0AD;} */
 textarea {width:99%; padding:15px 0 15px 0; border:none; outline:none; resize:none;}
 .font_rnffla {font-family: '굴림', Gulim;}
 input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hidden; border: 0;}
@@ -25,6 +30,16 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 .mfd div {display:inline-block; text-align:center; margin:1px 10px 1px 10px; padding: 1px 10px 1px 10px;}
 .mfx {cursor: pointer;}
 #btnMailSend {width:62px; height:28px; padding: 3px 10px 3px 10px; font-weight:bold; margin-left:40px;}
+#divInputEmail {padding:0; margin: 0;
+			 height:28px; height: auto; width:99%; border: 1px solid black; border-width: 0 0 1px; font-size:14px; 
+			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
+#divInputEmail:focus-within {border-color: #6AB0AD;}
+.divInputE {height:28px;width:99%; border: 1px solid black; border-width: 0 0 1px; font-size:14px; 
+			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
+.divInputE:focus-within {border-color: #6AB0AD;}
+.ppEmailbox {margin:7px 0 7px 0; display:inline-block;}
+#emailbox {white-space: nowrap;}
+#emailXBtn {border: 0px; background-color:transparent;}
 </style>
 <body style="font-size:14px; background-color:white;">
 <div style="display:flex; height: 100%;">
@@ -35,13 +50,12 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 		<input type="button" id="btnMailSend" class="whiteBtn" value="보내기">
 		<br><br>
 		<table id="mailTable">
-		<tr><td>받는사람</td><td><input type=text autofocus id="mInputEmail" class="mInputText" value="ge@example.com"></td></tr>
-		<tr><td>참조</td><td><input type=text id="mInputCC" class="mInputText"></td></tr>
-		<tr><td>제목</td><td><input type=text id="mInputTitle" class="mInputText" value="안녕하세요."></td></tr>
+		<tr><td>받는사람</td><td><div id="divInputEmail"><input type=text autofocus id="mInputEmail" class="mInputEmail" value="${email}"></div></td></tr>
+		<tr><td>제목</td><td><div class="divInputE"><input type=text id="mInputTitle" class="mInputText" value="${subject}"></div></td></tr>
 		<tr><td>파일첨부</td><td><label for="mailFile" id="mFileLabel">파일선택</label><input type=file id="mailFile" class="mInputText" multiple></td></tr>
 <!-- 		<tr><td>파일첨부</td><td><input type=file id="mailFile" class="mInputText" multiple></td></tr> -->
 		<tr><td></td><td><div class="mailFileName"><label>파일은 3개까지 선택 가능합니다.</label></div></td></tr>
-		<tr><td colspan=2><textarea rows=25 id="mInputContent" class="font_rnffla"></textarea></td></tr>
+		<tr><td colspan=2><textarea rows=25 id="mInputContent" class="font_rnffla">${content2}${content}</textarea></td></tr>
 		</table>
 	</div>
 </div>
@@ -49,18 +63,50 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 const dataTransfer = new DataTransfer();
-
+let cnt = 1;
 $(document)
 .ready(function(){
-	console.log("내 사원아이디: "+$('#mailMyEmpID').text());
 })
 .on('click','.mfx',function(){
-// 	console.log($(this).siblings('.mfn').text());
-// 	console.log($('.mfx').index(this));
 	dataTransfer.items.remove($('.mfx').index(this));
     console.log("dataTransfer =>",dataTransfer.files);
     $('#mailFile')[0].files = dataTransfer.files;
     $('.mfd')[$('.mfx').index(this)].remove();
+    if($('.mfn').length==0){
+        $('.mailFileName').children('label').text("파일은 3개까지 선택 가능합니다.");
+    	$('.mailFileName').children('label').css("padding","0 12px 0 12px");
+    }
+})
+.on('change','#mInputEmail',function(){
+	$('html').click(function(e){
+		if(!$(e.target).hasClass("mInputEmail") && $('#mInputEmail').val()!=""){
+			let text = $('#mInputEmail').val().split(' ').join('');
+			$('#mInputEmail').before("<div class='ppEmailbox'><label id='emailbox"+cnt+"' class='emailbox'>"+text+" <input type=button id=emailXBtn value=X></label></div>");
+			$('#mInputEmail').val("");
+			cnt++;
+			
+// 			let height = 29*cnt;
+// 			$('#divInputEmail').css("height",height+"px");
+// 			$('#tdInputEmail').css("height",height+"px");
+			$('#mInputEmail').focus();
+		}
+	})
+})
+.on('keydown','#mInputEmail',function(e){
+	if($('#mInputEmail').val()!=""){
+		if (e.keyCode == 13 || e.keyCode == 9) {	
+			let text = $('#mInputEmail').val().split(' ').join('');
+			$('#mInputEmail').before("<div class='ppEmailbox'><label id='emailbox"+cnt+"' class='emailbox'>"+text+" <input type=button id=emailXBtn value=X></label></div>");
+			$('#mInputEmail').val("");
+			cnt++;
+			console.log($('.ppEmailbox').width());
+// 			console.log($('#mInputEmail').offsetTop);
+// 			let height = 29*cnt;
+// 			$('#divInputEmail').css("height",height+"px");
+// 			$('#tdInputEmail').css("height",height+"px");
+			$('#mInputEmail').focus();
+		}
+	}
 })
 .on('change','#mailFile',function(){
 	let mailFile = $('#mailFile')[0].files;
@@ -79,6 +125,7 @@ $(document)
           console.log("dataTransfer =>",dataTransfer.files);
 //           console.log("input FIles =>", $('#mailFile')[0].files);
 		$('.mailFileName').children('label').text("");
+		$('.mailFileName').children('label').css("padding","0");
     }
 })
 .on('click','.mfn',function(event){
@@ -95,18 +142,14 @@ $(document)
         $('#mailFile')[0].files = dataTransfer.files;
         console.log("dataTransfer =>",dataTransfer.files);
     }
-    if($('.mfn').length==0){
-        $('.mailFileName').children('label').text("파일은 3개까지 선택 가능합니다.");
-    }
-
 })
 .on('click','#btnMailSend',function(){
-	console.log(dataTransfer.files.length);
+// 	console.log($('.emailbox').text());
+// 	console.log(dataTransfer.files.length);
 	let formData = new FormData();
 	let mailFile = $('#mailFile')[0].files;
-	
-	if($('#mInputEmail').val()==''){alert('받는사람이 없습니다!'); return false;}
-	else{formData.append('receiverEmail', $('#mInputEmail').val());}
+	if(!$('label').hasClass('emailbox')){alert('받는사람이 없습니다!'); return false;}
+	else{formData.append('receiverEmail', $('.emailbox').text());}
 	if($('#mInputTitle').val()==''){alert('제목이 없습니다!'); return false;}
 	else{formData.append('mailTitle', $('#mInputTitle').val());}
 	
@@ -144,7 +187,7 @@ $(document)
 				document.location="/mailFolder1"; 
 			},
 			error:function(data){
-				alert("오류");
+				alert("존재하지 않는 이메일입니다.");
 				return false;
 			}
 		});
@@ -178,6 +221,7 @@ $('.mailFileName').on("dragenter", function(e){
 	}
 	$('#mailFile')[0].files = dataTransfer.files;
 	$('.mailFileName').children('label').text("");
+	$('.mailFileName').children('label').css("padding","0");
 });
 
 let maxSize = 5368709120; //5GB

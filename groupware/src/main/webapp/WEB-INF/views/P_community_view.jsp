@@ -124,11 +124,10 @@
 <div class="page-side">
     <h1>게시판</h1>
     <a href='/community_write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
-<!--     <div>
-        <a href='/#'>아이디어 공유</a><br>
-        <a href='/#'>휴가</a><br>
-        <a href='/#	'>프로젝트</a><br>
-    </div> -->
+	<div>
+        <a href='/announcement'>공지사항</a><br>
+        <a href='/community'>자유 게시판</a><br>
+    </div>
 </div>
     <div class="Main_Content">
         <div class="Post_Content">
@@ -148,7 +147,7 @@
             <span>조회수: ${bpost.views}</span><span>좋아요 :${bpost.likes}</span>
         </div>
         <div class="comment-input">
-            <span>댓글 : </span><input type="text" id="comment-input"><input type="button" id="comment-submit" onclick="submitComment()" value="작성">          
+            <span>댓글 : </span><input type="text" id="comment-input" onclick="enterkey()"><input type="button" id="comment-submit" onclick="submitComment()" value="작성">          
         </div>
         <div class="comment">
         	<span>댓글 목록</span>

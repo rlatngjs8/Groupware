@@ -11,29 +11,53 @@
 <select id="selectEmpEmail" resultType="com.groupware.project.MailDTO">
 	select employeeid, name, departmentid, position, email from employees where email=#{param1}
 </select>
+<select id="selectEmpEmail2" resultType="Integer">
+	select employeeid from employees where email=#{param1}
+</select>
+<!-- <insert id="insertRecentEmail" parameterType="java.util.HashMap"> -->
+<!-- 	insert into employees set recentemail=#{param2} where employeeid=#{param1} -->
+<!-- </insert> -->
 <insert id="insertEmails" parameterType="java.util.HashMap">
 	insert into emails set subject=#{param1},content=#{param2},senderemployeeid=#{param3},
-	receiveremployeeid=#{param4},attachment1=#{param5},attachment2=#{param6},attachment3=#{param7}
+	receiveremployeeid=#{param4},attachment1=#{param5},attachment2=#{param6},attachment3=#{param7},multiplesend=#{param8}
 </insert>
 <!-- empid로 email받아서 받은메일함 작성 -->
 <select id="selectRecMail" resultType="com.groupware.project.MailDTO"> 
-	select a.emailid, a.emailReceive, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
-		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
-				  		inner join employees c ON a.SenderEmployeeID=c.EmployeeId where receiveremployeeid=#{param1}
-				  					 AND (a.emailreceive=0 OR a.emailreceive=1)
+	select a.emailid, a.emailreceive, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
+		 a.sendtime from emails a inner join employees c ON a.SenderEmployeeID=c.EmployeeId 
+		 				where receiveremployeeid=#{param1}
+				  					 AND (a.emailreceive=0 OR a.emailreceive=1) and tcreceive=0
 				  					 order by a.emailid desc limit #{param2},#{param3}
 </select>
+<!-- <select id="selectSendMail" resultType="com.groupware.project.MailDTO">  -->
+<!-- 	select a.emailid, a.emailsend, b.name, b.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid, -->
+<!-- 		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid  -->
+<!-- 				  		where senderemployeeid=#{param1} -->
+<!-- 				  					 AND (a.emailsend=0 OR a.emailsend=1) and tcsend=0 -->
+<!-- 				  					 order by a.emailid desc limit #{param2},#{param3} -->
+<!-- </select> -->
 <select id="selectSendMail" resultType="com.groupware.project.MailDTO"> 
-	select a.emailid, a.emailReceive, b.name, b.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
-		 a.sendtime from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
-				  		inner join employees c ON a.SenderEmployeeID=c.EmployeeId where senderemployeeid=#{param1}
-				  					 AND (a.emailsend=0 OR a.emailsend=1)
+	select a.emailid, a.emailsend, b.name, b.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
+		 a.sendtime, a.multiplesend from emails a inner join employees b on a.receiveremployeeid=b.employeeid 
+				  			where senderemployeeid=#{param1}
+				  					 and (a.emailsend=0 or a.emailsend=1) and tcsend=0
+				  		and (multiplesend=0 or emailid in (select min(emailid) from emails group by multiplesend))
 				  					 order by a.emailid desc limit #{param2},#{param3}
+</select>
+<select id="selectTrashCanMail" resultType="com.groupware.project.MailDTO"> 
+	select a.emailid, a.emailreceive, a.emailsend, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
+		 a.sendtime from emails a inner join employees c ON a.SenderEmployeeID=c.EmployeeId 
+				  					where (senderemployeeid=#{param1} and tcsend=1) 
+				  						or (receiveremployeeid=#{param1} and tcreceive=1)
+				  					 order by a.emailid desc limit #{param2},#{param3}
+</select>
+<select id="selectemailAlarmcnt" resultType="Integer">
+	select count(*) from emails where receiveremployeeid=#{param1} and emailreceive=0 and tcreceive=0
 </select>
 <!-- 이메일디테일 이메일정보와 받은사람 이름 이메일 -->
 <select id="selectDetailMail" resultType="com.groupware.project.MailDTO"> 
 	select a.emailid, b.name, b.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
-			a.attachment1, a.attachment2, a.attachment3, a.sendtime from emails a 
+			a.attachment1, a.attachment2, a.attachment3, a.sendtime, a.multiplesend from emails a 
 			inner join employees b on a.receiveremployeeid=b.employeeid where a.emailid=#{param1}
 </select>
 <!-- 이메일디테일 보낸사람 이름 이메일 -->
@@ -41,6 +65,13 @@
 	select b.name, b.email from emails a inner join employees b 
 					on a.senderemployeeid=b.employeeid where a.emailid=#{param1}
 </select>
+<select id="selectmultipleEid" resultType="com.groupware.project.MailDTO"> 
+	select receiveremployeeid from emails where multiplesend=#{param1}
+</select>
+<select id="selectmultipleEmail" resultType="com.groupware.project.MailDTO"> 
+	select name, email from employees where employeeid=#{param1}
+</select>
+
 <!-- 현재 최대 emailid -->
 <select id="selectMaxemailid" resultType="Integer">
 	select ifnull(max(emailid),0) from emails
@@ -52,12 +83,34 @@
 	update emails set emailreceive=1 where emailid=#{param1}
 </update>
 <update id="updateEmailReceive2">
-	update emails set emailreceive=2 where emailid=#{param1}
+	update emails set tcreceive=1 where emailid=#{param1}
+</update>
+<update id="updateEmailReceive3">
+	update emails set tcreceive=2 where emailid=#{param1}
+</update>
+<update id="updateEmailSend0">
+	update emails set emailsend=0 where emailid=#{param1}
+</update>
+<update id="updateEmailSend1">
+	update emails set emailsend=1 where emailid=#{param1}
+</update>
+<update id="updateEmailSend2">
+	update emails set tcsend=1 where emailid=#{param1}
+</update>
+<update id="updateEmailSend3">
+	update emails set tcsend=2 where emailid=#{param1}
 </update>
 <select id="selectReceiverEmailscnt" resultType="Integer">
-	select count(*) from emails where receiveremployeeid=#{param1} and (emailreceive=0 or emailreceive=1)
+	select count(*) from emails where receiveremployeeid=#{param1} and (emailreceive=0 or emailreceive=1) and tcreceive=0
 </select>
+<!-- <select id="selectSenderEmailscnt" resultType="Integer"> -->
+<!-- 	select count(*) from emails where senderemployeeid=#{param1} and (emailsend=0 or emailsend=1) and tcsend=0 -->
+<!-- </select> -->
 <select id="selectSenderEmailscnt" resultType="Integer">
-	select count(*) from emails where senderemployeeid=#{param1} and (emailsend=0 or emailsend=1)
+	select count(*) from emails where senderemployeeid=#{param1} and (emailsend=0 or emailsend=1) and tcsend=0 
+		and (multiplesend=0 or emailid in (select min(emailid) from emails group by multiplesend))
+</select>
+<select id="selectTrashCancnt" resultType="Integer">
+	select count(*) from emails where (senderemployeeid=#{param1} and tcsend=1) or (receiveremployeeid=#{param1} and tcreceive=1)
 </select>
 </mapper>

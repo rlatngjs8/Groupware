@@ -405,6 +405,7 @@ hr.hr-3 {
 #pagination {
     text-align: center;
     margin-top: 20px;
+    margin-left: 220px;
 }
 
 #pagination a {

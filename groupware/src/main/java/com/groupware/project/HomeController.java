@@ -19,7 +19,6 @@ public class HomeController {
 	
 		@Autowired
 		private EmployeesDAO edao;
-		
 		@GetMapping("/")
 		public String home(HttpServletRequest req, Model model) {
 			HttpSession session = req.getSession(false); // 세션이 존재하면 가져오고, 존재하지 않으면 새로 생성하지 않도록 설정

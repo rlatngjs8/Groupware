@@ -4,6 +4,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.mysql.cj.xdevapi.JsonArray;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,15 +30,21 @@ public class SuController {
 	private EmployeesDAO edao;
 	@Value("${image.upload.directory}")
 	private String imageUploadDirectory;
+	
+//	@Value("${document.upload.directory")
+//	private String documentUploadDirectory;
+//	@Autowired
+//	private DocumentDAO ddao;
+	
 	@Autowired
 	private CalendarDAO cdao;
 
-	@GetMapping("/manage/manageHome")
+	@GetMapping("/manageHome")
 	public String manageHome() {
 		return "/manage/manageHome";
 	}
 
-	@GetMapping("/manage/showEmployee")
+	@GetMapping("/showEmployee")
 	public String showEmployee(HttpServletRequest req, Model model) {
 		// 페이지 넘버 먹여서 직원리스트
 		int start, psize;
@@ -55,7 +65,7 @@ public class SuController {
 			if (pno == i) {
 				pagestr += i + "&nbsp;";
 			} else {
-				pagestr += "<a href='/manage/showEmployee?pageno=" + i + "'>" + i + "</a>&nbsp;";
+				pagestr += "<a href='/showEmployee?pageno=" + i + "'>" + i + "</a>&nbsp;";
 			}
 		}
 		model.addAttribute("pagestr", pagestr);
@@ -111,7 +121,7 @@ public class SuController {
 			cdao.birthdayToC(namebirth, birthdate);
 			Thread.sleep(3000);
 			System.out.println("성공");
-			return "redirect:/manage/showEmployee";
+			return "redirect:/showEmployee";
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 오류 페이지로 리다이렉트 또는 오류 메시지를 반환할 수 있습니다.
@@ -143,7 +153,7 @@ public class SuController {
 		}
 	}
 
-	@GetMapping("/manage/account")
+	@GetMapping("/account")
 	public String account(HttpServletRequest req, Model model) {
 		String userid = req.getParameter("userid");
 		EmployeesDTO alEmp = edao.getListSelect(userid);
@@ -153,7 +163,7 @@ public class SuController {
 		return "manage/account";
 	}
 
-	@GetMapping("/manage/editAccount")
+	@GetMapping("/editAccount")
 	public String editAccount(HttpServletRequest req, Model model) {
 		String userid = req.getParameter("userid");
 		EmployeesDTO alEmp = edao.getListSelect(userid);
@@ -221,7 +231,7 @@ public class SuController {
 			edao.editEMP(name, departmentID, position, phoneNumber, address, email, salary, fileName, userid);
 			Thread.sleep(4000);
 			System.out.println("성공");
-			return "redirect:/manage/account?userid=" + userid;
+			return "redirect:/account?userid=" + userid;
 		} catch (Exception e) {
 			System.out.println("실패");
 			e.printStackTrace();
@@ -323,5 +333,61 @@ public class SuController {
 			// 오류 페이지로 리다이렉트 또는 오류 메시지를 반환할 수 있습니다.
 			return "errorPage";
 		}
+	}
+	@GetMapping("/documentLibrary")
+	public String documentLibrary (HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+		String name = (String) session.getAttribute("name");
+		
+		
+		return "document/documentLibrary";
+	}
+	
+	
+	@Value("${document.upload.directory}")
+	private String documentUploadDirectory;
+	@Autowired
+	private DocumentDAO ddao;
+	
+	@PostMapping("/fileUpload")
+	public String fileUpload(HttpServletRequest req, @RequestParam(name = "documentFile") MultipartFile[] documentFiles) {
+	    HttpSession session = req.getSession();
+	    String userid = (String) session.getAttribute("userid");
+
+	    // 대상 폴더 선택
+	    String storageType = req.getParameter("storageType");
+
+	    try {
+	        for (MultipartFile documentFile : documentFiles) {
+	            if (!documentFile.isEmpty()) {
+	                // 업로드할 파일 정보
+	                String filename = documentFile.getOriginalFilename();
+	                String filetype = filename.substring(filename.lastIndexOf('.') + 1);
+	                long filesize = documentFile.getSize();
+
+	                // 파일을 서버에 저장
+	                String uploadDirectory = documentUploadDirectory;
+
+	                String filePath = uploadDirectory + "/" + filename;
+	                documentFile.transferTo(new File(filePath));
+
+	                // 파일 정보를 데이터베이스에 저장
+	                ddao.insert(filename, userid, filetype, filesize, storageType);
+	            }
+	        }
+	        return "document/documentLibrary";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        // 오류 페이지로 리다이렉트 또는 오류 메시지를 반환할 수 있습니다.
+	        return "errorPage";
+	    }
+	}
+	@PostMapping("/allDocument")
+	public String allDocument(HttpServletRequest req, Model model) {
+		ArrayList<DocumentDTO> alDocu = ddao.getList();
+
+		model.addAttribute("dlist", alDocu);
+		return "document/documentLibrary";
 	}
 }

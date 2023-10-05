@@ -5,12 +5,15 @@ body {
     font-family: Arial, sans-serif;
 }
 .Main_Content {
+	margin: 10%;
     margin-left:470px; /* 수정된 마진 값 */
     margin-top: 50px;
+    border-radius: 2%;
     padding: 20px; /* 내용과의 간격을 주기 위한 패딩 추가 */
+    background-color: rgb(255, 255, 255);
 }
 .page-side {
-	margin-left: 240px;
+	margin-left: 200px;
     float: left; /* 왼쪽으로 배치 */
     width: 200px; /* 사이드바 너비 조정 */
     padding: 20px; /* 내용과의 간격을 주기 위한 패딩 추가 */
