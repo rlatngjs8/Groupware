@@ -16,7 +16,7 @@
 #mailTitle {font-weight:bold; font-size:20px; padding:0; cursor:pointer}
 </style>
 <body>
-<div style="padding-left:210px;">
+<div style="padding-left:190px;">
 <div id='mailLeftDiv' class="leftDiv">
 	<ul>
 		<li id="mailTitle">메일</li>

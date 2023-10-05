@@ -715,6 +715,7 @@ public class MailController implements WebMvcConfigurer {
 		HttpSession s = req.getSession();
 		int eid = (Integer) s.getAttribute("empID");
 		int cnt = mdao.selectemailAlarmcnt(eid);
+//		System.out.println(cnt+"A");
 		return cnt;
 	}
 }

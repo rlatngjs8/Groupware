@@ -265,13 +265,13 @@ body {
     	<div class="search-bar">
     	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button" ><img src="P_img/free-icon-magnifier-71403.png"></button>
     	</div>
+    	<div id="pHedaerEmailAlarm"></div>
     	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
     	<a href="#"><img src="/P_img/bell.png" alt="공지"></a>  
     	<ul>
         <li class="menu">
             <img src="img/${profileIMG}" class="profile">
             <ul class="hide">
-            	
             	<li><a href="/"> 홈</a></li>
             	<li><a href="/myInfo">정보수정</a></li>
                 <li><a href="/logout">로그아웃</a></li>
@@ -290,7 +290,6 @@ body {
 
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script>
-
 $(document)
 .ready(function(){
 	let sessionid = $("#sessionid").val()
@@ -298,7 +297,7 @@ $(document)
 	if(sessionid == null || sessionid == "") {
 		alert("권한이 없습니다");
 		return false;
-	
+}
 	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
 		success:function(data){
 			console.log("/pHeaderAlarm 성공");
@@ -309,7 +308,6 @@ $(document)
 			alert("/pHeaderAlarm 오류");
 		}
 	});
-}
 })
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();
