@@ -14,6 +14,7 @@ public interface MailDAO {
 	ArrayList<MailDTO> selectRecMail(int receiveremployeeid, int limit1, int limit2);
 	ArrayList<MailDTO> selectSendMail(int senderemployeeid, int limit1, int limit2);
 	ArrayList<MailDTO> selectTrashCanMail(int employeeid, int limit1, int limit2);
+	ArrayList<MailDTO> selectMarkMail(int employeeid, int limit1, int limit2);
 
 	int selectemailAlarmcnt(int receiveremployeeid);
 	MailDTO selectDetailMail(int emailid);
@@ -29,9 +30,14 @@ public interface MailDAO {
 	void updateEmailSend1(int emailid);
 	void updateEmailSend2(int emailid);
 	void updateEmailSend3(int emailid);
+	void updateReceiveMark0(int emailid);
+	void updateReceiveMark1(int emailid);
+	void updateSendMark0(int emailid);
+	void updateSendMark1(int emailid);
 	
-	int selectReceiverEmailscnt(int emailid);
-	int selectSenderEmailscnt(int emailid);
-	int selectTrashCancnt(int emailid);
+	int selectReceiverEmailscnt(int eid);
+	int selectSenderEmailscnt(int eid);
+	int selectTrashCancnt(int eid);
+	int selectMarkcnt(int eid);
 
 }

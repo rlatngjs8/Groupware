@@ -28,6 +28,8 @@
 	<div id="mailNow" class="divHidden">${rs}</div>
 	<c:if test='${trs=="tS"}'><div id="mailNow2" class="divHidden">tS</div></c:if>
 	<c:if test='${trs=="tR"}'><div id="mailNow2" class="divHidden">tR</div></c:if>
+	<c:if test='${trs=="mS"}'><div id="mailNow2" class="divHidden">mS</div></c:if>
+	<c:if test='${trs=="mR"}'><div id="mailNow2" class="divHidden">mR</div></c:if>
 	<c:if test='${rs=="receive"}'><p id="mailSideTitle">받은메일함</p></c:if>
 	<c:if test='${rs=="send"}'><p id="mailSideTitle">보낸메일함</p></c:if>
 	<c:if test='${rs=="trash"}'><p id="mailSideTitle">휴지통</p></c:if>
@@ -143,6 +145,8 @@ $(document)
 				document.location="/mailFolder1";
 			} else if($('#mailNow').text()=="send") {
 				document.location="/mailFolder2";
+			} else if($('#mailNow').text()=="mark") {
+				document.location="/mailMark";
 			} else if($('#mailNow').text()=="trash") {
 				document.location="/trashcanFolder";
 			}
