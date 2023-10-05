@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,6 @@
 	<div class='sideBar'>
 		<h2 id="c_title" class="c_title" style="margin-left:15px">캘린더</h2>
 		<button class="addPlanBtn" id="addPlanBtn">일정등록</button>
-		<button class="addPlanBtn" id="btnReservation">회의실 예약</button>
 	</div>
 	<form method="post" action="/planUpdate">
 		<div class="addPlan">
@@ -56,14 +56,22 @@
 					</table>
 					<table class="tbl_tit" style="margin-top: 40px">
 						<tbody>
+							<tr class="contentTr">
+								<td class="content">작성자 :</td><td class="content"><input class="writer" name="writer" type="text" value="${getDetails.writer}" readonly></td>
+							</tr>						
 							<tr>
 								<td class="content">내용 :</td><td><textarea class="contentArea" name="contentArea" required>${getDetails.calendar_memo}</textarea></td>
 							</tr>
 							<tr>
 								<td align="center" colspan="2">
-									<input type="submit" id="btnSend" class="btnPlan" value="수정">&nbsp;
-									<input type="button" id="btnCancel" class="btnPlan" value="취소">
-									<input type="button" id="btnDelete" class="btnPlan" value="삭제">						
+									<c:if test="${name==getDetails.writer}">
+										<input type="submit" id="btnSend" class="btnPlan" value="수정">&nbsp;
+										<input type="button" id="btnCancel" class="btnPlan" value="취소">
+										<input type="button" id="btnDelete" class="btnPlan" value="삭제">	
+									</c:if>
+									<c:if test="${name!=getDetails.writer}">
+										<input type="button" id="btnCancel" class="btnPlan" value="뒤로">
+									</c:if>			
 								</td>
 							</tr>					
 						</tbody>

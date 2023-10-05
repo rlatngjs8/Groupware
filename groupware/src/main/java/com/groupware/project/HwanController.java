@@ -45,8 +45,6 @@ public class HwanController {
 		return "attendance_management/attendance";
 	}
 	
-
-
 	@PostMapping("/insert_checkOut")
 	@ResponseBody
 	public String insert_checkOut(HttpServletRequest req, Model model, HttpSession session) {
@@ -64,8 +62,6 @@ public class HwanController {
 
 	    return "";
 	}
-	
-
 
 	@PostMapping("/insert_checkIn")
 	@ResponseBody
@@ -75,10 +71,10 @@ public class HwanController {
 	    String startTime = req.getParameter("startTime");
 	    String AttendanceStatus = req.getParameter("AttendanceStatus");
 	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
-
+	    
 	    Attdao.insert_checkIn(userid, date, startTime, AttendanceStatus);
 	    //redirect:/attendance_management/attendance"
-	    return ""; 
+	    return "";
 	}
 	
 

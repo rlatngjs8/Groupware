@@ -44,7 +44,7 @@ body {
   position: fixed;
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
-  margin-top : -1%;
+  margin-top : -1.4%;
   margin-left: -1%;
 }
 
@@ -101,7 +101,7 @@ body {
 .side-bar ul > li > a {
   display: block;
   color: white;
-  font-size: 1.4rem;
+  font-size: 17px;
   font-weight: bold;
   padding-top: 12px;
   padding-bottom: 20px;
@@ -226,23 +226,22 @@ body {
       <a href="/"><img src="/P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
       <ul>
         <li>
-          <a href="/"> 홈</a>
+          <a href="/">홈</a>
         </li>
         <li>
           <a href="/contact/company">연락처</a>
         </li>
         <li>
-          <a href="#">메일</a>
           <a href="/mailFolder1">메일</a>
         </li>
         <li>
           <a href="/community">게시판</a>
         </li>
         <li>
-          <a href="#">캘린더</a>
+          <a href="/ko_calendar">캘린더</a>
         </li>
         <li>
-            <a href="#">예약</a>
+            <a href="/ko_reservation">예약</a>
         </li>
         <li>
             <a href="#">근태관리</a>
@@ -251,7 +250,7 @@ body {
             <a href="#">전자결재</a>
         </li>
         <li>
-            <a href="#">자료실</a>
+            <a href="/documentLibrary">자료실</a>
         </li>
         <li>
             <a href="#">문의</a>
@@ -264,29 +263,54 @@ body {
 
     <div class="nav">
     	<div class="search-bar">
-    	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
+    	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button" ><img src="P_img/free-icon-magnifier-71403.png"></button>
     	</div>
-    	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  
+    	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
+    	<a href="#"><img src="/P_img/bell.png" alt="공지"></a>  
     	<ul>
         <li class="menu">
             <img src="img/${profileIMG}" class="profile">
             <ul class="hide">
             	
             	<li><a href="/"> 홈</a></li>
-            	<li><a href="/myinfo">정보수정</a></li>
+            	<li><a href="/myInfo">정보수정</a></li>
                 <li><a href="/logout">로그아웃</a></li>
                 
             </ul>
         </li>
         </ul>
+<!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
+<!--     	<div id="pHedaerEmailAlarm"></div> -->
+<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
+<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  -->
+<%--     	<img src="img/${profileIMG}" class="profile"> --%>
 	</div>
+	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
 
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script>
 
-$(document)	 
+$(document)
+.ready(function(){
+	let sessionid = $("#sessionid").val()
+	console.log($("#sessionid").val())
+	if(sessionid == null || sessionid == "") {
+		alert("권한이 없습니다");
+		return false;
+	
+	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+		success:function(data){
+			console.log("/pHeaderAlarm 성공");
+			console.log(data);
+			$('#pHedaerEmailAlarm').text(data);
+		},
+		error:function(data){
+			alert("/pHeaderAlarm 오류");
+		}
+	});
+}
+})
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();
 	console.log(search);

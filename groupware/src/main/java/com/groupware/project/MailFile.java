@@ -55,6 +55,7 @@ public class MailFile {
 //			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
 			
 			System.out.println("nowloading");
+			// 응답으로 변환될 정보를 모두 담은 요소들을 객체로 만들어서 반환
 			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
 		} catch(Exception e) {
 			System.out.println("error");

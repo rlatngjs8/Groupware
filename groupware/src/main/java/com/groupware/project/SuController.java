@@ -1,18 +1,35 @@
 package com.groupware.project;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,15 +43,21 @@ public class SuController {
 	private EmployeesDAO edao;
 	@Value("${image.upload.directory}")
 	private String imageUploadDirectory;
+	
+//	@Value("${document.upload.directory")
+//	private String documentUploadDirectory;
+//	@Autowired
+//	private DocumentDAO ddao;
+	
 	@Autowired
 	private CalendarDAO cdao;
 
-	@GetMapping("/manage/manageHome")
+	@GetMapping("/manageHome")
 	public String manageHome() {
 		return "/manage/manageHome";
 	}
 
-	@GetMapping("/manage/showEmployee")
+	@GetMapping("/showEmployee")
 	public String showEmployee(HttpServletRequest req, Model model) {
 		// 페이지 넘버 먹여서 직원리스트
 		int start, psize;
@@ -55,7 +78,7 @@ public class SuController {
 			if (pno == i) {
 				pagestr += i + "&nbsp;";
 			} else {
-				pagestr += "<a href='/manage/showEmployee?pageno=" + i + "'>" + i + "</a>&nbsp;";
+				pagestr += "<a href='/showEmployee?pageno=" + i + "'>" + i + "</a>&nbsp;";
 			}
 		}
 		model.addAttribute("pagestr", pagestr);
@@ -111,7 +134,7 @@ public class SuController {
 			cdao.birthdayToC(namebirth, birthdate);
 			Thread.sleep(3000);
 			System.out.println("성공");
-			return "redirect:/manage/showEmployee";
+			return "redirect:/showEmployee";
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 오류 페이지로 리다이렉트 또는 오류 메시지를 반환할 수 있습니다.
@@ -143,7 +166,7 @@ public class SuController {
 		}
 	}
 
-	@GetMapping("/manage/account")
+	@GetMapping("/account")
 	public String account(HttpServletRequest req, Model model) {
 		String userid = req.getParameter("userid");
 		EmployeesDTO alEmp = edao.getListSelect(userid);
@@ -153,7 +176,7 @@ public class SuController {
 		return "manage/account";
 	}
 
-	@GetMapping("/manage/editAccount")
+	@GetMapping("/editAccount")
 	public String editAccount(HttpServletRequest req, Model model) {
 		String userid = req.getParameter("userid");
 		EmployeesDTO alEmp = edao.getListSelect(userid);
@@ -221,7 +244,7 @@ public class SuController {
 			edao.editEMP(name, departmentID, position, phoneNumber, address, email, salary, fileName, userid);
 			Thread.sleep(4000);
 			System.out.println("성공");
-			return "redirect:/manage/account?userid=" + userid;
+			return "redirect:/account?userid=" + userid;
 		} catch (Exception e) {
 			System.out.println("실패");
 			e.printStackTrace();
@@ -323,5 +346,129 @@ public class SuController {
 			// 오류 페이지로 리다이렉트 또는 오류 메시지를 반환할 수 있습니다.
 			return "errorPage";
 		}
+	}
+	@GetMapping("/documentLibrary")
+	public String documentLibrary(HttpServletRequest req, Model model, 
+	    @RequestParam(defaultValue = "1") int page,
+	    @RequestParam(defaultValue = "all") String documentType) {
+	    HttpSession session = req.getSession();
+	    String userid = (String) session.getAttribute("userid");
+	    String name = (String) session.getAttribute("name");
+
+	    // 페이지당 항목 수와 시작 위치 계산
+	    int itemsPerPage = 10; // 한 페이지당 보여줄 항목 수를 조정할 수 있습니다.
+	    int startIndex = (page - 1) * itemsPerPage;
+
+	    ArrayList<DocumentDTO> alDocu = null;
+	    if ("all".equals(documentType)) {
+	        // 전체 문서 목록 조회
+	        alDocu = ddao.getListForPage(startIndex, itemsPerPage);
+	    } else if ("individual".equals(documentType)) {
+	        // 개인 문서 목록 조회
+	        alDocu = ddao.getListUserForPage(userid, startIndex, itemsPerPage);
+	    }
+
+	    model.addAttribute("dlist", alDocu);
+
+	    // 개인 자료실 목록도 모델에 추가
+	    if ("individual".equals(documentType)) {
+	        ArrayList<DocumentDTO> alIndiDocu = ddao.getListUserForPage(userid, startIndex, itemsPerPage);
+	        model.addAttribute("indi", alIndiDocu);
+	    }
+
+	    // 전체 페이지 수 계산
+	    int totalItems = ddao.getCount();
+
+	    // 개인 자료실 데이터가 10개 미만인 경우 페이지 번호 표시 안 함
+	    boolean showPageNumbers = totalItems >= itemsPerPage;
+
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("documentType", documentType);
+	    model.addAttribute("showPageNumbers", showPageNumbers);
+
+	    return "document/documentLibrary";
+	}
+	
+	@Value("${document.upload.directory}")
+	private String documentUploadDirectory;
+	@Autowired
+	private DocumentDAO ddao;
+	
+	@PostMapping("/fileUpload")
+	public String fileUpload(HttpServletRequest req, @RequestParam(name = "documentFile") MultipartFile[] documentFiles) {
+	    HttpSession session = req.getSession();
+	    String userid = (String) session.getAttribute("userid");
+
+	    // 대상 폴더 선택
+	    String storageType = req.getParameter("storageType");
+
+	    try {
+	        for (MultipartFile documentFile : documentFiles) {
+	            if (!documentFile.isEmpty()) {
+	                // 업로드할 파일 정보
+	                String filename = documentFile.getOriginalFilename();
+	                String filetype = filename.substring(filename.lastIndexOf('.') + 1);
+	                long filesize = documentFile.getSize();
+
+	                // 파일을 서버에 저장
+	                String uploadDirectory = documentUploadDirectory;
+
+	                String filePath = uploadDirectory + "/" + filename;
+	                documentFile.transferTo(new File(filePath));
+
+	                // 파일 정보를 데이터베이스에 저장
+	                ddao.insert(filename, userid, filetype, filesize, storageType);
+	            }
+	        }
+//	        Thread.sleep(4000);
+	        return "document/documentLibrary";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        // 오류 페이지로 리다이렉트 또는 오류 메시지를 반환할 수 있습니다.
+	        return "errorPage";
+	    }
+	}
+	@GetMapping("/documentDownload")
+	public ResponseEntity<Resource> downloadFile(@RequestParam("fileName") String fileName) throws IOException {
+	    // 업로드 디렉토리와 파일 이름을 사용하여 파일의 전체 경로 생성
+	    Path filePath = Paths.get(documentUploadDirectory).resolve(fileName);
+
+	    try {
+	        Resource resource = new UrlResource(filePath.toUri());
+
+	        // 파일이 존재하고 읽을 수 있다면 다운로드 응답을 생성
+	        if (resource.exists() && resource.isReadable()) {
+	            HttpHeaders responseHeaders = new HttpHeaders();
+
+	            // 파일 이름을 UTF-8로 URL 인코딩하고 '+'를 '%20'으로 대체
+	            String encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString())
+	                    .replace("+", "%20");
+
+	            // Content-Disposition 헤더에 인코딩된 파일 이름 추가
+	            String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
+	            responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION, contentDisposition);
+
+	            // URL을 생성할 때 인코딩된 파일 이름 포함
+	            String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+	                    .path("/documentDownload")
+	                    .queryParam("fileName", encodedFileName)
+	                    .toUriString();
+
+	            return ResponseEntity.ok()
+	                    .headers(responseHeaders)
+	                    .body(resource);
+	        } else {
+	            // 파일이 존재하지 않거나 읽을 수 없는 경우에 대한 처리
+	            // 예를 들어 에러 페이지를 표시하거나 다른 처리를 수행할 수 있습니다.
+	            return ResponseEntity.notFound().build();
+	        }
+	    } catch (MalformedURLException e) {
+	        // URL 생성 오류 처리
+	        e.printStackTrace();
+	        // 오류 페이지를 표시하거나 다른 처리를 수행할 수 있습니다.
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
 	}
 }
