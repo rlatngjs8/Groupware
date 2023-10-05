@@ -227,7 +227,112 @@ public class MailController implements WebMvcConfigurer {
 		model.addAttribute("eid", eid);
 		return "email/trashcanFolder";
 	}
+	@GetMapping("/mailMark")
+	public String mailMark(HttpServletRequest req, Model model) {
+		sessionL(req);
+		page(req,model);
+		HttpSession s = req.getSession();
+		int eid = (Integer) s.getAttribute("empID");
+		
+		int cnt=mdao.selectMarkcnt(eid); //전체 메일 수
+		int pagecount = (int) Math.ceil(cnt/15.0); 
+		pageCnt = pagecount;
+		int totalpage = (int) Math.ceil(pagecount/5.0);
+		ArrayList<MailDTO> markEmail = mdao.selectMarkMail(eid,mpageStart,mpageSize);
+		
+		String pagestr = "";
 	
+		if(mailPno<4) {
+			for(int i=1; i<=pagecount; i++) {
+				if(i>5) {
+					break;
+				}
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		} else {
+			for(int i=mailPno-2; i<=mailPno+2; i++) {
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		}
+		model.addAttribute("pagestr",pagestr);
+		model.addAttribute("pageno",mailPno);
+		model.addAttribute("pagecnt",pagecount);
+		
+		if(markEmail.size()==0) {
+			model.addAttribute("rlist", "");
+		} else {
+			model.addAttribute("rlist", markEmail);
+		}
+		s.setAttribute("rs", "mark");
+		model.addAttribute("eid", eid);
+		return "email/mailMark";
+	}
+	@PostMapping("/rsMark")
+	@ResponseBody
+	public String rsMark(HttpServletRequest req, Model model) {
+		int emailid = Integer.parseInt(req.getParameter("emailid"));
+		String now = req.getParameter("now");
+		int rmark = Integer.parseInt(req.getParameter("rmark"));
+		String now2 = req.getParameter("now2");
+//		System.out.println(emailid+", "+now);
+		if(now.equals("receive")) {
+			if (rmark==1) {
+				mdao.updateReceiveMark0(emailid);
+			} else if (rmark==0) {
+				mdao.updateReceiveMark1(emailid);	
+			}
+			return "receive";
+		} else if(now.equals("send")){
+			if (rmark==1) {
+				mdao.updateSendMark0(emailid);
+			} else if (rmark==0) {
+				mdao.updateSendMark1(emailid);	
+			}
+			return "send";
+		} else if (now.equals("mark")) {
+//			System.out.println("A");
+			if (now2.equals("mR")) {
+//				System.out.println("B");
+				if (rmark==1) {
+					mdao.updateReceiveMark0(emailid);
+				} else if (rmark==0) {
+					mdao.updateReceiveMark1(emailid);	
+				}
+			} else if (now2.equals("mS")) {
+//				System.out.println("C");
+				if (rmark==1) {
+					mdao.updateSendMark0(emailid);
+				} else if (rmark==0) {
+					mdao.updateSendMark1(emailid);	
+				}
+			}
+			return "mark";
+		} else if (now.equals("trash")) {
+			if (now2.equals("tR")) {
+				if (rmark==1) {
+					mdao.updateReceiveMark0(emailid);
+				} else if (rmark==0) {
+					mdao.updateReceiveMark1(emailid);	
+				}
+			} else if (now2.equals("tS")) {
+				if (rmark==1) {
+					mdao.updateSendMark0(emailid);
+				} else if (rmark==0) {
+					mdao.updateSendMark1(emailid);	
+				}
+			}
+			return "trash";
+		}
+		return "";
+	}
 	@GetMapping("/mailWrite")
 	public String mailWrite(HttpServletRequest req, Model model) {
 		sessionL(req);
@@ -346,74 +451,7 @@ public class MailController implements WebMvcConfigurer {
 		}	
 		return "mailFolder1";
 	}
-	@GetMapping("/mailMark")
-	public String mailMark(HttpServletRequest req, Model model) {
-		sessionL(req);
-		page(req,model);
-		HttpSession s = req.getSession();
-		int eid = (Integer) s.getAttribute("empID");
-		
-		int cnt=mdao.selectMarkcnt(eid); //전체 메일 수
-		int pagecount = (int) Math.ceil(cnt/15.0); 
-		pageCnt = pagecount;
-		int totalpage = (int) Math.ceil(pagecount/5.0);
-		ArrayList<MailDTO> markEmail = mdao.selectMarkMail(eid,mpageStart,mpageSize);
-		
-		String pagestr = "";
 	
-		if(mailPno<4) {
-			for(int i=1; i<=pagecount; i++) {
-				if(i>5) {
-					break;
-				}
-				if(mailPno==i) {
-					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
-				} else {
-					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
-				}
-			}
-		} else {
-			for(int i=mailPno-2; i<=mailPno+2; i++) {
-				if(mailPno==i) {
-					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
-				} else {
-					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
-				}
-			}
-		}
-		model.addAttribute("pagestr",pagestr);
-		model.addAttribute("pageno",mailPno);
-		model.addAttribute("pagecnt",pagecount);
-		
-		if(markEmail.size()==0) {
-			model.addAttribute("rlist", "");
-		} else {
-			model.addAttribute("rlist", markEmail);
-		}
-		s.setAttribute("rs", "receive");
-		return "email/mailMark";
-	}
-	@PostMapping("/rsMark")
-	@ResponseBody
-	public void rsMark(HttpServletRequest req, Model model) {
-		int emailid = Integer.parseInt(req.getParameter("emailid"));
-		String now = req.getParameter("now");
-		int now2 = Integer.parseInt(req.getParameter("now2"));
-		System.out.println(emailid+", "+now);
-		if(now.equals("receive")) {
-			if (now2==1) {
-				mdao.updateReceiveMark0(emailid);
-			} else if (now2==0) {
-				mdao.updateReceiveMark1(emailid);	
-			}
-		} else if(now.equals("send")){
-			if (now2==1) {
-				mdao.updateSendMark0(emailid);
-			} else if (now2==0) {
-				mdao.updateSendMark1(emailid);	
-			}
-		}
-	}
 	@PostMapping("/mailRead")
 	@ResponseBody
 	public void mailRead(HttpServletRequest req, Model model) {
@@ -423,9 +461,9 @@ public class MailController implements WebMvcConfigurer {
 		int emailid;
 		
 		String now = req.getParameter("now");
-		String trashChklist = req.getParameter("trashChklist");
-		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
-		String[] trashChklist2 = trashChklist.split(",");
+		String mtChklist = req.getParameter("mtChklist");
+		mtChklist = mtChklist.replace("[","").replace("]","").replace("\"","");
+		String[] mtChklist2 = mtChklist.split(",");
 		
 		if (now.equals("receive")) {
 			for(int i=0; i<mlist2.length;i++) {
@@ -437,12 +475,21 @@ public class MailController implements WebMvcConfigurer {
 				emailid = Integer.parseInt(mlist2[i]);
 				mdao.updateEmailSend1(emailid);	
 			}
+		} else if (now.equals("mark")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				if (mtChklist2[i].equals("mR")) {
+					mdao.updateEmailReceive1(emailid);	
+				} else if (mtChklist2[i].equals("mS")) {
+					mdao.updateEmailSend1(emailid);	
+				}
+			}
 		} else if (now.equals("trash")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
-				if (trashChklist2[i].equals("tR")) {
+				if (mtChklist2[i].equals("tR")) {
 					mdao.updateEmailReceive1(emailid);	
-				} else if (trashChklist2[i].equals("tS")) {
+				} else if (mtChklist2[i].equals("tS")) {
 					mdao.updateEmailSend1(emailid);	
 				}
 			}
@@ -457,9 +504,9 @@ public class MailController implements WebMvcConfigurer {
 		int emailid;
 		
 		String now = req.getParameter("now");
-		String trashChklist = req.getParameter("trashChklist");
-		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
-		String[] trashChklist2 = trashChklist.split(",");
+		String mtChklist = req.getParameter("mtChklist");
+		mtChklist = mtChklist.replace("[","").replace("]","").replace("\"","");
+		String[] mtChklist2 = mtChklist.split(",");
 		
 		if (now.equals("receive")) {
 			for(int i=0; i<mlist2.length;i++) {
@@ -471,12 +518,21 @@ public class MailController implements WebMvcConfigurer {
 				emailid = Integer.parseInt(mlist2[i]);
 				mdao.updateEmailSend0(emailid);	
 			}
+		} else if (now.equals("mark")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				if (mtChklist2[i].equals("mR")) {
+					mdao.updateEmailReceive0(emailid);	
+				} else if (mtChklist2[i].equals("mS")) {
+					mdao.updateEmailSend0(emailid);	
+				}
+			}
 		} else if (now.equals("trash")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
-				if (trashChklist2[i].equals("tR")) {
+				if (mtChklist2[i].equals("tR")) {
 					mdao.updateEmailReceive0(emailid);	
-				} else if (trashChklist2[i].equals("tS")) {
+				} else if (mtChklist2[i].equals("tS")) {
 					mdao.updateEmailSend0(emailid);	
 				}
 			}
@@ -491,9 +547,9 @@ public class MailController implements WebMvcConfigurer {
 		int emailid;
 		
 		String now = req.getParameter("now");
-		String trashChklist = req.getParameter("trashChklist");
-		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
-		String[] trashChklist2 = trashChklist.split(",");
+		String mtChklist = req.getParameter("mtChklist");
+		mtChklist = mtChklist.replace("[","").replace("]","").replace("\"","");
+		String[] mtChklist2 = mtChklist.split(",");
 		
 		if (now.equals("receive")) {
 			for(int i=0; i<mlist2.length;i++) {
@@ -505,12 +561,21 @@ public class MailController implements WebMvcConfigurer {
 				emailid = Integer.parseInt(mlist2[i]);
 				mdao.updateEmailSend2(emailid);	
 			}
-		} else if (now.equals("trash")) {
+		} else if (now.equals("mark")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
-				if (trashChklist2[i].equals("tR")) {
+				if (mtChklist2[i].equals("mR")) {
+					mdao.updateEmailReceive2(emailid);	
+				} else if (mtChklist2[i].equals("mS")) {
+					mdao.updateEmailSend2(emailid);	
+				}
+			}
+		}  else if (now.equals("trash")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				if (mtChklist2[i].equals("tR")) {
 					mdao.updateEmailReceive3(emailid);	
-				} else if (trashChklist2[i].equals("tS")) {
+				} else if (mtChklist2[i].equals("tS")) {
 					mdao.updateEmailSend3(emailid);	
 				}
 			}
@@ -527,6 +592,14 @@ public class MailController implements WebMvcConfigurer {
 			mdao.updateEmailReceive1(emailid);
 		} else if (now.equals("send")) {
 			mdao.updateEmailSend1(emailid);
+		} else if (now.equals("mark")) {
+			if (now2.equals("mR")) {
+				mdao.updateEmailReceive1(emailid);
+				s.setAttribute("trs", "mR");
+			} else if (now2.equals("mS")) {
+				mdao.updateEmailSend1(emailid);	
+				s.setAttribute("trs", "mS");
+			}
 		} else if (now.equals("trash")) {
 			if (now2.equals("tR")) {
 				mdao.updateEmailReceive1(emailid);
@@ -616,6 +689,14 @@ public class MailController implements WebMvcConfigurer {
 			mdao.updateEmailReceive2(emailid);	
 		} else if (now.equals("send")) {
 			mdao.updateEmailSend2(emailid);	
+		} else if (now.equals("mark")) {
+			if (now2.equals("mR")) {
+				mdao.updateEmailReceive2(emailid);	
+				model.addAttribute("trs","");
+			} else if (now2.equals("mS")) {
+				mdao.updateEmailSend2(emailid);	
+				model.addAttribute("trs","");
+			}
 		} else if (now.equals("trash")) {
 			if (now2.equals("tR")) {
 				mdao.updateEmailReceive3(emailid);	

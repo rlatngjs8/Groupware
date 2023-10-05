@@ -33,6 +33,29 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 			<c:forEach items="${rlist}" var="r">
 			<tr>
 				<td class="rMailChk"><input type="checkbox" class="mChk" name="mChk"><div id="rEmailid" class="divHidden">${r.emailid}</div></td>
+				<td class="rMailMark">
+					<c:if test='${eid==r.senderemployeeid && eid!=r.receiveremployeeid}'>
+						<div id="emailRmark" class="divHidden emailRmark e_erm">${r.sendmark}</div>
+						<div id="emailMark" class="e_erm">
+							<c:if test='${r.sendmark=="0"}'><img src='mailpageImg/star0.png' id="mStar" class="e_erm"></c:if>
+							<c:if test='${r.sendmark!="0"}'><img src='mailpageImg/star1.png' id="mStar" class="e_erm"></c:if>
+						</div>
+					</c:if>
+					<c:if test='${eid!=r.senderemployeeid && eid==r.receiveremployeeid}'>
+						<div id="emailRmark" class="divHidden emailRmark e_erm">${r.receivemark}</div>
+						<div id="emailMark" class="e_erm">
+							<c:if test='${r.receivemark=="0"}'><img src='mailpageImg/star0.png' id="mStar" class="e_erm"></c:if>
+							<c:if test='${r.receivemark!="0"}'><img src='mailpageImg/star1.png' id="mStar" class="e_erm"></c:if>
+						</div>
+					</c:if>
+					<c:if test='${eid==r.senderemployeeid && eid==r.receiveremployeeid}'>
+						<div id="emailRmark" class="divHidden emailRmark e_erm">${r.sendmark}</div>
+						<div id="emailMark" class="e_erm">
+							<c:if test='${r.sendmark=="0"}'><img src='mailpageImg/star0.png' id="mStar" class="e_erm"></c:if>
+							<c:if test='${r.sendmark!="0"}'><img src='mailpageImg/star1.png' id="mStar" class="e_erm"></c:if>
+						</div>
+					</c:if>
+				</td>
 				<td class="rMailReadOrNot">
 					<c:if test='${eid==r.senderemployeeid && eid!=r.receiveremployeeid}'>
 						<div class="divHidden emailRS">${r.emailsend}</div>
