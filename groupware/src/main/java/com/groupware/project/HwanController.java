@@ -45,6 +45,16 @@ public class HwanController {
 		return "attendance_management/attendance";
 	}
 	
+	@GetMapping("/manage/manage_attendance")
+	public String manage_attendance(HttpServletRequest req, Model model) {
+		return "manage/manage_attendance";
+	}
+	
+	@GetMapping("/manage/company_attendance")
+	public String company_attendance(HttpServletRequest req, Model model) {
+		return "manage/company_attendance";
+	}
+	
 	@PostMapping("/insert_checkOut")
 	@ResponseBody
 	public String insert_checkOut(HttpServletRequest req, Model model, HttpSession session) {
@@ -266,6 +276,48 @@ public class HwanController {
 	    	attendance = Attdao.getList_sort_department(month, year, userid);
 	    } else if ("date".equals(name)){
 	    	attendance = Attdao.getList_sort_date(month, year, userid);
+	    } 
+	    
+	    JSONArray ja = new JSONArray();
+	    for (int i = 0; i < attendance.size(); i++) {
+	        JSONObject jo = new JSONObject();
+	        jo.put("Userid", attendance.get(i).getUserid());
+	        jo.put("name", attendance.get(i).getName());
+	        jo.put("departmentname", attendance.get(i).getDepartmentName()); // 직책 필드 추가
+	        jo.put("date", attendance.get(i).getDate()); // 전화번호 필드 추가
+	        jo.put("attendancestatus", attendance.get(i).getAttendanceStatus()); // 이메일 필드 추가
+	        jo.put("vacationtype", attendance.get(i).getVacationType()); // 부서 필드 추가
+	        jo.put("remarks", attendance.get(i).getRemarks()); // 회사 필드 추가
+	        jo.put("overtimehours", attendance.get(i).getOvertimeHours()); // 회사 전화번호 필드 추가
+	        jo.put("starttime", attendance.get(i).getStartTime()); // 회사 주소 필드 추가
+	        jo.put("endtime", attendance.get(i).getEndTime()); // 메모 필드 추가
+	        jo.put("attendanceid", attendance.get(i).getAttendanceID()); // 그룹 이름 필드 추가
+	        jo.put("employeeid", attendance.get(i).getEmployeeID()); // 작성자 ID 필드 추가
+	        ja.add(jo);
+	    }
+	    return ja.toJSONString();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("/get_manage_attendance")
+	@ResponseBody
+	public String get_manage_attendance(HttpServletRequest req, Model model) {
+	    //String userid = req.getParameter("userid");
+	    String name = req.getParameter("name");
+	    String month = req.getParameter("month");
+	    String year = req.getParameter("year");
+	    
+	    ArrayList<AttendanceDTO> attendance = null;
+	    
+	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
+	    if ("all".equals(name)) {
+	    	attendance = Attdao.getManageListAll(month, year);
+	    } else if ("name".equals(name)){
+	    	attendance = Attdao.getManageList_sort_name(month, year);
+	    } else if ("department".equals(name)){
+	    	attendance = Attdao.getManageList_sort_department(month, year);
+	    } else if ("date".equals(name)){
+	    	attendance = Attdao.getManageList_sort_date(month, year);
 	    } 
 	    
 	    JSONArray ja = new JSONArray();
