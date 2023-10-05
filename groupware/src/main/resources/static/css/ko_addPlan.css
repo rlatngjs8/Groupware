@@ -1,8 +1,9 @@
 @charset "UTF-8";
 .pageCalendar{
-	width: 1600px;
-	margin-left: 250px;
+	width: 1800px;
+	margin-left: 190px;
 	margin-top: 50px;
+	border-top: 1px solid lightgrey;
 }
 .sideBar{
 	width: 200px; 

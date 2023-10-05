@@ -26,11 +26,6 @@ a {
 .side-bar > ul {
   height: 100vh; /* 화면 높이 100%로 설정 */
 }
-/* 사이트의 높이를 5000px로 만들어 스크롤 생성 */
-body {
-/*   height: 5000px; */
-  background-color: #f1f1f1;
-}
 
 /* 사이드바 시작 */
 

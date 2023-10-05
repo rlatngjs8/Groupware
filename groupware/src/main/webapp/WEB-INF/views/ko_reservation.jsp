@@ -29,10 +29,10 @@
 											<c:forEach items="${meetingrooms}" var="meetingrooms">
 												<option value="${meetingrooms.roomID}">${meetingrooms.roomName}</option>
 											</c:forEach>
-										</select><input type="text" id="roomNameHidden" name='roomNameHidden'>
-												 <input type='text' id='roomIdHidden' name='roomIdHidden'>
-											     <input type='text' id='sHourHidden' name='sHourHidden'>
-											     <input type='text' id='eHourHidden' name='eHourHidden'>
+										</select><input type="hidden" id="roomNameHidden" name='roomNameHidden'>
+												 <input type='hidden' id='roomIdHidden' name='roomIdHidden'>
+											     <input type='hidden' id='sHourHidden' name='sHourHidden'>
+											     <input type='hidden' id='eHourHidden' name='eHourHidden'>
 									</td>
 								</tr>
 								<tr>
@@ -46,7 +46,7 @@
 								                <option value="<%= i %>">T<%= hour %>:00:00</option>
 								            <% } %>
 								        </select> 
-								        <input type="text" id="startHidden" name="startHidden"> ~ 
+								        <input type="hidden" id="startHidden" name="startHidden"> ~ 
 								        <select id="endHour" required>
 								            <!-- 시간 드롭다운 옵션 생성 -->
 								            <!-- 0부터 23까지의 시간 옵션을 생성합니다. -->
@@ -55,7 +55,7 @@
 								                <option value="<%= i %>">T<%= hour %>:00:00</option>
 								            <% } %>
 								        </select> 
-								        <input type="text" id="endHidden" name="endHidden">
+								        <input type="hidden" id="endHidden" name="endHidden">
 									</td>
 								</tr>
 						</tbody>
