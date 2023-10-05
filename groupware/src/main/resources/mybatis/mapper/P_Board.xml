@@ -5,35 +5,127 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.groupware.project.P_BoardDAO">
     <select id="getlist" resultType="com.groupware.project.P_BoardDTO">
-    SELECT a.CommunityID, a.CommunityTitle, b.Userid, a.Content, a.Views, a.Likes, a.CreatedTime 
-    FROM communities a INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID order by CreatedTime desc limit #{param1},#{param2}
+    SELECT a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position, COUNT(c.CommunityID) AS Likes
+	FROM communities a
+	INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+	LEFT JOIN boardlikes c ON a.CommunityID = c.CommunityID
+	GROUP BY a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
+	ORDER BY CreatedTime DESC
+	LIMIT #{param1}, #{param2}
     </select>
     <insert id="savepost">
 		insert into communities set CommunityTitle=#{param1},Content=#{param2},AuthorEmployeeID=#{param3},CreatedTime=now()
 	</insert>
+	<select id="getsearch" resultType="com.groupware.project.P_BoardDTO">
+    SELECT a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position, COUNT(c.CommunityID) AS Likes
+	FROM communities a
+	INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+	LEFT JOIN boardlikes c ON a.CommunityID = c.CommunityID
+	WHERE a.Content LIKE CONCAT('%',#{param3},'%') OR a.CommunityTitle LIKE CONCAT('%',#{param3},'%')
+	GROUP BY a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
+	ORDER BY a.CreatedTime DESC
+	LIMIT #{param1}, #{param2}
+    </select>
+	<select id="view" resultType="com.groupware.project.P_BoardDTO">
+		SELECT a.CommunityID,  b.Userid,a.CommunityTitle,b.Name,b.Position, a.Content, a.Views, COUNT(c.CommunityID) AS Likes, a.CreatedTime 
+		FROM communities a 
+		INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		LEFT JOIN boardlikes c ON a.CommunityID = c.CommunityID
+		WHERE a.CommunityID=#{param1} 
+	</select>
+	<select id="chklike" resultType="int">
+		SELECT COUNT(*) FROM boardlikes a INNER JOIN employees b ON a.employeeid=b.employeeid WHERE b.userid= #{param1} AND communityid = #{param2};
+	</select>
 
-<!-- <select id="view" resultType="com.groupware.project.P_BoardDTO">
-	select seqno,title,content,writer,hit,created,updated from board
-	where seqno=#{param1} 
-</select>
+	<update id="hitup">
+		update communities set Views=Views+1 where CommunityID=#{param1}
+	</update>
 
-<update id="hitup">
-	update board set hit=hit+1 where seqno=#{param1}
-</update>
+	<insert id="addComment">
+		insert into comments set ParentID=#{param1},Content=#{param2},AuthorEmployeeID=#{param3},CreatedTime=now()
+	</insert>
+	
+	<select id="getComment" resultType="com.groupware.project.P_BoardDTO">
+		SELECT  a.CommentID,b.Name AS Comment_Name, a.Content AS COMMENT,a.CreatedTime AS Comment_Date, b.Position AS Comment_Position,
+		b.Userid AS CmtAuthorID
+		FROM comments a INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		where a.ParentID = #{param1} order by CreatedTime desc
+	</select>
 
-<delete id="delete">
-	delete from board where seqno=#{param1}
-</delete>
+	<delete id="deleteBoard">
+		delete from communities where CommunityID=#{param1};
+	</delete>
+	<delete id="deleteBoardcmt">
+		delete from comments where ParentID=#{param1}
+	</delete>
+
+	<delete id="deleteComments">
+	    delete from comments where CommentID=#{param1}
+	</delete>
+	<delete id="deletelike">
+	    delete from Boardlikes WHERE communityid = #{param1}
+	</delete>
+	<update id="updateBoard">
+		update communities set CommunityTitle=#{param2},Content=#{param3}
+		where CommunityID=#{param1}
+	</update>
+	<select id="getTotal" resultType="int">
+		select count(*) from communities
+	</select>
 
 
-
-<update id="update">
-	update board set title=#{param2},content=#{param3},updated=now() 
-	where seqno=#{param1}
-</update> -->
-
-<select id="getTotal" resultType="int">
-	select count(*) from communities
-</select>
-
+	<update id="updateComment">
+		update comments set Content=#{param2}
+		where CommentID=#{param1}
+	</update>
+	<delete id="deleteComment">
+	    delete from comments where CommentID=#{param1}
+	</delete>
+	<insert id="like">
+		insert into Boardlikes set CommunityID=#{param1} ,EmployeeID=#{param2},created_at=now()
+	</insert>
+	<delete id="undolike">
+	    delete from Boardlikes WHERE Employeeid = #{param2} AND communityid = #{param1}
+	</delete>
+	<update id="ahitup">
+		update announcement set Views=Views+1 where CommunityID=#{param1}
+	</update>
+	<select id="getalist" resultType="com.groupware.project.P_BoardDTO">
+    SELECT a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
+	FROM announcement a
+	INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+	LEFT JOIN boardlikes c ON a.CommunityID = c.CommunityID
+	GROUP BY a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
+	ORDER BY CreatedTime DESC
+	LIMIT #{param1}, #{param2}
+    </select>
+    <select id="getaTotal" resultType="int">
+		select count(*) from announcement
+	</select>
+	<insert id="saveapost">
+		insert into announcement set CommunityTitle=#{param1},Content=#{param2},AuthorEmployeeID=#{param3},CreatedTime=now()
+	</insert>
+	
+	<select id="aview" resultType="com.groupware.project.P_BoardDTO">
+		SELECT a.CommunityID,  b.Userid,a.CommunityTitle,b.Name,b.Position, a.Content, a.Views, a.CreatedTime 
+		FROM announcement a 
+		INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		WHERE a.CommunityID=#{param1} 
+	</select>
+	<delete id="deleteaBoard">
+		delete from announcement where CommunityID=#{param1};
+	</delete>
+	<update id="updateaBoard">
+		update announcement set CommunityTitle=#{param2},Content=#{param3}
+		where CommunityID=#{param1}
+	</update>
+	<select id="getasearch" resultType="com.groupware.project.P_BoardDTO">
+    SELECT a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
+	FROM announcement a
+	INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+	WHERE a.Content LIKE CONCAT('%',#{param3},'%') OR a.CommunityTitle LIKE CONCAT('%',#{param3},'%')
+	GROUP BY a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
+	ORDER BY a.CreatedTime DESC
+	LIMIT #{param1}, #{param2}
+    </select>
 </mapper>

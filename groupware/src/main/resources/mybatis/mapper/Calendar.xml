@@ -3,9 +3,24 @@
 				 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.groupware.project.CalendarDAO">
 <select id="getPlan" resultType="com.groupware.project.CalendarDTO">
-	select calendar_no,calendar_title,calendar_memo,calendar_start,calendar_end from calendar
+	select calendar_no,calendar_title,calendar_memo,calendar_start,calendar_end,birthday,reservation,writer,connectionID from calendar
 </select>
 <insert id="planInsert">
-	insert into calendar set calendar_title=#{param1}, calendar_memo=#{param4}, calendar_start=#{param2}, calendar_end=#{param3}
+	insert into calendar set calendar_title=#{param1}, calendar_memo=#{param4}, calendar_start=#{param2}, calendar_end=#{param3}, writer=#{param5}
 </insert>
+<select id="getPlanDetails" resultType="com.groupware.project.CalendarDTO">
+	select calendar_no,calendar_title,calendar_memo,calendar_start,calendar_end,birthday,reservation,writer,connectionID from calendar where calendar_no=#{param1}
+</select>
+<update id="planUpdate">
+	UPDATE calendar SET calendar_title=#{param2}, calendar_memo=#{param5}, calendar_start=#{param3}, calendar_end=#{param4} WHERE calendar_no=#{param1}
+</update>
+<delete id="planDelete">
+	delete from calendar where calendar_no=#{param1}
+</delete>
+<insert id="birthdayToC">
+	insert into calendar set calendar_title=#{param1}, calendar_memo=#{param1}, calendar_start=#{param2}, calendar_end=#{param2}, birthday=1
+</insert>
+<select id="getReservationDetailsC" resultType="com.groupware.project.CalendarDTO">
+	select calendar_no, calendar_title, calendar_memo, calendar_start, calendar_end, birthday, reservation, writer, connectionID from calendar where connectionID=#{param1}
+</select>
 </mapper>

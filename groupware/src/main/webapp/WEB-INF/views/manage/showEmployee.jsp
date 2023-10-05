@@ -71,13 +71,13 @@ input[type="checkbox"] {
 			<thead>
 				<tr>
 					<th><input type="checkbox" id="selectAllCheckbox"></th>
-					<th>이름</th>
-					<th>사번</th>
-					<th>부서명</th>
-					<th>직급</th>
-					<th>이메일</th>
-					<th>전화번호</th>
-					<th>입사일</th>
+					<th onclick="sort('name')">이름</th>
+					<th onclick="sort('id')">사번</th>
+					<th onclick="sort('department')">부서명</th>
+					<th onclick="sort('position')">직급</th>
+					<th onclick="sort('email')">이메일</th>
+					<th onclick="sort('phone')">전화번호</th>
+					<th onclick="sort('hiredate')">입사일</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -103,6 +103,10 @@ input[type="checkbox"] {
 	<div class="modal" id="createEmployeeModal">
 		<!-- 인클루드 자리 -->
 		<%@ include file="employee_signup.jsp"%>
+	</div>
+	<div class="loading-container" id="loading-container" style= "display:none;">
+    	<div class="loading"></div>
+    	<div id="loading-text">loading</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>

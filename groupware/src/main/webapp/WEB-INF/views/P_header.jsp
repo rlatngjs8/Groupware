@@ -20,9 +20,9 @@ a {
 /* 노멀라이즈 끝 */
 
 /* 커스텀 시작 */
-.side-bar > ul ul {
+/* .side-bar > ul ul {
   display: none;
-}
+} */
 .side-bar > ul {
   height: 100vh; /* 화면 높이 100%로 설정 */
 }
@@ -44,6 +44,8 @@ body {
   position: fixed;
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
+  margin-top : -1.4%;
+  margin-left: -1%;
 }
 
 /* 아이콘 시작 */
@@ -99,9 +101,9 @@ body {
 .side-bar ul > li > a {
   display: block;
   color: white;
-  font-size: 1.4rem;
+  font-size: 17px;
   font-weight: bold;
-  padding-top: 20px;
+  padding-top: 12px;
   padding-bottom: 20px;
   padding-left: 50px;
   transition: .5s;
@@ -143,6 +145,7 @@ body {
   margin-top:20px;
 }
 
+
 .search-bar {
   border: 1px solid #bbb;
   border-radius: 8px;
@@ -158,6 +161,57 @@ body {
 	height:32px;
 	border-radius:50%;
 }
+
+/* 새로운 스타일: 메뉴 스타일 및 서브메뉴 애니메이션 추가 */
+.menu {
+    position: relative;
+    margin-right: 20px;
+}
+
+.menu a {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px; /* 좌우 여백을 더 넓게 설정 */
+    transition: background-color 0.3s, color 0.3s; /* 배경색과 텍스트 색상에 애니메이션 적용 */
+    white-space: nowrap; /* 텍스트가 길어도 줄바꿈하지 않도록 설정 */
+    /* overflow: hidden;  넘치는 텍스트 숨김 처리 
+    text-overflow: ellipsis;  넘치는 텍스트에 ... 추가
+    */
+}
+
+.menu ul {
+	border-radius: 10px;
+    position: absolute;
+    background-color: rgb(106, 176, 173);
+    list-style: none;
+    margin-left: -50px;
+	
+    padding: 5px;
+    opacity: 0;
+    transform: translateY(-20px); /* 초기에 위로 이동한 상태로 시작 */
+    transition: opacity 0.3s, transform 0.3s, background-color 0.3s; /* 투명도, 위치 변경, 배경색에 애니메이션 적용 */
+}
+
+.menu ul li {
+    padding: 5px;
+}
+
+/* 호버 시 배경색 및 텍스트 색상 변경 */
+.menu a:hover {
+    background-color: rgb(116, 137, 136);
+    color: #fff;
+    white-space: normal; /* 호버 시 텍스트가 줄바꿈되도록 설정 */
+    text-overflow: initial; /* 호버 시 ...을 제거하여 텍스트를 모두 표시 */
+}
+
+/* 마우스 호버 시 투명도 변경과 위치 변경으로 나타나게 만듭니다. */
+.menu:hover ul {
+    opacity: 1;
+    transform: translateY(0); /* 서브메뉴가 위에서 아래로 나타나도록 이동합니다. */
+}
+
+
 </style>
 </head>
 <body>
@@ -169,10 +223,13 @@ body {
           <div></div>
         </section>
       </section>
-      <a href="/"><img src="P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
+      <a href="/"><img src="/P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
       <ul>
         <li>
-          <a href="/"> 홈</a>
+          <a href="/">홈</a>
+        </li>
+        <li>
+          <a href="/contact/company">연락처</a>
         </li>
         <li>
           <a href="/mailFolder1">메일</a>
@@ -181,10 +238,10 @@ body {
           <a href="/community">게시판</a>
         </li>
         <li>
-          <a href="#">캘린더</a>
+          <a href="/ko_calendar">캘린더</a>
         </li>
         <li>
-            <a href="#">예약</a>
+            <a href="/ko_reservation">예약</a>
         </li>
         <li>
             <a href="#">근태관리</a>
@@ -193,7 +250,7 @@ body {
             <a href="#">전자결재</a>
         </li>
         <li>
-            <a href="#">자료실</a>
+            <a href="/documentLibrary">자료실</a>
         </li>
         <li>
             <a href="#">문의</a>
@@ -206,20 +263,42 @@ body {
 
     <div class="nav">
     	<div class="search-bar">
-    	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
+    	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button" ><img src="P_img/free-icon-magnifier-71403.png"></button>
     	</div>
-    	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
-    	<div id="pHedaerEmailAlarm"></div>
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	
-    	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
-    	<img src="img/${profileIMG}" class="profile">
+    	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
+    	<a href="#"><img src="/P_img/bell.png" alt="공지"></a>  
+    	<ul>
+        <li class="menu">
+            <img src="img/${profileIMG}" class="profile">
+            <ul class="hide">
+            	
+            	<li><a href="/"> 홈</a></li>
+            	<li><a href="/myInfo">정보수정</a></li>
+                <li><a href="/logout">로그아웃</a></li>
+                
+            </ul>
+        </li>
+        </ul>
+<!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
+<!--     	<div id="pHedaerEmailAlarm"></div> -->
+<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
+<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  -->
+<%--     	<img src="img/${profileIMG}" class="profile"> --%>
 	</div>
+	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
 
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script>
+
 $(document)
 .ready(function(){
+	let sessionid = $("#sessionid").val()
+	console.log($("#sessionid").val())
+	if(sessionid == null || sessionid == "") {
+		alert("권한이 없습니다");
+		return false;
+	
 	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
 		success:function(data){
 			console.log("/pHeaderAlarm 성공");
@@ -230,6 +309,7 @@ $(document)
 			alert("/pHeaderAlarm 오류");
 		}
 	});
+}
 })
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();

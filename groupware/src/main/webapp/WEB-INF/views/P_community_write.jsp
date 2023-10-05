@@ -14,7 +14,7 @@
     #editorContainer {
         background-color: white;
         margin: 100px auto;
-        width: 800px;
+        width: 950px;
         padding: 20px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
@@ -95,9 +95,9 @@
     submitPost = function() {
         oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", [])
         let content = document.getElementById("editorTxt").value
-
-        if(content == '') {
-            alert("내용을 입력해주세요.")
+        let title = document.getElementById("community_title").value
+        if(content == '' || title=="") {
+            alert("제목 혹은 내용을 입력해주세요.")
             oEditors.getById["editorTxt"].exec("FOCUS")
             return
         } else {

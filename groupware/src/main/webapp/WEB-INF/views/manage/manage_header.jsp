@@ -44,7 +44,7 @@ body {
   position: fixed;
   background-color: rgb(106, 176, 173);
   width: var(--side-bar-width);
-  margin-top: -1%;
+  margin-top: -1.4%;
 }
 
 /* 아이콘 시작 */
@@ -100,7 +100,7 @@ body {
 .side-bar ul > li > a {
   display: block;
   color: white;
-  font-size: 1.4rem;
+  font-size: 17px;
   font-weight: bold;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -173,7 +173,7 @@ body {
       <a href="/"><img src="/P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>
       <ul>
         <li>
-          <a href="/manageHome">관리자홈</a>
+          <a href="manageHome">관리자홈</a>
         </li>
         <li>
           <a href="showEmployee">직원관리</a>

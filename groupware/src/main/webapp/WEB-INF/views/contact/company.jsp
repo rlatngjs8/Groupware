@@ -8,60 +8,373 @@
     <title>주소록</title>
     <!-- 스타일 추가 -->
     <style>
-        /* 필터 목록 스타일링 */
-        ul {
-            display: flex;
-            list-style: none;
-            padding: 0;
-        }
 
-        li {
-            margin-right: 10px;
-        }
-
-        li a {
-            text-decoration: none;
-            color: #333;
-            background-color: #C0FFEE; /* 연두색 테마 */
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        /* 주소록 목록 스타일링 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #C0FFEE; /* 연두색 테마 */
-        }
-		#toast {
-		  position: fixed;
-		  bottom: 50%; /* 변경된 부분 */
-		  left: 50%;
-		  transform: translateX(-50%);
-		  background-color: #333;
-		  color: white;
-		  padding: 10px 20px;
-		  border-radius: 5px;
-		  display: none;
-		  z-index: 2;
+        /* 공통 스타일 */
+		.styled-table {
+		    border: 1px #a39485 solid;
+		    font-size: .9em;
+		    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+		    width: 80%;
+		    border-collapse: collapse;
+		    border-radius: 5px;
+		    overflow: hidden;
+			margin-left: 280px; /* 수평 가운데 정렬을 위한 스타일 */
 		}
+
+		/* 테이블 제목 셀 스타일 */
+		.styled-table th {
+		    text-align: center; /* 텍스트 왼쪽 정렬 */
+		    transition: background-color 0.3s; /* 호버 시 배경색 변경 애니메이션 */
+		    cursor: pointer; /* 호버 시 포인터 커서로 변경 */
+		}
+		
+		/* 호버 시 배경색 변경 */
+		.styled-table th:hover {
+		    background-color: #ccc; /* 호버 시 배경색 변경 (예: 회색) */
+		}
+		
+		
+        .styled-table thead {
+            font-weight: bold;
+            color: #fff;
+            background: rgb(106, 176, 173);
+        }
+
+        .styled-table td, .styled-table th {
+            padding: 1em .5em;
+            vertical-align: middle;
+        }
+
+        .styled-table td {
+            border-bottom: 1px solid rgba(0,0,0,.1);
+            background: #fff;
+        }
+
+        .styled-table a {
+            color: #73685d;
+        }
+
+        /* 미디어 쿼리 */
+        @media all and (max-width: 768px) {
+            .styled-table, .styled-table thead, .styled-table tbody, .styled-table th, .styled-table td, .styled-table tr {
+                display: block;
+            }
+
+            .styled-table th {
+                text-align: right;
+            }
+
+            .styled-table {
+                position: relative;
+                padding-bottom: 0;
+                border: none;
+                box-shadow: 0 0 10px rgba(0,0,0,.2);
+            }
+
+            .styled-table thead {
+                float: left;
+                white-space: nowrap;
+            }
+
+            .styled-table tbody {
+                overflow-x: auto;
+                overflow-y: hidden;
+                position: relative;
+                white-space: nowrap;
+            }
+
+            .styled-table tr {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+            .styled-table th {
+                border-bottom: 1px solid #a39485;
+            }
+
+            .styled-table td {
+                border-bottom: 1px solid #e5e5e5;
+            }
+        }
         
-        .hidden {
-		  display: none;
+       .search-container {
+            position: absolute;
+            top: 10px; /* 원하는 상단 여백 조정 */
+            right: 10px; /* 원하는 오른쪽 여백 조정 */
+            display: flex;
+            align-items: center;
+            background-color: #8bc34a; /* 연두색 배경색상 */
+            border: 2px solid #4caf50; /* 연두색 테두리 */
+            border-radius: 0; /* 모서리를 둥글게 만들지 않음 */
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            background-color: white; /* 연두색 배경색상 */
+            color: black; /* 글자색을 흰색으로 지정 */
+        }
+
+        .search-button {
+            background-color: #4caf50; /* 진한 연두색 버튼 배경색상 */
+            color: #fff; /* 버튼 텍스트 색상 */
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* 검색 버튼에 호버 효과 추가 */
+        .search-button:hover {
+            background-color: #45a049; /* 호버 시 색상 변경 */
+        }
+        body {
+		  line-height: 24px;
+		  color: #333;
+		  background: #ececec;
+		  overflow-y: scroll;
 		}
+
+.clear {
+  clear: both;
+}
+
+.articleTitle {
+  font-size: 1.15em;
+  font-weight: 700;
+  line-height: 1em;
+  color: #222;
+}
+
+.container {
+  padding-top: 1em;
+  margin-top: 1em;
+  border-top: solid 1px #CCC;
+}
+
+a.button {
+  display: block;
+  position: relative;
+  float: left;
+  width: 120px;
+  padding: 0;
+  margin: 10px 20px 10px 0;
+  font-weight: 600;
+  text-align: center;
+  line-height: 50px;
+  color: #FFF;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+
+.btnBlueGreen {
+  background: #00AE68;
+}
+
+.btnLightBlue {
+  background: #5DC8CD;
+}
+
+.btnOrange {
+  background: #FFAA40;
+}
+
+.btnPurple {
+  background: #A74982;
+}
+
+/* FLOAT */
+.btnFloat {
+  background: none;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
+}
+
+.btnFloat:before {
+  content: '추가';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+
+.btnBlueGreen.btnFloat:before {
+  background: #00AE68;
+}
+
+.btnLightBlue.btnFloat:before {
+  background: #5DC8CD;
+}
+
+.btnOrange.btnFloat:before {
+  background: #FFAA40;
+}
+
+.btnPurple.btnFloat:before {
+  background: #8D336A;
+}
+
+.btnFloat:before {
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.4);
+}
+
+.btnFloat:hover:before {
+  margin-top: -2px;
+  margin-left: 0px;
+  transform: scale(1.1, 1.1);
+  -ms-transform: scale(1.1, 1.1);
+  -webkit-transform: scale(1.1, 1.1);
+  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
+}
+
+/* 추가 버튼 */
+.btnFloatAdd:before {
+  content: '추가';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  /* 나머지 스타일 속성들은 동일하게 유지 */
+}
+
+/* 삭제 버튼 */
+.btnFloatDelete:before {
+  content: '삭제';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  /* 나머지 스타일 속성들은 동일하게 유지 */
+}
+
+/* 수정 버튼 */
+.btnFloatEdit:before {
+  content: '뭐야';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  /* 나머지 스타일 속성들은 동일하게 유지 */
+}
+
+/* 다른 버튼 */
+.btnFloatOther:before {
+  content: '뭐임?';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  /* 나머지 스타일 속성들은 동일하게 유지 */
+}
+
+  .swal2-input {
+    margin-bottom: 5px; /* 각 입력 필드 아래의 마진 조절 */
+  }
+  /* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-right: 165px;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+hr {
+  background-color: #fff;
+  padding: 0;
+  margin: 80px;
+}
+
+hr.hr-3 {
+  border: 0;
+  height: 0;
+  border-top: 1px solid #8c8c8c;
+}
+
 		
 		        /* 사이드바 스타일 */
 		.sidebar {
+			margin-left: 195px;
 		    height: 100%;
 		    width: 250px;
 		    position: fixed;
@@ -89,13 +402,53 @@
 		    margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
 		    padding: 20px; /* 콘텐츠 패딩 설정 */
 		}
-		
-        /* 추가적인 스타일링을 원하는 대로 추가하세요 */
+#pagination {
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 220px;
+}
+
+#pagination a {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #000;
+}
+
+#pagination a:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.name-col {
+    width: 150px; /* 이름 열 너비 */
+}
+
+.department-col {
+    width: 120px; /* 부서 열 너비 */
+}
+
+.position-col {
+    width: 100px; /* 직위 열 너비 */
+}
+
+.phone-col {
+    width: 130px; /* 휴대폰 열 너비 */
+}
+
+.email-col {
+    width: 200px; /* Email 열 너비 */
+}
+
     </style>
 </head>
 <body>
 <input type="hidden" id="user_id" value="${sessionScope.userid}">
-<div id="toast" class="hidden">토스트 메세지 넣어라</div>
+<%@ include file="/WEB-INF/views/P_header.jsp" %>
 
 	 <aside>
 	     <!-- 사이드바 -->
@@ -106,56 +459,33 @@
 		</div>
     </aside>
 	<main class="main">
-	    <h1>주소록</h1>
-	
-	     <div>
-		   <button onclick="sendEmail()">메일 방송</button>
-		   <button onclick="copyContact()">주소록 복사</button>
-	    </div>
-	
-	    <!-- 검색 필터를 위한 ul 및 li 요소 추가 -->
-		<ul>
-		    <li><button onclick="filterContacts('all')">전체</button></li>
-		    <li><button onclick="filterContacts('ㄱ')">ㄱ</button></li>
-		    <li><button onclick="filterContacts('ㄴ')">ㄴ</button></li>
-		    <li><button onclick="filterContacts('ㄷ')">ㄷ</button></li>
-		    <li><button onclick="filterContacts('ㄹ')">ㄹ</button></li>
-		    <li><button onclick="filterContacts('ㅁ')">ㅁ</button></li>
-		    <li><button onclick="filterContacts('ㅂ')">ㅂ</button></li>
-		    <li><button onclick="filterContacts('ㅅ')">ㅅ</button></li>
-		    <li><button onclick="filterContacts('ㅇ')">ㅇ</button></li>
-		    <li><button onclick="filterContacts('ㅈ')">ㅈ</button></li>
-		    <li><button onclick="filterContacts('ㅊ')">ㅊ</button></li>
-		    <li><button onclick="filterContacts('ㅌ')">ㅌ</button></li>
-		    <li><button onclick="filterContacts('ㅍ')">ㅍ</button></li>
-		    <li><button onclick="filterContacts('ㅎ')">ㅎ</button></li>
-		    <li><button onclick="filterContacts('AZ')">A-Z</button></li>
-		</ul>
-		
-	    <!-- 주소록 목록을 나타내는 테이블 예시 -->
-	    <table>
-	        <thead>
-	            <tr>
-	                <th><input type="checkbox" id="selectAll"></th>
-	                <th>이름</th>
-	                <th>부서</th>
-	                <th>직급</th>
-	                <th>휴대폰</th>
-	                <th>이메일</th>
-	                <th>그룹</th>
-	            </tr>
-	        </thead>
-	        <tbody id="contactListBody">
-	            <!-- 주소록 항목들은 JavaScript로 동적으로 추가됩니다. -->
-	        </tbody>
-	    </table>
-	</main>    
+    <h1>주소록</h1>
+
+    <!-- 주소록 목록을 나타내는 테이블 예시 -->
+    <table class="styled-table">
+        <thead> 
+        <tr>
+            <th class="name-col" onclick="sort('name', currentPage)">이름</th>
+            <th class="department-col" onclick="sort('department', currentPage)">부서</th>
+            <th class="position-col" onclick="sort('position', currentPage)">직위</th>
+            <th class="phone-col" onclick="sort('phone', currentPage)">휴대폰</th>
+            <th class="email-col" onclick="sort('email', currentPage)">Email</th>
+        </tr>
+        </thead>
+        <tbody id="contactListBody">
+            <!-- 이 부분에 주소록 데이터를 동적으로 추가합니다. -->
+        </tbody>
+    </table>
+    
+    <!-- 페이지네이션을 원하는 위치에 배치합니다. -->
+    <div id="pagination"></div>
+</main>
+
     <!-- 필요한 JavaScript 파일 또는 스크립트 태그를 추가하세요 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script>
 
 		 $(document).ready(function () {
-			 filterContacts('all');
 		    // "selectAll" 체크박스의 변경 이벤트를 감지
 		    $('#selectAll').change(function() {
 		        // "selectAll" 체크박스의 상태를 가져옴
@@ -166,63 +496,89 @@
 		    });
         }); 
 		 
-		 function filterContacts(filter) {
-			    console.log('주소록 불러옴');
-			    const userid = $('#user_id').val();
-			    console.log(userid);
-
-			    $.ajax({
-			        url: '/get_addressBook',
-			        data: { userid: userid, filter: filter }, // 필터 값을 서버로 전송
-			        type: 'get',
-			        dataType: 'json',
-			        success: function (data) {
-			            console.log('주소록 데이터 불러오기', data);
-			            const tableBody = $('#contactListBody');
-			            tableBody.empty(); // 기존 데이터를 지웁니다.
-			            if (data.length === 0) {
-			                // 데이터가 없는 경우 빈 테이블 행을 추가
-			                const newRow = $('<tr>');
-			                newRow.append('<td colspan="6">데이터가 없습니다.</td>');
-			                $('#contactListBody').append(newRow);
-			            } else {
-			                // 데이터가 있는 경우 연락처를 추가
-			                for (let i = 0; i < data.length; i++) {
-			                    const newRow = $('<tr>');
-			                    newRow.append('<td><input type="checkbox" id="perCheckbox"></td>');
-			                    newRow.append('<td>' + data[i]['name'] + '</td>');
-			                    newRow.append('<td>' + data[i]['department'] + '</td>'); // 부서 정보를 추가
-			                    newRow.append('<td>' + data[i]['position'] + '</td>');
-			                    newRow.append('<td>' + data[i]['phoneNumber'] + '</td>');
-			                    newRow.append('<td>' + data[i]['email'] + '</td>');
-			                    newRow.append('<td>' + data[i]['address'] + '</td>');
-			                    $('#contactListBody').append(newRow);
-			                }
-			            }
-			        },
-			        error: function (xhr, status, error) {
-			            console.error('주소록 데이터 불러오기 에러:', status, error);
-			            // 에러 처리를 수행할 수 있습니다. 예를 들어, 사용자에게 오류 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
-			        }
-			    });
-			}
 		 
+		 let currentPage = 1; // 현재 페이지 번호
+		 const perPage = 10; // 한 페이지당 표시할 데이터 수
 
-        // 주소록 추가 기능
-        $('#addContact').click(function () {
-            insert_personal_address_book();
-        });
+		 // 페이지 번호를 클릭할 때 호출되는 함수
+		 function changePage(page) {
+		     currentPage = page;
+		     console.log('changePage 함수 호출: 페이지', currentPage);
+		     sort('all',currentPage);
+		 }
 
-        //토스트 메세지
-		 function showToast(message) {
-			  const toast = document.getElementById('toast');
-			  toast.textContent = message;
-			  toast.style.display = 'block';
+		 function sort(name, page) {
+		     console.log('sort 함수 호출: name', name, 'page', page);
+		     $.ajax({
+		         url: '/get_addressBook',
+		         data: { name: name, page: page }, // 필터 값을 서버로 전송
+		         type: 'get',
+		         dataType: 'json',
+		         success: function(data) {
+		             console.log('주소록 데이터 불러오기', data);
+		             const tableBody = $('#contactListBody');
+		             tableBody.empty(); // 기존 데이터를 지웁니다.
+		             if (data.length === 0) {
+		                 // 데이터가 없는 경우 빈 테이블 행을 추가
+		                 const newRow = $('<tr>');
+		                 newRow.append('<td colspan="5" style="text-align: center;">' +
+		                     '<p>데이터가 없습니다.</p>' +
+		                     '<div style="text-align: center;">' +
+		                     '<button id="openModalButton" class="btn btn-primary">빠른 등록</button>' +
+		                     '</div>' +
+		                     '</td>');
+		                 $('#no_contactListBody').append(newRow);
+		             } else {
+		                 // 데이터가 있는 경우 연락처를 추가
+		                    for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {
+		                     const newRow = $('<tr>');
+		                     newRow.append('<td id="per_name" style=" text-align: center;">' + data[i]['name'] + '</td>');
+		                     newRow.append('<td id="per_department" style="text-align: center;">' + data[i]['department'] + '</td>');
+		                     newRow.append('<td id="per_position" style="text-align: center;">' + data[i]['position'] + '</td>');
+		                     newRow.append('<td id="per_phone" style="text-align: center;">' + data[i]['phone'] + '</td>');
+		                     newRow.append('<td id="per_email" style="text-align: center;"><a href="mailto:' + data[i]['email'] + '">' + data[i]['email'] + '</a></td>');
+		                     $('#contactListBody').append(newRow);
+		                 }
+		             }
+		             // 페이지네이션 업데이트
+		             updatePagination(data.length);
+		         },
+		         error: function(xhr, status, error) {
+		             console.error('주소록 데이터 불러오기 에러:', status, error);
+		             // 에러 처리를 수행할 수 있습니다. 예를 들어, 사용자에게 오류 메시지를 표시하는 등의 작업을 수행할 수 있습니다.
+		         }
+		     });
+		 }
+		 
+		 function updatePagination(totalPage) {
+			    const totalPages = Math.ceil(totalPage / perPage);
+			    let paginationHTML = '';
 
-			  setTimeout(function() {
-			    toast.style.display = 'none';
-			  }, 3000); // 3초 후에 숨김
+			    for (let i = 1; i <= totalPages; i++) {
+			        if (i === currentPage) {
+			            paginationHTML += '<span>' + i + '</span>';
+			        } else {
+			        	paginationHTML += "<a href='#' onclick='changePage(" + i + ")'>" + i + "</a>";
+			        }
+			    }
+			    
+			    $("#pagination").html(paginationHTML);
 			}
+
+		 // 페이지 로딩 시 초기 데이터 가져오기
+		 $(document).ready(function() {
+		     sort('all', currentPage);
+		     console.log('문서가 로드되었습니다.');
+		 });
+
+		 // 주소록 추가 기능
+		 $('#addContact').click(function () {
+		     console.log('주소록 추가 버튼 클릭');
+		     insert_personal_address_book();
+		 });
+
+
+		 
         
 
     </script>

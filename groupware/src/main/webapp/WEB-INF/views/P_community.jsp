@@ -10,7 +10,6 @@
 .post-container {
     border: 1px solid #ccc;
     margin-bottom: 20px;
-    margin-right: 15%;
     padding: 10px;
     background-color: #f9f9f9;
 }
@@ -71,6 +70,17 @@
 .page-side a:hover {
     background-color: #cfcfcf;
 }
+.board-search-bar {
+  
+  border-radius: 8px;
+  padding: 5px;
+  text-align: center;
+}
+
+.board-search-bar input[type="text"] {
+    padding:5px ;
+    font-size :20px ;
+}
 </style>
 <meta charset="UTF-8">
 <title>게시판</title>
@@ -80,33 +90,54 @@
 <body>
 
 <div class="page-side">
-    <h1>게시판</h1>
+    <h1>자유 게시판</h1>
     <a href='/community_write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
-    <div>
-        <a href='/#'>아이디어 공유</a><br>
-        <a href='/#'>휴가</a><br>
-        <a href='/#	'>프로젝트</a><br>
+	<div>
+        <a href='/announcement'>공지사항</a><br>
+        <a href='/community'>자유게시판</a>
     </div>
 </div>
 <div class="Main_Content">
+<div class="board-search-bar">
+<input type="text" placeholder="게시판 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
+</div>
+<ul>
 <c:forEach items="${blist}" var="blist">
-	<div class="post-container">
-	<a href="/community/view=${blist.CommunityID}">
+	<li class="post-container">
+	<div onclick="location.href='/community_view?seqno=${blist.CommunityID}';" style=" cursor: pointer;">
             <span class="post-title">${blist.CommunityTitle}</span><br><br>
             <span class="post-content">${blist.Content}</span><br><br>
             <span class="post-info">
                 <span class="post-views-likes">
-                	<span class="post-author">작성자 : ${blist.Userid}</span><br>
+                	<span class="post-author">작성자 : ${blist.Name} ${blist.Position}</span><br>
                     <span>조회수: ${blist.Views}</span><br>
-                    <span><img src="/P_img/like.png" style="width:20px;height:20px"> : ${blist.Likes}</span><br>
+                    <span><img src="/P_img/like.png" style="width:20px;height:20px"> ${blist.Likes}</span><br>
                 </span>
                 <span class="post-time">${blist.CreatedTime}</span>
             </span>
-            </a>
-        </div>
+            </div>
+        </li>
 </c:forEach>
-<div style="margin-left:auto;margin-right:auto;text-align:center">${pagestr}</div>
+</ul>
+<div class="board-search-bar">
+<input type="text" placeholder="게시판 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
+</div>
+<div style="margin-left:auto;margin-right:auto;text-align:center;font-size: x-large">${pagestr}</div>
 </div>
 </body>
-
+<script>
+$(document)	 
+.on('click','#search-board-button',function(){
+	let search = $('#board-search-bar').val();
+	console.log(search);
+	document.location="doboardsearch?search="+search;
+	return false;
+})
+function boardenterkey() {
+	if (window.event.keyCode == 13) {
+    	// 엔터키가 눌렸을 때
+		document.getElementById("search-board-button").click();
+    }
+}
+</script>
 </html>
