@@ -787,7 +787,7 @@ th.date-col:hover {
 		         }
 		     });
 		 }
-		 
+		  
 		 function updatePagination(totalPage) {
 			    const totalPages = Math.ceil(totalPage / perPage);
 			    let paginationHTML = '';
