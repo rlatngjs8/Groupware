@@ -57,6 +57,8 @@
             /* 메인 컨테이너 */
         .main {
             max-width: 1450px;
+            height: 850px;
+			max-height: 850px;
             margin-left: 450px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
          	margin-top:20px;
             padding: 20px;
@@ -67,8 +69,8 @@
         /* 헤더 스타일 */
         .header {
             text-align: center;
-            background-color: #007BFF;
-            color: #fff;
+            background-color: #fff;
+            color: #333;
             padding: 10px;
         }
         /* 월 네비게이션 스타일 */
@@ -81,7 +83,7 @@
 
     .month-navigation button {
         font-size: 18px;
-        background-color: #007bff; /* 버튼 배경색 */
+        background-color: #333; /* 버튼 배경색 */
         color: #fff; /* 버튼 텍스트 색상 */
         padding: 5px 10px;
         border: none;
@@ -216,6 +218,12 @@ th.date-col:hover {
   background-color: var(--bs-teal);
   color: #fff; /* 텍스트 색상 변경 (선택 사항) */
 }
+
+#current_month {
+    font-size: 24px; /* 원하는 글자 크기로 조절하세요 */
+    font-weight: bold; /* 글자 두께를 두꺼운(bold)으로 설정 */
+    color: #333; /* 글자 색상을 파란색으로 설정 */
+}
     
     
     
@@ -233,8 +241,6 @@ th.date-col:hover {
             <p id="time_info"><span id="current_time"></span></p>
             <p>출근시간: <span id="start_time"></span></p>
             <p>퇴근시간: <span id="end_time"></span></p>
-            <p>주간 누적 근무시간: <span id="weekly_hours">40</span> 시간</p>
-     
             <hr>
       		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
 			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
@@ -271,30 +277,21 @@ th.date-col:hover {
         <div class="month-navigation">
             <button id="prevMonthButton">&lt;</button>
             <span id="current_month"></span>
-            
             <button id="nextMonthButton">&gt;</button>
         </div>
 
 			<div class="attendance-summary">
 	    <div>
-	        <span>이번달 누적:</span>
+	        <span id="accumulated_month"></span>
 	        <p id="accumulated_time"></p>
 	    </div>
-	    <div>
+<!-- 	    <div>
 	        <span>이번달 초과:</span>
 	        <p>Y 시간</p>
-	    </div>
+	    </div> -->
 	    <div>
-	        <span>이번달 잔여:</span>
-	        <p id="remaining_time">Z 시간</p>
-	    </div>
-	    <div>
-	        <span>이번달 누적:</span>
-	        <p>A 시간</p>
-	    </div>
-	    <div>
-	        <span>이번달 연장:</span>
-	        <p>B 시간</p>
+	        <span id="remaining_month"></span>
+	        <p id="remaining_time"></p>
 	    </div>
 	</div>
 
@@ -680,12 +677,14 @@ th.date-col:hover {
 			 console.log(matches)
 		     var month = matches[1];
 			 var year = matches[0];
+			 const userid = $("#user_id").val()
 			 let totalSeconds = 0; // 누적 시간을 초로 저장하는 변수
 		     // 콘솔에 출력
 		     console.log("이번년", year); // 출력 결과: 이번달 10
+		     console.log("userid:", userid)
 		     $.ajax({
 		         url: '/get_attendance',
-		         data: { name: name, page: page, month: month, year: year}, // 필터 값을 서버로 전송
+		         data: { name: name, page: page, month: month, year: year, userid: userid}, // 필터 값을 서버로 전송
 		         type: 'get',
 		         dataType: 'json',
 		         success: function(data) {
@@ -693,6 +692,8 @@ th.date-col:hover {
 		             const tableBody = $('#attendanceListBody');
 		             tableBody.empty(); // 기존 데이터를 지웁니다.
 		             let totalSeconds = 0; // 누적 시간을 초로 저장하는 변수
+		             $("#accumulated_month").text(month + "월 누적")
+		             $("#remaining_month").text(month + "월 잔여")
 
 		          // 데이터 반복 처리
 		          data.forEach(item => {
@@ -715,19 +716,15 @@ th.date-col:hover {
 				
 				        const diffInSeconds = endTimeInSeconds - startTimeInSeconds;
 				
-				        console.log('시작 시간 (초):', startTimeInSeconds);
-				        console.log('종료 시간 (초):', endTimeInSeconds);
-				        console.log('차이 (초):', diffInSeconds);
-				
 				        totalSeconds += diffInSeconds;
 				    }
 				});
 
 		       // 전체 누적 시간을 시, 분, 초로 변환
 		          const accumulatedHours = Math.floor(totalSeconds / 3600);
-		          const remainingSeconds = totalSeconds % 3600;
-		          const accumulatedMinutes = Math.floor(remainingSeconds / 60);
-		          const accumulatedSeconds = remainingSeconds % 60;
+		          const remainingSecondss = totalSeconds % 3600;
+		          const accumulatedMinutes = Math.floor(remainingSecondss / 60);
+		          const accumulatedSeconds = remainingSecondss % 60;
 
 		          // 시, 분, 초를 두 자리수로 포맷팅하여 문자열로 합치기
 		          const totalFormattedTime =
@@ -736,7 +733,33 @@ th.date-col:hover {
 		              ('00' + accumulatedSeconds).slice(-2);
 
 		          // 결과를 업데이트
-		          $('#accumulated_time').text(totalFormattedTime);         
+		          $('#accumulated_time').text(totalFormattedTime);    
+		          
+ 		          const workingDays = calculateWorkingDays(year, month);
+				  const hoursPerDay = 8;
+				  const totalWorkingHours = workingDays * hoursPerDay;
+				  
+			      // 현재까지의 누적 근무시간 (예: 초로 변환된 시간)
+			      var accumulatedTimeText = $("#accumulated_time").text();
+			      const accumulatedTimeArray = accumulatedTimeText.split(':'); // 예상 포맷: 'xx:xx:xx'
+			      const accumulatedHoursss = parseInt(accumulatedTimeArray[0], 10);
+			      const accumulatedMinutesss = parseInt(accumulatedTimeArray[1], 10);
+			      const accumulatedSecondsss = parseInt(accumulatedTimeArray[2], 10);
+ 
+			      // 누적 시간을 초로 변환
+			      const accumulatedTimeInSeconds = accumulatedHoursss * 3600 + accumulatedMinutesss * 60 + accumulatedSecondsss;
+
+			      // 남은 시간 계산
+			      const remainingSeconds = totalWorkingHours * 3600 - accumulatedTimeInSeconds;
+			      const remainingFormattedHours = Math.floor(remainingSeconds / 3600);
+			      const remainingFormattedMinutes = Math.floor((remainingSeconds % 3600) / 60);
+			      const remainingFormattedSeconds = remainingSeconds % 60;
+			    
+			      const remainingFormattedTime = (remainingFormattedHours < 10 ? '0' : '') + remainingFormattedHours + ':' +
+			          (remainingFormattedMinutes < 10 ? '0' : '') + remainingFormattedMinutes + ':' +
+			          (remainingFormattedSeconds < 10 ? '0' : '') + remainingFormattedSeconds;
+ 
+			      $('#remaining_time').text(remainingFormattedTime); 
 		             
 		             if (data.length === 0) {
 		                 const noDataMessage = $('<tr>');
@@ -796,49 +819,9 @@ th.date-col:hover {
 		             workingDays++;
 		         }
 		     }
-			 console.log("아으", workingDays);
 		     return workingDays;
 		 }
 		 
-		 $(document).ready(function() {
-			    var fullText = $('#current_month').text();
-			    var matches = fullText.match(/\d+/g);
-			    var year = parseInt(matches[0]);
-			    var month = parseInt(matches[1]);
-			    const workingDays = calculateWorkingDays(year, month);
-			    const hoursPerDay = 8;
-			    const totalWorkingHours = workingDays * hoursPerDay;
-
-			    // 현재까지의 누적 근무시간 (예: 초로 변환된 시간)
-			    var accumulatedTimeText = $("#accumulated_time").text();
-			    console.log("바보", accumulatedTimeText);
-			    const accumulatedTimeArray = accumulatedTimeText.split(':'); // 예상 포맷: 'xx:xx:xx'
-			    console.log("안녕하세요", accumulatedTimeArray);
-			    const accumulatedHours = parseInt(accumulatedTimeArray[0], 10);
-			    const accumulatedMinutes = parseInt(accumulatedTimeArray[1], 10);
-			    const accumulatedSeconds = parseInt(accumulatedTimeArray[2], 10);
-
-			    // 누적 시간을 초로 변환
-			    const accumulatedTimeInSeconds = accumulatedHours * 3600 + accumulatedMinutes * 60 + accumulatedSeconds;
-
-			    // 남은 시간 계산
-			    const remainingSeconds = totalWorkingHours * 3600 - accumulatedTimeInSeconds;
-			    const remainingFormattedHours = Math.floor(remainingSeconds / 3600);
-			    const remainingFormattedMinutes = Math.floor((remainingSeconds % 3600) / 60);
-			    const remainingFormattedSeconds = remainingSeconds % 60;
-			    
-			    const remainingFormattedTime = (remainingFormattedHours < 10 ? '0' : '') + remainingFormattedHours + ':' +
-			        (remainingFormattedMinutes < 10 ? '0' : '') + remainingFormattedMinutes + ':' +
-			        (remainingFormattedSeconds < 10 ? '0' : '') + remainingFormattedSeconds;
-
-			    console.log('남은 시간 (초):', remainingSeconds);
-			    console.log('남은 시간 (시간):', remainingFormattedHours);
-			    console.log('남은 시간 (분):', remainingFormattedMinutes);
-			    console.log('남은 시간 (초):', remainingFormattedSeconds);
-
-			    $('#remaining_time').text('남은 근무 시간: ' + remainingFormattedTime);
-			});
-
 
 
         

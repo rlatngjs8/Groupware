@@ -40,7 +40,7 @@ SELECT employees.*,
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
 INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
-WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%');
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%') and employees.userid = #{param3} ;
 </select>
 
 
@@ -49,7 +49,7 @@ SELECT employees.*, attendance.AttendanceID, attendance.Date, attendance.StartTi
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
 INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
-WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%')
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%') and employees.userid = #{param3} 
 ORDER BY 
   CASE
     WHEN Name COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
@@ -75,7 +75,7 @@ SELECT employees.*,
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
 INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
-WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%')
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%') and employees.userid = #{param3} 
 ORDER BY 
   CASE
     WHEN DepartmentName COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
@@ -100,7 +100,7 @@ ORDER BY
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
 INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
-WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%')
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%') and employees.userid = #{param3} 
 ORDER BY 
   CASE
     WHEN Date COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
