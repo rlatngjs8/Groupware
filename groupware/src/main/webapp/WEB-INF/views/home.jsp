@@ -95,8 +95,19 @@
 	    </div>
 	    <h2>게시판</h2>
 	    <!-- 게시판 최근글 -->
+
 	    <div class="commu-box">
-	    	    123
+	    	    <ul>
+			    <c:forEach items="${blist}" var="blist">
+				    <li>
+					    <div class="title"><a href="/community_view?seqno=${blist.communityID}">${blist.communityTitle}</a></div>
+					    <div class="content-text"><a href="/announcement_view?seqno=${blist.communityID}">${blist.content}</a></div>
+					    <div class="info">${blist.name} ${blist.position}</div>
+					    <div class="date">${blist.formattedDate}</div>
+					</li>
+			    </c:forEach>
+			</ul>
+			<a href="/community">더보기></a>
 	    </div>
   </div>
   	    <div>
