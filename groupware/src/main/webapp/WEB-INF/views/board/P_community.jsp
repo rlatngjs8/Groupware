@@ -85,48 +85,33 @@
 <meta charset="UTF-8">
 <title>게시판</title>
 <link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
-<%@ include file="P_header.jsp" %>
+<%@ include file="../P_header.jsp" %>
 </head>
 <body>
 
 <div class="page-side">
-    <h1>공지사항</h1>
-
-  <%
-  	String id =(String)session.getAttribute("userid");
-		if(id.equals("관리자1")){
-	%>
-		<a href='/announcement_write' class="big-button">공지사항쓰기</a> <!-- 큰 버튼 스타일 적용 -->
+    <h1>자유 게시판</h1>
+    <a href='/community_write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
 	<div>
         <a href='/announcement'>공지사항</a><br>
         <a href='/community'>자유게시판</a>
     </div>
-	<%
-		}else{
-	%>
-	<div>
-        <a href='/announcement'>공지사항</a><br>
-        <a href='/community'>자유게시판</a>
-    </div>
-	<%
-		}
-	%>
 </div>
 <div class="Main_Content">
 <div class="board-search-bar">
-<input type="text" placeholder="공지사항 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
+<input type="text" placeholder="게시판 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
 </div>
 <ul>
 <c:forEach items="${blist}" var="blist">
-
 	<li class="post-container">
-	<div onclick="location.href='/announcement_view?seqno=${blist.CommunityID}';" style=" cursor: pointer;">
+	<div onclick="location.href='/community_view?seqno=${blist.CommunityID}';" style=" cursor: pointer;">
             <span class="post-title">${blist.CommunityTitle}</span><br><br>
             <span class="post-content">${blist.Content}</span><br><br>
             <span class="post-info">
                 <span class="post-views-likes">
                 	<span class="post-author">작성자 : ${blist.Name} ${blist.Position}</span><br>
                     <span>조회수: ${blist.Views}</span><br>
+                    <span><img src="/P_img/like.png" style="width:20px;height:20px"> ${blist.Likes}</span><br>
                 </span>
                 <span class="post-time">${blist.CreatedTime}</span>
             </span>
@@ -135,7 +120,7 @@
 </c:forEach>
 </ul>
 <div class="board-search-bar">
-<input type="text" placeholder="공지사항 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
+<input type="text" placeholder="게시판 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
 </div>
 <div style="margin-left:auto;margin-right:auto;text-align:center;font-size: x-large">${pagestr}</div>
 </div>
@@ -145,7 +130,7 @@ $(document)
 .on('click','#search-board-button',function(){
 	let search = $('#board-search-bar').val();
 	console.log(search);
-	document.location="doaboardsearch?search="+search;
+	document.location="doboardsearch?search="+search;
 	return false;
 })
 function boardenterkey() {

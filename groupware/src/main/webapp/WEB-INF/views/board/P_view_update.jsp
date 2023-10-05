@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
-<title>공지사항 수정</title>
+<title>글 수정</title>
 <style>
     body {
         background-color: #f2f2f2;
@@ -58,7 +58,7 @@
     }
 </style>
 </head>
-<%@ include file="P_header.jsp" %>
+<%@ include file="../P_header.jsp" %>
 <link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
 <body>
 <input type="hidden" value="${bpost.communityID}" id="seq">
@@ -110,7 +110,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/updateapost",
+                url: "/updatepost",
                 data: post,
                 success: function(data) {
                     console.log('success')

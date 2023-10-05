@@ -26,11 +26,6 @@ a {
 .side-bar > ul {
   height: 100vh; /* 화면 높이 100%로 설정 */
 }
-/* 사이트의 높이를 5000px로 만들어 스크롤 생성 */
-body {
-/*   height: 5000px; */
-  background-color: #f1f1f1;
-}
 
 /* 사이드바 시작 */
 
@@ -95,8 +90,6 @@ body {
   transform-origin:bottom right;
 }
 
-
-
 /* 모든 메뉴의 a에 속성값 부여 */
 .side-bar ul > li > a {
   display: block;
@@ -120,8 +113,6 @@ body {
   border-bottom: 1px solid #999;
 }
 
-
-
 /* 사이드바 너비의 80%만큼 왼쪽으로 이동 
 .side-bar {
   transform: translate(calc(var(--side-bar-width) * -0.8), 0);
@@ -144,7 +135,6 @@ body {
   margin-right:40px;
   margin-top:20px;
 }
-
 
 .search-bar {
   border: 1px solid #bbb;
@@ -184,9 +174,7 @@ body {
 	border-radius: 10px;
     position: absolute;
     background-color: rgb(106, 176, 173);
-    list-style: none;
-    margin-left: -50px;
-	
+    list-style: none;	
     padding: 5px;
     opacity: 0;
     transform: translateY(-20px); /* 초기에 위로 이동한 상태로 시작 */
@@ -211,6 +199,15 @@ body {
     transform: translateY(0); /* 서브메뉴가 위에서 아래로 나타나도록 이동합니다. */
 }
 
+#pHedaerEmailAlarm {
+  display: inline-block; /* div를 인라인 블록 요소로 설정 */
+  vertical-align: top; /* 텍스트의 위쪽에 맞추기 */
+  margin-left: 15px; /* 좌측 마진 추가 (선택사항) */
+}
+
+.stext{
+	font-size:5px;
+}
 
 </style>
 </head>
@@ -232,7 +229,7 @@ body {
           <a href="/contact/company">연락처</a>
         </li>
         <li>
-          <a href="/mailFolder1">메일</a>
+          <a href="/mailFolder1">메일<div id="pHedaerEmailAlarm"></div></a>
         </li>
         <li>
           <a href="/community">게시판</a>
@@ -265,20 +262,25 @@ body {
     	<div class="search-bar">
     	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button" ><img src="P_img/free-icon-magnifier-71403.png"></button>
     	</div>
-    	<div id="pHedaerEmailAlarm"></div>
-    	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
-    	<a href="#"><img src="/P_img/bell.png" alt="공지"></a>  
-    	<ul>
+    	
+    	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>
+    	   	
+    	<ul>       
         <li class="menu">
-            <img src="img/${profileIMG}" class="profile">
-            <ul class="hide">
-            	<li><a href="/"> 홈</a></li>
+        	<img src="/P_img/bell.png" alt="공지" class="bell"> 
+            <ul id="notice" class="hide" style="margin-left: -100px;"></ul>
+        </li>        
+        </ul>
+        <ul>
+        <li class="menu">
+        	<img src="img/${profileIMG}" class="profile">
+        	<ul class="hide" style="margin-left: -30px;">
+        	    <li><a href="/"> 홈</a></li>
             	<li><a href="/myInfo">정보수정</a></li>
                 <li><a href="/logout">로그아웃</a></li>
-                
             </ul>
         </li>
-        </ul>
+        	</ul>
 <!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
 <!--     	<div id="pHedaerEmailAlarm"></div> -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
@@ -295,9 +297,12 @@ $(document)
 	let sessionid = $("#sessionid").val()
 	console.log($("#sessionid").val())
 	if(sessionid == null || sessionid == "") {
+	console.log("empid="+${sessionScope.EmpId});
+	if(sessionid == null || sessionid == ""){
 		alert("권한이 없습니다");
 		return false;
 }
+	}
 	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
 		success:function(data){
 			console.log("/pHeaderAlarm 성공");
@@ -308,6 +313,18 @@ $(document)
 			alert("/pHeaderAlarm 오류");
 		}
 	});
+	$.post('/getNewNotice',{empID:${sessionScope.EmpId}},
+			function(data){
+				for(let i=0; i<data.length; i++){
+					if(data[i].type=="Announcement"){
+						let li = "<li><a href='/announcement' class='stext'>공지사항: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else{
+						let li = "<li><a href='/mailFolder1' class='stext'>새 메일: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}
+				}
+	},'json');
 })
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();
