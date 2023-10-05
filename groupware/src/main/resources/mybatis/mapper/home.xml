@@ -35,4 +35,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	                                OR (receiveremployeeid=#{param1} AND tcreceive=0 AND receivemark=1)
 	                              ORDER BY a.emailid DESC LIMIT 0,5;       
 	</select>
+	
+	<select id="getboardlist" resultType="com.groupware.project.homeDTO">
+	    SELECT a.CommunityID, a.CommunityTitle,a.Content,b.Name,DATE_FORMAT(a.CreatedTime, '%Y-%m-%d') AS FormattedDate, b.Position
+		FROM communities a
+		INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		ORDER BY CreatedTime DESC
+		LIMIT 0,5
+    </select>
 </mapper>

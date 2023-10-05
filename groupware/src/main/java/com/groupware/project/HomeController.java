@@ -37,9 +37,10 @@ public class HomeController {
 				ArrayList<MailDTO> RecMail = hdao.selectRecMail(empid);
 				ArrayList<MailDTO> sendMail = hdao.selectSendMail(empid);
 				ArrayList<MailDTO> Importantmail = hdao.selectImportantMail(empid);
+				ArrayList<MailDTO> blist = hdao.getboardlist();
 				
-//				ArrayList<P_BoardDTO> wlist=hdao.gethomewlist();
 				model.addAttribute("alist",alist);
+				model.addAttribute("blist",blist);
 				model.addAttribute("rMlist", RecMail);
 				model.addAttribute("sMlist", sendMail);
 				model.addAttribute("iMlist", Importantmail);
