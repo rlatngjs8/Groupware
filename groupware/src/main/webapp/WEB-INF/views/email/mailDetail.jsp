@@ -28,6 +28,8 @@
 	<div id="mailNow" class="divHidden">${rs}</div>
 	<c:if test='${trs=="tS"}'><div id="mailNow2" class="divHidden">tS</div></c:if>
 	<c:if test='${trs=="tR"}'><div id="mailNow2" class="divHidden">tR</div></c:if>
+	<c:if test='${trs=="mS"}'><div id="mailNow2" class="divHidden">mS</div></c:if>
+	<c:if test='${trs=="mR"}'><div id="mailNow2" class="divHidden">mR</div></c:if>
 	<c:if test='${rs=="receive"}'><p id="mailSideTitle">받은메일함</p></c:if>
 	<c:if test='${rs=="send"}'><p id="mailSideTitle">보낸메일함</p></c:if>
 	<c:if test='${rs=="trash"}'><p id="mailSideTitle">휴지통</p></c:if>
@@ -39,13 +41,13 @@
 	<p class="mline"></p>
 	<table id="dmailTable">
 		<tr><td colspan=2 id="mdSubject"><h2 style="margin-bottom:5px;">${dmail.subject}</h2></td></tr>
-		<tr><td style="font-weight:bold;">보낸사람</td><td id="namebox1"><label id="emailbox1" class="emailbox">${dmail2.name} &#60;${dmail2.email}&#62;</label></td></tr>
+		<tr><td style="font-weight:bold;">보낸사람</td><td id="namebox1"><label id="emailbox1" class="emailbox">${dmail2.name} ＜${dmail2.email}＞</label></td></tr>
 		<tr><td style="font-weight:bold;">받은사람</td>
 		<td>
-			<c:if test='${dlist==""}'><label id="emailbox2" class="emailbox">${dmail.name} &#60;${dmail.email}&#62;</label></c:if>
+			<c:if test='${dlist==""}'><label id="emailbox2" class="emailbox">${dmail.name} ＜${dmail.email}＞</label></c:if>
 			<c:if test='${dlist!=""}'>
 			<c:forEach items="${dlist}" var="d">
-				<label id="emailbox2" class="emailbox">${d.name} &#60;${d.email}&#62;</label>
+				<label id="emailbox2" class="emailbox">${d.name} ＜${d.email}＞</label>
 			</c:forEach>
 			</c:if>
 		</td></tr>
@@ -117,11 +119,14 @@ $(document)
 	//0925
 	let name = $('#namebox1').text();
 	let email = $('#emailbox1').text();
+	email = email.substring(email.indexOf('＜')+1);
+	email = email.split("＞");
+	console.log(email[0]);
 	let email2 = $('#emailbox2').text();
 	let emailDate = $('#emailDate').text();
 	let subject = "Re: "+$('#mdSubject').text();
 	let content = $('#mailDContent').text();
-	$.ajax({url:'/mdAnswer',data:{name:name,email:email,email2:email2,emailDate:emailDate,subject:subject,content:content},type:'post',dataType:'text',
+	$.ajax({url:'/mdAnswer',data:{name:name,email:email[0],email2:email2,emailDate:emailDate,subject:subject,content:content},type:'post',dataType:'text',
 		success:function(data){
 			console.log("/mdAnswer 성공");	
 			document.location="/mailWrite2";
@@ -140,6 +145,8 @@ $(document)
 				document.location="/mailFolder1";
 			} else if($('#mailNow').text()=="send") {
 				document.location="/mailFolder2";
+			} else if($('#mailNow').text()=="mark") {
+				document.location="/mailMark";
 			} else if($('#mailNow').text()=="trash") {
 				document.location="/trashcanFolder";
 			}

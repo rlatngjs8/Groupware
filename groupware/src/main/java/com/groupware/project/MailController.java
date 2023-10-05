@@ -38,19 +38,18 @@ public class MailController implements WebMvcConfigurer {
 	@Autowired
 	private MailDAO mdao;
 	
-	public static void sessionL(HttpServletRequest req) {
-		//로그인임시
-		HttpSession s = req.getSession();
-		s.setAttribute("empID", 85);
-		//로그인임시
-	}
-//	public void sessionL(HttpServletRequest req) {
+//	public static void sessionL(HttpServletRequest req) {
+//		//로그인임시
 //		HttpSession s = req.getSession();
-//		String userid = (String) s.getAttribute("userid");
-//		int eid = mdao.selectEmpid(userid);
-//		s.setAttribute("empID", eid);
-////		System.out.println(eid);
+//		s.setAttribute("empID", 85);
+//		//로그인임시
 //	}
+	public void sessionL(HttpServletRequest req) {
+		HttpSession s = req.getSession();
+		String userid = (String) s.getAttribute("userid");
+		int eid = mdao.selectEmpid(userid);
+		s.setAttribute("empID", eid);
+	}
 	public void page(HttpServletRequest req, Model model) {
 		sessionL(req);
 		HttpSession s = req.getSession();
@@ -78,7 +77,6 @@ public class MailController implements WebMvcConfigurer {
 		int totalpage = (int) Math.ceil(pagecount/5.0);
 		ArrayList<MailDTO> receiveEmail = mdao.selectRecMail(eid,mpageStart,mpageSize);
 		
-//		System.out.println(cnt+","+pagecount+","+totalpage);
 		String pagestr = "";
 	
 		if(mailPno<4) {
@@ -106,7 +104,6 @@ public class MailController implements WebMvcConfigurer {
 		model.addAttribute("pagecnt",pagecount);
 		
 		if(receiveEmail.size()==0) {
-//			System.out.println(receiveEmail);
 			model.addAttribute("rlist", "");
 		} else {
 			model.addAttribute("rlist", receiveEmail);
@@ -118,7 +115,6 @@ public class MailController implements WebMvcConfigurer {
 	@ResponseBody
 	public String mailNext(HttpServletRequest req, Model model) {
 		sessionL(req);
-//		System.out.println(mailPno);
 		if(mailPno==pageCnt) {
 			return "noMove";
 		}
@@ -130,7 +126,6 @@ public class MailController implements WebMvcConfigurer {
 	@ResponseBody
 	public String mailPrev(HttpServletRequest req, Model model) {
 		sessionL(req);
-//		System.out.println(mailPno);
 		if(mailPno==1) {
 			return "noMove";
 		}
@@ -151,7 +146,6 @@ public class MailController implements WebMvcConfigurer {
 		int totalpage = (int) Math.ceil(pagecount/5.0);
 		ArrayList<MailDTO> sendEmail = mdao.selectSendMail(eid,mpageStart,mpageSize);
 		
-//		System.out.println(cnt+","+pagecount+","+totalpage);
 		String pagestr = "";
 	
 		if(mailPno<4) {
@@ -179,7 +173,6 @@ public class MailController implements WebMvcConfigurer {
 		model.addAttribute("pagecnt",pagecount);
 		
 		if(sendEmail.size()==0) {
-//			System.out.println(receiveEmail);
 			model.addAttribute("rlist", "");
 		} else {
 			model.addAttribute("rlist", sendEmail);
@@ -226,7 +219,6 @@ public class MailController implements WebMvcConfigurer {
 		model.addAttribute("pagecnt",pagecount);
 		
 		if(trashcan.size()==0) {
-//			System.out.println(receiveEmail);
 			model.addAttribute("rlist", "");
 		} else {
 			model.addAttribute("rlist", trashcan);
@@ -235,7 +227,112 @@ public class MailController implements WebMvcConfigurer {
 		model.addAttribute("eid", eid);
 		return "email/trashcanFolder";
 	}
+	@GetMapping("/mailMark")
+	public String mailMark(HttpServletRequest req, Model model) {
+		sessionL(req);
+		page(req,model);
+		HttpSession s = req.getSession();
+		int eid = (Integer) s.getAttribute("empID");
+		
+		int cnt=mdao.selectMarkcnt(eid); //전체 메일 수
+		int pagecount = (int) Math.ceil(cnt/15.0); 
+		pageCnt = pagecount;
+		int totalpage = (int) Math.ceil(pagecount/5.0);
+		ArrayList<MailDTO> markEmail = mdao.selectMarkMail(eid,mpageStart,mpageSize);
+		
+		String pagestr = "";
 	
+		if(mailPno<4) {
+			for(int i=1; i<=pagecount; i++) {
+				if(i>5) {
+					break;
+				}
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		} else {
+			for(int i=mailPno-2; i<=mailPno+2; i++) {
+				if(mailPno==i) {
+					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+				} else {
+					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+				}
+			}
+		}
+		model.addAttribute("pagestr",pagestr);
+		model.addAttribute("pageno",mailPno);
+		model.addAttribute("pagecnt",pagecount);
+		
+		if(markEmail.size()==0) {
+			model.addAttribute("rlist", "");
+		} else {
+			model.addAttribute("rlist", markEmail);
+		}
+		s.setAttribute("rs", "mark");
+		model.addAttribute("eid", eid);
+		return "email/mailMark";
+	}
+	@PostMapping("/rsMark")
+	@ResponseBody
+	public String rsMark(HttpServletRequest req, Model model) {
+		int emailid = Integer.parseInt(req.getParameter("emailid"));
+		String now = req.getParameter("now");
+		int rmark = Integer.parseInt(req.getParameter("rmark"));
+		String now2 = req.getParameter("now2");
+//		System.out.println(emailid+", "+now);
+		if(now.equals("receive")) {
+			if (rmark==1) {
+				mdao.updateReceiveMark0(emailid);
+			} else if (rmark==0) {
+				mdao.updateReceiveMark1(emailid);	
+			}
+			return "receive";
+		} else if(now.equals("send")){
+			if (rmark==1) {
+				mdao.updateSendMark0(emailid);
+			} else if (rmark==0) {
+				mdao.updateSendMark1(emailid);	
+			}
+			return "send";
+		} else if (now.equals("mark")) {
+//			System.out.println("A");
+			if (now2.equals("mR")) {
+//				System.out.println("B");
+				if (rmark==1) {
+					mdao.updateReceiveMark0(emailid);
+				} else if (rmark==0) {
+					mdao.updateReceiveMark1(emailid);	
+				}
+			} else if (now2.equals("mS")) {
+//				System.out.println("C");
+				if (rmark==1) {
+					mdao.updateSendMark0(emailid);
+				} else if (rmark==0) {
+					mdao.updateSendMark1(emailid);	
+				}
+			}
+			return "mark";
+		} else if (now.equals("trash")) {
+			if (now2.equals("tR")) {
+				if (rmark==1) {
+					mdao.updateReceiveMark0(emailid);
+				} else if (rmark==0) {
+					mdao.updateReceiveMark1(emailid);	
+				}
+			} else if (now2.equals("tS")) {
+				if (rmark==1) {
+					mdao.updateSendMark0(emailid);
+				} else if (rmark==0) {
+					mdao.updateSendMark1(emailid);	
+				}
+			}
+			return "trash";
+		}
+		return "";
+	}
 	@GetMapping("/mailWrite")
 	public String mailWrite(HttpServletRequest req, Model model) {
 		sessionL(req);
@@ -254,7 +351,6 @@ public class MailController implements WebMvcConfigurer {
 		String subject = (String) s.getAttribute("mdAnswer_subject");
 		String content = (String) s.getAttribute("mdAnswer_content");
 		String content2 = (String) s.getAttribute("mdAnswer_content2");
-		System.out.println(content+", "+content2);
 		model.addAttribute("email",email);
 		model.addAttribute("subject", subject);
 		model.addAttribute("content", content);
@@ -272,8 +368,7 @@ public class MailController implements WebMvcConfigurer {
 		String subject = req.getParameter("subject");
 		String content = req.getParameter("content");
 		HttpSession s = req.getSession();
-//		System.out.println(email+"A");
-		String content2 = "--- Original Message ---&#13;&#10;From : "+name+" <"+email+">&#13;&#10;"
+		String content2 = "--- Original Message ---&#13;&#10;From : "+name+"&#13;&#10;"
 					+"To : "+email2+"&#13;&#10;"
 					+"Date : "+emailDate+"&#13;&#10;"
 					+"Subject : "+subject+"&#13;&#10;";
@@ -297,10 +392,8 @@ public class MailController implements WebMvcConfigurer {
 		HttpSession s = req.getSession();
 		int senderEmployeeID = (Integer) s.getAttribute("empID");
 		String receiverEmail = req.getParameter("receiverEmail");
-		System.out.println(receiverEmail);
 		String receiverEmail2[] = receiverEmail.split(" ");
 
-//		MailDTO mdto = mdao.selectEmpEmail(receiverEmail); //이메일값을 받아서 이메일값으로 사원아이디를추적하여 최종적으로 insert해야함.
 		int eid = mdao.selectMaxemailid();
 		
 		String uploadFileName = "";
@@ -311,9 +404,7 @@ public class MailController implements WebMvcConfigurer {
 				if(i==0) {
 					try {
 						attachment1 = (eid+1)+"_"+i+"."+uploadFileName;
-//						System.out.println(attachment1);
 						attachment1 = URLEncoder.encode(attachment1, "UTF-8"); //16진수로
-//						System.out.println(attachment1);
 						uploadFileName = attachment1;
 					}  catch (UnsupportedEncodingException e1) {
 			            e1.printStackTrace();
@@ -322,9 +413,7 @@ public class MailController implements WebMvcConfigurer {
 				if(i==1) {
 					try {
 						attachment2 = (eid+1)+"_"+i+"."+uploadFileName;
-//						System.out.println(attachment2);
 						attachment2 = URLEncoder.encode(attachment2, "UTF-8"); //16진수로
-//						System.out.println(attachment2);
 						uploadFileName = attachment2;
 					}  catch (UnsupportedEncodingException e1) {
 			            e1.printStackTrace();
@@ -333,9 +422,7 @@ public class MailController implements WebMvcConfigurer {
 				if(i==2) {
 					try {
 						attachment3 = (eid+1)+"_"+i+"."+uploadFileName;
-//						System.out.println(attachment3);
 						attachment3 = URLEncoder.encode(attachment3, "UTF-8"); //16진수로
-//						System.out.println(attachment3);
 						uploadFileName = attachment3;
 					}  catch (UnsupportedEncodingException e1) {
 			            e1.printStackTrace();
@@ -364,40 +451,45 @@ public class MailController implements WebMvcConfigurer {
 		}	
 		return "mailFolder1";
 	}
+	
 	@PostMapping("/mailRead")
 	@ResponseBody
 	public void mailRead(HttpServletRequest req, Model model) {
 		String mlist = req.getParameter("mailChklist");
 		mlist = mlist.replace("[","").replace("]","").replace("\"","");
-//		System.out.println(mlist);
 		String[] mlist2 = mlist.split(",");
 		int emailid;
 		
 		String now = req.getParameter("now");
-		String trashChklist = req.getParameter("trashChklist");
-		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
-//		System.out.println(trashChklist);
-		String[] trashChklist2 = trashChklist.split(",");
-//		System.out.println(trashChklist2[0]);
+		String mtChklist = req.getParameter("mtChklist");
+		mtChklist = mtChklist.replace("[","").replace("]","").replace("\"","");
+		String[] mtChklist2 = mtChklist.split(",");
 		
 		if (now.equals("receive")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
-				mdao.updateEmailReceive1(emailid);	
+				mdao.updateEmailReceive1(emailid);
 			}
 		} else if (now.equals("send")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
 				mdao.updateEmailSend1(emailid);	
 			}
+		} else if (now.equals("mark")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				if (mtChklist2[i].equals("mR")) {
+					mdao.updateEmailReceive1(emailid);	
+				} else if (mtChklist2[i].equals("mS")) {
+					mdao.updateEmailSend1(emailid);	
+				}
+			}
 		} else if (now.equals("trash")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
-				if (trashChklist2[i].equals("tR")) {
-					System.out.println("tR실행");
+				if (mtChklist2[i].equals("tR")) {
 					mdao.updateEmailReceive1(emailid);	
-				} else if (trashChklist2[i].equals("tS")) {
-					System.out.println("tS실행");
+				} else if (mtChklist2[i].equals("tS")) {
 					mdao.updateEmailSend1(emailid);	
 				}
 			}
@@ -412,10 +504,9 @@ public class MailController implements WebMvcConfigurer {
 		int emailid;
 		
 		String now = req.getParameter("now");
-		String trashChklist = req.getParameter("trashChklist");
-		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
-		String[] trashChklist2 = trashChklist.split(",");
-//		System.out.println(trashChklist);
+		String mtChklist = req.getParameter("mtChklist");
+		mtChklist = mtChklist.replace("[","").replace("]","").replace("\"","");
+		String[] mtChklist2 = mtChklist.split(",");
 		
 		if (now.equals("receive")) {
 			for(int i=0; i<mlist2.length;i++) {
@@ -427,15 +518,21 @@ public class MailController implements WebMvcConfigurer {
 				emailid = Integer.parseInt(mlist2[i]);
 				mdao.updateEmailSend0(emailid);	
 			}
+		} else if (now.equals("mark")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				if (mtChklist2[i].equals("mR")) {
+					mdao.updateEmailReceive0(emailid);	
+				} else if (mtChklist2[i].equals("mS")) {
+					mdao.updateEmailSend0(emailid);	
+				}
+			}
 		} else if (now.equals("trash")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
-				System.out.println(emailid);
-				if (trashChklist2[i].equals("tR")) {
-//					System.out.println("tR실행");
+				if (mtChklist2[i].equals("tR")) {
 					mdao.updateEmailReceive0(emailid);	
-				} else if (trashChklist2[i].equals("tS")) {
-//					System.out.println("tS실행");
+				} else if (mtChklist2[i].equals("tS")) {
 					mdao.updateEmailSend0(emailid);	
 				}
 			}
@@ -450,9 +547,9 @@ public class MailController implements WebMvcConfigurer {
 		int emailid;
 		
 		String now = req.getParameter("now");
-		String trashChklist = req.getParameter("trashChklist");
-		trashChklist = trashChklist.replace("[","").replace("]","").replace("\"","");
-		String[] trashChklist2 = trashChklist.split(",");
+		String mtChklist = req.getParameter("mtChklist");
+		mtChklist = mtChklist.replace("[","").replace("]","").replace("\"","");
+		String[] mtChklist2 = mtChklist.split(",");
 		
 		if (now.equals("receive")) {
 			for(int i=0; i<mlist2.length;i++) {
@@ -464,12 +561,21 @@ public class MailController implements WebMvcConfigurer {
 				emailid = Integer.parseInt(mlist2[i]);
 				mdao.updateEmailSend2(emailid);	
 			}
-		} else if (now.equals("trash")) {
+		} else if (now.equals("mark")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
-				if (trashChklist2[i].equals("tR")) {
+				if (mtChklist2[i].equals("mR")) {
+					mdao.updateEmailReceive2(emailid);	
+				} else if (mtChklist2[i].equals("mS")) {
+					mdao.updateEmailSend2(emailid);	
+				}
+			}
+		}  else if (now.equals("trash")) {
+			for(int i=0; i<mlist2.length;i++) {
+				emailid = Integer.parseInt(mlist2[i]);
+				if (mtChklist2[i].equals("tR")) {
 					mdao.updateEmailReceive3(emailid);	
-				} else if (trashChklist2[i].equals("tS")) {
+				} else if (mtChklist2[i].equals("tS")) {
 					mdao.updateEmailSend3(emailid);	
 				}
 			}
@@ -482,11 +588,18 @@ public class MailController implements WebMvcConfigurer {
 		int emailid = Integer.parseInt(req.getParameter("eid"));
 		String now = req.getParameter("now");
 		String now2 = req.getParameter("now2");
-//		System.out.println(now);
 		if (now.equals("receive")) {
 			mdao.updateEmailReceive1(emailid);
 		} else if (now.equals("send")) {
 			mdao.updateEmailSend1(emailid);
+		} else if (now.equals("mark")) {
+			if (now2.equals("mR")) {
+				mdao.updateEmailReceive1(emailid);
+				s.setAttribute("trs", "mR");
+			} else if (now2.equals("mS")) {
+				mdao.updateEmailSend1(emailid);	
+				s.setAttribute("trs", "mS");
+			}
 		} else if (now.equals("trash")) {
 			if (now2.equals("tR")) {
 				mdao.updateEmailReceive1(emailid);
@@ -503,32 +616,24 @@ public class MailController implements WebMvcConfigurer {
 		sessionL(req);
 		HttpSession s = req.getSession();
 		int emailid = Integer.parseInt(req.getParameter("eid"));
-//		System.out.println(emailid);
+
 		MailDTO detailMail = mdao.selectDetailMail(emailid);
 		int ms = detailMail.getMultiplesend();
 		
 		ArrayList<MailDTO> multipleEmail2 = new ArrayList<MailDTO>();
 		
 		if(ms!=0) {
-//			System.out.println(ms);
 			ArrayList<MailDTO> multipleEid = mdao.selectmultipleEid(ms);
-//			System.out.println(multipleEid.size());
 			for(int i=0; i<multipleEid.size(); i++) {
-//				System.out.println(multipleEid.get(i).getReceiveremployeeid());
 				int multipleEid2 = multipleEid.get(i).getReceiveremployeeid();
 				MailDTO multipleEmail = mdao.selectmultipleEmail(multipleEid2);
-//				System.out.println(multipleEmail.getName()+multipleEmail.getEmail());
-//				model.addAttribute("mailgetname"+i,multipleEmail.getName());
-//				model.addAttribute("mailgetemail"+i,multipleEmail.getEmail());
 				multipleEmail2.add(multipleEmail);
 			}
 			model.addAttribute("dlist", multipleEmail2);
-//			System.out.println(multipleEmail2.get(0).getName()+multipleEmail2.get(0).getEmail());
 		} else {
 			model.addAttribute("dlist", "");
 			model.addAttribute("dmail", detailMail);
 		}
-//		System.out.println(multipleEmail2.get(0).getName());
 		
 		MailDTO detailMail2 = mdao.selectSenderName(emailid);
 		model.addAttribute("dmail2", detailMail2);
@@ -546,8 +651,7 @@ public class MailController implements WebMvcConfigurer {
         
         String stime = detailMail.getSendtime();
         String time = stime.substring(11,16);
-        String time3 = stime.substring(13,16);
-//        System.out.println(time.substring(0,2));
+        String time3 = stime.substring(13,16);;
         int time2 = Integer.parseInt(time.substring(0,2));
         if(time2>12) {
         	time2 = time2 % 12;
@@ -559,7 +663,6 @@ public class MailController implements WebMvcConfigurer {
         
         stime = stime.substring(0,10); //날짜까지만
         String[] stime2 =stime.split("-");
-//        System.out.println(stime2[0]+stime2[1]+stime2[2]);
         int ldate0 = Integer.parseInt(stime2[0]);
         int ldate1 = Integer.parseInt(stime2[1]);
         int ldate2 = Integer.parseInt(stime2[2]);
@@ -567,7 +670,6 @@ public class MailController implements WebMvcConfigurer {
         LocalDate date = LocalDate.of(ldate0, ldate1, ldate2);
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         int dayOfWeekNumber = dayOfWeek.getValue();
-//        System.out.println(dayOfWeekNumber);  //요일(숫자)
         
         String down = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN);
         model.addAttribute("date",stime+" ("+down+") "+time);
@@ -575,7 +677,6 @@ public class MailController implements WebMvcConfigurer {
         model.addAttribute("rs",rs);
         String trs = (String) s.getAttribute("trs");
         model.addAttribute("trs",trs);
-        
 		return "email/mailDetail";
 	}
 	@PostMapping("/mdDelete")
@@ -588,13 +689,19 @@ public class MailController implements WebMvcConfigurer {
 			mdao.updateEmailReceive2(emailid);	
 		} else if (now.equals("send")) {
 			mdao.updateEmailSend2(emailid);	
+		} else if (now.equals("mark")) {
+			if (now2.equals("mR")) {
+				mdao.updateEmailReceive2(emailid);	
+				model.addAttribute("trs","");
+			} else if (now2.equals("mS")) {
+				mdao.updateEmailSend2(emailid);	
+				model.addAttribute("trs","");
+			}
 		} else if (now.equals("trash")) {
 			if (now2.equals("tR")) {
-//				System.out.println("tR실행");
 				mdao.updateEmailReceive3(emailid);	
 				model.addAttribute("trs","");
 			} else if (now2.equals("tS")) {
-//				System.out.println("tS실행");
 				mdao.updateEmailSend3(emailid);	
 				model.addAttribute("trs","");
 			}
@@ -604,9 +711,11 @@ public class MailController implements WebMvcConfigurer {
 	@PostMapping("/pHeaderAlarm")
 	@ResponseBody
 	public int pHeaderAlarm(HttpServletRequest req, Model model) {
+		sessionL(req);
 		HttpSession s = req.getSession();
 		int eid = (Integer) s.getAttribute("empID");
 		int cnt = mdao.selectemailAlarmcnt(eid);
+//		System.out.println(cnt+"A");
 		return cnt;
 	}
 }

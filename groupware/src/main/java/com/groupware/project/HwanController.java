@@ -23,6 +23,7 @@ public class HwanController {
 	
 	@Autowired
 	private AttendanceDAO Attdao;
+
 	
 	@GetMapping("/contact/company")
 	public String company() {
@@ -40,11 +41,10 @@ public class HwanController {
 	}
 	
 	@GetMapping("/attendance_management/attendance")
-	public String attendance() {
+	public String attendance(HttpServletRequest req, Model model) {
 		return "attendance_management/attendance";
 	}
 	
-
 	@PostMapping("/insert_checkOut")
 	@ResponseBody
 	public String insert_checkOut(HttpServletRequest req, Model model, HttpSession session) {
@@ -62,7 +62,7 @@ public class HwanController {
 
 	    return "";
 	}
-	
+
 	@PostMapping("/insert_checkIn")
 	@ResponseBody
 	public String insert_checkIn(HttpServletRequest req, Model model) {
@@ -71,6 +71,7 @@ public class HwanController {
 	    String startTime = req.getParameter("startTime");
 	    String AttendanceStatus = req.getParameter("AttendanceStatus");
 	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
+	    
 	    Attdao.insert_checkIn(userid, date, startTime, AttendanceStatus);
 	    //redirect:/attendance_management/attendance"
 	    return "";
@@ -109,7 +110,6 @@ public class HwanController {
 	    }
 	    return ja.toJSONString();
 	}
-	
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/get_personal_addressBook")
@@ -249,19 +249,27 @@ public class HwanController {
 	@GetMapping("/get_attendance")
 	@ResponseBody
 	public String get_attendance(HttpServletRequest req, Model model) {
-	    String userid = req.getParameter("userid");
+	    //String userid = req.getParameter("userid");
 	    String name = req.getParameter("name");
+	    String month = req.getParameter("month");
+	    String year = req.getParameter("year");
+	    
+	    //System.out.println("UserID: " + userid);
+	    System.out.println("Name: " + name);
+	    System.out.println("Month: " + month);
+	    System.out.println("Year: " + year);
+	    
 	    ArrayList<AttendanceDTO> attendance = null;
 	    
 	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
 	    if ("all".equals(name)) {
-	    	attendance = Attdao.getListAll();
+	    	attendance = Attdao.getListAll(month, year);
 	    } else if ("name".equals(name)){
-	    	attendance = Attdao.getList_sort_name();
+	    	attendance = Attdao.getList_sort_name(month, year);
 	    } else if ("department".equals(name)){
-	    	attendance = Attdao.getList_sort_department();
+	    	attendance = Attdao.getList_sort_department(month, year);
 	    } else if ("date".equals(name)){
-	    	attendance = Attdao.getList_sort_date();
+	    	attendance = Attdao.getList_sort_date(month, year);
 	    } 
 	    
 	    JSONArray ja = new JSONArray();

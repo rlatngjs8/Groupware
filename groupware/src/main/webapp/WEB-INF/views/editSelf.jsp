@@ -338,7 +338,7 @@ $('#btnSubmit').click(async function(event){
 	
 		var password = $('#password1').val();
 	  var phoneNumber = $('#phoneNumber1').val();
-	  var email = $('#email1').val();
+	  var email = $('#email2').val();
 	  var address = $('#address1').val();
 	  // 비밀번호가 비어 있는지 확인
 	  if (!password || !phoneNumber || !email || !address) {

@@ -1,5 +1,5 @@
 let mailChklist = [];
-let trashChklist = [];
+let mtChklist = [];
 let mChkStart;
 $(document)
 .ready(function(){
@@ -33,6 +33,36 @@ $(document)
  		$('#mNext').css({"color":"lightgray","border-color":"lightgray","cursor":"default"});
  	}
 
+})
+.on('click','#emailMark',function(){
+	let emailid = $(this).parent().siblings().children('#rEmailid').text();
+	let tp = $(this).siblings('#emailRmark').text(); 
+//	console.log($('.emailRmark').text());
+//	console.log(emailid+tp);
+	
+	if($(this).find('#mStar').attr("src")=="mailpageImg/star0.png"){
+		$(this).find('#mStar').attr("src","mailpageImg/star1.png");
+		$(this).siblings('#emailRmark').text("1");
+	} else if($(this).find('#mStar').attr("src")=="mailpageImg/star1.png"){
+		$(this).find('#mStar').attr("src","mailpageImg/star0.png");
+		$(this).siblings('#emailRmark').text("0");
+	}
+	let tp2 = $(this).parent().siblings().children('#mailNow2').text(); 
+	console.log(tp2);
+	
+	$.ajax({url:'/rsMark',data:{emailid:emailid,now:$('#mailNow').text(),rmark:tp,now2:tp2}, type:'post',dataType:'text',
+		success:function(data){
+			console.log("/rsMark 성공");
+			console.log(data);
+			if(data=="mark"){
+				console.log(data);
+				location.reload();
+			}
+		},
+		error:function(data){
+			alert("/rsMark 오류");
+		}
+	});
 })
 .on('click','#mNext',function(){
 // 	if()
@@ -163,9 +193,9 @@ $(document)
 		return false;
 	}
 	mailChklist = checklist;
-	trashChklist = checklist2;
+	mtChklist = checklist2;
 	if($('#mRead').val()=="읽음"){
-		$.ajax({url:'/mailRead',data:{mailChklist:JSON.stringify(mailChklist),now:$('#mailNow').text(),trashChklist:JSON.stringify(trashChklist)},type:'post',dataType:'text',
+		$.ajax({url:'/mailRead',data:{mailChklist:JSON.stringify(mailChklist),now:$('#mailNow').text(),mtChklist:JSON.stringify(mtChklist)},type:'post',dataType:'text',
 			success:function(data){
 				console.log("/mailRead 성공");	
 				location.reload();
@@ -176,7 +206,7 @@ $(document)
 		});
 	}
 	if($('#mRead').val()=="안 읽음"){
-		$.ajax({url:'/mailNotRead',data:{mailChklist:JSON.stringify(mailChklist),now:$('#mailNow').text(),trashChklist:JSON.stringify(trashChklist)},type:'post',dataType:'text',
+		$.ajax({url:'/mailNotRead',data:{mailChklist:JSON.stringify(mailChklist),now:$('#mailNow').text(),mtChklist:JSON.stringify(mtChklist)},type:'post',dataType:'text',
 			success:function(data){
 				console.log("/mailNotRead 성공");	
 				location.reload();
@@ -204,8 +234,8 @@ $(document)
 		return false;
 	}
 	mailChklist = checklist;
-	trashChklist = checklist2;
-	$.ajax({url:'/mailDelete',data:{mailChklist:JSON.stringify(mailChklist),now:$('#mailNow').text(),trashChklist:JSON.stringify(trashChklist)},type:'post',dataType:'text',
+	mtChklist = checklist2;
+	$.ajax({url:'/mailDelete',data:{mailChklist:JSON.stringify(mailChklist),now:$('#mailNow').text(),mtChklist:JSON.stringify(mtChklist)},type:'post',dataType:'text',
 		success:function(data){
 			console.log("/mailDelete 성공");	
 			location.reload();
@@ -216,7 +246,7 @@ $(document)
 	});
 })
 .on('click','#rmailTable tr',function(e){
-	if($(e.target).hasClass("mChk") || $(e.target).hasClass("rMailChk")){
+	if($(e.target).hasClass("mChk") || $(e.target).hasClass("rMailChk") || $(e.target).hasClass("e_erm") || $(e.target).hasClass("rMailMark")){
         return ;
     }
 	let tp = $(this).find('#rEmailid').text(); 
