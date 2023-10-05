@@ -280,12 +280,20 @@ body {
         </li>
         </ul>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
 <!--     	<div id="pHedaerEmailAlarm"></div> -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  -->
 <%--     	<img src="img/${profileIMG}" class="profile"> --%>
 =======
+    	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
+    	<div id="pHedaerEmailAlarm"></div>
+    	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
+    	<img src="img/${profileIMG}" class="profile">
+>>>>>>> refs/remotes/origin/ko
+=======
+
     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
     	<div id="pHedaerEmailAlarm"></div>
     	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
@@ -303,18 +311,32 @@ $(document)
 	let sessionid = $("#sessionid").val()
 	console.log($("#sessionid").val())
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	console.log("userid="+${sessionScope.userid});
+>>>>>>> refs/remotes/origin/ko
 	if(sessionid == null || sessionid == "") {
+<<<<<<< HEAD
 =======
 	if(sessionid == null || sessionid == ""){
+>>>>>>> refs/remotes/origin/ko
+=======
 >>>>>>> refs/remotes/origin/ko
 		alert("권한이 없습니다");
 		return false;
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
+=======
+	}
+>>>>>>> refs/remotes/origin/ko
 	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+<<<<<<< HEAD
 =======
 	}
 /* 	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+>>>>>>> refs/remotes/origin/ko
+=======
 >>>>>>> refs/remotes/origin/ko
 		success:function(data){
 			console.log("/pHeaderAlarm 성공");
@@ -324,7 +346,7 @@ $(document)
 		error:function(data){
 			alert("/pHeaderAlarm 오류");
 		}
-	}); */
+	});
 	$.post('/getNewNotice',{},
 			function(data){
 			    console.log(data);
