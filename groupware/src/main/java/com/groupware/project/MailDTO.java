@@ -15,6 +15,8 @@ public class MailDTO {
 	    int tcsend;
 	    int tcreceive;
 	    int multiplesend;
+	    int sendmark;
+	    int receivemark;
 	    
 	    
 	    //employees
@@ -106,6 +108,18 @@ public class MailDTO {
 		}
 		public void setMultiplesend(int multiplesend) {
 			this.multiplesend = multiplesend;
+		}
+		public int getSendmark() {
+			return sendmark;
+		}
+		public void setSendmark(int sendmark) {
+			this.sendmark = sendmark;
+		}
+		public int getReceivemark() {
+			return receivemark;
+		}
+		public void setReceivemark(int receivemark) {
+			this.receivemark = receivemark;
 		}
 		public int getEmployeeid() {
 			return employeeid;
