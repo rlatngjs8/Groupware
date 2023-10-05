@@ -241,7 +241,7 @@ body {
           <a href="/ko_calendar">캘린더</a>
         </li>
         <li>
-            <a href="/ko_reservation">예약</a>
+            <a href="/reservationList">예약</a>
         </li>
         <li>
             <a href="#">근태관리</a>
@@ -275,30 +275,47 @@ body {
             	<li><a href="/"> 홈</a></li>
             	<li><a href="/myInfo">정보수정</a></li>
                 <li><a href="/logout">로그아웃</a></li>
-                
+                <li><a href="/announcement">공지사항</a></li>
             </ul>
         </li>
         </ul>
+<<<<<<< HEAD
 <!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
 <!--     	<div id="pHedaerEmailAlarm"></div> -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  -->
 <%--     	<img src="img/${profileIMG}" class="profile"> --%>
+=======
+    	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
+    	<div id="pHedaerEmailAlarm"></div>
+    	<a href="#"><img src="P_img/bell.png" alt="공지"></a> 
+    	<img src="img/${profileIMG}" class="profile">
+>>>>>>> refs/remotes/origin/ko
 	</div>
 	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
 
-<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src='https://code.jquery.com/jquery-Latest.js'></script>
 <script>
 $(document)
 .ready(function(){
+	console.log("hello world");
 	let sessionid = $("#sessionid").val()
 	console.log($("#sessionid").val())
+<<<<<<< HEAD
 	if(sessionid == null || sessionid == "") {
+=======
+	if(sessionid == null || sessionid == ""){
+>>>>>>> refs/remotes/origin/ko
 		alert("권한이 없습니다");
 		return false;
+<<<<<<< HEAD
 }
 	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+=======
+	}
+/* 	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+>>>>>>> refs/remotes/origin/ko
 		success:function(data){
 			console.log("/pHeaderAlarm 성공");
 			console.log(data);
@@ -307,7 +324,11 @@ $(document)
 		error:function(data){
 			alert("/pHeaderAlarm 오류");
 		}
-	});
+	}); */
+	$.post('/getNewNotice',{},
+			function(data){
+			    console.log(data);
+	},'text');
 })
 .on('click','#search-button',function(){
 	let search = $('#search-bar').val();
@@ -321,5 +342,25 @@ function enterkey() {
 		document.getElementById("search-button").click();
     }
 }
+/* .ready(function(){
+	let sessionid = $("#sessionid").val()
+	console.log($("#sessionid").val())
+	if(sessionid == null || sessionid == ""){}
+		alert("권한이 없습니다");
+		return false;
+	)
+	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+		success:function(data){
+			console.log("/pHeaderAlarm 성공");
+			console.log(data);
+			$('#pHedaerEmailAlarm').text(data);
+		},
+		error:function(data){
+			alert("/pHeaderAlarm 오류");
+		}
+	});
+
+})
+ */
 </script>
 </html>

@@ -24,6 +24,9 @@ public class Ko_controller {
 	@Autowired
 	private ReservationDAO rdao;
 	
+	@Autowired
+	private NoticeDAO ndao;
+	
 	@GetMapping("ko_calendar")		//캘린더 페이지
 	public String ko_calendar() {
 		return "ko_calendar";
@@ -219,5 +222,14 @@ public class Ko_controller {
 		rdao.reservationDeleteC(connectionID);
 		rdao.reservationDeleteR(connectionID);
 		return "reservationList";
+	}
+	@PostMapping("/getNewNotice")
+	@ResponseBody
+	public String getNewNotice() {
+		System.out.println("ajax call");
+		int newNoticeCount = ndao.getNewNotice();
+		System.out.println("count="+newNoticeCount);
+		String noticeCount = Integer.toString(newNoticeCount);
+		return noticeCount;
 	}
 }
