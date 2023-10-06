@@ -13,10 +13,14 @@
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/rrule@5.11.5/main.global.min.js'></script>
 <script src='js/ko.js'></script>
 </head>
+<style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+</style>
 <body>
 <%@ include file="P_header.jsp" %>
 <div class="asd">
 <input type="hidden" id="userid" name="userid" value="${userid}">
+	<div>
 	<!--프로필 박스 -->
     <div class="profile-box">
         <div class="rounded-image">
@@ -27,6 +31,11 @@
         	<span>${emp.departmentName}</span>&nbsp;<span style="font-weight:bold;"> ${name} ${emp.position}</span>
     	</div>
     	<button id=btnLogout >임시 로그아웃</button>
+    </div>
+	    <div class="centerD">
+		    <span class=mBtn style="margin-left:240px" id="goToMail"><img src="img/email_icon.png" class='icon'> <span>메일쓰기</span></span>
+		    <span class=mBtn id="goToAddPlan"><img src="img/calendar-icon.png" class='icon'> <span>일정등록</span></span>
+	    </div>
     </div>
   <div class="home-content">
 	    <!-- 공지사항 박스 -->
@@ -110,9 +119,9 @@
 			<a href="/community">더보기></a>
 	    </div>
   </div>
-  	    <div>
+  	    <div class="calendar_box">
 	    	    <!-- 캘린더박스 -->
-	    <h2>일정</h2>
+	    <h2>일정</h2><span id="seeMore" class="seeMore">+더보기</span>
 	    <div id='calendar' class="calendar"></div>
 	    </div>
 </div>
@@ -177,9 +186,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		 		}
 		  	}),
 		  	headerToolbar: {
-		  		left: 'today',
+		  		left: 'prev',
 		  		center: 'title',
-		  		right: 'prev,next'
+		  		right: 'next'
 		  	},
 		});
 		calendar.render();
@@ -188,7 +197,18 @@ document.addEventListener('DOMContentLoaded', function() {
 $(document).on('click','#btnLogout',function(){
     window.location.href = "/logout";
  })
- 
+.on('click','#seeMore',function(){
+	document.location="/ko_calendar";
+	return false;
+})
+.on('click','#goToMail',function(){
+	document.location="/mailWrite";
+	return false;
+})
+.on('click','#goToAddPlan',function(){
+	document.location="/ko_addPlan";
+	return false;
+})
 // div에 캘린더 불러오고싶은데 안됨
 $(document).ready(function(){
 	$('.tab-box li').on('click', function() {
