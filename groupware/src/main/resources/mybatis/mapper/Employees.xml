@@ -53,7 +53,10 @@
 	DELETE FROM address_book
 	WHERE address_book_id= #{param1};
 </delete>
-
+<select id="getMember" resultType="com.groupware.project.EmployeesDTO">
+	select a.name, a.userid, a.password, b.departmentName, a.position, a.birthDate, a.phoneNumber, a.address, a.email, a.salary , a.hireDate, a.profilePicture
+	from employees a inner join departments b on a.departmentID = b.departmentID order by name
+</select>
 
 <select id="getListSelect" resultType="com.groupware.project.EmployeesDTO">
 	select a.name, a.userid, a.password, b.departmentName, a.position, a.birthDate, a.phoneNumber, a.address, a.email, a.salary , a.hireDate, a.profilePicture

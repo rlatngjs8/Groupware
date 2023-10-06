@@ -16,7 +16,7 @@ public interface EmployeesDAO {
 		ArrayList<EmployeesDTO> getList_sort_birthdate();
 		ArrayList<EmployeesDTO> getList_sort_phone();
 		ArrayList<EmployeesDTO> getList_sort_email();
-
+		ArrayList<EmployeesDTO> getMember();
 		
 		ArrayList<EmployeesDTO> getListOne(String userid);
 		void insert_addressBook (String Name,String Position ,String Phone, String Email,String Department ,String Company,String CompanyPhone, String CompanyAddress , String Memo ,String Group,String userid );

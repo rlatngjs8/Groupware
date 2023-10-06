@@ -126,7 +126,10 @@ a {
  사이드바 끝 
 
 /* 커스텀 끝 */
-
+.search-button{
+position: relative;
+    bottom: -4px;
+}
 .nav {
   display: flex;
   justify-content: flex-end;

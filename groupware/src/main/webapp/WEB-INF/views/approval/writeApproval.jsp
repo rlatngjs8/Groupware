@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,6 +71,12 @@ body {
 	font-size: 35px;
 	text-align: center !important; /* 텍스트를 가운데 정렬합니다. */
 }
+.ApproText{
+		width: 100%;
+    padding-bottom: 50%;
+    box-sizing: border-box;
+    font-size: 19px;
+}
 </style>
 </head>
 <body>
@@ -91,16 +98,23 @@ body {
                     <td class="td1" colspan="5">업 무 기 안</td>
                 </tr>
                 <tr>
-                    <td style="background-color:rgb(221, 221, 221);text-align:center;">기안자</td>
-                    <td>김수헌</td>
-                    <td rowspan="4" style="width:45%"></td>
-                    <td rowspan="3"style="background-color:rgb(221, 221, 221);text-align:center;">결재</td>
-                    <td style="width:13%;text-align:center">부장</td>
+                    <td style="background-color:rgb(221, 221, 221);text-align:center; width:9%">기안자</td>
+                    <td>${name}<input type="hidden" name="userid" id="userid" value="${userid}"></td>
+                    <td rowspan="4"></td>
+                    <td rowspan="3"style="background-color:rgb(221, 221, 221);text-align:center;width:9%">결재</td>
+                    <td style="width:13%;text-align:center" id="receiverDepartmentName" style="width:13%"></td>
                 </tr>
                 <tr>
                     <td style="background-color:rgb(221, 221, 221);text-align:center;">부서</td>
-                    <td>관리부</td>
-                    <td rowspan="2"style="text-align:center">윤승환</td>
+                    <td>${alEmp.departmentName}</td>
+                    <td rowspan="2"style="text-align:center">
+											<select>
+											<option value="" disabled selected>결재 담당자를 선택해주세요</option>
+	                    	<c:forEach items="${allMem}" var="mem">
+	                    		<option value="${mem.userid}" name="receiver_id">${mem.departmentName} - ${mem.name}   ${mem.position}</option>
+	                    	</c:forEach>
+	                    </select>
+										</td>
                 </tr>
                 <tr>
                     <td style="background-color:rgb(221, 221, 221);text-align:center;">기안일</td>
@@ -108,7 +122,7 @@ body {
                 </tr>
                 <tr>
                     <td style="background-color:rgb(221, 221, 221);text-align:center;">문서번호</td>
-                    <td>222-21</td>
+                    <td style="width:25%"></td>
                     <td style="background-color:rgb(221, 221, 221);text-align:center;">결재상태</td>
                     <td style="text-align:center">미완료</td>
                 </tr>
@@ -116,18 +130,18 @@ body {
             <br><hr/><br>
             <table class="customTable" >
                 <tr>
-                    <td style="width:20%;background-color:rgb(221, 221, 221);text-align:center;" >결재유형</td>
+                    <td style="width:20%;background-color:rgb(221, 221, 221);text-align:center; border-bottom: 1px solid #c0c0c0;" >결재유형</td>
                     <td>업무협조</td>
                 </tr>
                 <tr>
-                    <td style="background-color:rgb(221, 221, 221);text-align:center;">제목</td>
+                    <td style="background-color:rgb(221, 221, 221);text-align:center;border-bottom: 1px solid #c0c0c0;">제목</td>
                     <td>업무협조 해주세용</td>
                 </tr>
                 <tr>
                     <td colspan="2" style="background-color:rgb(221, 221, 221);text-align:center">내용</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="height:450px;"><input type="text"></td>
+                    <td colspan="2" style="height:450px;"><input type="text" class="ApproText"></td>
                 </tr>
             </table>
     </div>
@@ -139,4 +153,16 @@ body {
     </form>
 </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // select 요소의 변경 이벤트를 감지
+    $('select').on('change', function() {
+        // 선택한 옵션의 데이터 속성 'data-department' 값을 가져옴
+        var selectedOption = $(this).find(':selected');
+        var displayName = selectedOption.text().split(' ')[0]; // 띄어쓰기로 분리하고 앞에 것만 가져옴
+        $('#receiverDepartmentName').text(displayName);
+    });
+});
+</script>
 </html>

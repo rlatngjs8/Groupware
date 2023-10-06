@@ -518,7 +518,15 @@ public class SuController {
 	
 	
 	@GetMapping("/writeApproval")
-	public String writeApproval() {
+	public String writeApproval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+		EmployeesDTO alEmp = edao.getListSelect(userid);
+		model.addAttribute("alEmp",alEmp);
+		
+		ArrayList<EmployeesDTO> allMember = edao.getMember();
+		System.out.println("asd="+ allMember.size());
+		model.addAttribute("allMem", allMember);
 		return "approval/writeApproval";
 	}
 }

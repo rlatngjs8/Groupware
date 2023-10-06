@@ -77,11 +77,12 @@ body {
 					<th>결재양식</th>
 					<th>제목</th>
 					<th>기안자</th>
+					<th>결재상태</th>
 				</tr>
 				</thead>
 				<c:forEach items='${incomplete_approval}' var="list">
 				<tbody>
-					<tr><td>${list.approvalID}</td><td>${list.createdTime}</td><td>${list.approval_type}</td><td>${list.approvalTitle}</td><td>${list.sender_Name}</td></tr>
+					<tr><td><input type="checkbox"></td><td>${list.approvalID}</td><td>${list.createdTime}</td><td>${list.approval_type}</td><td>${list.approvalTitle}</td><td>${list.senderName}</td><td>${list.approval_status}</td></tr>
 					</c:forEach>
 				</tbody>
 			</table>
