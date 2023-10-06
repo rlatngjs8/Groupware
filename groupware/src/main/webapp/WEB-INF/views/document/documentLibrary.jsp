@@ -228,12 +228,14 @@
 									<h3 id="allDocumentTitle">자료실</h3>
                     <table class="table-style">
                         <thead class="thead-style">
+                        <tr>
                             <th><input type="checkbox" class="selectAll" data-table="indiDocument"></th>
                             <th>이름</th>
                             <th>작성자</th>
                             <th>크기</th>
                             <th>확장자</th>
                             <th>등록날짜</th>
+                        </tr>
                         </thead>
                         <tbody id="tbody">
                             <c:forEach items="${indi}" var="indi">
