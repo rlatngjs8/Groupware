@@ -51,6 +51,9 @@ public class SuController {
 	
 	@Autowired
 	private CalendarDAO cdao;
+	
+	@Autowired
+	private ApprovalsDAO Apdao;
 
 	@GetMapping("/manageHome")
 	public String manageHome() {
@@ -472,9 +475,44 @@ public class SuController {
 	    }
 	}
 	@GetMapping("/approval")
-	public String approval() {
+	public String approval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+
+		ArrayList<ApprovalsDTO> receipt_approval = Apdao.select_receipt_approval(userid);
+		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval(userid);
+		ArrayList<ApprovalsDTO> completion_approval = Apdao.select_completion_approval(userid);
+		
+		 System.out.println(receipt_approval);
+		 System.out.println(incomplete_approval);
+		 System.out.println(completion_approval);
+		 
+		 
+		
+		model.addAttribute("receipt_approval", receipt_approval);
+		model.addAttribute("incomplete_approval", incomplete_approval);
+		model.addAttribute("completion_approval", completion_approval);
+		
 		return "approval/approval";
 	}
+	
+	
+	@GetMapping("/arriveApproval")
+	public String arriveApproval(HttpServletRequest req, Model model) {
+		return "approval/arriveApproval";
+	}
+	
+	@GetMapping("/comeApproval")
+	public String comeApproval(HttpServletRequest req, Model model) {
+		return "approval/comeApproval";
+	}
+	
+	@GetMapping("/sendApproval")
+	public String sendApproval(HttpServletRequest req, Model model) {
+		return "approval/sendApproval";
+	}
+	
+	
 	@GetMapping("/writeApproval")
 	public String writeApproval() {
 		return "approval/writeApproval";

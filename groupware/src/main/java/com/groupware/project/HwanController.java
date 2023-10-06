@@ -45,14 +45,14 @@ public class HwanController {
 		return "attendance_management/attendance";
 	}
 	
-	@GetMapping("/manage/manage_attendance")
+	@GetMapping("/manage_attendance")
 	public String manage_attendance(HttpServletRequest req, Model model) {
-		return "manage/manage_attendance";
+		return "/manage/manage_attendance";
 	}
 	
-	@GetMapping("/manage/company_attendance")
+	@GetMapping("/company_attendance")
 	public String company_attendance(HttpServletRequest req, Model model) {
-		return "manage/company_attendance";
+		return "/manage/company_attendance";
 	}
 	
 	@PostMapping("/insert_checkOut")

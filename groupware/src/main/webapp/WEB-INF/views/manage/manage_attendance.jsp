@@ -264,7 +264,7 @@ th.date-col:hover {
     <aside>
 			<div class="sidebar">
   			<section id="attendance_section">
-      		<h2><a href="/attendance_management/attendance">근태관리</a></h2>
+      		<h2><a href="/manage_attendance">근태관리</a></h2>
             <p id="date_info">1</p>
             <p id="time_info"><span id="current_time"></span></p>
 <!--       		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
@@ -290,9 +290,7 @@ th.date-col:hover {
         <br><br><br><br>
             <h2>전사 근태관리</h2>
             <ul>
-                <li><a href="/manage/company_attendance">전사 근태현황</a></li>
-                <li><a href="#">내 연차 내역</a></li>
-                <li><a href="#">내 인사정보</a></li>
+                <li><a href="/company_attendance">전사 근태현황</a></li>
             </ul>
         </section> 
        </div>

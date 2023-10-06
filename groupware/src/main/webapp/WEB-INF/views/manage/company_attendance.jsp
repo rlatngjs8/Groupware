@@ -291,8 +291,6 @@ th.date-col:hover {
             <h2>전사 근태관리</h2>
             <ul>
                 <li><a href="/manage/company_attendance">전사 근태현황</a></li>
-                <li><a href="#">내 연차 내역</a></li>
-                <li><a href="#">내 인사정보</a></li>
             </ul>
         </section> 
        </div>
@@ -300,7 +298,7 @@ th.date-col:hover {
     
     <main class="main">
         <div class="header">
-            <h1>근태 현황</h1>
+            <h1>전체 사원 근태 현황</h1>
         </div>
 
         <div class="month-navigation">
@@ -868,14 +866,15 @@ th.date-col:hover {
 	        }
 	    });
 	    
-	    console.log(nameTotalTimes); // nameTotalTimes 배열 확인용 로그
+	    console.log("배열 확인용", nameTotalTimes); // nameTotalTimes 배열 확인용 로그
 	    return nameTotalTimes;
 	} 
 
-		 // 화면 출력 함수
+		// 화면 출력 함수
 		 function displayData(data) {
 		     const tableBody = $('#attendanceListBody');
 		     tableBody.empty();
+		     console.log("받은 데이터 =", data);
 
 		     if (Object.keys(data).length === 0) {
 		         const noDataMessage = $('<tr>');
@@ -883,8 +882,16 @@ th.date-col:hover {
 		         tableBody.append(noDataMessage);
 		     } else {
 		         // 데이터 출력 로직
+		         const fullText = $('#current_month').text();
+		         const matches = fullText.match(/\d+/g);
+		         const month = matches[1];
+		         const year = matches[0];
+		         const workingDays = calculateWorkingDays(year, month);
+		         const hoursPerDay = 8;
+		         const totalWorkingHours = workingDays * hoursPerDay;
+
 		         Object.keys(data).forEach(name => {
-		             const totalSeconds = data[name].reduce((acc, curr) => acc + curr, 0);
+		             const totalSeconds = data[name].reduce((acc, curr) => acc + curr.duration, 0);
 		             const accumulatedHours = Math.floor(totalSeconds / 3600);
 		             const remainingSeconds = totalSeconds % 3600;
 		             const accumulatedMinutes = Math.floor(remainingSeconds / 60);
@@ -895,19 +902,45 @@ th.date-col:hover {
 		                 ('00' + accumulatedMinutes).slice(-2) + ':' +
 		                 ('00' + accumulatedSeconds).slice(-2);
 
+		             const departmentname = data[name][0].departmentname; // 첫 번째 객체의 departmentname 가져오기
+
+				      // 현재까지의 누적 근무시간 (예: 초로 변환된 시간)
+				      var accumulatedTimeText = totalFormattedTime
+				      const accumulatedTimeArray = accumulatedTimeText.split(':'); // 예상 포맷: 'xx:xx:xx'
+				      const accumulatedHoursss = parseInt(accumulatedTimeArray[0], 10);
+				      const accumulatedMinutesss = parseInt(accumulatedTimeArray[1], 10);
+				      const accumulatedSecondsss = parseInt(accumulatedTimeArray[2], 10);
+	 
+				      // 누적 시간을 초로 변환
+				      const accumulatedTimeInSeconds = accumulatedHoursss * 3600 + accumulatedMinutesss * 60 + accumulatedSecondsss;
+
+				      // 남은 시간 계산
+				      const remainingSecondser = totalWorkingHours * 3600 - accumulatedTimeInSeconds;
+				      const remainingFormattedHours = Math.floor(remainingSecondser / 3600);
+				      const remainingFormattedMinutes = Math.floor((remainingSecondser % 3600) / 60);
+				      const remainingFormattedSeconds = remainingSecondser % 60;
+				    
+				      const remainingFormattedTime = (remainingFormattedHours < 10 ? '0' : '') + remainingFormattedHours + ':' +
+				          (remainingFormattedMinutes < 10 ? '0' : '') + remainingFormattedMinutes + ':' +
+				          (remainingFormattedSeconds < 10 ? '0' : '') + remainingFormattedSeconds;
+
 		             // 데이터 행 추가
 		             const newRow = $('<tr>');
 		             newRow.append('<td id="att_name" style="width: 70px; text-align: center;">' + name + '</td>');
-		             newRow.append('<td id="att_starttime" style="width: 120px; text-align: center;">' + totalFormattedTime + '</td>');
-                     newRow.append('<td id="att_departmentname" style="width: 100px; text-align: center;">' + departmentname + '</td>');
-		             
+		             newRow.append('<td id="att_departmentname" style="width: 100px; text-align: center;">' + departmentname + '</td>');
+		             newRow.append('<td id="accumulated_working_hours" style="width: 120px; text-align: center;">' + totalFormattedTime + '</td>');
+		             newRow.append('<td id="remaining_working_hours" style="width: 120px; text-align: center;">' + remainingFormattedTime + '</td>');
+
+		             console.log('이름:', name);
+		             console.log('누적 시간:', totalFormattedTime);
+		             console.log('부서:', departmentname);
+		             console.log('잔여 근무 시간:', remainingFormattedTime);
+
 		             $('#attendanceListBody').append(newRow);
 		         });
 		     }
-
-		     // 페이지네이션 업데이트
-		     updatePagination(Object.keys(data).length);
 		 }
+
 
 		 // 데이터 요청 및 처리 함수
 		 function sort(name, page) {
@@ -924,6 +957,7 @@ th.date-col:hover {
 		         dataType: 'json',
 		         success: function(data) {
 		             const processedData = processData(data);
+		             console.log("그래서 나온게" , processedData);
 		             displayData(processedData);
 		         },
 		         error: function(xhr, status, error) {

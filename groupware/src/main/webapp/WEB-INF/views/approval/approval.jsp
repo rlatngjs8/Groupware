@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,6 +84,7 @@ th:nth-child(3) {
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/P_header.jsp"%>
+	<input type="hidden" id="user_id" name="user_id" value="${sessionScope.userid}">
 	<div class="mainSection">
 		<div class="asidebar">
 			<%@ include file="approvalHeader.jsp"%>
@@ -102,8 +104,17 @@ th:nth-child(3) {
 					<thead>
 						<tr><th>수신일</th><th>결재양식</th><th>제목</th><th>기안자</th><th>담당자</th><th>결재상태</th></tr>
 					</thead>
+					<c:forEach items="${receipt_approval}" var="c_approval">
 					<tbody>
-						
+					<tr>
+						<td>${c_approval.createdTime}</td>
+						<td>아무거나</td>
+						<td>${c_approval.approvalTitle}</td>
+						<td>${c_approval.senderName}</td>
+						<td>${c_approval.receiverName}</td>
+						<td>${c_approval.approval_status}</td>
+					</tr>
+					</c:forEach>	
 					</tbody>
 				</table>
 			</div>
@@ -114,8 +125,21 @@ th:nth-child(3) {
 						<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>기안자</th><th>담당자</th><th>결재상태</th></tr>
 					</thead>
 					<tbody>
-						
+					<c:forEach items="${incomplete_approval}" var="i_approval">
+				
+					
+					<tr>
+						<td>${i_approval.createdTime}</td>
+						<td>아무거나</td>
+						<td>${i_approval.approvalTitle}</td>
+						<td>${i_approval.senderName}</td>
+						<td>${i_approval.receiverName}</td>
+						<td>${i_approval.approval_status}</td>
+					</tr>
+					
+					</c:forEach> 
 					</tbody>
+						
 				</table>
 			</div>
 			<div class="complete">
@@ -125,7 +149,16 @@ th:nth-child(3) {
 						<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>기안자</th><th>담당자</th><th>결재상태</th></tr>
 					</thead>
 					<tbody>
-						
+					<c:forEach items="${completion_approval}" var="co_approval">
+					<tr>
+						<td>${co_approval.createdTime}</td>
+						<td>아무거나</td>
+						<td>${co_approval.approvalTitle}</td>
+						<td>${co_approval.senderName}</td>
+						<td>${co_approval.receiverName}</td>
+						<td>${co_approval.approval_status}</td>
+					</tr>
+					</c:forEach>  
 					</tbody>
 				</table>
 			</div>
