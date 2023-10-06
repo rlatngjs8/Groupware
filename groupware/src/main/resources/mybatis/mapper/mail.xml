@@ -47,8 +47,8 @@
 <select id="selectMarkMail" resultType="com.groupware.project.MailDTO"> 
 	select a.emailid, a.emailreceive, a.emailsend, c.name, c.email, a.subject, a.content, a.senderemployeeid, a.receiveremployeeid,
 		 a.sendtime, a.sendmark, a.receivemark from emails a inner join employees c ON a.SenderEmployeeID=c.EmployeeId 
-				  					where (senderemployeeid=85 and tcsend=0 and sendmark=1)
-				  						or (receiveremployeeid=85 and tcreceive=0 and receivemark=1)
+				  					where (senderemployeeid=#{param1} and tcsend=0 and sendmark=1)
+				  						or (receiveremployeeid=#{param1} and tcreceive=0 and receivemark=1)
 				  					 order by a.emailid desc limit #{param2},#{param3}
 </select>
 <select id="selectemailAlarmcnt" resultType="Integer">

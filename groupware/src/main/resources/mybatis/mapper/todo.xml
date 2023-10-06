@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+						"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupware.project.TodoDAO">
+<select id="selectTodomain" resultType="com.groupware.project.TodoDTO">
+	select a.todoid, a.employeeid, a.subject, a.registrationdate, a.status from todos a 
+		inner join todomember b on a.todoid=b.tid where b.eid=#{param1}
+</select>
+<select id="selectTodoDmain" resultType="com.groupware.project.TodoDTO">
+	select todoid, employeeid, subject, registrationdate, status from todos where todoid=#{param1}
+</select>
+<select id="selectMaxtodoid" resultType="Integer">
+	select max(todoid) from todos where employeeid=#{param1}
+</select>
+<insert id="insertAddtodos" parameterType="java.util.HashMap">
+	insert into todos set employeeid=#{param1}, subject=#{param2}
+</insert>
+<insert id="insertTodomember1" parameterType="java.util.HashMap">
+	insert into todomember set tid=#{param1}, eid=#{param2}
+</insert>
+</mapper>
