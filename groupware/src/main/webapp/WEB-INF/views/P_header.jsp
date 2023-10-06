@@ -297,7 +297,7 @@ $(document).ready(function(){
     console.log($("#sessionid").val());
 
     if(sessionid == null || sessionid == "") {
-        console.log("empid=" + sessionScope.EmpId);
+        console.log("empid=" + ${sessionScope.userid});
         if(sessionid == null || sessionid == ""){
             alert("권한이 없습니다");
             return false;
@@ -318,7 +318,7 @@ $(document).ready(function(){
         }
     });
 
-    $.post('/getNewNotice', {empID: sessionScope.EmpId}, function(data){
+    $.post('/getNewNotice', {empID: ${sessionScope.userid}}, function(data){
         for(let i = 0; i < data.length; i++){
             if(data[i].type === "Announcement"){
                 let li = "<li><a href='/announcement' class='stext'>공지사항: " + data[i].title + data[i].time + "</a></li>";

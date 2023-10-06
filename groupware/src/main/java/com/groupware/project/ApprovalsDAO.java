@@ -10,5 +10,6 @@ public interface ApprovalsDAO {
 	ArrayList<ApprovalsDTO> select_receipt_approval(String userid);
 	ArrayList<ApprovalsDTO> select_incomplete_approval(String userid);
 	ArrayList<ApprovalsDTO> select_completion_approval(String userid);
+	ArrayList<ApprovalsDTO> select_my_incomplete_approval(String userid);
 
 }

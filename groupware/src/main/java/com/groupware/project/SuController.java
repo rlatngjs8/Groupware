@@ -482,14 +482,18 @@ public class SuController {
 		ArrayList<ApprovalsDTO> receipt_approval = Apdao.select_receipt_approval(userid);
 		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval(userid);
 		ArrayList<ApprovalsDTO> completion_approval = Apdao.select_completion_approval(userid);
+		ArrayList<ApprovalsDTO> my_incomplete_approval = Apdao.select_my_incomplete_approval(userid);
+
+
 		
-		 System.out.println(receipt_approval);
-		 System.out.println(incomplete_approval);
-		 System.out.println(completion_approval);
+		
+		System.out.println("adssad" + my_incomplete_approval.size());
 		 
 		model.addAttribute("receipt_approval", receipt_approval);
 		model.addAttribute("incomplete_approval", incomplete_approval);
 		model.addAttribute("completion_approval", completion_approval);
+		model.addAttribute("my_incomplete_approval", my_incomplete_approval);
+		
 		
 		return "approval/approval";
 	}
@@ -513,6 +517,8 @@ public class SuController {
 	
 	@GetMapping("/writeApproval")
 	public String writeApproval() {
+		
+		
 		return "approval/writeApproval";
 	}
 }
