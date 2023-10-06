@@ -43,6 +43,14 @@ public class TodoController {
 		int tid = Integer.parseInt(req.getParameter("tid"));
 		TodoDTO tpost = tdao.selectTodoDmain(tid);
 		model.addAttribute("tpost",tpost);
+		ArrayList<TodoDTO> memberlist = tdao.selectTodomember(tid);
+		model.addAttribute("member",memberlist);
+		ArrayList<TodoDTO> emp1 = tdao.selectTodoEmp1();
+		model.addAttribute("emp1",emp1);
+		ArrayList<TodoDTO> emp2 = tdao.selectTodoEmp2();
+		model.addAttribute("emp2",emp2);
+		ArrayList<TodoDTO> emp3 = tdao.selectTodoEmp3();
+		model.addAttribute("emp3",emp3);
 		return "todo/todoDetail";
 	}
 }

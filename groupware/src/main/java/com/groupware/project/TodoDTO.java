@@ -17,6 +17,11 @@ public class TodoDTO {
     String TodoContent;
     String time;
     
+    String name;
+    String position;
+    int departmentid;
+    String departmentname;
+    
 	public int getTodoid() {
 		return todoid;
 	}
@@ -97,4 +102,29 @@ public class TodoDTO {
 	public void setTime(String time) {
 		this.time = time;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
+	}
+	public int getDepartmentid() {
+		return departmentid;
+	}
+	public void setDepartmentid(int departmentid) {
+		this.departmentid = departmentid;
+	}
+	public String getDepartmentname() {
+		return departmentname;
+	}
+	public void setDepartmentname(String departmentname) {
+		this.departmentname = departmentname;
+	}
+	
 }
