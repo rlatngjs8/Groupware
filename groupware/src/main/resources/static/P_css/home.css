@@ -2,7 +2,7 @@
 
 .profile-box {
     margin-left: 240px;
-    margin-top: 20px;
+    margin-top: 50px;
     width: 200px;
     height: 200px;
     align-items: center;
@@ -38,8 +38,8 @@
 }
 
 .home-content {
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-left: 70px;
+    margin-right: 70px;
     margin-top: 20px;
     width:900px;
 }
@@ -205,14 +205,60 @@
 }
 
 .calendar{
-	width:300px;
+	width:400px;
 	height:500px;
 	background-color: white;
     padding-top: 10px;
     padding-bottom: 10px;
     border:1px solid lightgrey; 
 	padding-left: 10px;
+	padding-right: 10px;
 }
 .asd{
-	display:flex;	
+	display:flex;
+	border: 1px solid lightgrey;	
+	margin-top: 20px;
+	padding-right:30px;
+}
+.fc .fc-toolbar-title{
+	font-size:1em;
+}
+.calendar_box{
+	margin-top:100px;
+}
+.fc .fc-button-primary{
+	background-color: rgb(106, 176, 173);
+}
+.fc .fc-button{
+	padding: 0.1em 0.2em;
+}
+.fc table{
+	font-size: 0.9em;
+}
+.seeMore{
+	margin-left:340px;
+	margin-bottom:10px;
+	cursor:pointer;
+}
+
+.mBtn{
+	border:1px solid rgb(106, 176, 173);
+	display:inline-block;
+	height:40px;
+	width: 102px;
+	padding-top:6px;
+	padding-left:4px;
+	border-radius:0.5em;
+	cursor:pointer;
+}
+.mBtn:hover{
+	transform: translateY(-5px);
+	box-shadow: 1px 1px 20px #ddd;
+}
+.icon{
+	width:30px;
+	height:23px;
+}
+.centerD{
+	margin-top:10px;
 }
