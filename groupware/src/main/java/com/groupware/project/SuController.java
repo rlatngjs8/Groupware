@@ -487,8 +487,6 @@ public class SuController {
 		 System.out.println(incomplete_approval);
 		 System.out.println(completion_approval);
 		 
-		 
-		
 		model.addAttribute("receipt_approval", receipt_approval);
 		model.addAttribute("incomplete_approval", incomplete_approval);
 		model.addAttribute("completion_approval", completion_approval);

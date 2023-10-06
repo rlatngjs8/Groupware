@@ -107,7 +107,8 @@ th:nth-child(3) {
 					<c:forEach items="${receipt_approval}" var="c_approval">
 					<tbody>
 					<tr>
-						<td>${c_approval.createdTime}</td>
+						<input type="hidden" id="C_createdTime" value="${c_approval.createdTime}">
+						<td id= "c_approval_createdTime">${c_approval.createdTime}</td>
 						<td>아무거나</td>
 						<td>${c_approval.approvalTitle}</td>
 						<td>${c_approval.senderName}</td>
@@ -125,11 +126,10 @@ th:nth-child(3) {
 						<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>기안자</th><th>담당자</th><th>결재상태</th></tr>
 					</thead>
 					<tbody>
-					<c:forEach items="${incomplete_approval}" var="i_approval">
-				
-					
+					<c:forEach items="${incomplete_approval}" var="i_approval">		
 					<tr>
-						<td>${i_approval.createdTime}</td>
+						<input type="hidden" id="I_createdTime" value="${i_approval.createdTime}">
+						<td id="i_approval.createdTime">${i_approval.createdTime}</td>
 						<td>아무거나</td>
 						<td>${i_approval.approvalTitle}</td>
 						<td>${i_approval.senderName}</td>
@@ -151,7 +151,8 @@ th:nth-child(3) {
 					<tbody>
 					<c:forEach items="${completion_approval}" var="co_approval">
 					<tr>
-						<td>${co_approval.createdTime}</td>
+						<input type="hidden" id="CO_createdTime" value="${co_approval.createdTime}">
+						<td id="co_approval.createdTime">${co_approval.createdTime}</td>
 						<td>아무거나</td>
 						<td>${co_approval.approvalTitle}</td>
 						<td>${co_approval.senderName}</td>
@@ -165,4 +166,32 @@ th:nth-child(3) {
 		</div>
 	</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    let dateStringCO = $("#CO_createdTime").val();
+    let dateStringI = $("#I_createdTime").val();
+    let dateStringC = $("#c_createdTime").val();
+
+    // 날짜 부분만을 추출하여 Date 객체로 파싱합니다.
+    let parsedDateCO = new Date(dateStringCO.split(' ')[0]);
+    let parsedDateI = new Date(dateStringI.split(' ')[0]);
+    let parsedDateC = new Date(dateStringC.split(' ')[0]);
+
+    // 날짜 부분만을 ISO 형식으로 변환합니다.
+    let formattedDateCO = parsedDateCO.toISOString().split('T')[0];
+    let formattedDateI = parsedDateI.toISOString().split('T')[0];
+    let formattedDateC = parsedDateC.toISOString().split('T')[0];
+    
+    console.log("Formatted Date CO: " + formattedDateCO);
+    console.log("Formatted Date I: " + formattedDateI);
+    console.log("Formatted Date C: " + formattedDateC);
+
+    $("#i_approval_createdTime").text(formattedDateI);
+    $("#co_approval_createdTime").text(formattedDateC);
+    $("#c_approval_createdTime").text(formattedDateCO);
+});
+
+
+</script>
 </html>
