@@ -12,7 +12,7 @@ public class ApprovalsDTO {
 	String Approval_completed_at; // 전자결재 문서가 완료된 날짜와 시간
 	String CreatedTime; // 전자결재 문서가 생성된 날짜와 시간
 	String Comment; // 전자결재 문서에 대한 코멘트 또는 메모
-	
+	 
 	String SenderName;
 	String ReceiverName;
 	
