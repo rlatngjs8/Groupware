@@ -499,11 +499,17 @@ public class SuController {
 	
 	@GetMapping("/arriveApproval")
 	public String arriveApproval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
 		return "approval/arriveApproval";
 	}
 	
 	@GetMapping("/comeApproval")
 	public String comeApproval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval(userid);
+		model.addAttribute("incomplete_approval", incomplete_approval);
 		return "approval/comeApproval";
 	}
 	

@@ -66,9 +66,9 @@
 	<button class="newApproval" id="newApproval">새 결제 작성</button>
 	<div class="sidebarMenu">
 		<p style="font-size: 17px; letter-spacing: 1px;">결재하기</p>
-		<a href="#" class="appSub">결재 대기 문서</a><br><!-- 나한테 온것들(미완) --> 
-		<a href="#" class="appSub">결재 수신 문서</a><br> <!-- 나한테 온것들(완료) -->
-		<a href="#" class="appSub">결재 발송 문서</a><!-- 내가 쓴것(미완,완료)	  -->
+		<a href="/arriveApproval" class="appSub">결재 대기 문서</a><br><!-- 나한테 온것들(미완) --> 
+		<a href="/comeApproval" class="appSub">결재 수신 문서</a><br> <!-- 나한테 온것들(완료) -->
+		<a href="/sendApproval" class="appSub">결재 발송 문서</a><!-- 내가 쓴것(미완,완료)	  -->
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-latest.js"></script>

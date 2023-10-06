@@ -13,7 +13,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #f1f1f1;
+            background-color: #fff;
             padding-top: 20px;
             border-right: 1px solid #c0c0c0;
         }
@@ -30,6 +30,7 @@
             height: 50px;
             border-radius: 4px;
             border: 1px solid #c0c0c0;
+            background: #fff;
         }
         
         .btn_upload:hover {

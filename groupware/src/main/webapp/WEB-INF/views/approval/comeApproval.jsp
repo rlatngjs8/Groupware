@@ -28,7 +28,7 @@ body {
 	font-weight: normal;
 }
 
-.writeForm {
+.comeForm {
 	margin-left: 25%;
 	margin-top: 2%;
 	width: 45%;
@@ -65,9 +65,9 @@ body {
 		<div class="asidebar">
 			<%@ include file="approvalHeader.jsp"%>
 		</div>
-		<h3 class="title">결재대기문서</h3>
-		<div class="arriveForm">
-			<c:forEach item='#' var="list">
+		<h3 class="title">결재수신문서</h3>
+		<div class="comeForm">
+	
 			<table class="customTable">
 				<thead>
 				<tr>
@@ -79,11 +79,13 @@ body {
 					<th>기안자</th>
 				</tr>
 				</thead>
+				<c:forEach items='${incomplete_approval}' var="list">
 				<tbody>
-					<tr><td>${list.ApprovalID}</td><td>${list.CreatedTime}</td><td>${list.approval_type}</td><td>${list.ApprovalTitle}</td><td>${list.Sender_Name}</td></tr>
+					<tr><td>${list.approvalID}</td><td>${list.createdTime}</td><td>${list.approval_type}</td><td>${list.approvalTitle}</td><td>${list.sender_Name}</td></tr>
+					</c:forEach>
 				</tbody>
 			</table>
-			</c:forEach>
+			
 			<!--  ${pagestr} -->
 		</div>
 	</div>
