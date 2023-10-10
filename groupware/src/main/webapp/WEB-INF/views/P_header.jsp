@@ -246,7 +246,7 @@ position: relative;
             <a href="/reservationList">예약</a>
         </li>
         <li>
-            <a href="#">근태관리</a>
+            <a href="/attendance_management/attendance">근태관리</a>
         </li>
         <li>
             <a href="/approval">전자결재</a>

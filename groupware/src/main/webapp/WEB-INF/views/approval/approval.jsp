@@ -12,7 +12,6 @@ body {
 }
 .mainSection {
 	display: flex; /* Flexbox를 사용하여 요소들을 가로 배치합니다. */
-	margin-bottom: 20%;
 }
 
 .approvalHome {
@@ -30,7 +29,7 @@ body {
     width: 100%;
     margin-top: 10px;
     font-size: 24px;
-    font-weight: normal;
+    font-weight: bold;
 }
 .arriveApproval{
 	width: 100%;
@@ -99,18 +98,15 @@ th:nth-child(3) {
     text-transform: uppercase;
 }
 
-.ongoing {
-    color: #007bff;
-    background-color: #e7f3fe;
-}
-
 .card_subject {
     margin: 10px 0;
+    font-size: 21px;
+    font-weight: bold;
 }
 
 .form_th {
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 0px;
     width: 80px; /* 레이블 너비를 조정할 수 있습니다 */
 }
 
@@ -144,6 +140,26 @@ th:nth-child(3) {
 .card_action:hover {
     background-color: lightgreen;
 }
+
+.ongoing {
+    color: #007bff;
+    background-color: #e7f3fe;
+}
+.defer {
+    color: rgb(255, 204, 0); /* 진한 노랑색 배경색 */
+    background-color: rgb(255, 255, 153); /* 연노랑색 배경색 */
+}
+
+.refuse {
+    color: rgb(255, 153, 153); /* 연한빨간색 배경색 */
+    background-color: rgb(204, 0, 0); /* 진한빨강색 배경색 */
+}
+
+.approval {
+	color: rgb(153, 255, 153); /* 연한초록색 배경색 */
+    background-color: rgb(0, 102, 0); /* 진한초록색 배경색 */
+}
+
 </style>
 </head>
 <body>
@@ -166,14 +182,13 @@ th:nth-child(3) {
             <div class="form">
                 <div class="card_subject">
                         ${my_approval.approvalTitle}
-
                 </div>
                 <div class="form_tr">
-                    <div class="form_th">기안자 :</div>
-                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id} </div>
+                    <div class="form_th">기 안 자 :</div>
+                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id}</div>
                 </div>
                 <div class="form_tr">
-                    <div class="form_th">기안일 :</div>
+                    <div class="form_th">기 안 일 :</div>
                     <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.createdTime} </div>
                 </div>
                 <div class="form_tr">
@@ -283,6 +298,18 @@ $(document).ready(function() {
     $("#co_approval_createdTime").text(formattedDateC);
     $("#c_approval_createdTime").text(formattedDateCO);
 });
+
+let approvalStatus = my_approval.approval_status;
+let stateElement = document.querySelector('.state');
+
+if (approvalStatus === '진행 중') {
+    stateElement.classList.add('ongoing');
+} else if (approvalStatus === '보류') {
+    stateElement.classList.add('defer');
+} else if (approvalStatus === '거절') {
+    stateElement.classList.add('refuse');
+} else if (approvalStatus === '승인') {
+    stateElement.classList.add('approval');
 
 
 </script>

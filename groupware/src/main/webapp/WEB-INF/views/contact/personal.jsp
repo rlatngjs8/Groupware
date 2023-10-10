@@ -137,13 +137,13 @@
         .search-button:hover {
             background-color: #45a049; /* 호버 시 색상 변경 */
         }
+
         body {
 		  line-height: 24px;
 		  color: #333;
-		  background: #ececec;
+		  background: white;
 		  overflow-y: scroll;
 		}
-
 .clear {
   clear: both;
 }
@@ -389,15 +389,16 @@ hr.hr-3 {
 		
 		        /* 사이드바 스타일 */
 		.sidebar {
-			margin-left: 185px;
+			margin-left: 190px;
 		    height: 100%;
-		    width: 250px;
+		    width: 230px;
 		    position: fixed;
 		    top: 0;
 		    left: 0;
 		    background-color: white;
 		    padding-top: 20px;
 		    border-right: 1px solid gray; /* 오른쪽 부분에만 테두리 적용 */
+		    text-align: left;
 		}
 
         /* 사이드바 링크 스타일 */
@@ -412,6 +413,7 @@ hr.hr-3 {
 		.sidebar a:hover {
 		    background-color: #ccc; /* 연한 회색 배경으로 변경 */
 		}
+		
 
         .main {
 		    margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
@@ -456,7 +458,22 @@ hr.hr-3 {
 .group-col {
     width: 120px; /* 그룹 열 너비 */
 }
-		
+
+.contact-img {
+position: relative;
+top: -2px;
+width: 40px;
+}
+
+/* 헤더 스타일 */
+.header {
+    text-align: center;
+    background-color: #fff;
+    color: #333;
+    padding: 10px;
+    margin-left: 200px;
+}
+	
   
 </style>
 
@@ -464,34 +481,30 @@ hr.hr-3 {
 
 <body>
 
+<input type="hidden" id="user_id" value="${sessionScope.userid}">
 <%@ include file="/WEB-INF/views/P_header.jsp" %>
 
-<input type="hidden" id="user_id" value="${sessionScope.userid}">
-    <div id="toast" class="hidden">토스트 메세지 넣어라</div>
-    
-   	<aside>
-	     <!-- 사이드바 -->
+     <aside>
 		<div class="sidebar">
-		    <a href="/contact/company">사내 주소록</a>
-		    <a href="/contact/personal">개인 주소록</a>
-		    <!-- 필요한 메뉴 항목을 추가할 수 있습니다. -->
-		</div>
+			<section id="attendance_section">
+		  		<h2 style=" font-weight: bold; font-size:28px; margin-top:35px;"><img src="/img/contact-book.png" alt="로고 이미지" class="contact-img">연락처</h2>
+		        <p id="date_info"></p>
+		        <p id="time_info"><span id="current_time"></span></p>
+		  		<a href="/contact/company">사내 주소록</a>
+			    <a href="/contact/personal">개인 주소록</a>    
+       		</section>
+      	</div>
     </aside>
+    
+    
 <main class="main">
+    <div class="header">
+        <h1>개인 주소록</h1>
     </div>
 
-<!--    <div class="container" style="margin-bottom: 20px;"> -->
-<!-- <a href="" title="Button border blue/green" class="button btnFloat btnBlueGreen btnFloatAdd">추가</a>
-	<a href="" title="Button border lightblue" class="button btnFloat btnLightBlue btnFloatDelete">삭제</a>
-	<a href="" title="Button border orange" class="button btnFloat btnOrange btnFloatEdit">뭐야</a>
-	<a href="" title="Button border purple" class="button btnFloat btnPurple btnFloatOther">뭐임?</a> 
-	<button class="btn btn-primary m-2" id="alertStart" style="width: 150px; height: 50px;">버튼</button>  -->
 	<div class="btnLine" style="margin-left: 275px; margin-bottom: 30px;">
-		<button class="btn btn-primary m-2" id="promptStart" style="width: 100px; height: 50px;">등 록</button>
+		<button class="btn btn-warning m-2" id="promptStart" style="width: 100px; height: 50px;">등 록</button>
 		<button class="btn btn-danger m-2" id="confirmStart" style="width: 100px; height: 50px;">삭 제</button>
-<!-- 		<button class="btn btn-danger m-2" id="toastStart">Toast 실행</button>
-		<button class="btn btn-warning m-2" id="ajaxStart">Ajax 실행 (깃헙 아이디 검색)</button> -->
-<!-- 	</div> -->
   </div>
 
 	
