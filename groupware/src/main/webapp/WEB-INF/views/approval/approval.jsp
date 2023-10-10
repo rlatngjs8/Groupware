@@ -21,7 +21,7 @@ body {
 	height: 850px;
 /* 	border: 1px solid #c0c0c0; */
 }
-.title{
+.title{ 
 		display: block;
     position: absolute;
     top: 20px;
