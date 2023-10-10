@@ -559,32 +559,11 @@ public class SuController {
 	
 	@GetMapping("/approvalDetail")
 	public String approvalDetail(HttpServletRequest req, Model model) {
-		int approvalID = Integer.parseInt(req.getParameter("ApprovalID"));
-		System.out.println(approvalID);
-		ApprovalsDTO alShow = Apdao.showDetail(approvalID);
-		model.addAttribute("alShow", alShow);
+   		int approvalID = Integer.parseInt(req.getParameter("approvalID"));
+   		System.out.println(approvalID);
+   		ApprovalsDTO alShow = Apdao.showDetail(approvalID);
+   		model.addAttribute("alShow", alShow);
 		
-		String sender_id = req.getParameter("sender_id");
-        String receiver_id = req.getParameter("receiver_id");
-
-        EmployeesDTO senderDepart = edao.senderDepart(sender_id);
-        EmployeesDTO receiverDepart = edao.receiverDepart(receiver_id);
-
-        model.addAttribute("sender",senderDepart);
-        model.addAttribute("receiver",receiverDepart);
-		return "approval/approvalDetail";
-	}
-//	@PostMapping("/loadDepartment") // 요청을 처리할 엔드포인트를 지정합니다.
-//    @ResponseBody
-//    public EmployeesDTO loadDepartment(HttpServletRequest req, Model model) {
-//        String sender_id = req.getParameter("sender_id");
-//        String receiver_id = req.getParameter("receiver_id");
-//
-//        EmployeesDTO senderDepart = edao.senderDepart(sender_id);
-//        EmployeesDTO receiverDepart = edao.receiverDepart(receiver_id);
-//
-//        model.addAttribute("sender",senderDepart);
-//        model.addAttribute("receiver",receiverDepart);
-//        return "";
-//    }
+   		return "approval/approvalDetail";
+ 	}
 }

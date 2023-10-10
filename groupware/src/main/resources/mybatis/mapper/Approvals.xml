@@ -28,10 +28,12 @@
 	where a.sender_id = #{param1} order by a.createdTime desc
 </select>
 <select id="showDetail" resultType="com.groupware.project.ApprovalsDTO">
-	SELECT a.*, s.Name AS SenderName, r.Name AS ReceiverName
+	SELECT a.*, s.Name AS SenderName, r.Name AS ReceiverName, c.departmentName as sendDepart , d.departmentName as receiverDepart
 	FROM approvals a
 	JOIN employees s ON a.Sender_id = s.Userid
 	JOIN employees r ON a.Receiver_id = r.Userid
+  join departments c on s.departmentID = c.departmentID
+  join departments d on r.departmentID = d.departmentID
 	where a.ApprovalID = #{param1}
 </select>
 <select id="arrive_approval" resultType="com.groupware.project.ApprovalsDTO">

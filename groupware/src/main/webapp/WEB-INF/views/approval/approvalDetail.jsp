@@ -129,10 +129,11 @@ body {
         <%@ include file="approvalHeader.jsp"%>
     </div>
     <h3 class="title">결재상세내용</h3>
-    <form action="/writeApprovalData" method="post">
+    <form action="#" method="post">
     <div class="tool_bar">
-        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재요청</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
+        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재승인</span></button>
+        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>보류</span></a>
+        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>거절</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
     <div class="writeForm">
@@ -145,11 +146,11 @@ body {
                     <td><span id="senderName">${alShow.senderName}</span></td>
                     <td rowspan="4"><input type="hidden" id="userid" value="${userid}"></td>
                     <td rowspan="3" class="bgGray width9 centerText">결재</td>
-                    <td class="width13 centerText">${receiver.departmentName}</td>
+                    <td class="width13 centerText">${alShow.receiverDepart}</td>
                 </tr>
                 <tr>
                     <td class="bgGray centerText">부서</td>
-                    <td>${sender.departmentName}</td>
+                    <td>${alShow.sendDepart}</td>
                     <td rowspan="2" class="textCenter">
                         <span id="receiverName">${alShow.receiverName}</span>
                     </td>
@@ -184,8 +185,9 @@ body {
             </table>
     </div>
     <div class="tool_bar" style="margin-bottom:5%">
-        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재요청</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
+        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재승인</span></button>
+        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>보류</span></a>
+        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>거절</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
     </form>
@@ -193,34 +195,5 @@ body {
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// 부서가져오
-$(document).ready(function() {
-    // 페이지 로드 시 실행할 코드
-    var sender_id = "${alShow.sender_id}";
-    var receiver_id = "${alShow.receiver_id}";
-
-    // Ajax 요청을 사용하여 sender_id와 receiver_id를 서버에 보냅니다.
-    $.ajax({
-        type: "get", // 또는 "GET" 등 HTTP 요청 메서드 선택
-        url: "/approvalDetail", // 서버의 엔드포인트 URL 지정
-        data: {
-            sender_id: sender_id,
-            receiver_id: receiver_id
-        },
-        success: function(data) {
-            // 서버 응답에서 senderName과 receiverName을 추출
-            var senderName = data.senderName;
-            var receiverName = data.receiverName;
-
-            // 추출한 데이터를 페이지에 적용 또는 표시
-            $("#senderName").text(senderName);
-            $("#receiverName").text(receiverName);
-        },
-        error: function(xhr, status, error) {
-            // 에러 처리 코드
-            console.log("에러 발생: " + error);
-        }
-    });
-});
 </script>
 </html>
