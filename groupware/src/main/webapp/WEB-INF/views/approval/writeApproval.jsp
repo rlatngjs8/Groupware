@@ -59,13 +59,19 @@ body {
     cursor: pointer; /* 커서를 포인터로 설정 */
 }
 
-.tool_bar_icon {
+.tool_bar_icon,.tool_bar_icon1 {
     width: 20px;
     height: 20px;
     margin-top: 5px;
     position: relative;
     top: 4px;
     right: 3px;
+}
+.tool_bar_icon1{
+    width: 18px;
+    height: 18px;
+    position: relative;
+    top: 2px;
 }
 
 .td1 {
@@ -133,7 +139,7 @@ button{
     <h3 class="title">전자결재 작성</h3>
     <form action="/writeApprovalData" method="post">
     <div class="tool_bar">
-        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재요청</span></button>
+        <button type="submit"><span><img src="/img/수정.png" class="tool_bar_icon1"></span><span>결재요청</span></button>
         <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
@@ -143,10 +149,10 @@ button{
                     <td class="td1" colspan="5">업 무 기 안</td>
                 </tr>
                 <tr>
-                    <td class="bgGray width9 centerText">기안자</td>
-                    <td>${name}<input type="hidden" name="userid" id="userid" value="${userid}"></td>
+                    <td class="bgGray width9 centerText" style="width: 10%">기안자</td>
+                    <td style="font-weight: bold;">${name}<input type="hidden" name="userid" id="userid" value="${userid}"></td>
                     <td rowspan="4"></td>
-                    <td rowspan="3" class="bgGray width9 centerText">결재</td>
+                    <td rowspan="3" class="bgGray width9 centerText" style="width: 10%">결재</td>
                     <td class="width13 centerText" id="receiverDepartmentName"></td>
                 </tr>
                 <tr>
@@ -175,7 +181,7 @@ button{
             <br><hr/><br>
             <table class="customTable" >
                 <tr>
-                    <td class="width20 bgGray centerText" >결재유형</td>
+                    <td class="width20 bgGray centerText" style="width: 20%">결재유형</td>
                     <td><input type="text" name="approvalType" id="approvalType"></td>
                 </tr>
                 <tr>
@@ -191,7 +197,7 @@ button{
             </table>
     </div>
     <div class="tool_bar" style="margin-bottom:5%">
-        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재요청</span></button>
+        <button type="submit"><span><img src="/img/수정.png" class="tool_bar_icon"></span><span>결재요청</span></button>
         <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>

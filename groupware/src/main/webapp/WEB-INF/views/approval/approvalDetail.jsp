@@ -60,15 +60,29 @@ body {
     cursor: pointer; /* 커서를 포인터로 설정 */
 }
 
-.tool_bar_icon {
+.tool_bar_icon1,.tool_bar_icon2  {
+    width: 22px;
+    height: 22px;
+    position: relative;
+    top: 6px;
+    right: 3px;
+    margin-top: 5px;
+}
+.tool_bar_icon3 {
+    width: 19px;
+    height: 19px;
+    position: relative;
+    top: 4px;
+    margin-top: 5px;
+    right: 3px;
+}.tool_bar_icon4 {
     width: 20px;
     height: 20px;
     margin-top: 5px;
     position: relative;
-    top: 4px;
+    top: 5px;
     right: 3px;
 }
-
 .td1 {
     font-size: 35px;
     text-align: center !important; /* 텍스트를 가운데 정렬합니다. */
@@ -132,10 +146,10 @@ body {
     </div>
     <h3 class="title">결재상세내용</h3>
     <div class="tool_bar">
-       	<a id="accept"><span>결재승인</span></a>
-        <a id="no"><span>보류</span></a>
-        <a id="never"><span>거절</span></a>
-        <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
+       	<a id="accept"><span><img src="/img/승인.png" class="tool_bar_icon1"></span><span>결재승인</span></a>
+        <a id="no"><span><img src="/img/보류.png" class="tool_bar_icon2"></span><span>보류</span></a>
+        <a id="never"><span><img src="/img/거절.png" class="tool_bar_icon3"></span><span>거절</span></a>
+        <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon4"></span><span>취소</span></a>
     </div>
     <div class="writeForm">
             <table class="customTable">
@@ -143,38 +157,38 @@ body {
                     <td class="td1" colspan="5">업 무 기 안</td>
                 </tr>
                 <tr>
-                    <td class="bgGray width9 centerText">기안자</td>
-                    <td><span id="senderName">${alShow.senderName}</span></td>
+                    <td class="bgGray width9 centerText" style="width: 10%; border-bottom: 1px solid #bfbfbf;">기안자</td>
+                    <td><span id="senderName" style="font-weight: bold;">${alShow.senderName}</span></td>
                     <td rowspan="4"><input type="hidden" id="userid" value="${userid}"></td>
-                    <td rowspan="3" class="bgGray width9 centerText">결재</td>
+                    <td rowspan="3" class="bgGray width9 centerText" style="width: 10%; border-bottom: 1px solid #bfbfbf;">결재</td>
                     <td class="width13 centerText">${alShow.receiverDepart}</td>
                 </tr>
                 <tr>
-                    <td class="bgGray centerText">부서</td>
+                    <td class="bgGray centerText" style="border-bottom: 1px solid #bfbfbf;">부서</td>
                     <td>${alShow.sendDepart}</td>
                     <td rowspan="2" class="textCenter">
-                        <span id="receiverName">${alShow.receiverName}</span>
+                        <span id="receiverName" style="font-weight: bold;">${alShow.receiverName}</span>
                     </td>
                 </tr> 
                 <tr>
-                    <td class="bgGray centerText">기안일</td>
+                    <td class="bgGray centerText" style="border-bottom: 1px solid #bfbfbf;">기안일</td>
                     <td><span id="currentDate">${alShow.createdTime}</span></td>
                 </tr>
                 <tr>
-                    <td class="bgGray centerText">문서번호</td>
+                    <td class="bgGray centerText" style="border-bottom: 1px solid #bfbfbf;">문서번호</td>
                     <td class="width25">${alShow.approvalID}</td>
-                    <td class="bgGray centerText">결재상태</td>
+                    <td class="bgGray centerText" style="border-bottom: 1px solid #bfbfbf;">결재상태</td>
                     <td class="textCenter">${alShow.approval_status}</td>
                 </tr>
             </table>
             <br><hr/><br>
             <table class="customTable" >
                 <tr>
-                    <td class="width20 bgGray centerText" >결재유형</td>
+                    <td class="width20 bgGray centerText" style="width: 20%; border-bottom: 1px solid #bfbfbf;">결재유형</td>
                     <td><span id="approvalType">${alShow.approval_type}</span></td>
                 </tr>
                 <tr>
-                    <td class="bgGray centerText">제목</td>
+                    <td class="bgGray centerText" style="border-bottom: 1px solid #bfbfbf;">제목</td>
                     <td><span id="approvalTitle">${alShow.approvalTitle}</span></td>
                 </tr>
                 <tr>
@@ -186,10 +200,10 @@ body {
             </table>
     </div>
     <div class="tool_bar" style="margin-bottom:5%">
-       	<a id="accept" onclick="sendApprovalStatus('승인')"><span>결재승인</span></a>
-        <a id="no" onclick="sendApprovalStatus('보류')"><span>보류</span></a>
-        <a id="never" onclick="sendApprovalStatus('거절')"><span>거절</span></a>
-        <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
+       	<a id="accept" onclick="sendApprovalStatus('승인')"><span><img src="/img/승인.png" class="tool_bar_icon1"></span><span>결재승인</span></a>
+        <a id="no" onclick="sendApprovalStatus('보류')"><span><img src="/img/보류.png" class="tool_bar_icon2"></span><span>보류</span></a>
+        <a id="never" onclick="sendApprovalStatus('거절')"><span><img src="/img/거절.png" class="tool_bar_icon3"></span><span>거절</span></a>
+        <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon4"></span><span>취소</span></a>
     </div>
 </div>
 </body>

@@ -203,6 +203,10 @@ position: relative;
     opacity: 1;
     transform: translateY(0); /* 서브메뉴가 위에서 아래로 나타나도록 이동합니다. */
 }
+/* .bell:hover ul { */
+/* 		opacity: 1; */
+/*     transform: translateY(0); */
+/* } */
 
 #pHedaerEmailAlarm {
   display: inline-block; /* div를 인라인 블록 요소로 설정 */
@@ -272,29 +276,28 @@ position: relative;
     	</div>
     	
     	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>
-    	   	
-    	<ul>       
-        <li class="menu">
-        	<img src="/P_img/bell.png" alt="공지" class="bell"> 
-            <ul id="notice" class="hide" style="margin-left: -100px;"></ul>
-        </li>        
-        </ul>
+	    	<ul>       
+	        <li class="menu">
+	        	<img src="/P_img/bell.png" alt="공지" class="bell"> 
+	            <ul id="notice" class="hide" style="margin-left: -100px;"></ul>
+	        </li>        
+	      </ul>
         <ul>
-        <li class="menu">
-        	<img src="img/${profileIMG}" class="profile">
-        	<ul class="hide" style="margin-left: -30px;">
-        	    <li><a href="/"> 홈</a></li>
-            	<li><a href="/myInfo">정보수정</a></li>
-                <li><a href="/logout">로그아웃</a></li>
-            </ul>
-        </li>
-        	</ul>
+	        <li class="menu">
+	        	<img src="img/${profileIMG}" class="profile">
+	        	<ul class="hide" style="margin-left: -30px;">
+	        	    <li><a href="/"> 홈</a></li>
+	            	<li><a href="/myInfo">정보수정</a></li>
+	              <li><a href="/logout">로그아웃</a></li>
+	          </ul>
+	        </li>
+        </ul>
 <!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
 <!--     	<div id="pHedaerEmailAlarm"></div> -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  -->
 <%--     	<img src="img/${profileIMG}" class="profile"> --%>
-	</div>
+		</div>
 	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
 
@@ -360,5 +363,14 @@ function enterkey() {
 		document.getElementById("search-button").click();
     }
 }
+// //"bell" 클래스에 마우스를 올렸을 때 이벤트 핸들러 추가
+$('.bell').hover(function() {
+    // 마우스를 올렸을 때
+    $('#notice').removeClass('hide'); // "#notice"의 hide 클래스 제거하여 보이도록 함
+}, function() {
+    // 마우스를 뗐을 때
+    $('#notice').addClass('hide'); // "#notice"에 hide 클래스 추가하여 숨김
+});
+// });
 </script>
 </html>
