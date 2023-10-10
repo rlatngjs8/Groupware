@@ -220,19 +220,6 @@ public class HwanController {
 	    String Group = req.getParameter("groupName");
 	    int addressBookId = Integer.parseInt(req.getParameter("addressBookId"));
 
-	    // 디버깅을 위한 값 출력
-	    System.out.println("Name: " + Name);
-	    System.out.println("Position: " + Position);
-	    System.out.println("Phone: " + Phone);
-	    System.out.println("Email: " + Email);
-	    System.out.println("Department: " + Department);
-	    System.out.println("Company: " + Company);
-	    System.out.println("CompanyPhone: " + CompanyPhone);
-	    System.out.println("CompanyAddress: " + CompanyAddress);
-	    System.out.println("Memo: " + Memo);
-	    System.out.println("Group: " + Group);
-	    System.out.println("addressBookId: " + addressBookId);
-
 	    empdao.updateContact(Name, Position, Phone, Email, Department, Company, CompanyPhone, CompanyAddress, Memo, Group, addressBookId);
 
 	    return "";

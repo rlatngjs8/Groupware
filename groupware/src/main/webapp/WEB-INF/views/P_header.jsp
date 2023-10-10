@@ -153,6 +153,8 @@ position: relative;
 	width:32px;
 	height:32px;
 	border-radius:50%;
+	position: relative;
+    right: 20px;
 }
 
 /* 새로운 스타일: 메뉴 스타일 및 서브메뉴 애니메이션 추가 */
@@ -244,7 +246,7 @@ position: relative;
             <a href="/reservationList">예약</a>
         </li>
         <li>
-            <a href="#">근태관리</a>
+            <a href="/attendance_management/attendance">근태관리</a>
         </li>
         <li>
             <a href="/approval">전자결재</a>
@@ -256,10 +258,10 @@ position: relative;
             <a href="/documentLibrary">자료실</a>
         </li>
         <li>
-            <a href="#">문의</a>
+            <a href="#">-</a>
         </li>
         <li>
-            <a href="#">조직도</a>
+            <a href="#">-</a>
         </li>
       </ul>
     </header>

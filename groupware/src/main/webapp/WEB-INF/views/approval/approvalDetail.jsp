@@ -129,11 +129,10 @@ body {
         <%@ include file="approvalHeader.jsp"%>
     </div>
     <h3 class="title">결재상세내용</h3>
-    <form action="#" method="post">
     <div class="tool_bar">
-        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재승인</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>보류</span></a>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>거절</span></a>
+       	<a id="accept"><span>결재승인</span></a>
+        <a id="no"><span>보류</span></a>
+        <a id="never"><span>거절</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
     <div class="writeForm">
@@ -185,15 +184,51 @@ body {
             </table>
     </div>
     <div class="tool_bar" style="margin-bottom:5%">
-        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재승인</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>보류</span></a>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>거절</span></a>
+       	<a id="accept"><span>결재승인</span></a>
+        <a id="no"><span>보류</span></a>
+        <a id="never"><span>거절</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
-    </form>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+$(document).on('click', '#accept', function() {
+    sendApprovalStatus('완료');
+});
+
+$(document).on('click', '#no', function() {
+    sendApprovalStatus('보류');
+});
+
+$(document).on('click', '#never', function() {
+    sendApprovalStatus('거절');
+});
+
+function sendApprovalStatus(status) {
+    var userId = $("#userid").val();
+    var approvalId = "${alShow.approvalID}";
+
+    $.ajax({
+        type: "POST",
+        url: "/update_approval_status",
+        data: {
+            userId: userId,
+            approvalId: approvalId,
+            status: status
+        },
+        success: function(response) {
+            if (response.success) {
+                alert('결재 상태가 업데이트되었습니다.');
+                // 여기서 추가적인 동작 수행 가능
+            } else {
+                alert('업데이트 실패: ' + response.errorMsg);
+            }
+        },
+        error: function() {
+            alert('서버 요청 실패');
+        }
+    });
+}
 </script>
 </html>

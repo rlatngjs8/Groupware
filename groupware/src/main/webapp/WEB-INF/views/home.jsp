@@ -44,15 +44,13 @@
 		    <ul>
 			    <c:forEach items="${alist}" var="alist">
 				    <li>
-					    <div class="title"><a href="/announcement_view?seqno=${alist.communityID}">${alist.communityTitle}</a></div>
-					    <div class="content-text"><a href="/announcement_view?seqno=${alist.communityID}">${alist.content}</a></div>
-					    <div class="info">${alist.name} ${alist.position}</div>
-					    <div class="date">${alist.formattedDate}</div>
+					    <span class="title"><a href="/announcement_view?seqno=${alist.communityID}">${alist.communityTitle}</a></span>
+					    <span class="info">${alist.name} ${alist.position}</span>
+					    <span class="date">${alist.formattedDate}</span>
 					</li>
-
 			    </c:forEach>
 			</ul>
-			<a href="/announcement_view">더보기></a>
+			<a href="/announcement">더보기></a>
 	    </div>
 	    <h2>메일</h2>
 	    <!-- 메일함 박스 -->
@@ -68,8 +66,9 @@
 			    </ul>
 			    <div class="tab-view" id="tab1">
 					    <c:forEach items="${rMlist}" var="rMlist">
-					    		<div class=rMlist>			    		
-							    <a href="/mailDetail?eid=${rMlist.emailid}"><span class="mail-name">${rMlist.name}&#60;${rMlist.email}&#62;</span>
+					    		<div class=rMlist>
+					    		<a href="/mailDetail?eid=${rMlist.emailid}">	    		
+							    <span class="mail-name">${rMlist.name}&#60;${rMlist.email}&#62;</span>
 							    <span class="mail-subject">${rMlist.subject}</span>
 								<span class="mail-time">${rMlist.sendtime}</span></a><br>
 								</div>
@@ -109,10 +108,11 @@
 	    	    <ul>
 			    <c:forEach items="${blist}" var="blist">
 				    <li>
-					    <div class="title"><a href="/community_view?seqno=${blist.communityID}">${blist.communityTitle}</a></div>
-					    <div class="content-text"><a href="/announcement_view?seqno=${blist.communityID}">${blist.content}</a></div>
-					    <div class="info">${blist.name} ${blist.position}</div>
-					    <div class="date">${blist.formattedDate}</div>
+				    	<a href="/community_view?seqno=${blist.communityID}">
+						    <span class="title">${blist.communityTitle}</span>
+						    <span class="info">${blist.name} ${blist.position}</span>
+						    <span class="date">${blist.formattedDate}</span>
+						</a>
 					</li>
 			    </c:forEach>
 			</ul>
@@ -236,20 +236,6 @@ $(document).ready(function(){
 			console.error('ajax 요청 실패');
 		}
 	})
-});
-function truncateString(str, num) {
-    if (str.length > num) {
-        return str.slice(0, num) + "...";
-    } else {
-        return str;
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    var contents = document.querySelectorAll(".content-text");
-    contents.forEach(function(content) {
-        content.textContent = truncateString(content.textContent, 12);
-    });
 });
 </script>
 </html>
