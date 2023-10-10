@@ -11,13 +11,13 @@
 <body>
 <div class='pageCalendar'>
 	<div class='sideBar'>
-		<h2 id="c_title" class="c_title" style="margin-left:15px">캘린더</h2>
+		<h3 id="c_title" class="c_title" style="margin-left:0px">캘린더</h3>
 		<button class="addPlanBtn" id="addPlanBtn">일정등록</button>
 	</div>
 	<form method="post" action="/planInsert">
 		<div class="addPlan">
 				<div class="addPlanTitle">
-					<h2>일정등록</h2>
+					<h3>일정등록</h3>
 				</div>
 				<div>
 					<table class="tbl_tit">
