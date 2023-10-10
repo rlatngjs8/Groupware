@@ -78,9 +78,12 @@
 <insert id="approvalInsert">
 	insert into approvals set sender_id=#{param1}, receiver_id=#{param2}, approval_type=#{param3}, approvalTitle=#{param4}, content=#{param5}, createdTime=now()
 </insert>
+
 <update id="statusUpdate">
 	UPDATE approvals
-	SET approval_status = #{param2} and Approval_completed_at = now()
+	SET approval_status = #{param2}, Approval_completed_at = now()
 	WHERE approvalID = #{param1};
 </update>
+
+
 </mapper>

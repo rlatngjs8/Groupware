@@ -566,11 +566,14 @@ public class SuController {
 		
    		return "approval/approvalDetail";
  	}
+	
+	
 	@PostMapping("/update_approval_status")
 	public String update_approval_status(HttpServletRequest req) {
+			String userid = req.getParameter("userid");
 			int approvalID = Integer.parseInt(req.getParameter("approvalID"));
 			String status = req.getParameter("status");
-			
+
 			Apdao.statusUpdate(approvalID, status);
 			
 			return "approval/approval";
