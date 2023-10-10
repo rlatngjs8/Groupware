@@ -298,62 +298,66 @@ position: relative;
 	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
 
-<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src='https://code.jquery.com/jquery-Latest.js'></script>
 <script>
-$(document).ready(function(){
-    let sessionid = $("#sessionid").val();
-    console.log($("#sessionid").val());
-
-    if(sessionid == null || sessionid == "") {
-        console.log("empid=" + ${sessionScope.userid});
-        if(sessionid == null || sessionid == ""){
-            alert("권한이 없습니다");
-            return false;
-        }
-    }
-
-    $.ajax({
-        url: '/pHeaderAlarm',
-        type: 'post',
-        dataType: 'text',
-        success: function(data) {
-            console.log("/pHeaderAlarm 성공");
-            console.log(data);
-            $('#pHedaerEmailAlarm').text(data);
-        },
-        error: function(data) {
-            alert("/pHeaderAlarm 오류");
-        }
-    });
-
-    $.post('/getNewNotice', {empID: ${sessionScope.EmpId}}, function(data){
-    	console.log(data[0].type);
-        for(let i = 0; i < data.length; i++){
-            if(data[i].type === "Announcement"){
-                let li = "<li><a href='/announcement' class='stext'>공지사항: " + data[i].title + data[i].time + "</a></li>";
-                $('#notice').append(li);
-            } else if(data[i].type == "Email"){
-                let li = "<li><a href='/mailFolder1' class='stext'>새 메일: " + data[i].title + data[i].time + "</a></li>";
-                $('#notice').append(li);
-            } else if(data[i].type == "Request"){
-            	let li = "<li><a href='/approval' class='stest'>결재요청: "+ data[i].title + data[i].time = "</a></li>";
-            	$('#notice').append(li);
-            }
-        }
-    }, 'json');
-});
-
-$(document).on('click', '#search-button', function(){
-    let search = $('#search-bar').val();
-    console.log(search);
-    document.location = "dosearch?search=" + search;
-    return false;
-});
-
+$(document)
+.ready(function(){
+	console.log("hello world");
+	let sessionid = $("#sessionid").val()
+	console.log($("#sessionid").val())
+	console.log("empid="+${sessionScope.EmpId});
+	if(sessionid == null || sessionid == ""){
+		alert("권한이 없습니다");
+		return false;
+	}
+	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+		success:function(data){
+			console.log("/pHeaderAlarm 성공");
+			console.log(data);
+			$('#pHedaerEmailAlarm').text(data);
+		},
+		error:function(data){
+			alert("/pHeaderAlarm 오류");
+		}
+	});
+	$.post('/getNewNotice',{empID:${sessionScope.EmpId}},
+			function(data){
+				for(let i=0; i<data.length; i++){
+					if(data[i].type=="Announcement"){
+						let li = "<li><a href='/announcement' class='stext'>공지사항: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Email"){
+						let li = "<li><a href='/mailFolder1' class='stext'>새 메일: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Request"){
+						let li = "<li><a href='/approval' class='stext'>결재요청: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="InProgress"){
+						let li = "<li><a href='/mailFolder1' class='stext'>결재진행중: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Suspension"){
+						let li = "<li><a href='/mailFolder1' class='stext'>결재보류: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Approval"){
+						let li = "<li><a href='/mailFolder1' class='stext'>결재승인: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Rejection"){
+						let li = "<li><a href='/mailFolder1' class='stext'>결재거절: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}
+				}
+	},'json');
+})
+.on('click','#search-button',function(){
+	let search = $('#search-bar').val();
+	console.log(search);
+	document.location="dosearch?search="+search;
+	return false;
+})
 function enterkey() {
-    if (window.event.keyCode == 13) {
-        // 엔터키가 눌렸을 때
-        document.getElementById("search-button").click();
+	if (window.event.keyCode == 13) {
+    	// 엔터키가 눌렸을 때
+		document.getElementById("search-button").click();
     }
 }
 </script>
