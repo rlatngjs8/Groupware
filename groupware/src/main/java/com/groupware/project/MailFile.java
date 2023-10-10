@@ -62,34 +62,4 @@ public class MailFile {
 			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
 		}
 	}
-
-//	@GetMapping("/mailFiledownload")
-//	public ResponseEntity<Object> download(HttpServletRequest req, HttpServletResponse response) {
-//		String attachment = req.getParameter("attachment");
-//		try {
-//			attachment = URLEncoder.encode(attachment, "UTF-8"); //16진수로
-//			System.out.println(attachment);
-//			
-//		}  catch (UnsupportedEncodingException e1) {
-//            e1.printStackTrace();
-//        }
-//		String path = "C:/Users/1234/git/Groupware/groupware/src/main/resources/static/img/"+attachment;
-//
-//		
-//		try {
-//			Path filePath = Paths.get(path); //경로표현
-//			Resource resource = new InputStreamResource(Files.newInputStream(filePath)); // 파일 resource 얻기
-//            
-//			File file = new File(path);
-//			
-//			HttpHeaders headers = new HttpHeaders();
-//			// 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
-//			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
-//			System.out.println("nowloading");
-//			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
-//		} catch(Exception e) {
-//			System.out.println("error");
-//			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
-//		}
-//	}
 }

@@ -39,4 +39,11 @@
 <delete id="deleteTodoBoard">
 	delete from todos where todoid=#{param1}
 </delete>
+<insert id="insertTodoContentTitle" parameterType="java.util.HashMap">
+	insert into todocontent set todoid=#{param1}, empid=#{param2}, todotitle=#{param3}
+</insert>
+<select id="selectTodoContent" resultType="com.groupware.project.TodoDTO">
+	select a.todocontentid, a.todoid, a.empid, a.todotitle, a.todocontent, a.time from todocontent a
+		inner join todomember b on a.todoid=b.tid where b.eid=a.empid and todoid=#{param1}
+</select>
 </mapper>

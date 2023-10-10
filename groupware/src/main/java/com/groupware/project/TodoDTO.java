@@ -10,17 +10,17 @@ public class TodoDTO {
 	int tid;
 	int eid;
 	
-	int TodocontentID;
-	int TodoID;
-	int EmpID;
-    String TodoTitle;
-    String TodoContent;
+	int todocontentid;
+	int empid;
+    String todotitle;
+    String todocontent;
     String time;
     
     String name;
     String position;
     int departmentid;
     String departmentname;
+    
     
 	public int getTodoid() {
 		return todoid;
@@ -65,36 +65,30 @@ public class TodoDTO {
 	public void setEid(int eid) {
 		this.eid = eid;
 	}
-
-	public int getTodocontentID() {
-		return TodocontentID;
+	
+	public int getTodocontentid() {
+		return todocontentid;
 	}
-	public void setTodocontentID(int todocontentID) {
-		TodocontentID = todocontentID;
+	public void setTodocontentid(int todocontentid) {
+		this.todocontentid = todocontentid;
 	}
-	public int getTodoID() {
-		return TodoID;
+	public int getEmpid() {
+		return empid;
 	}
-	public void setTodoID(int todoID) {
-		TodoID = todoID;
+	public void setEmpid(int empid) {
+		this.empid = empid;
 	}
-	public int getEmpID() {
-		return EmpID;
+	public String getTodotitle() {
+		return todotitle;
 	}
-	public void setEmpID(int empID) {
-		EmpID = empID;
+	public void setTodotitle(String todotitle) {
+		this.todotitle = todotitle;
 	}
-	public String getTodoTitle() {
-		return TodoTitle;
+	public String getTodocontent() {
+		return todocontent;
 	}
-	public void setTodoTitle(String todoTitle) {
-		TodoTitle = todoTitle;
-	}
-	public String getTodoContent() {
-		return TodoContent;
-	}
-	public void setTodoContent(String todoContent) {
-		TodoContent = todoContent;
+	public void setTodocontent(String todocontent) {
+		this.todocontent = todocontent;
 	}
 	public String getTime() {
 		return time;
