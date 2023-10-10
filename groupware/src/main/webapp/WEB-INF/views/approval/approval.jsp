@@ -186,7 +186,7 @@ th:nth-child(3) {
 				                </div>
 				                <div class="form_tr">
 				                    <div class="form_th">기 안 자 :</div>
-				                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id}</div>
+				                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.senderName}</div>
 				                </div>
 				                <div class="form_tr">
 				                    <div class="form_th">기 안 일 :</div>
@@ -194,7 +194,7 @@ th:nth-child(3) {
 				                </div>
 				                <div class="form_tr">
 				                    <div class="form_th">결재양식 :</div>
-				                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id} </div>
+				                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.approval_type} </div>
 				                </div>
 				                <div class="card_action">
 				                	결제하기
