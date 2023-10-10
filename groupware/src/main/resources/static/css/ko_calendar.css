@@ -1,25 +1,27 @@
 @charset "UTF-8";
 .sideBar{
 	width: 200px; 
-	height: 810px;
+	height: 900px;
 	float: left;
 	background-color: white;
     border-radius: 5px;
+    border-right:1px solid lightgrey;
 }
 #calendar{
 	width:1400px;
 	background-color: white;
     border-radius: 5px;
-    padding-top: 10px;
+    padding-top: 30px;
+    padding-left: 30px;
     padding-right: 10px;
-    padding-bottom: 10px;
-    
+    padding-bottom: 10px; 
 }
 .pageCalendar{
-	width: 1600px;
-	margin-left: 250px;
+	width: 2000px;
+	margin-left: 196px;
 	margin-top: 50px;
 	margin-bottom: 50px;
+	border-top:1px solid lightgrey;
 }
 .addPlanBtn{
 	margin-left : 15px;
@@ -38,8 +40,7 @@
 	transform: translateY(-5px);
 	box-shadow: 1px 1px 20px #ddd;
 }
-.calendar{
-	border-left:1px solid grey; 
+.calendar{ 
 	padding-left: 10px;
 }
 .c_title{

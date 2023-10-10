@@ -40,11 +40,44 @@ SELECT employees.*,
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
 INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%') and employees.userid = #{param3} ;
+</select>
+
+<select id="getManageListAll">
+SELECT employees.*, 
+       attendance.AttendanceID, 
+       attendance.Date, 
+       attendance.StartTime, 
+       attendance.EndTime, 
+       attendance.AttendanceStatus, 
+       attendance.OvertimeHours, 
+       attendance.VacationType, 
+       attendance.Remarks, 
+       departments.DepartmentName
+FROM employees
+INNER JOIN attendance ON employees.Userid = attendance.userid
+INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
 WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%');
 </select>
 
 
 <select id="getList_sort_name">
+SELECT employees.*, attendance.AttendanceID, attendance.Date, attendance.StartTime, attendance.EndTime, attendance.AttendanceStatus, attendance.OvertimeHours, attendance.VacationType, attendance.Remarks, departments.DepartmentName
+FROM employees
+INNER JOIN attendance ON employees.Userid = attendance.userid
+INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%') and employees.userid = #{param3} 
+ORDER BY 
+  CASE
+    WHEN Name COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
+    WHEN Name COLLATE utf8mb4_unicode_ci REGEXP '^[A-Za-z]' THEN 2 
+    WHEN Name COLLATE utf8mb4_unicode_ci REGEXP '^[0-9]' THEN 3 
+    ELSE 4 
+  END,
+  Name COLLATE utf8mb4_unicode_ci;
+</select>
+
+<select id="getManageList_sort_name">
 SELECT employees.*, attendance.AttendanceID, attendance.Date, attendance.StartTime, attendance.EndTime, attendance.AttendanceStatus, attendance.OvertimeHours, attendance.VacationType, attendance.Remarks, departments.DepartmentName
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
@@ -75,6 +108,31 @@ SELECT employees.*,
 FROM employees
 INNER JOIN attendance ON employees.Userid = attendance.userid
 INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%') and employees.userid = #{param3} 
+ORDER BY 
+  CASE
+    WHEN DepartmentName COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
+    WHEN DepartmentName COLLATE utf8mb4_unicode_ci REGEXP '^[A-Za-z]' THEN 2 
+    WHEN DepartmentName COLLATE utf8mb4_unicode_ci REGEXP '^[0-9]' THEN 3 
+    ELSE 4 
+  END,
+  DepartmentName COLLATE utf8mb4_unicode_ci;
+  </select>
+  
+  <select id="getManageList_sort_department">
+SELECT employees.*, 
+       attendance.AttendanceID, 
+       attendance.Date, 
+       attendance.StartTime, 
+       attendance.EndTime, 
+       attendance.AttendanceStatus, 
+       attendance.OvertimeHours, 
+       attendance.VacationType, 
+       attendance.Remarks,
+       departments.DepartmentName
+FROM employees
+INNER JOIN attendance ON employees.Userid = attendance.userid
+INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
 WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%')
 ORDER BY 
   CASE
@@ -87,6 +145,32 @@ ORDER BY
   </select>
   
   <select id="getList_sort_date">
+  SELECT employees.*, 
+       attendance.AttendanceID, 
+       attendance.Date, 
+       attendance.StartTime, 
+       attendance.EndTime, 
+       attendance.AttendanceStatus, 
+       attendance.OvertimeHours, 
+       attendance.VacationType, 
+       attendance.Remarks,
+       departments.DepartmentName
+FROM employees
+INNER JOIN attendance ON employees.Userid = attendance.userid
+INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+WHERE attendance.Date LIKE CONCAT(#{param2}, '-', #{param1}, '%') and employees.userid = #{param3} 
+ORDER BY 
+  CASE
+    WHEN Date COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
+    WHEN Date COLLATE utf8mb4_unicode_ci REGEXP '^[A-Za-z]' THEN 2 
+    WHEN Date COLLATE utf8mb4_unicode_ci REGEXP '^[0-9]' THEN 3 
+    ELSE 4 
+  END,
+  STR_TO_DATE(Date, '%Y-%m-%d') DESC;
+  
+  </select>
+  
+  <select id="getManageList_sort_date">
   SELECT employees.*, 
        attendance.AttendanceID, 
        attendance.Date, 

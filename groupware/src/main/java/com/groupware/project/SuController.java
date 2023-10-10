@@ -2,15 +2,14 @@ package com.groupware.project;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import java.net.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -22,11 +21,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,6 +47,9 @@ public class SuController {
 	
 	@Autowired
 	private CalendarDAO cdao;
+	
+	@Autowired
+	private ApprovalsDAO Apdao;
 
 	@GetMapping("/manageHome")
 	public String manageHome() {
@@ -468,4 +470,121 @@ public class SuController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	    }
 	}
+	@GetMapping("/approval")
+	public String approval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+
+		ArrayList<ApprovalsDTO> receipt_approval = Apdao.select_receipt_approval(userid);
+		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval(userid);
+		ArrayList<ApprovalsDTO> completion_approval = Apdao.select_completion_approval(userid);
+		ArrayList<ApprovalsDTO> my_incomplete_approval = Apdao.select_my_incomplete_approval(userid);
+
+
+		
+		
+		System.out.println("adssad" + my_incomplete_approval.size());
+		 
+		model.addAttribute("receipt_approval", receipt_approval);
+		model.addAttribute("incomplete_approval", incomplete_approval);
+		model.addAttribute("completion_approval", completion_approval);
+		model.addAttribute("my_incomplete_approval", my_incomplete_approval);
+		
+		
+		return "approval/approval";
+	}
+	
+	
+	@GetMapping("/arriveApproval")
+	public String arriveApproval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+		ArrayList<ApprovalsDTO> arrive_approval = Apdao.arrive_approval(userid);
+		model.addAttribute("arrive_approval",arrive_approval);
+		return "approval/arriveApproval";
+	}
+	
+	@GetMapping("/comeApproval")
+	public String comeApproval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval1(userid);
+		model.addAttribute("incomplete_approval", incomplete_approval);
+		return "approval/comeApproval";
+	}
+	
+	@GetMapping("/sendApproval")
+	public String sendApproval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+		ArrayList<ApprovalsDTO> send_approval = Apdao.sendList(userid);
+		model.addAttribute("send_approval",send_approval);
+		return "approval/sendApproval";
+	}
+	
+	
+	@GetMapping("/writeApproval")
+	public String writeApproval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+		EmployeesDTO alEmp = edao.getListSelect(userid);
+		model.addAttribute("alEmp",alEmp);
+		
+		ArrayList<EmployeesDTO> allMember = edao.getMember();
+		System.out.println("asd="+ allMember.size());
+		model.addAttribute("allMem", allMember);
+		
+		
+		return "approval/writeApproval";
+	}
+	@PostMapping("/writeApprovalData")
+	@ResponseBody
+	public String writeApprovalData(@RequestParam("userid") String sender,
+            @RequestParam("receiver_id") String receiver,
+            @RequestParam("approvalType") String approvalType,
+            @RequestParam("approvalTitle") String approvalTitle,
+            @RequestParam("approText") String approText,
+            Model model) {
+		
+		 System.out.println("userid: " + sender);
+	        System.out.println("receiver_id: " + receiver);
+	        System.out.println("approvalType: " + approvalType);
+	        System.out.println("approvalTitle: " + approvalTitle);
+	        System.out.println("approText: " + approText);
+		
+		Apdao.approvalInsert(sender, receiver, approvalType, approvalTitle, approText);
+		
+		return "";
+	}
+	
+	@GetMapping("/approvalDetail")
+	public String approvalDetail(HttpServletRequest req, Model model) {
+		int approvalID = Integer.parseInt(req.getParameter("ApprovalID"));
+		System.out.println(approvalID);
+		ApprovalsDTO alShow = Apdao.showDetail(approvalID);
+		model.addAttribute("alShow", alShow);
+		
+		String sender_id = req.getParameter("sender_id");
+        String receiver_id = req.getParameter("receiver_id");
+
+        EmployeesDTO senderDepart = edao.senderDepart(sender_id);
+        EmployeesDTO receiverDepart = edao.receiverDepart(receiver_id);
+
+        model.addAttribute("sender",senderDepart);
+        model.addAttribute("receiver",receiverDepart);
+		return "approval/approvalDetail";
+	}
+//	@PostMapping("/loadDepartment") // 요청을 처리할 엔드포인트를 지정합니다.
+//    @ResponseBody
+//    public EmployeesDTO loadDepartment(HttpServletRequest req, Model model) {
+//        String sender_id = req.getParameter("sender_id");
+//        String receiver_id = req.getParameter("receiver_id");
+//
+//        EmployeesDTO senderDepart = edao.senderDepart(sender_id);
+//        EmployeesDTO receiverDepart = edao.receiverDepart(receiver_id);
+//
+//        model.addAttribute("sender",senderDepart);
+//        model.addAttribute("receiver",receiverDepart);
+//        return "";
+//    }
 }

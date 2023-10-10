@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+				 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupware.project.NoticeDAO">
+<select id="getNewNotice" resultType="com.groupware.project.NoticeDTO">
+	SELECT * FROM (
+	SELECT 'Email' AS TYPE, SUBJECT AS title, sendtime AS TIME FROM emails WHERE receiveremployeeid=#{param1} AND emailreceive=0 AND tcreceive=0
+	UNION ALL
+	SELECT 'Announcement' AS TYPE, communityTitle AS Title, createdTime AS TIME FROM announcement
+	) AS combined
+	ORDER BY TIME DESC
+	LIMIT 5
+</select>
+</mapper>

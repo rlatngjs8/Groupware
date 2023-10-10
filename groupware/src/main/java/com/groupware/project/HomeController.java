@@ -19,6 +19,8 @@ public class HomeController {
 	
 		@Autowired
 		private EmployeesDAO edao;
+		@Autowired
+		private homeDAO hdao;
 		@GetMapping("/")
 		public String home(HttpServletRequest req, Model model) {
 			HttpSession session = req.getSession(false); // 세션이 존재하면 가져오고, 존재하지 않으면 새로 생성하지 않도록 설정
@@ -27,8 +29,21 @@ public class HomeController {
 //				String profileIMG=(String)session.getAttribute("profileIMG");
 //				model.addAttribute("profileIMG", profileIMG);
 				String userid = (String) session.getAttribute("userid");
+				int empid = (Integer) session.getAttribute("EmpId");
 				EmployeesDTO alEmp = edao.getListSelect(userid);
 				model.addAttribute("emp",alEmp);
+				
+				ArrayList<P_BoardDTO> alist=hdao.gethomealist();
+				ArrayList<MailDTO> RecMail = hdao.selectRecMail(empid);
+				ArrayList<MailDTO> sendMail = hdao.selectSendMail(empid);
+				ArrayList<MailDTO> Importantmail = hdao.selectImportantMail(empid);
+				ArrayList<MailDTO> blist = hdao.getboardlist();
+				
+				model.addAttribute("alist",alist);
+				model.addAttribute("blist",blist);
+				model.addAttribute("rMlist", RecMail);
+				model.addAttribute("sMlist", sendMail);
+				model.addAttribute("iMlist", Importantmail);
 				return "home";
 			} else {
 				// 세션에 userid가 없으면 로그인 페이지 표시

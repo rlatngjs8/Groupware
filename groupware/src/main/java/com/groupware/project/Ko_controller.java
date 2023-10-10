@@ -24,6 +24,9 @@ public class Ko_controller {
 	@Autowired
 	private ReservationDAO rdao;
 	
+	@Autowired
+	private NoticeDAO ndao;
+	
 	@GetMapping("ko_calendar")		//캘린더 페이지
 	public String ko_calendar() {
 		return "ko_calendar";
@@ -219,5 +222,20 @@ public class Ko_controller {
 		rdao.reservationDeleteC(connectionID);
 		rdao.reservationDeleteR(connectionID);
 		return "reservationList";
+	}
+	@PostMapping("/getNewNotice")
+	@ResponseBody
+	public String getNewNotice(HttpServletRequest req) {
+		int empID=Integer.parseInt(req.getParameter("empID"));
+		ArrayList<NoticeDTO> alNotice = ndao.getNewNotice(empID);
+		JSONArray ja = new JSONArray();
+		for(int i=0; i<alNotice.size(); i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("type",alNotice.get(i).type);
+			jo.put("title",alNotice.get(i).title);
+			jo.put("time",alNotice.get(i).time);
+			ja.add(jo);
+		}	
+		return ja.toJSONString();
 	}
 }

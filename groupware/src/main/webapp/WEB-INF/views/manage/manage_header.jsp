@@ -179,7 +179,7 @@ body {
           <a href="showEmployee">직원관리</a>
         </li>
         <li>
-          <a href="#">-</a>
+          <a href="/manage_attendance">직원근태</a>
         </li>
         <li>
           <a href="#">-</a>

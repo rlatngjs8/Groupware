@@ -60,7 +60,7 @@ public class P_controller {
 		}
 		model.addAttribute("pagestr",pagestr);
 		model.addAttribute("blist",ja);
-		return "P_community";
+		return "board/P_community";
 	}
 	@GetMapping("/doboardsearch")
 	@SuppressWarnings("unchecked")
@@ -101,11 +101,11 @@ public class P_controller {
 		}
 		model.addAttribute("pagestr",pagestr);
 		model.addAttribute("blist",ja);
-		return "P_community";
+		return "board/P_community";
 	}
 	@GetMapping("/community_write")
 	public String community_write(HttpServletRequest req, Model model) {
-		return "P_community_write";
+		return "board/P_community_write";
 	}
 	@PostMapping("/savepost")
 	@ResponseBody
@@ -141,14 +141,14 @@ public class P_controller {
 		try {
 			if(writer.equals(oriwri)||writer.equals("관리자1")){
 				model.addAttribute("modidel","<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
-				return "P_community_view";
+				return "board/P_community_view";
 			}else {
 				model.addAttribute("modidel","");
-				return "P_community_view";
+				return "board/P_community_view";
 			}
 		} catch(Exception e) {
 			model.addAttribute("modidel","");
-			return "P_community_view";
+			return "board/P_community_view";
 		}
 	}
 	@GetMapping("/community_view_update")
@@ -156,7 +156,7 @@ public class P_controller {
 		int seqno= Integer.parseInt(req.getParameter("seq"));
 		P_BoardDTO bdto = bdao.view(seqno);
 		model.addAttribute("bpost",bdto);
-		return "P_view_update";
+		return "board/P_view_update";
 	}
 	@PostMapping("/updatepost")
 	@ResponseBody
@@ -255,11 +255,11 @@ public class P_controller {
 		}
 		model.addAttribute("pagestr",pagestr);
 		model.addAttribute("blist",ja);
-		return "P_announcement";
+		return "board/P_announcement";
 	}
 	@GetMapping("/announcement_write")
 	public String announcementwrite(HttpServletRequest req,Model model) {
-		return "P_announcement_write";
+		return "board/P_announcement_write";
 	}
 	@PostMapping("/announcement_savepost")
 	@ResponseBody
@@ -284,14 +284,14 @@ public class P_controller {
 		try {
 			if(writer.equals(oriwri)||writer.equals("관리자1")){
 				model.addAttribute("modidel","<button id=btnUpdate>수정</button>&nbsp;&nbsp;<button id=btnDelete>삭제</button>");
-				return "P_announcement_view";
+				return "board/P_announcement_view";
 			}else {
 				model.addAttribute("modidel","");
-				return "P_announcement_view";
+				return "board/P_announcement_view";
 			}
 		} catch(Exception e) {
 			model.addAttribute("modidel","");
-			return "P_announcement_view";
+			return "board/P_announcement_view";
 		}
 	}
 	@GetMapping("/announcement_view_update")
@@ -299,7 +299,7 @@ public class P_controller {
 		int seqno= Integer.parseInt(req.getParameter("seq"));
 		P_BoardDTO bdto = bdao.aview(seqno);
 		model.addAttribute("bpost",bdto);
-		return "P_announcement_update";
+		return "board/P_announcement_update";
 	}
 	@PostMapping("/updateapost")
 	@ResponseBody
@@ -354,6 +354,6 @@ public class P_controller {
 		}
 		model.addAttribute("pagestr",pagestr);
 		model.addAttribute("blist",ja);
-		return "P_announcement";
+		return "board/P_announcement";
 	}
 }
