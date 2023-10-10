@@ -178,15 +178,15 @@
                 </div>
                 <br><br><br>
                 <div>
-                    <a href="/documentLibrary?documentType=all" id="allDocu">전체 자료실</a><br><br><br>
-                    <a href="/documentLibrary?documentType=individual" id="individual">개인 자료실</a>
+                    <button id="allDocu">전체 자료실</button><br><br><br>
+                    <button  id="individual">개인 자료실</button>
                 </div>
             </div>
         </aside>
         <div class="document-container">
             <div id="allDocument">
                 <div class="allSection">
-                	<h3 id="allDocumentTitle">전체	자료실</h3>
+                	<h3>전체	자료실aaaaa</h3>
                     <table class="table-style">
                         <thead class="thead-style">
                             <th><input type="checkbox" class="selectAll" data-table="allDocument"></th>
@@ -224,10 +224,11 @@
                 </div>
             </div>
             <div id="indiDocument" style="display: none;">
-                <div class="allSection">
+                <div class="indiSection">
 <!--                 	<h3 id="indiDocumentTitle">개인 자료실</h3> -->
-									<h3 id="allDocumentTitle">개인 자료실</h3>
+									<h3>개인 자료실</h3>
                     <table class="table-style">
+                    <caption>
                         <thead class="thead-style">
                         <tr>
                             <th><input type="checkbox" class="selectAll" data-table="indiDocument"></th>
@@ -301,11 +302,15 @@
       $(document).on('click', '#individual', function(){
 	    $('#indiDocument').show();
 	    $('#allDocument').hide();
+	    document.location="/documentLibrary?documentType=individual";
+	    return false;
 		});
 	
 	$(document).on('click', '#allDocu', function(){
 	    $('#allDocument').show();
 	    $('#indiDocument').hide();
+	    document.location="/documentLibrary?documentType=all";
+	    return false;
 		});
  });
      

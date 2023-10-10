@@ -273,7 +273,7 @@ public class P_controller {
 	}
 	@GetMapping("/announcement_view")
 	public String announcementviewpost(HttpServletRequest req,Model model) {
-		int seqno = Integer.parseInt(req.getParameter("seqno"));
+		Integer seqno = Integer.parseInt(req.getParameter("seqno"));
 		P_BoardDTO bdto = bdao.aview(seqno);
 		String oriwri=bdto.getUserid();
 		bdao.ahitup(seqno);

@@ -6,14 +6,7 @@ public class homeDTO {
 	String FormattedDate;
 	String Position;
 	String CommunityID;
-	String Content;
-	
-	public String getContent() {
-		return Content;
-	}
-	public void setContent(String content) {
-		Content = content;
-	}
+
 	public String getCommunityID() {
 		return CommunityID;
 	}

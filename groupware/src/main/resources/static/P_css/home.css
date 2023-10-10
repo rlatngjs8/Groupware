@@ -43,7 +43,7 @@
     margin-top: 20px;
     width:900px;
 }
-	    .announcement-box, .mail-box, .calender-box, .wait-box, .commu-box {
+.announcement-box, .mail-box, .calender-box, .wait-box, .commu-box {
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 20px;
@@ -151,30 +151,10 @@
     text-decoration: none;
 }
 
-.commu-box li div.title {
-    width: 30%;
-    text-align: left; 
-    font-size: 1.2em;
-    font-weight: bold;
-}
 
-.commu-box li div.content-text {
-    width: 30%;
-    text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
 
-.commu-box li div.info {
-    width: 25%;
-    text-align: right;
-}
 
-.commu-box li div.date {
-    width: 15%;
-    text-align: right;
-}
+
 
 
 
@@ -216,7 +196,7 @@
     display: inline-block;
     vertical-align: top;
     padding: 5px 10px;
-    transition: background-color 0.3s, color 0.3s;
+   
 }
 
 .mail-name {
@@ -267,7 +247,11 @@
 .iMlist:hover .mail-email, 
 .iMlist:hover .mail-subject, 
 .iMlist:hover .mail-time {
-    color: rgb(192, 192, 192);
+    color: rgb(0, 0, 0);
+    
+}
+.rMlist,.sMlist,.iMlist{
+	border-bottom: black;
 }
 
 .calendar{
