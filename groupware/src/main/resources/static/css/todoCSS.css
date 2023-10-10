@@ -17,5 +17,6 @@ body {height: 100%; margin:0; overflow:hidden;}
 .cWhite {color: white;}
 .todobasic{caret-color:#6AB0AD;}
 .boardmain {display:flex; height: 100%; margin-left:190px; padding-left:28px; background-color:white;}
-.todoBoardName {height:30px; padding-top:50px; font-size:17px; padding-bottom:10px;}
+.todoBoardName {height:30px; padding-top:40px; font-size:17px; padding-bottom:10px;}
 .newBoard {width:130px; height:50px;}
+.divHidden {display:none;}

@@ -310,4 +310,17 @@ SELECT * FROM address_book WHERE Writer_id = #{param1} ORDER BY
   END, group_name;
 	  
 </select>
+
+<select id="senderDepart" resultType="com.groupware.project.EmployeesDTO">
+	select a.name, a.userid, a.password, b.departmentName, a.position, a.birthDate, a.phoneNumber, a.address, a.email, a.salary , a.hireDate, a.profilePicture
+	from employees a inner join departments b on a.departmentID = b.departmentID
+	 where userid=#{param1}
+</select>
+<select id="receiverDepart" resultType="com.groupware.project.EmployeesDTO">
+	select a.name, a.userid, a.password, b.departmentName, a.position, a.birthDate, a.phoneNumber, a.address, a.email, a.salary , a.hireDate, a.profilePicture
+	from employees a inner join departments b on a.departmentID = b.departmentID
+	 where userid=#{param1}
+</select>
+
+
 </mapper>

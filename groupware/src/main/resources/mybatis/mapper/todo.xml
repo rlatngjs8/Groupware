@@ -33,4 +33,7 @@
 	select a.employeeid, a.name, a.position, b.departmentname from employees a
 		inner join departments b on a.departmentid=b.departmentid  where b.departmentname="영업부"
 </select>
+<insert id="insertTodomember2" parameterType="java.util.HashMap">
+	insert into todomember set eid=#{param1} where tid=#{param2}
+</insert>
 </mapper>

@@ -12,7 +12,7 @@ body {
 }
 .mainSection {
 	display: flex; /* Flexbox를 사용하여 요소들을 가로 배치합니다. */
-	margin-bottom: 5%;
+	margin-bottom: 20%;
 }
 
 .approvalHome {

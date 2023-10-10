@@ -9,9 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -426,7 +422,7 @@ public class SuController {
 	            }
 	        }
 //	        Thread.sleep(4000);
-	        return "document/documentLibrary";
+	        return "redirect:/documentLibrary";
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        // 오류 페이지로 리다이렉트 또는 오류 메시지를 반환할 수 있습니다.
@@ -503,6 +499,8 @@ public class SuController {
 	public String arriveApproval(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
 		String userid = (String) session.getAttribute("userid");
+		ArrayList<ApprovalsDTO> arrive_approval = Apdao.arrive_approval(userid);
+		model.addAttribute("arrive_approval",arrive_approval);
 		return "approval/arriveApproval";
 	}
 	
@@ -510,13 +508,17 @@ public class SuController {
 	public String comeApproval(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
 		String userid = (String) session.getAttribute("userid");
-		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval(userid);
+		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval1(userid);
 		model.addAttribute("incomplete_approval", incomplete_approval);
 		return "approval/comeApproval";
 	}
 	
 	@GetMapping("/sendApproval")
 	public String sendApproval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+		ArrayList<ApprovalsDTO> send_approval = Apdao.sendList(userid);
+		model.addAttribute("send_approval",send_approval);
 		return "approval/sendApproval";
 	}
 	
@@ -534,5 +536,43 @@ public class SuController {
 		
 		
 		return "approval/writeApproval";
+	}
+	@PostMapping("/writeApprovalData")
+	@ResponseBody
+	public String writeApprovalData(@RequestParam("userid") String sender,
+            @RequestParam("receiver_id") String receiver,
+            @RequestParam("approvalType") String approvalType,
+            @RequestParam("approvalTitle") String approvalTitle,
+            @RequestParam("approText") String approText,
+            Model model) {
+		
+		 System.out.println("userid: " + sender);
+	        System.out.println("receiver_id: " + receiver);
+	        System.out.println("approvalType: " + approvalType);
+	        System.out.println("approvalTitle: " + approvalTitle);
+	        System.out.println("approText: " + approText);
+		
+		Apdao.approvalInsert(sender, receiver, approvalType, approvalTitle, approText);
+		
+		return "";
+	}
+	
+	@GetMapping("/approvalDetail")
+	public String approvalDetail(HttpServletRequest req, Model model) {
+   		int approvalID = Integer.parseInt(req.getParameter("approvalID"));
+   		System.out.println(approvalID);
+   		ApprovalsDTO alShow = Apdao.showDetail(approvalID);
+   		model.addAttribute("alShow", alShow);
+		
+   		return "approval/approvalDetail";
+ 	}
+	@PostMapping("/update_approval_status")
+	public String update_approval_status(HttpServletRequest req) {
+			int approvalID = Integer.parseInt(req.getParameter("approvalID"));
+			String status = req.getParameter("status");
+			
+			Apdao.statusUpdate(approvalID, status);
+			
+			return "approval/approval";
 	}
 }
