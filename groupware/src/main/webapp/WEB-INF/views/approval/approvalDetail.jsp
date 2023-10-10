@@ -154,7 +154,7 @@ body {
                     <td rowspan="2" class="textCenter">
                         <span id="receiverName">${alShow.receiverName}</span>
                     </td>
-                </tr>
+                </tr> 
                 <tr>
                     <td class="bgGray centerText">기안일</td>
                     <td><span id="currentDate">${alShow.createdTime}</span></td>
