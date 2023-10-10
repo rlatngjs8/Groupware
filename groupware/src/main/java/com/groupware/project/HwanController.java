@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +20,10 @@ public class HwanController {
 	
 	@Autowired
 	private EmployeesDAO empdao;
+	
+	@Autowired
+	private AttendanceDAO Attdao;
+
 	
 	@GetMapping("/contact/company")
 	public String company() {
@@ -37,50 +40,87 @@ public class HwanController {
 		return "contact/detail";
 	}
 	
-	/*
-	 * @SuppressWarnings("unchecked")
-	 * 
-	 * @GetMapping("/get_addressBook")
-	 * 
-	 * @ResponseBody public String get_addressBook(HttpServletRequest req, Model
-	 * model) { String userid = req.getParameter("userid"); String filter =
-	 * req.getParameter("filter"); // 필터 값을 받아옵니다. ArrayList<EmployeesDTO>
-	 * addressBook = null; // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다. if
-	 * ("all".equals(filter)) { addressBook = empdao.getListAll(userid); } else if
-	 * ("ㄱ".equals(filter)){ addressBook = empdao.getListGa(userid); } else if
-	 * ("ㄴ".equals(filter)){ addressBook = empdao.getListNa(userid); } else if
-	 * ("ㄷ".equals(filter)){ addressBook = empdao.getListDa(userid); }else if
-	 * ("ㄹ".equals(filter)){ addressBook = empdao.getListRa(userid); } else if
-	 * ("ㅁ".equals(filter)){ addressBook = empdao.getListMa(userid); } else if
-	 * ("ㅂ".equals(filter)){ addressBook = empdao.getListBa(userid); } else if
-	 * ("ㅅ".equals(filter)){ addressBook = empdao.getListSa(userid); } else if
-	 * ("ㅇ".equals(filter)){ addressBook = empdao.getListAa(userid); } else if
-	 * ("ㅈ".equals(filter)){ addressBook = empdao.getListJa(userid); } else if
-	 * ("ㅊ".equals(filter)){ addressBook = empdao.getListCha(userid); } else if
-	 * ("ㅌ".equals(filter)){ addressBook = empdao.getListTa(userid); } else if
-	 * ("ㅍ".equals(filter)){ addressBook = empdao.getListPa(userid); } else if
-	 * ("ㅎ".equals(filter)){ addressBook = empdao.getListHa(userid); } else if
-	 * ("AZ".equals(filter)){ addressBook = empdao.getListAZ(userid); }
-	 * 
-	 * JSONArray ja = new JSONArray(); for (int i = 0; i < addressBook.size(); i++)
-	 * { JSONObject jo = new JSONObject(); jo.put("employeeID",
-	 * addressBook.get(i).getEmployeeID()); jo.put("userid",
-	 * addressBook.get(i).getUserid()); jo.put("password",
-	 * addressBook.get(i).getPassword()); jo.put("name",
-	 * addressBook.get(i).getName()); jo.put("departmentID",
-	 * addressBook.get(i).getDepartmentID()); jo.put("position",
-	 * addressBook.get(i).getPosition()); jo.put("birthday",
-	 * addressBook.get(i).getBirthdate()); jo.put("phoneNumber",
-	 * addressBook.get(i).getPhoneNumber()); jo.put("address",
-	 * addressBook.get(i).getAddress()); jo.put("email",
-	 * addressBook.get(i).getEmail()); jo.put("salary",
-	 * addressBook.get(i).getSalary()); jo.put("profilePicture",
-	 * addressBook.get(i).getProfilePicture()); jo.put("hireDate",
-	 * addressBook.get(i).getHireDate()); jo.put("managerEmployeeID",
-	 * addressBook.get(i).getManagerEmployeeID()); ja.add(jo); } return
-	 * ja.toJSONString(); }
-	 */
+	@GetMapping("/attendance_management/attendance")
+	public String attendance(HttpServletRequest req, Model model) {
+		return "attendance_management/attendance";
+	}
 	
+	@GetMapping("/manage_attendance")
+	public String manage_attendance(HttpServletRequest req, Model model) {
+		return "/manage/manage_attendance";
+	}
+	
+	@GetMapping("/company_attendance")
+	public String company_attendance(HttpServletRequest req, Model model) {
+		return "/manage/company_attendance";
+	}
+	
+	@PostMapping("/insert_checkOut")
+	@ResponseBody
+	public String insert_checkOut(HttpServletRequest req, Model model, HttpSession session) {
+		
+	    String userid = req.getParameter("userid");
+	    String date = req.getParameter("date");
+	    String endTime = req.getParameter("endTime");
+
+	    // 로그 메시지 출력
+	    System.out.println("userid: " + userid);
+	    System.out.println("date: " + date);
+	    System.out.println("endTime: " + endTime);
+
+	    Attdao.insert_checkOut(userid, date, endTime);
+
+	    return "";
+	}
+
+	@PostMapping("/insert_checkIn")
+	@ResponseBody
+	public String insert_checkIn(HttpServletRequest req, Model model) {
+	    String userid = req.getParameter("userid");
+	    String date = req.getParameter("date");
+	    String startTime = req.getParameter("startTime");
+	    String AttendanceStatus = req.getParameter("AttendanceStatus");
+	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
+	    
+	    Attdao.insert_checkIn(userid, date, startTime, AttendanceStatus);
+	    //redirect:/attendance_management/attendance"
+	    return "";
+	}
+	
+
+	@GetMapping("/get_addressBook")
+	@ResponseBody
+	public String get_addressBook(HttpServletRequest req, Model model) {
+		String name = req.getParameter("name");
+		ArrayList<EmployeesDTO> addressBook = null;
+		
+		if ("all".equals(name)) {
+	        addressBook = empdao.getListAll();
+	    } else if ("name".equals(name)){
+	    	addressBook = empdao.getList_sort_name();
+	    } else if ("department".equals(name)){
+	    	addressBook = empdao.getList_sort_department();
+	    } else if ("position".equals(name)){
+	    	addressBook = empdao.getList_sort_position();
+	    } else if ("phone".equals(name)){
+	    	addressBook = empdao.getList_sort_phone();
+	    } else if ("email".equals(name)){ 
+	    	addressBook = empdao.getList_sort_email();
+	    }
+		
+		JSONArray ja = new JSONArray();
+	    for (int i = 0; i < addressBook.size(); i++) {
+	        JSONObject jo = new JSONObject();
+	        jo.put("name", addressBook.get(i).getName());
+	        jo.put("department", addressBook.get(i).getDepartmentName()); // 직책 필드 추가
+	        jo.put("position", addressBook.get(i).getPosition()); // 전화번호 필드 추가
+	        jo.put("phone", addressBook.get(i).getPhoneNumber()); // 이메일 필드 추가
+	        jo.put("email", addressBook.get(i).getEmail()); // 부서 필드 추가
+	        ja.add(jo);
+	    }
+	    return ja.toJSONString();
+	}
+
 	@SuppressWarnings("unchecked")
 	@GetMapping("/get_personal_addressBook")
 	@ResponseBody
@@ -157,7 +197,6 @@ public class HwanController {
 	    return "redirect:/contact/personal";
 	}
 	
-	
 	@PostMapping("/delete_addressBook")
 	@ResponseBody
 	public String delete_addressBook(HttpServletRequest req) {
@@ -171,17 +210,29 @@ public class HwanController {
 	public String updateContact(HttpServletRequest req, Model model) {
 	    String Name = req.getParameter("name");
 	    String Position = req.getParameter("position");
-	    String Phone = req.getParameter("position");
+	    String Phone = req.getParameter("phone");
 	    String Email = req.getParameter("email");
 	    String Department = req.getParameter("department");
 	    String Company = req.getParameter("company");
 	    String CompanyPhone = req.getParameter("companyPhone");
 	    String CompanyAddress = req.getParameter("companyAddress");
 	    String Memo = req.getParameter("memo");
-	    String Group = req.getParameter("group");
+	    String Group = req.getParameter("groupName");
 	    int addressBookId = Integer.parseInt(req.getParameter("addressBookId"));
 
-	    // 메소드 호출 시 매개변수를 그대로 전달 (매개변수 이름에 데이터 타입 제거)
+	    // 디버깅을 위한 값 출력
+	    System.out.println("Name: " + Name);
+	    System.out.println("Position: " + Position);
+	    System.out.println("Phone: " + Phone);
+	    System.out.println("Email: " + Email);
+	    System.out.println("Department: " + Department);
+	    System.out.println("Company: " + Company);
+	    System.out.println("CompanyPhone: " + CompanyPhone);
+	    System.out.println("CompanyAddress: " + CompanyAddress);
+	    System.out.println("Memo: " + Memo);
+	    System.out.println("Group: " + Group);
+	    System.out.println("addressBookId: " + addressBookId);
+
 	    empdao.updateContact(Name, Position, Phone, Email, Department, Company, CompanyPhone, CompanyAddress, Memo, Group, addressBookId);
 
 	    return "";
@@ -191,6 +242,115 @@ public class HwanController {
 	public String test() {
 		return "contact/test";
 	}
+	
+	@PostMapping("/Delete_emp")
+	@ResponseBody
+	public String Delete_emp(HttpServletRequest req, Model model) {
+	    int addressBookId = Integer.parseInt(req.getParameter("addressBookId"));
+
+	    System.out.println("addressBookId: " + addressBookId);
+
+	    empdao.Delete_emp(addressBookId);
+
+	    return "";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("/get_attendance")
+	@ResponseBody
+	public String get_attendance(HttpServletRequest req, Model model) {
+	    //String userid = req.getParameter("userid");
+	    String name = req.getParameter("name");
+	    String month = req.getParameter("month");
+	    String year = req.getParameter("year");
+	    String userid = req.getParameter("userid");
+	    
+	    ArrayList<AttendanceDTO> attendance = null;
+	    
+	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
+	    if ("all".equals(name)) {
+	    	attendance = Attdao.getListAll(month, year, userid);
+	    } else if ("name".equals(name)){
+	    	attendance = Attdao.getList_sort_name(month, year, userid);
+	    } else if ("department".equals(name)){
+	    	attendance = Attdao.getList_sort_department(month, year, userid);
+	    } else if ("date".equals(name)){
+	    	attendance = Attdao.getList_sort_date(month, year, userid);
+	    } 
+	    
+	    JSONArray ja = new JSONArray();
+	    for (int i = 0; i < attendance.size(); i++) {
+	        JSONObject jo = new JSONObject();
+	        jo.put("Userid", attendance.get(i).getUserid());
+	        jo.put("name", attendance.get(i).getName());
+	        jo.put("departmentname", attendance.get(i).getDepartmentName()); // 직책 필드 추가
+	        jo.put("date", attendance.get(i).getDate()); // 전화번호 필드 추가
+	        jo.put("attendancestatus", attendance.get(i).getAttendanceStatus()); // 이메일 필드 추가
+	        jo.put("vacationtype", attendance.get(i).getVacationType()); // 부서 필드 추가
+	        jo.put("remarks", attendance.get(i).getRemarks()); // 회사 필드 추가
+	        jo.put("overtimehours", attendance.get(i).getOvertimeHours()); // 회사 전화번호 필드 추가
+	        jo.put("starttime", attendance.get(i).getStartTime()); // 회사 주소 필드 추가
+	        jo.put("endtime", attendance.get(i).getEndTime()); // 메모 필드 추가
+	        jo.put("attendanceid", attendance.get(i).getAttendanceID()); // 그룹 이름 필드 추가
+	        jo.put("employeeid", attendance.get(i).getEmployeeID()); // 작성자 ID 필드 추가
+	        ja.add(jo);
+	    }
+	    return ja.toJSONString();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("/get_manage_attendance")
+	@ResponseBody
+	public String get_manage_attendance(HttpServletRequest req, Model model) {
+	    //String userid = req.getParameter("userid");
+	    String name = req.getParameter("name");
+	    String month = req.getParameter("month");
+	    String year = req.getParameter("year");
+	    
+	    ArrayList<AttendanceDTO> attendance = null;
+	    
+	    // 필터에 따라 다른 SQL 쿼리를 실행하도록 설정합니다.
+	    if ("all".equals(name)) {
+	    	attendance = Attdao.getManageListAll(month, year);
+	    } else if ("name".equals(name)){
+	    	attendance = Attdao.getManageList_sort_name(month, year);
+	    } else if ("department".equals(name)){
+	    	attendance = Attdao.getManageList_sort_department(month, year);
+	    } else if ("date".equals(name)){
+	    	attendance = Attdao.getManageList_sort_date(month, year);
+	    } 
+	    
+	    JSONArray ja = new JSONArray();
+	    for (int i = 0; i < attendance.size(); i++) {
+	        JSONObject jo = new JSONObject();
+	        jo.put("Userid", attendance.get(i).getUserid());
+	        jo.put("name", attendance.get(i).getName());
+	        jo.put("departmentname", attendance.get(i).getDepartmentName()); // 직책 필드 추가
+	        jo.put("date", attendance.get(i).getDate()); // 전화번호 필드 추가
+	        jo.put("attendancestatus", attendance.get(i).getAttendanceStatus()); // 이메일 필드 추가
+	        jo.put("vacationtype", attendance.get(i).getVacationType()); // 부서 필드 추가
+	        jo.put("remarks", attendance.get(i).getRemarks()); // 회사 필드 추가
+	        jo.put("overtimehours", attendance.get(i).getOvertimeHours()); // 회사 전화번호 필드 추가
+	        jo.put("starttime", attendance.get(i).getStartTime()); // 회사 주소 필드 추가
+	        jo.put("endtime", attendance.get(i).getEndTime()); // 메모 필드 추가
+	        jo.put("attendanceid", attendance.get(i).getAttendanceID()); // 그룹 이름 필드 추가
+	        jo.put("employeeid", attendance.get(i).getEmployeeID()); // 작성자 ID 필드 추가
+	        ja.add(jo);
+	    }
+	    return ja.toJSONString();
+	}
+	
+	@GetMapping("/month_time")
+	public String month_time(HttpServletRequest req, Model model) {
+	    ArrayList<AttendanceDTO> month_time = Attdao.month_time();
+	    model.addAttribute("time", month_time);
+
+	    // 원하는 뷰 이름을 반환
+	    return "attendance_management/attendance"; // 뷰 이름은 실제 프로젝트에서 사용하는 뷰의 이름으로 변경해야 합니다.
+	}
+
+	
+
 
 
 }

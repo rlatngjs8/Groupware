@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.groupware.project.homeDAO">
+	<select id="gethomealist" resultType="com.groupware.project.homeDTO">
+	    SELECT a.CommunityID, a.CommunityTitle,a.Content,b.Name,DATE_FORMAT(a.CreatedTime, '%Y-%m-%d') AS FormattedDate, b.Position
+		FROM announcement a
+		INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		ORDER BY CreatedTime DESC
+		LIMIT 0,5
+    </select>
+    
+	<select id="selectRecMail" resultType="com.groupware.project.homeDTO">
+		SELECT a.emailid, c.name, c.email, a.subject, a.senderemployeeid, a.receiveremployeeid,
+		a.sendtime FROM emails a INNER JOIN employees c ON a.SenderEmployeeID=c.EmployeeId 
+			   WHERE receiveremployeeid=#{param1}
+				      AND (a.emailreceive=0 OR a.emailreceive=1) AND tcreceive=0
+				      ORDER BY a.emailid DESC LIMIT 0,5;
+	</select>
+	
+	<select id="selectSendMail" resultType="com.groupware.project.homeDTO">
+	SELECT a.emailid,  b.name, b.email, a.subject,  a.senderemployeeid, a.receiveremployeeid,
+	       a.sendtime FROM emails a INNER JOIN employees b ON a.receiveremployeeid=b.employeeid 
+	                       WHERE senderemployeeid=#{param1}
+	                              AND (a.emailsend=0 OR a.emailsend=1) AND tcsend=0
+	                    AND (multiplesend=0 OR emailid IN (SELECT MIN(emailid) FROM emails GROUP BY multiplesend))
+	                              ORDER BY a.emailid DESC LIMIT 0,5;	
+	</select>
+	<select id="selectImportantMail" resultType="com.groupware.project.homeDTO">
+	SELECT a.emailid, c.name, c.email, a.subject, a.senderemployeeid, a.receiveremployeeid,
+	       a.sendtime FROM emails a INNER JOIN employees c ON a.SenderEmployeeID=c.EmployeeId 
+	                             WHERE (senderemployeeid=#{param1} AND tcsend=0 AND sendmark=1)
+	                                OR (receiveremployeeid=#{param1} AND tcreceive=0 AND receivemark=1)
+	                              ORDER BY a.emailid DESC LIMIT 0,5;       
+	</select>
+	
+	<select id="getboardlist" resultType="com.groupware.project.homeDTO">
+	    SELECT a.CommunityID, a.CommunityTitle,a.Content,b.Name,DATE_FORMAT(a.CreatedTime, '%Y-%m-%d') AS FormattedDate, b.Position
+		FROM communities a
+		INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		ORDER BY CreatedTime DESC
+		LIMIT 0,5
+    </select>
+</mapper>

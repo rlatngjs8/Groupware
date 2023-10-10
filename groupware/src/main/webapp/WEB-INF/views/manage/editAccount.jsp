@@ -197,6 +197,7 @@ body {
 		<!-- 이미지 -->
 		<div class="image">
 			<label>
+				<p class="lblclass">프로필이미지</p>
 				<img src="/img/${emp.profilePicture}" id="exImage">
 				<input type="hidden" id="imgName" name="imgName" value="${emp.profilePicture}">
 				<br>

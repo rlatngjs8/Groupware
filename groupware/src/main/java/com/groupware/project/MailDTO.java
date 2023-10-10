@@ -10,6 +10,13 @@ public class MailDTO {
 	    String attachment1;
 	    String attachment2;
 	    String attachment3;
+	    int emailsend;
+	    int emailreceive;
+	    int tcsend;
+	    int tcreceive;
+	    int multiplesend;
+	    int sendmark;
+	    int receivemark;
 	    
 	    
 	    //employees
@@ -71,6 +78,48 @@ public class MailDTO {
 		}
 		public void setAttachment3(String attachment3) {
 			this.attachment3 = attachment3;
+		}
+		public int getEmailsend() {
+			return emailsend;
+		}
+		public void setEmailsend(int emailsend) {
+			this.emailsend = emailsend;
+		}
+		public int getEmailreceive() {
+			return emailreceive;	
+		}
+		public void setEmailreceive(int emailreceive) {
+			this.emailreceive = emailreceive;
+		}
+		public int getTcsend() {
+			return tcsend;
+		}
+		public void setTcsend(int tcsend) {
+			this.tcsend = tcsend;
+		}
+		public int getTcreceive() {
+			return tcreceive;
+		}
+		public void setTcreceive(int tcreceive) {
+			this.tcreceive = tcreceive;
+		}
+		public int getMultiplesend() {
+			return multiplesend;
+		}
+		public void setMultiplesend(int multiplesend) {
+			this.multiplesend = multiplesend;
+		}
+		public int getSendmark() {
+			return sendmark;
+		}
+		public void setSendmark(int sendmark) {
+			this.sendmark = sendmark;
+		}
+		public int getReceivemark() {
+			return receivemark;
+		}
+		public void setReceivemark(int receivemark) {
+			this.receivemark = receivemark;
 		}
 		public int getEmployeeid() {
 			return employeeid;

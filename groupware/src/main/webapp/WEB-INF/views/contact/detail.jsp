@@ -5,6 +5,14 @@
     <title>상세 페이지</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+<link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+         crossorigin="anonymous"
+      />
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -156,9 +164,15 @@
         .update-button:hover {
             background-color: #5397b9;
         }
+        .btnLine {
+        margin-top : 20px;
+        }
     
 </style>
 <body>
+<%@ include file="/WEB-INF/views/P_header.jsp" %>
+
+
 <div id="toast" class="hidden">토스트 메세지 넣어라</div>
 <div class="container">
 <h1>연락처 수정</h1>
@@ -234,7 +248,11 @@
         </td>
     </tr>
 </table>
-<button id="updateButton" style="display: none;" onclick="updateContact()">수 정 완 료</button>
+<div class="btnLine">
+<button class="btn btn-success m-2" id="confirmStart">수 정 완 료</button>
+<button class="btn btn-danger m-2" id="confirmDelete">삭 제</button>
+</div>
+
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -250,6 +268,7 @@
     $('#editCompanyAddressSpan').text(currentUrl.searchParams.get("companyAddress"));
     $('#editMemoSpan').text(currentUrl.searchParams.get("memo"));
     $('#editGroupNameSpan').text(currentUrl.searchParams.get("groupName"));
+    
 
     $(document).ready(function() {
         // 이미지를 클릭하면 해당 필드를 수정 가능하게 변경
@@ -290,102 +309,173 @@
         });
         
     });
+    
+    $("#confirmStart").click(function () {
+        Swal.fire({
+            title: '연락처를 수정하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소',
+            reverseButtons: false, // 버튼 순서 거꾸로
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 수정 로직을 진행
+                $(".modify").click(); // .modify 클래스를 가진 요소를 클릭
+                $(".modify + input").css("display", "none"); // 클릭한 후에 해당 input 태그를 숨김
 
-    function updateContact() {
-    	
-        $(".modify").click(); // .modify 클래스를 가진 요소를 클릭
-        $(".modify + input").css("display", "none"); // 클릭한 후에 해당 input 태그를 숨김
-        // 나머지 업데이트 로직을 수행
-    	
-        var newName = $("#editNameInput").val();
-        var newPosition = $("#editPositionInput").val();
-        var newPhone = $("#editPhoneInput").val();
-        var newEmail = $("#editEmailInput").val();
-        var newDepartment = $("#editDepartmentInput").val();
-        var newCompany = $("#editCompanyInput").val();
-        var newCompanyPhone = $("#editCompanyPhoneInput").val();
-        var newCompanyAddress = $("#editCompanyAddressInput").val();
-        var newMemo = $("#editMemoInput").val();
-        var newGroupName = $("#editGroupNameInput").val();
+                var newName = $("#editNameInput").val();
+                var newPosition = $("#editPositionInput").val();
+                var newPhone = $("#editPhoneInput").val();
+                var newEmail = $("#editEmailInput").val();
+                var newDepartment = $("#editDepartmentInput").val();
+                var newCompany = $("#editCompanyInput").val();
+                var newCompanyPhone = $("#editCompanyPhoneInput").val();
+                var newCompanyAddress = $("#editCompanyAddressInput").val();
+                var newMemo = $("#editMemoInput").val();
+                var newGroupName = $("#editGroupNameInput").val();
+                var addressBookId = currentUrl.searchParams.get("addressBookId"); // addressBookId 가져오기
+
+                console.log("newName:", newName);
+                console.log("newPosition:", newPosition);
+                console.log("newPhone:", newPhone);
+                console.log("newEmail:", newEmail);
+                console.log("newDepartment:", newDepartment);
+                console.log("newCompany:", newCompany);
+                console.log("newCompanyPhone:", newCompanyPhone);
+                console.log("newCompanyAddress:", newCompanyAddress);
+                console.log("newMemo:", newMemo);
+                console.log("newGroupName:", newGroupName);
+                console.log("addressBookId:", addressBookId);
+
+                // 모든 필드가 빈 값인지 확인합니다.
+                if (
+                    !newName ||
+                    !newPosition ||
+                    !newPhone ||
+                    !newEmail ||
+                    !newCompany
+                ) {
+                    showToast("모든 필수 항목을 채워주세요.");
+                    return; // 업데이트 중지
+                }
+
+                // 핸드폰 번호 형식 확인 (숫자만 허용)
+                var phoneRegex = /^\d{3}-\d{4}-\d{4}$/; // 000-0000-0000 형식의 정규식
+
+                if (!phoneRegex.test(newPhone)) {
+                    showToast("올바른 핸드폰 번호 형식이 아닙니다. (000-0000-0000 형식으로 입력하세요)");
+                    return; // 업데이트 중지
+                }
+
+                // 이메일 주소 형식 확인 (간단한 형식 검증, 더 엄격한 형식을 사용할 수도 있음)
+                var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                if (!emailRegex.test(newEmail)) {
+                    showToast("올바른 이메일 주소 형식이 아닙니다.");
+                    return; // 업데이트 중지
+                }
+
+                const updateContactData = {
+                    name: newName,
+                    position: newPosition,
+                    phone: newPhone,
+                    email: newEmail,
+                    department: newDepartment,
+                    company: newCompany,
+                    companyPhone: newCompanyPhone,
+                    companyAddress: newCompanyAddress,
+                    memo: newMemo,
+                    groupName: newGroupName,
+                    addressBookId: addressBookId
+                };
+
+                $.ajax({
+                    url: '/updateContact',
+                    type: 'post',
+                    data: updateContactData,
+                    success: function(data) {
+                        console.log('업데이트 성공', data);
+                        Swal.fire({
+                            icon: 'success',
+                            title: '수정이 완료되었습니다.',
+                            showCancelButton: false, // 확인 버튼만 표시
+                            confirmButtonText: '확인', // 확인 버튼 텍스트 설정
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // 확인 버튼을 클릭하면 페이지 리로드
+                            	window.location.href = '/contact/personal';
+
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('업데이트 실패:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: '업데이트 실패',
+                            text: '연락처 수정 중 오류가 발생했습니다.',
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    $("#confirmDelete").click(function () {
+        Swal.fire({
+            title: '이 연락처를 삭제하실껀가요?',
+            text: "다시 되돌릴 수 없습니다. 신중하세요.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소',
+            reverseButtons: false, // 버튼 순서 거꾸로
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 승인 버튼을 클릭한 경우 Delete_emp 함수 호출
+                Delete_emp();
+            }
+        })
+    });
+
+
+    
+    function Delete_emp() {
         var addressBookId = currentUrl.searchParams.get("addressBookId"); // addressBookId 가져오기
 
-        console.log("newName:", newName);
-        console.log("newPosition:", newPosition);
-        console.log("newPhone:", newPhone);
-        console.log("newEmail:", newEmail);
-        console.log("newDepartment:", newDepartment);
-        console.log("newCompany:", newCompany);
-        console.log("newCompanyPhone:", newCompanyPhone);
-        console.log("newCompanyAddress:", newCompanyAddress);
-        console.log("newMemo:", newMemo);
-        console.log("newGroupName:", newGroupName);
-        console.log("addressBookId:", addressBookId);
-
-        // 모든 필드가 빈 값인지 확인합니다.
-        if (
-            !newName ||
-            !newPosition ||
-            !newPhone ||
-            !newEmail ||
-            !newCompany 
-        ) {
-            showToast("모든 필수 항목을 채워주세요.");
-            return; // 업데이트 중지
-        }
-
-        // 핸드폰 번호 형식 확인 (숫자만 허용)
-		  var phoneRegex = /^\d{3}-\d{4}-\d{4}$/; // 000-0000-0000 형식의 정규식
-		
-		if (!phoneRegex.test(newPhone)) {
-		    showToast("올바른 핸드폰 번호 형식이 아닙니다. (000-0000-0000 형식으로 입력하세요)");
-		    return; // 업데이트 중지
-		}
-
-        // 이메일 주소 형식 확인 (간단한 형식 검증, 더 엄격한 형식을 사용할 수도 있음)
-        var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        if (!emailRegex.test(newEmail)) {
-            showToast("올바른 이메일 주소 형식이 아닙니다.");
-            return; // 업데이트 중지
-        }
-
-        const updateContactData = {
-            name: newName,
-            position: newPosition,
-            phone: newPhone,
-            email: newEmail,
-            department: newDepartment,
-            company: newCompany,
-            companyPhone: newCompanyPhone,
-            companyAddress: newCompanyAddress,
-            memo: newMemo,
-            groupName: newGroupName,
-            addressBookId: addressBookId
-        };
-
         $.ajax({
-            url: '/updateContact',
+            url: '/Delete_emp',
             type: 'post',
-            data: updateContactData,
+            data: { addressBookId: addressBookId }, // 수정된 부분: 객체 형태로 속성과 값을 지정
             success: function(data) {
                 console.log('업데이트 성공', data);
-                window.location.href = "/contact/personal";
+                Swal.fire({
+                    icon: 'success',
+                    title: '삭제가 완료되었습니다.',
+                    showCancelButton: false, // 확인 버튼만 표시
+                    confirmButtonText: '확인', // 확인 버튼 텍스트 설정
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 확인 버튼을 클릭하면 페이지 리로드
+                        window.location.href = '/contact/personal';
+                    }
+                });
             },
-            error: function(error) {
+            error: function(xhr, status, error) {
                 console.error('업데이트 실패:', error);
-                showToast("오류가 발생했습니다. 확인해주세요.");
+                Swal.fire({
+                    icon: 'error',
+                    title: '업데이트 실패',
+                    text: '연락처 수정 중 오류가 발생했습니다.',
+                });
             }
         });
     }
 
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.style.display = 'block';
-
-        setTimeout(function() {
-            toast.style.display = 'none';
-        }, 3000); // 3초 후에 숨김
-    }
 </script>
 </body>
 </html>

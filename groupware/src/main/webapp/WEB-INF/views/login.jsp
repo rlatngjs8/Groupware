@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>로그인</title>
 <style>
@@ -75,6 +76,7 @@ input[type="submit"] {
 </body>
 <script src="http://code.jquery.com/jquery-Latest.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
 	$(document).on('submit', '#frmLogin', async function(event) {
 		event.preventDefault();
@@ -85,7 +87,11 @@ input[type="submit"] {
 
 	    
 		if ($('#userid').val() == "" || $('#password').val() == "") {
-			alert("사번 혹은 비밀번호를 입력해주세요");
+			Swal.fire({
+			      icon: 'warning',
+			      title: '로그인실패.',
+			      text: '사번 혹은 비밀번호를 입력해주세요.',
+			    });
 			return false;
 			
 		}
@@ -100,12 +106,21 @@ input[type="submit"] {
 					window.location.href="/";
 				} else{
 					console.error("로그인실패",data);
-					alert("아이디 혹은 비밀번호를 확인해주세요");
+					Swal.fire({
+					      icon: 'warning',
+					      title: '로그인실패.',
+					      text: '아이디 혹은 비밀번호를 확인해주세요.',
+					    });
 					window.location.href="redirect:/";
 				}
 			}, 
 			error: function(xhr, status, error){
 					console.error("로그인실패",error);
+					Swal.fire({
+					      icon: 'error',
+					      title: '로그인오류.',
+					      text: '관리자에게 문의하세요.',
+				    });
 			}
 		})
 	})

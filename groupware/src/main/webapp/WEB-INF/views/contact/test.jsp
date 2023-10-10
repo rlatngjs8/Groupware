@@ -298,6 +298,95 @@ a.button {
   .swal2-input {
     margin-bottom: 5px; /* 각 입력 필드 아래의 마진 조절 */
   }
+  /* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-right: 165px;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+hr {
+  background-color: #fff;
+  padding: 0;
+  margin: 80px;
+}
+
+hr.hr-3 {
+  border: 0;
+  height: 0;
+  border-top: 1px solid #8c8c8c;
+}
+
+#per_name {
+    cursor: pointer; /* 커서 스타일 변경 */
+}
+
+#per_name:hover {
+    background-color: lightgray; /* hover 효과 */
+}
+
+  
 </style>
 
 
@@ -314,21 +403,20 @@ a.button {
         <button class="search-button">검색</button>
     </div>
 
-   <div class="container" style="margin-left: 280px; margin-bottom: 20px;">
-<!-- 	<a href="" title="Button border blue/green" class="button btnFloat btnBlueGreen btnFloatAdd">추가</a>
+   <div class="container" style="margin-bottom: 20px;">
+<!-- <a href="" title="Button border blue/green" class="button btnFloat btnBlueGreen btnFloatAdd">추가</a>
 	<a href="" title="Button border lightblue" class="button btnFloat btnLightBlue btnFloatDelete">삭제</a>
 	<a href="" title="Button border orange" class="button btnFloat btnOrange btnFloatEdit">뭐야</a>
-	<a href="" title="Button border purple" class="button btnFloat btnPurple btnFloatOther">뭐임?</a> -->
-	<button class="btn btn-primary m-2" id="alertStart" style="width: 150px; height: 50px;">버튼</button>
-	<button class="btn btn-secondary m-2" id="confirmStart">Confirm 실행</button>
-	<button class="btn btn-success m-2" id="promptStart">Prompt 실행</button>
-	<button class="btn btn-danger m-2" id="toastStart">Toast 실행</button>
-	<button class="btn btn-warning m-2" id="ajaxStart">Ajax 실행 (깃헙 아이디 검색)</button>
-	
-	
-    <div class="clear"></div>
+	<a href="" title="Button border purple" class="button btnFloat btnPurple btnFloatOther">뭐임?</a> 
+	<button class="btn btn-primary m-2" id="alertStart" style="width: 150px; height: 50px;">버튼</button>  -->
+	<div class="btnLine">
+		<button class="btn btn-primary m-2" id="promptStart">등 록</button>
+		<button class="btn btn-danger m-2" id="confirmStart">삭 제</button>
+		<button class="btn btn-danger m-2" id="toastStart">Toast 실행</button>
+		<button class="btn btn-warning m-2" id="ajaxStart">Ajax 실행 (깃헙 아이디 검색)</button>
+	</div>
   </div>
-	
+
 	
     <table class="styled-table">
         <thead>
@@ -357,6 +445,30 @@ a.button {
 $(document).ready(function() {
     sort('all');
 });
+
+//#per_name 열을 클릭했을 때 페이지 이동
+$('#contactListBody').on('click', 'tr', function(event) {
+    var nameColumn = $(this).find('#per_name'); // #per_name 열을 선택
+
+    // 클릭한 열의 #per_name 열을 클릭한 경우에만 페이지 이동
+    if ($(event.target).is(nameColumn)) {
+        var name = nameColumn.text();
+        var position = $(this).find('#per_position').text();
+        var phone = $(this).find('#per_phone').text();
+        var email = $(this).find('#per_email').text();
+        var department = $(this).find('#per_department').text();
+        var company = $(this).find('#per_company').text();
+        var companyPhone = $(this).find('#per_company_phone').text();
+        var companyAddress = $(this).find('#per_company_address').text();
+        var memo = $(this).find('#per_memo').text();
+        var groupName = $(this).find('#per_group_name').text();
+        var addressBookId = $(this).find('.address-book-id').val();
+
+        // 데이터를 Detail.jsp로 전달하고 페이지 이동
+        window.location.href = 'detail?name=' + encodeURIComponent(name) + '&position=' + encodeURIComponent(position) + '&phone=' + encodeURIComponent(phone) + '&email=' + encodeURIComponent(email) + '&department=' + encodeURIComponent(department) + '&company=' + encodeURIComponent(company) + '&companyPhone=' + encodeURIComponent(companyPhone) + '&companyAddress=' + encodeURIComponent(companyAddress) + '&memo=' + encodeURIComponent(memo) + '&groupName=' + encodeURIComponent(groupName) + '&addressBookId=' + encodeURIComponent(addressBookId);
+    }
+});
+
 
 
 
@@ -390,7 +502,7 @@ function sort(name) {
                 for (let i = 0; i < data.length; i++) {
                     const newRow = $('<tr>');
                     newRow.append('<td><input type="checkbox" id="perCheckbox"></td>');
-                    newRow.append('<td id="per_name">' + data[i]['name'] + '</td>');
+                    newRow.append('<td id="per_name" style="cursor: pointer;">' + data[i]['name'] + '</td>');
                     newRow.append('<td id="per_position">' + data[i]['position'] + '</td>'); // 부서 정보를 추가
                     newRow.append('<td id="per_phone">' + data[i]['phone'] + '</td>');
                     newRow.append('<td id="per_email"><a href="mailto:' + data[i]['email'] + '">' + data[i]['email'] + '</a></td>');
@@ -412,21 +524,64 @@ function sort(name) {
     });
 }
 
+//전체 선택 체크박스 클릭 이벤트 처리
+$("#selectAll").click(function () {
+  // 전체 선택 체크박스의 상태를 가져옵니다.
+  var isChecked = $(this).prop("checked");
+
+  // 모든 개별 체크박스의 상태를 전체 선택 체크박스와 동일하게 설정합니다.
+  $("input[type='checkbox'][id='perCheckbox']").prop("checked", isChecked);
+});
+
+
+function deleteContact() {
+    const selectedContacts = $('#contactListBody input[type="checkbox"]:checked');
+
+    // 선택된 연락처가 없으면 아무 작업도 수행하지 않음
+    if (selectedContacts.length === 0) {
+    	showToast("삭제할 연락처를 선택해주세요.");
+        return;
+    }
+
+    selectedContacts.each(function() {
+        const addressBookId = $(this).closest('tr').find('.address-book-id').val();
+        console.log("Deleting Address Book ID:", addressBookId); // 콘솔에 addressBookId 찍기
+
+        // 서버로 개별적인 삭제 요청 보내기
+        $.ajax({
+            url: "/delete_addressBook",
+            data: { addressBookId: addressBookId },
+            type: 'post',
+            success: function (data) {
+                if (data === '0') {
+                    console.error("삭제 실패:", data);
+                } else {
+                    console.log("삭제 성공");
+                    window.location.reload();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("삭제 실패:", error);
+            }
+        });
+    });
+}
+
 
 $().ready(function () {
 	  
-	  $("#alertStart").click(function () {
+/* 	  $("#alertStart").click(function () {
 	    Swal.fire({
 	      icon: 'success',
 	      title: 'Alert가 실행되었습니다.',
 	      text: '이곳은 내용이 나타나는 곳입니다.',
 	    });
-	  });
+	  }); */
 	  
 	  
-	  $("#confirmStart").click(function () {
+/* 	  $("#confirmStart").click(function () {
 	    Swal.fire({
-	      title: '정말로 그렇게 하시겠습니까?',
+	      title: '연락처를 삭제하시겠습니까?',
 	      text: "다시 되돌릴 수 없습니다. 신중하세요.",
 	      icon: 'warning',
 	      showCancelButton: true,
@@ -434,101 +589,271 @@ $().ready(function () {
 	      cancelButtonColor: '#d33',
 	      confirmButtonText: '승인',
 	      cancelButtonText: '취소',
-	      reverseButtons: true, // 버튼 순서 거꾸로
+	      reverseButtons: false, // 버튼 순서 거꾸로
 	      
 	    }).then((result) => {
 	      if (result.isConfirmed) {
 	        Swal.fire(
-	          '승인이 완료되었습니다.',
+	          '삭제가 완료되었습니다.',
 	          '화끈하시네요~!',
 	          'success'
 	        )
 	      }
 	    })
 	  });
-	  
-	  
-	  
+	   */
+	   $("#confirmStart").click(function () {
+		   const selectedContacts = $('#contactListBody input[type="checkbox"]:checked');
 
-	  
-	  $(document).on('click', '#promptStart', function () {
-		  (async () => {
-		    const { value: formValues, dismiss: dismissReason } = await Swal.fire({
-		      title: '정보 입력',
-		      html:
-		        '<input id="swal-input1" class="swal2-input" placeholder="이름">' +
-		        '<input id="swal-input2" class="swal2-input" placeholder="직위">' +
-		        '<input id="swal-input3" class="swal2-input" placeholder="핸드폰">' +
-		        '<input id="swal-input4" class="swal2-input" placeholder="이메일">' +
-		        '<input id="swal-input5" class="swal2-input" placeholder="부서">' +
-		        '<input id="swal-input6" class="swal2-input" placeholder="회사">' +
-		        '<input id="swal-input7" class="swal2-input" placeholder="회사 전화">' +
-		        '<input id="swal-input8" class="swal2-input" placeholder="회사 주소">' +
-		        '<input id="swal-input9" class="swal2-input" placeholder="메모">' +
-		        '<input id="swal-input10" class="swal2-input" placeholder="그룹">',
+		   // 선택된 연락처가 없으면 경고 메시지를 표시하고 함수 종료
+		   if (selectedContacts.length === 0) {
+		     Swal.fire({
+		       icon: 'warning',
+		       title: '연락처를 선택해주세요.',
+		       showConfirmButton: false,
+		       timer: 2000, // 2초 동안 메시지 표시
+		     });
+		     return;
+		   }
 
-		      focusConfirm: false,
-		      showCancelButton: true,
-		      position: 'top',
-		      customClass: {
-		        popup: 'swal2-custom',
-		        confirmButton: 'swal2-confirm',
-		        cancelButton: 'swal2-cancel'
-		      },
-		      onBeforeOpen: (popup) => {
-		        popup.style.marginTop = '200px';
-		        const confirmButton = popup.querySelector('.swal2-confirm');
-		        const cancelButton = popup.querySelector('.swal2-cancel');
-		      },
-		      preConfirm: () => {
-		        const values = [
-		          $('#swal-input1').val(),
-		          $('#swal-input2').val(),
-		          $('#swal-input3').val(),
-		          $('#swal-input4').val(),
-		          $('#swal-input5').val(),
-		          $('#swal-input6').val(),
-		          $('#swal-input7').val(),
-		          $('#swal-input8').val(),
-		          $('#swal-input9').val(),
-		          $('#swal-input10').val()
-		        ];
+		   // 선택된 연락처가 있으면 삭제 확인 모달을 표시
+		   Swal.fire({
+		     title: '연락처를 삭제하시겠습니까?',
+		     text: '다시 되돌릴 수 없습니다. 신중하세요.',
+		     icon: 'warning',
+		     showCancelButton: true,
+		     confirmButtonColor: '#3085d6',
+		     cancelButtonColor: '#d33',
+		     confirmButtonText: '승인',
+		     cancelButtonText: '취소',
+		     reverseButtons: false, // 버튼 순서 거꾸로
+		   }).then((result) => {
+		     if (result.isConfirmed) {
+		       // 삭제 로직을 진행
+		       selectedContacts.each(function () {
+		         const addressBookId = $(this).closest('tr').find('.address-book-id').val();
+		         console.log("Deleting Address Book ID:", addressBookId); // 콘솔에 addressBookId 찍기
 
-		        const isValid = values.every(value => value !== '' && value !== null);
+		         // 서버로 개별적인 삭제 요청 보내기
+		         $.ajax({
+		           url: "/delete_addressBook",
+		           data: { addressBookId: addressBookId },
+		           type: 'post',
+		           success: function (data) {
+		             if (data === '0') {
+		               console.error("삭제 실패:", data);
+		               Swal.fire({
+		                 icon: 'error',
+		                 title: '삭제 실패',
+		                 text: '연락처 삭제 중 오류가 발생했습니다.',
+		               });
+		             } else {
+		               console.log("삭제 성공");
+		             }
+		           },
+		           error: function (xhr, status, error) {
+		             console.error("삭제 실패:", error);
+		             Swal.fire({
+		               icon: 'error',
+		               title: '삭제 실패',
+		               text: '연락처 삭제 중 오류가 발생했습니다.',
+		             });
+		           }
+		         });
+		       });
 
-		        if (!isValid) {
-		          Swal.showValidationMessage('모든 필드를 입력하세요.');
-		        }
+		       Swal.fire({
+		         icon: 'success',
+		         title: '삭제가 완료되었습니다.',
+		         showCancelButton: false, // 확인 버튼만 표시
+		         confirmButtonText: '확인', // 확인 버튼 텍스트 설정
+		       }).then((result) => {
+		         if (result.isConfirmed) {
+		           // 확인 버튼을 클릭하면 페이지 리로드
+		           location.reload();
+		         }
+		       });
+		     }
+		   });
+		 });
 
-		        return values;
-		      }
-		    });
+	   
+	   $(document).on('click', '#promptStart', function () {
+		   (async () => {
+		     const { value: formValues, dismiss: dismissReason } = await Swal.fire({
+		       position: 'top',
+		       title: '새 연락처 등록',
+		       html:
+		         '<input id="swal-input1" class="swal2-input" placeholder="이름">' +
+		         '<input id="swal-input2" class="swal2-input" placeholder="직위">' +
+		         '<input id="swal-input3" class="swal2-input" placeholder="핸드폰(000-0000-000)">' +
+		         '<input id="swal-input4" class="swal2-input" placeholder="이메일(xxx@naver.com)">' +
+		         '<input id="swal-input5" class="swal2-input" placeholder="부서">' +
+		         '<input id="swal-input6" class="swal2-input" placeholder="회사">' +
+		         '<input id="swal-input7" class="swal2-input" placeholder="회사 전화">' +
+		         '<input id="swal-input8" class="swal2-input" placeholder="회사 주소">' +
+		         '<input id="swal-input9" class="swal2-input" placeholder="메모">' +
+		         '<input id="swal-input10" class="swal2-input" placeholder="그룹">',
+		       focusConfirm: false,
+		       showCancelButton: true,
+		       customClass: {
+		         popup: 'swal2-custom',
+		         confirmButton: 'swal2-confirm',
+		         cancelButton: 'swal2-cancel',
+		       },
+		       cancelButtonText: '취소', // 취소 버튼 텍스트 설정
+		       confirmButtonText: '등록', // 확인 버튼 텍스트 설정
+		       onBeforeOpen: (popup) => {
+		         popup.style.marginTop = '200px';
+		         const confirmButton = popup.querySelector('.swal2-confirm');
+		         const cancelButton = popup.querySelector('.swal2-cancel');
+		       },
 
-		    if (dismissReason === Swal.DismissReason.cancel) {
-		      Swal.fire('입력이 취소되었습니다.');
-		    } else if (formValues) {
-		      const message =
-		        '입력된 내용:\n' +
-		        '이름: ' + formValues[0] + '\n' +
-		        '직위: ' + formValues[1] + '\n' +
-		        '핸드폰: ' + formValues[2] + '\n' +
-		        '이메일: ' + formValues[3] + '\n' +
-		        '부서: ' + formValues[4] + '\n' +
-		        '회사: ' + formValues[5] + '\n' +
-		        '회사 전화: ' + formValues[6] + '\n' +
-		        '회사 주소: ' + formValues[7] + '\n' +
-		        '메모: ' + formValues[8] + '\n' +
-		        '그룹: ' + formValues[9];
+		       preConfirm: () => {
+		         const values = [
+		           $('#swal-input1').val(),
+		           $('#swal-input2').val(),
+		           formatPhoneNumber($('#swal-input3').val()), // 핸드폰 번호 포맷팅 함수 호출
+		           $('#swal-input4').val(),
+		           $('#swal-input5').val(),
+		           $('#swal-input6').val(),
+		           $('#swal-input7').val(),
+		           $('#swal-input8').val(),
+		           $('#swal-input9').val(),
+		           $('#swal-input10').val()
+		         ];
 
-		      Swal.fire({
-		        icon: 'success',
-		        title: '성공',
-		        text: message
-		      });
-		    }
-		  })();
-		});
+		         const isValid = values.every(value => value !== '' && value !== null);
 
+		         if (!isValid) {
+		           Swal.showValidationMessage('모든 필드를 입력하세요.');
+		         }
+
+		         return values;
+		       }
+		     });
+
+		     if (dismissReason === Swal.DismissReason.cancel) {
+		       Swal.fire('입력이 취소되었습니다.');
+		     } else if (formValues) {
+		       // 주소록 추가 ajax 요청
+		       addAddressBook(formValues);
+		     }
+		   })();
+		 });
+
+	   
+	// 핸드폰 번호 포맷팅 함수 정의
+	   function formatPhoneNumber(phoneNumber) {
+	     // 입력된 번호에서 숫자만 추출
+	     const digits = phoneNumber.replace(/\D/g, '');
+	     
+	     // 11자리 번호인 경우에만 포맷팅
+	     if (digits.length === 11) {
+	       return digits.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+	     } else {
+	       return phoneNumber; // 11자리가 아니면 원래 값을 반환
+	     }
+	   }
+
+	   
+	// 주소록 추가 함수
+	   function addAddressBook(formValues) {
+	     console.log("개인 주소록 insert 중이에요");
+	     const addName = formValues[0];
+	     const addPosition = formValues[1];
+	     const addPhone = formValues[2];
+	     const addEmail = formValues[3];
+	     const addDepartment = formValues[4];
+	     const addCompany = formValues[5];
+	     const addCompanyPhone = formValues[6];
+	     const addCompanyAddress = formValues[7];
+	     const addMemo = formValues[8];
+	     const addGroup = formValues[9];
+	     const userid = $('#user_id').val();
+
+	     const addressBookData = {
+	       Name: addName,
+	       Position: addPosition,
+	       Phone: addPhone,
+	       Email: addEmail,
+	       Department: addDepartment,
+	       Company: addCompany,
+	       CompanyPhone: addCompanyPhone,
+	       CompanyAddress: addCompanyAddress,
+	       Memo: addMemo,
+	       Group: addGroup,
+	       userid: userid
+	     };
+
+	     console.log(addressBookData);
+
+	     $.ajax({
+	       url: '/insert_addressBook',
+	       type: 'post',
+	       data: addressBookData,
+	       success: function (data) {
+	         console.log('인서트 성공', data);
+	         Swal.fire({
+	           icon: 'success',
+	           title: '성공',
+	           text: '주소록이 추가되었습니다.',
+	           confirmButtonText: '확인' // 확인 버튼 추가
+	         }).then((result) => {
+	           if (result.isConfirmed) {
+	             // 확인 버튼을 누르면 페이지 리로드
+	             location.reload();
+	           }
+	         });
+	       },
+	       error: function (error) {
+	         console.error('인서트 실패:', error);
+	         Swal.fire({
+	           icon: 'warning',
+	           title: '실패',
+	           text: '주소록 추가에 실패하였습니다.',
+	           confirmButtonText: '확인' // 확인 버튼 추가
+	         });
+	       }
+	     });
+	   }
+
+		 
+/* 
+		 // 토스트 메시지 표시 함수
+		 function showToast(message) {
+		   toastr.options = {
+		     closeButton: true,
+		     progressBar: true,
+		     showMethod: 'slideDown',
+		     timeOut: 4000
+		   };
+		   toastr.error(message, '오류');
+		 } */
+	
+
+
+
+		 /* 		   // 필수 필드가 비어 있는지 확인
+		 		   if (addName === '' || addPhone === '' || addCompany === '' || addPosition === '' || addEmail === '') {
+		 		     showToast("필수 작성란을 확인해주세요.");
+		 		     return; // 필드가 비어 있으면 함수를 종료하고 추가 작업을 수행하지 않음
+		 		   }
+		 		   
+		 		   // 핸드폰 번호 형식 확인 (숫자만 허용)
+		 		   const phoneRegex = /^\d{3}-\d{4}-\d{4}$/; // 000-0000-0000 형식의 정규식
+
+		 		   if (!phoneRegex.test(addPhone)) {
+		 		     showToast("올바른 핸드폰 번호 형식이 아닙니다. (000-0000-0000 형식으로 입력하세요)");
+		 		     return; // 업데이트 중지
+		 		   }
+
+		 		   // 이메일 주소 형식 검사
+		 		   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		 		   if (!emailRegex.test(addEmail)) {
+		 		     showToast("올바른 이메일 주소 형식이 아닙니다.");
+		 		     return;
+		 		   } */
 
 
 	  

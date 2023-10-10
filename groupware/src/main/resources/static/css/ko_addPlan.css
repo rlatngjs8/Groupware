@@ -1,16 +1,20 @@
 @charset "UTF-8";
 .pageCalendar{
-	width: 1600px;
-	margin-left: 250px;
+	width: 1800px;
+	margin-left: 190px;
 	margin-top: 50px;
+	border-top: 1px solid lightgrey;
 }
 .sideBar{
 	width: 200px; 
 	height: 920px;
 	float: left;
+	background-color: white;
+    border-radius: 5px;
 }
 .addPlanBtn{
 	margin-left : 15px;
+	margin-top : 15px;
 	width: 150px;
 	height: 44px;
 	font-size: 14px;
@@ -29,8 +33,10 @@
 	border-left:1px solid gray; 
 	padding-left: 10px;
 	height: 920px;
-	width:1385px;
+	width:1500px;
 	float: left;
+	background-color:white;
+	border-radius: 5px;
 }
 .addPlanTitle{
 	width:1385px;
@@ -100,6 +106,37 @@ input[type='date'] {
 	background-color: #f4f4f4;
 	border: 1px solid grey;
 }
+#btnDelete{
+	color: #fff;
+	background-color:crimson;
+	border: 1px solid crimson;
+}
 .c_title{
 	cursor: pointer;
+}
+.writer{
+	border:none;
+	font-size: 15px;
+}
+.contentTr{
+	height:50px;
+}
+.pl{
+    width: 200px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+}
+.pl:focus{
+    border: 1px solid rgb(106, 176, 173);
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid aquamarine;
+    border-radius: 10px;
 }
