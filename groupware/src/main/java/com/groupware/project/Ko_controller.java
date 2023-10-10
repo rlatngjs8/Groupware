@@ -226,6 +226,7 @@ public class Ko_controller {
 	@PostMapping("/getNewNotice")
 	@ResponseBody
 	public String getNewNotice(HttpServletRequest req) {
+		System.out.println("request");
 		int empID=Integer.parseInt(req.getParameter("empID"));
 		System.out.println("id="+empID);
 		ArrayList<NoticeDTO> alNotice = ndao.getNewNotice(empID);

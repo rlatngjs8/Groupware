@@ -11,6 +11,22 @@
 	SELECT 'Request' AS TYPE, a.approvaltitle AS title, a.createdtime AS TIME 
 	FROM approvals a LEFT OUTER JOIN employees b ON a.receiver_id=b.userid
 	WHERE b.employeeid=#{param1} AND approval_status="진행 중"
+	UNION ALL
+	SELECT 'InProgress' AS TYPE, a.approvaltitle AS title, a.approval_completed_at AS TIME
+		FROM approvals a LEFT OUTER JOIN employees b ON a.sender_id=b.userid
+		WHERE b.employeeid=#{param1} AND approval_status="진행 중"
+	UNION ALL
+	SELECT 'Suspension' AS TYPE, a.approvaltitle AS title, a.approval_completed_at AS TIME
+		FROM approvals a LEFT OUTER JOIN employees b ON a.sender_id=b.userid
+		WHERE b.employeeid=#{param1} AND approval_status="보류"
+	UNION ALL
+	SELECT 'Approval' AS TYPE, a.approvaltitle AS title, a.approval_completed_at AS TIME
+		FROM approvals a LEFT OUTER JOIN employees b ON a.sender_id=b.userid
+		WHERE b.employeeid=#{param1} AND approval_status="승인"
+	UNION ALL
+	SELECT 'Rejection' AS TYPE, a.approvaltitle AS title, a.approval_completed_at AS TIME
+		FROM approvals a LEFT OUTER JOIN employees b ON a.sender_id=b.userid
+		WHERE b.employeeid=#{param1} AND approval_status="거절"
 	) AS combined
 	ORDER BY TIME DESC
 	LIMIT 5
