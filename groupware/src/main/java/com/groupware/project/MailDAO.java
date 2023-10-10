@@ -34,6 +34,7 @@ public interface MailDAO {
 	void updateReceiveMark1(int emailid);
 	void updateSendMark0(int emailid);
 	void updateSendMark1(int emailid);
+	int selectmyMarkCount(int emailid);
 	
 	int selectReceiverEmailscnt(int eid);
 	int selectSenderEmailscnt(int eid);
