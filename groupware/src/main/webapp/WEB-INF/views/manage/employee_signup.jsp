@@ -503,7 +503,7 @@ $(document).ready(function() {
 	    salaryInput.on("input", function() {
 	        // 입력된 급여 값을 가져옵니다.
 	        var salaryValue = salaryInput.val();
-
+ 
 	        // 숫자가 아닌 문자를 제거하고, 천 단위로 쉼표를 추가합니다.
 	        salaryValue = salaryValue.replace(/\D/g, "");
 	        salaryValue = salaryValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
