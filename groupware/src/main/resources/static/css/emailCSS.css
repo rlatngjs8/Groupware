@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
-html, body {height: 96%; margin:0;}
+html {height: 96%; margin:0;}
+body {height: 100%; margin:0; overflow:hidden;}
+
 /********** mail **********/
 .whiteBtn {border: 1px solid black; border-radius: 4px; background-color: white; cursor:pointer;}
 .whiteBtn:hover {border: 1px solid black; border-radius: 4px; background-color: white; cursor:pointer; 
