@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <meta charset="UTF-8">
 <title>전자결재</title>
 <style>
@@ -124,6 +125,7 @@ body {
 </head>
 <body>
 <%@ include file="/WEB-INF/views/P_header.jsp"%>
+<input type="hidden" id="user_id" value="${name}">
 <div class="mainSection">
     <div class="asidebar">
         <%@ include file="approvalHeader.jsp"%>
@@ -184,17 +186,17 @@ body {
             </table>
     </div>
     <div class="tool_bar" style="margin-bottom:5%">
-       	<a id="accept"><span>결재승인</span></a>
-        <a id="no"><span>보류</span></a>
-        <a id="never"><span>거절</span></a>
+       	<a id="accept" onclick="sendApprovalStatus('승인')"><span>결재승인</span></a>
+        <a id="no" onclick="sendApprovalStatus('보류')"><span>보류</span></a>
+        <a id="never" onclick="sendApprovalStatus('거절')"><span>거절</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).on('click', '#accept', function() {
-    sendApprovalStatus('완료');
+ $(document).on('click', '#accept', function() {
+    sendApprovalStatus('승인');
 });
 
 $(document).on('click', '#no', function() {
@@ -205,7 +207,7 @@ $(document).on('click', '#never', function() {
     sendApprovalStatus('거절');
 });
 
-function sendApprovalStatus(status) {
+/* function sendApprovalStatus(status) {
     var userId = $("#userid").val();
     var approvalId = "${alShow.approvalID}";
 
@@ -217,7 +219,7 @@ function sendApprovalStatus(status) {
             approvalId: approvalId,
             status: status
         },
-        success: function(response) {
+        success: function(data) {
             if (response.success) {
                 alert('결재 상태가 업데이트되었습니다.');
                 // 여기서 추가적인 동작 수행 가능
@@ -229,6 +231,62 @@ function sendApprovalStatus(status) {
             alert('서버 요청 실패');
         }
     });
+} */
+
+
+// 주소록 추가 함수
+function sendApprovalStatus(status) {
+    var userid = $("#userid").val();
+    var useruserid = $("#user_id").val();
+    var approvalID = "${alShow.approvalID}";
+
+    console.log(userid);
+  	console.log("${alShow.receiverName}");
+    
+    if (useruserid != "${alShow.receiverName}") {
+        Swal.fire({
+            icon: 'warning',
+            title: '경고',
+            text: '권한이 없습니다.'
+        });
+    } else {
+        const approvalData = {
+            userid: userid,
+            approvalID: approvalID,
+            status: status
+        };
+        
+        $.ajax({
+            url: "/update_approval_status",
+            type: 'POST',
+            data: approvalData,
+            success: function (data) {
+                console.log('인서트 성공', data);
+                Swal.fire({
+                    icon: 'success',
+                    title: '성공',
+                    text: '결재가 완료되었습니다.',
+                    confirmButtonText: '확인'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 확인 버튼을 누르면 페이지 리로드
+                        window.location = "/approval";
+                    }
+                });
+            },
+            error: function (error) {
+                console.error('인서트 실패:', error);
+                Swal.fire({
+                    icon: 'warning',
+                    title: '실패',
+                    text: '결재 등록에 실패하였습니다.',
+                    confirmButtonText: '확인'
+                });
+            }
+        });
+    }
 }
+
+
 </script>
 </html>

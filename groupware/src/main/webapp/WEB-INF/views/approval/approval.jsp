@@ -213,10 +213,10 @@ th:nth-child(3) {
 					<c:forEach items="${receipt_approval}" var="c_approval">
 					<tbody>
 					<tr>
-						<input type="hidden" id="C_createdTime" value="${c_approval.createdTime}">
+						<input type="hidden" id="approvalID" value="${c_approval.approvalID}">
 						<td id= "c_approval_createdTime">${c_approval.createdTime}</td>
 						<td>아무거나</td>
-						<td>${c_approval.approvalTitle}</td>
+						<td id="c_approval_title" data-approvalid="${c_approval.approvalID}" >${c_approval.approvalTitle}</td>
 						<td>${c_approval.senderName}</td>
 						<td>${c_approval.receiverName}</td>
 						<td>${c_approval.approval_status}</td>
@@ -237,7 +237,7 @@ th:nth-child(3) {
 						<input type="hidden" id="I_createdTime" value="${i_approval.createdTime}">
 						<td id="i_approval.createdTime">${i_approval.createdTime}</td>
 						<td>아무거나</td>
-						<td>${i_approval.approvalTitle}</td>
+						<td id="i_approval_title" data-approvalid="${i_approval.approvalID}" >${i_approval.approvalTitle}</td>
 						<td>${i_approval.senderName}</td>
 						<td>${i_approval.receiverName}</td>
 						<td>${i_approval.approval_status}</td>
@@ -260,7 +260,7 @@ th:nth-child(3) {
 						<input type="hidden" id="CO_createdTime" value="${co_approval.createdTime}">
 						<td id="co_approval.createdTime">${co_approval.createdTime}</td>
 						<td>아무거나</td>
-						<td>${co_approval.approvalTitle}</td>
+						<td id="co_approval_title" data-approvalid="${co_approval.approvalID}" >${co_approval.approvalTitle}</td>
 						<td>${co_approval.senderName}</td>
 						<td>${co_approval.receiverName}</td>
 						<td>${co_approval.approval_status}</td>
@@ -275,27 +275,28 @@ th:nth-child(3) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    let dateStringCO = $("#CO_createdTime").val();
-    let dateStringI = $("#I_createdTime").val();
-    let dateStringC = $("#c_createdTime").val();
-
-    // 날짜 부분만을 추출하여 Date 객체로 파싱합니다.
-    let parsedDateCO = new Date(dateStringCO.split(' ')[0]);
-    let parsedDateI = new Date(dateStringI.split(' ')[0]);
-    let parsedDateC = new Date(dateStringC.split(' ')[0]);
-
-    // 날짜 부분만을 ISO 형식으로 변환합니다.
-    let formattedDateCO = parsedDateCO.toISOString().split('T')[0];
-    let formattedDateI = parsedDateI.toISOString().split('T')[0];
-    let formattedDateC = parsedDateC.toISOString().split('T')[0];
-    
-    console.log("Formatted Date CO: " + formattedDateCO);
-    console.log("Formatted Date I: " + formattedDateI);
-    console.log("Formatted Date C: " + formattedDateC);
-
-    $("#i_approval_createdTime").text(formattedDateI);
-    $("#co_approval_createdTime").text(formattedDateC);
-    $("#c_approval_createdTime").text(formattedDateCO);
+    // 각 approval 제목을 가지고 있는 요소에 대한 이벤트 핸들러를 할당
+    $('td#c_approval_title').on('click', function() {
+        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
+        var approvalID = $(this).data('approvalid');
+        console.log(approvalID); // 콘솔에 출력
+        // 여기에 추가로 할 작업을 추가할 수 있습니다.
+        window.location = "approvalDetail?approvalID=" + approvalID
+    });
+    $('td#i_approval_title').on('click', function() {
+        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
+        var approvalID = $(this).data('approvalid');
+        console.log(approvalID); // 콘솔에 출력
+        // 여기에 추가로 할 작업을 추가할 수 있습니다.
+        window.location = "approvalDetail?approvalID=" + approvalID
+    });
+    $('td#co_approval_title').on('click', function() {
+        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
+        var approvalID = $(this).data('approvalid');
+        console.log(approvalID); // 콘솔에 출력
+        // 여기에 추가로 할 작업을 추가할 수 있습니다.
+        window.location = "approvalDetail?approvalID=" + approvalID
+    });
 });
 
 let approvalStatus = my_approval.approval_status;
@@ -309,7 +310,6 @@ if (approvalStatus === '진행 중') {
     stateElement.classList.add('refuse');
 } else if (approvalStatus === '승인') {
     stateElement.classList.add('approval');
-
-
+}
 </script>
 </html>
