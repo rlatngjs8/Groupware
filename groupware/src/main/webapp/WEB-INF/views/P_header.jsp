@@ -253,13 +253,13 @@ position: relative;
         	<a href="/todo">ToDO+</a>
         </li>
         <li>
-            <a href="/documentLibrary">자료실</a>
+            <a href="/documentLibrary?documentType=all">자료실</a>
         </li>
         <li>
-            <a href="#">문의</a>
+            <a href="#">-</a>
         </li>
         <li>
-            <a href="#">조직도</a>
+            <a href="#">-</a>
         </li>
       </ul>
     </header>

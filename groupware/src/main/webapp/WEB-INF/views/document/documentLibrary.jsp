@@ -186,7 +186,7 @@
         <div class="document-container">
             <div id="allDocument">
                 <div class="allSection">
-                	<h3 id="allDocumentTitle">자료실</h3>
+                	<h3 id="allDocumentTitle">전체	자료실</h3>
                     <table class="table-style">
                         <thead class="thead-style">
                             <th><input type="checkbox" class="selectAll" data-table="allDocument"></th>
@@ -226,7 +226,7 @@
             <div id="indiDocument" style="display: none;">
                 <div class="allSection">
 <!--                 	<h3 id="indiDocumentTitle">개인 자료실</h3> -->
-									<h3 id="allDocumentTitle">자료실</h3>
+									<h3 id="allDocumentTitle">개인 자료실</h3>
                     <table class="table-style">
                         <thead class="thead-style">
                         <tr>
