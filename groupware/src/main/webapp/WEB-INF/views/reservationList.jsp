@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <body>
 <div class='pageCalendar'>
 	<div class='sideBar'>
-		<h2 class="c_title" id="c_title" style="margin-left:15px;">예 약</h2>
+		<h3 class="c_title" id="c_title" style="margin-left:0px;">예 약</h3>
 		<button class="addPlanBtn" id="btnReservation">회의실 예약</button>
 	</div>
 	<div id='calendar' class="calendar"></div>

@@ -227,6 +227,7 @@ public class Ko_controller {
 	@ResponseBody
 	public String getNewNotice(HttpServletRequest req) {
 		int empID=Integer.parseInt(req.getParameter("empID"));
+		System.out.println("id="+empID);
 		ArrayList<NoticeDTO> alNotice = ndao.getNewNotice(empID);
 		JSONArray ja = new JSONArray();
 		for(int i=0; i<alNotice.size(); i++) {
