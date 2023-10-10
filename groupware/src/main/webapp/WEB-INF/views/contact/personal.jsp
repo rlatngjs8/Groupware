@@ -497,6 +497,7 @@ width: 40px;
     </aside>
     
     
+    
 <main class="main">
     <div class="header">
         <h1>개인 주소록</h1>
