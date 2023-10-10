@@ -265,7 +265,7 @@ th.date-col:hover {
 			<div class="sidebar">
   			<section id="attendance_section">
       		<h2><a href="/attendance_management/attendance">근태관리</a></h2>
-            <p id="date_info">1</p>
+            <p id="date_info"></p>
             <p id="time_info"><span id="current_time"></span></p>
       		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
 			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
@@ -732,6 +732,7 @@ th.date-col:hover {
 				        const endTimeString = item['endtime'];
 				
 				        const startTimeArray = startTimeString.split(':');
+				        console.log("이거는 왜 안찍혀요", endTimeString);
 				        const endTimeArray = endTimeString.split(':');
 				
 				        const startHour = parseInt(startTimeArray[0], 10);
