@@ -282,54 +282,66 @@ public class MailController implements WebMvcConfigurer {
 		String now = req.getParameter("now");
 		int rmark = Integer.parseInt(req.getParameter("rmark"));
 		String now2 = req.getParameter("now2");
-//		System.out.println(emailid+", "+now);
-		if(now.equals("receive")) {
+//		System.out.println(emailid+", "+rmark+", "+now);
+		int cnt = mdao.selectmyMarkCount(emailid);
+		if(cnt==1) {
 			if (rmark==1) {
 				mdao.updateReceiveMark0(emailid);
-			} else if (rmark==0) {
-				mdao.updateReceiveMark1(emailid);	
-			}
-			return "receive";
-		} else if(now.equals("send")){
-			if (rmark==1) {
 				mdao.updateSendMark0(emailid);
 			} else if (rmark==0) {
-				mdao.updateSendMark1(emailid);	
-			}
-			return "send";
-		} else if (now.equals("mark")) {
-//			System.out.println("A");
-			if (now2.equals("mR")) {
-//				System.out.println("B");
-				if (rmark==1) {
-					mdao.updateReceiveMark0(emailid);
-				} else if (rmark==0) {
-					mdao.updateReceiveMark1(emailid);	
-				}
-			} else if (now2.equals("mS")) {
-//				System.out.println("C");
-				if (rmark==1) {
-					mdao.updateSendMark0(emailid);
-				} else if (rmark==0) {
-					mdao.updateSendMark1(emailid);	
-				}
+				mdao.updateReceiveMark1(emailid);	
+				mdao.updateSendMark1(emailid);
 			}
 			return "mark";
-		} else if (now.equals("trash")) {
-			if (now2.equals("tR")) {
+		} else {
+			if(now.equals("receive")) {
 				if (rmark==1) {
 					mdao.updateReceiveMark0(emailid);
 				} else if (rmark==0) {
 					mdao.updateReceiveMark1(emailid);	
 				}
-			} else if (now2.equals("tS")) {
+				return "receive";
+			} else if(now.equals("send")){
 				if (rmark==1) {
 					mdao.updateSendMark0(emailid);
 				} else if (rmark==0) {
 					mdao.updateSendMark1(emailid);	
 				}
+				return "send";
+			} else if (now.equals("mark")) {
+//				System.out.println("A");
+				if (now2.equals("mR")) {
+//					System.out.println("B");
+					if (rmark==1) {
+						mdao.updateReceiveMark0(emailid);
+					} else if (rmark==0) {
+						mdao.updateReceiveMark1(emailid);	
+					}
+				} else if (now2.equals("mS")) {
+//					System.out.println("C");
+					if (rmark==1) {
+						mdao.updateSendMark0(emailid);
+					} else if (rmark==0) {
+						mdao.updateSendMark1(emailid);	
+					}
+				}
+				return "mark";
+			} else if (now.equals("trash")) {
+				if (now2.equals("tR")) {
+					if (rmark==1) {
+						mdao.updateReceiveMark0(emailid);
+					} else if (rmark==0) {
+						mdao.updateReceiveMark1(emailid);	
+					}
+				} else if (now2.equals("tS")) {
+					if (rmark==1) {
+						mdao.updateSendMark0(emailid);
+					} else if (rmark==0) {
+						mdao.updateSendMark1(emailid);	
+					}
+				}
+				return "trash";
 			}
-			return "trash";
 		}
 		return "";
 	}
