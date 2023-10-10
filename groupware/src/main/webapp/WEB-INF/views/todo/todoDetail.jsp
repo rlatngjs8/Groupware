@@ -16,9 +16,9 @@
 			cursor:pointer; border: 1px dashed gray;}
 .todoBoard0:hover {background-color:lightgray;}
 .titlepadding {padding-top:5px; height:30px;}
-#tdemp {border: 1px solid gray; padding:15px; width:240px;}
-#tdemp>ol{padding:0;}
-#tdemp li:hover{background-color:lightgray;}
+#tdemp {display:none; border: 1px solid gray; padding:15px; width:240px;}
+#tdemp p{padding:0; margin:0; margin-top:2px;}
+#tdemp p:hover{background-color:lightgray;}
 .todoOlc{border-bottom:1px solid gray; padding-bottom:20px;} 
 /* 1006 스타일안먹음 */
 </style>
@@ -27,28 +27,29 @@
 	<div id="tDivMain">
 		<input type="button" id="btnMemberAdd" class="whiteBtn newBoard" value="멤버 추가"> 
 		<input type="button" id="btnBoardDel" class="whiteBtn newBoard" value="보드 삭제">
-		<div style="width:200px; height:30px; padding-top:20px; padding:10px;">
+		<div style="width:200px; height:20px; padding-top:20px; padding:10px;">
 			현재 멤버: <c:forEach items="${member}" var="m">${m.name}</c:forEach>
 		</div>
-		<ul id="tdemp">
-			<ol class="todoOlc"><h4 style="margin-top:0;">관리부</h4>
+		<div id="tdemp">
+			<div class="todoOlc"><h4 style="margin-top:0;">관리부</h4>
 				<c:forEach items="${emp1}" var="e">
-					<li class="eid_${e.employeeid}">${e.name} ${e.position}</li>
+					<p id="eid_${e.employeeid}" class="todoEmp">${e.name} ${e.position}</p>
 				</c:forEach>
-			</ol>
-			<ol class="todoOlc"><h4>생산부</h4>
+			</div>
+			<div class="todoOlc"><h4>생산부</h4>
 				<c:forEach items="${emp2}" var="e">
-					<li class="eid_${e.employeeid}">${e.name} ${e.position}</li>
+					<p id="eid_${e.employeeid}" class="todoEmp">${e.name} ${e.position}</p>
 				</c:forEach>
-			</ol>
-			<ol class="todoOlc"><h4>영업부</h4>
+			</div>
+			<div class="todoOlc"><h4>영업부</h4>
 				<c:forEach items="${emp2}" var="e">
-					<li class="eid_${e.employeeid}">${e.name} ${e.position}</li>
+					<p id="eid_${e.employeeid}" class="todoEmp">${e.name} ${e.position}</p>
 				</c:forEach>
-			</ol>
+			</div>
 			
-		</ul>
+		</div>
 		<div id="tDivMyboard">
+			<div id="todoMyid" class="divHidden">${tpost.todoid}</div>
 			<div class="todoBoardName">${tpost.subject}</div>
 			<div class="todoBoard">
 				<div class='titlepadding'>진행</div>
@@ -72,6 +73,20 @@ $(document)
 	} else {
 		$('#tdemp').hide();
 	}
+})
+.on('click','.todoEmp',function(){ //1006 todoMyid 오류 잡기
+	let tp = $(this).attr("id");
+	tp = tp.substring(4); //employeeid;
+	console.log(tp);
+	$.ajax({url:'/todoEmp',data:{employeeid:tp,todoid:$('#todoMyid').text()}, type:'post',dataType:'text',
+		success:function(data){
+			console.log("/todoEmp 성공");
+			$('#tdemp').hide();
+		},
+		error:function(data){
+			alert("/todoEmp 오류");
+		}
+	});
 })
 .on('click','#btnBoardDel',function(){
 	

@@ -53,4 +53,13 @@ public class TodoController {
 		model.addAttribute("emp3",emp3);
 		return "todo/todoDetail";
 	}
+	@PostMapping("/todoEmp")
+	@ResponseBody
+	public String todoEmp(HttpServletRequest req, Model model) {
+		HttpSession s = req.getSession();
+		int eid = (Integer) s.getAttribute("employeeid");
+		int tid = (Integer) s.getAttribute("todoid");
+		tdao.insertTodomember2(eid,tid);
+		return "todo/todo";
+	}
 }
