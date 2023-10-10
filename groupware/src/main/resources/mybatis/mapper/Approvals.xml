@@ -12,8 +12,36 @@
 	ORDER BY a.CreatedTime DESC
 	LIMIT 5;
 </select>
-
-
+<select id="select_incomplete_approval1" resultType="com.groupware.project.ApprovalsDTO">
+	SELECT a.*, s.Name AS SenderName, r.Name AS ReceiverName
+	FROM approvals a
+	JOIN employees s ON a.Sender_id = s.Userid
+	JOIN employees r ON a.Receiver_id = r.Userid
+	WHERE a.Receiver_id = #{param1}
+	ORDER BY a.CreatedTime DESC
+</select>
+<select id="sendList" resultType="com.groupware.project.ApprovalsDTO">
+	SELECT a.*, s.Name AS SenderName, r.Name AS ReceiverName
+	FROM approvals a
+	JOIN employees s ON a.Sender_id = s.Userid
+	JOIN employees r ON a.Receiver_id = r.Userid
+	where a.sender_id = #{param1} order by a.createdTime desc
+</select>
+<select id="showDetail" resultType="com.groupware.project.ApprovalsDTO">
+	SELECT a.*, s.Name AS SenderName, r.Name AS ReceiverName
+	FROM approvals a
+	JOIN employees s ON a.Sender_id = s.Userid
+	JOIN employees r ON a.Receiver_id = r.Userid
+	where a.ApprovalID = #{param1}
+</select>
+<select id="arrive_approval" resultType="com.groupware.project.ApprovalsDTO">
+	SELECT a.*, s.Name AS SenderName, r.Name AS ReceiverName
+	FROM approvals a
+	JOIN employees s ON a.Sender_id = s.Userid
+	JOIN employees r ON a.Receiver_id = r.Userid
+	where a.receiver_id = #{param1} and a.Approval_status = '진행 중'
+	order by a.createdTime desc
+</select>
 <select id="select_incomplete_approval" resultType="com.groupware.project.ApprovalsDTO">
 	SELECT a.*, s.Name AS SenderName, r.Name AS ReceiverName
 	FROM approvals a
@@ -45,5 +73,7 @@
 	ORDER BY a.CreatedTime DESC
 	LIMIT 3;
 </select>
-
+<insert id="approvalInsert">
+	insert into approvals set sender_id=#{param1}, receiver_id=#{param2}, approval_type=#{param3}, approvalTitle=#{param4}, content=#{param5}, createdTime=now()
+</insert>
 </mapper>

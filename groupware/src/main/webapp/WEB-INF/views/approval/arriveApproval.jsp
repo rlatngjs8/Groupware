@@ -28,7 +28,7 @@ body {
 	font-weight: normal;
 }
 
-.writeForm {
+.comeForm {
 	margin-left: 25%;
 	margin-top: 2%;
 	width: 45%;
@@ -59,15 +59,15 @@ body {
 </style>
 </head>
 <body>
-<!-- 나한테 도착한 결재목록 (미완료)	 -->
+<!--나한테 온 결재목록 (미완료) -->
 	<%@ include file="/WEB-INF/views/P_header.jsp"%>
 	<div class="mainSection">
 		<div class="asidebar">
 			<%@ include file="approvalHeader.jsp"%>
 		</div>
 		<h3 class="title">결재대기문서</h3>
-		<div class="arriveForm">
-			<c:forEach item='#' var="list">
+		<div class="comeForm">
+	
 			<table class="customTable">
 				<thead>
 				<tr>
@@ -77,13 +77,17 @@ body {
 					<th>결재양식</th>
 					<th>제목</th>
 					<th>기안자</th>
+					<th>담당자</th>
+					<th>결재상태</th>
 				</tr>
 				</thead>
+				<c:forEach items='${arrive_approval}' var="list">
 				<tbody>
-					<tr><td><input type="checkbox"></td><td>${list.ApprovalID}</td><td>${list.CreatedTime}</td><td>${list.approval_type}</td><td>${list.ApprovalTitle}</td><td>${list.Sender_Name}</td></tr>
+					<tr><td><input type="checkbox"></td><td>${list.approvalID}</td><td>${list.createdTime}</td><td>${list.approval_type}</td><td>${list.approvalTitle}</td><td>${list.senderName}</td><td>${list.receiverName}</td><td>${list.approval_status}</td></tr>
+					</c:forEach>
 				</tbody>
 			</table>
-			</c:forEach>
+			
 			<!--  ${pagestr} -->
 		</div>
 	</div>

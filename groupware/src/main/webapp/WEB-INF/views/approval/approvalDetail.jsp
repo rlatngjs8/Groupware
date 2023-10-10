@@ -78,6 +78,9 @@ body {
     padding-bottom: 50%;
     box-sizing: border-box;
     font-size: 19px;
+    position: relative;
+    bottom: 40%;
+    left: 2%;
 }
 
 /* 새로운 CSS 클래스 추가 */
@@ -125,7 +128,7 @@ body {
     <div class="asidebar">
         <%@ include file="approvalHeader.jsp"%>
     </div>
-    <h3 class="title">전자결재 작성</h3>
+    <h3 class="title">결재상세내용</h3>
     <form action="/writeApprovalData" method="post">
     <div class="tool_bar">
         <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재요청</span></button>
@@ -139,49 +142,44 @@ body {
                 </tr>
                 <tr>
                     <td class="bgGray width9 centerText">기안자</td>
-                    <td>${name}<input type="hidden" name="userid" id="userid" value="${userid}"></td>
-                    <td rowspan="4"></td>
+                    <td><span id="senderName">${alShow.senderName}</span></td>
+                    <td rowspan="4"><input type="hidden" id="userid" value="${userid}"></td>
                     <td rowspan="3" class="bgGray width9 centerText">결재</td>
-                    <td class="width13 centerText" id="receiverDepartmentName"></td>
+                    <td class="width13 centerText">${receiver.departmentName}</td>
                 </tr>
                 <tr>
                     <td class="bgGray centerText">부서</td>
-                    <td>${alEmp.departmentName}</td>
+                    <td>${sender.departmentName}</td>
                     <td rowspan="2" class="textCenter">
-                        <select name="receiver_id" id="receiver_id">
-                            <option value="" disabled selected>결재 담당자를 선택해주세요</option>
-                            <c:forEach items="${allMem}" var="mem">
-                                <option value="${mem.userid}">${mem.departmentName} - ${mem.name}   ${mem.position}</option>
-                            </c:forEach>
-                        </select>
+                        <span id="receiverName">${alShow.receiverName}</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="bgGray centerText">기안일</td>
-                    <td><span id="currentDate"></span></td>
+                    <td><span id="currentDate">${alShow.createdTime}</span></td>
                 </tr>
                 <tr>
                     <td class="bgGray centerText">문서번호</td>
-                    <td class="width25"></td>
+                    <td class="width25">${alShow.approvalID}</td>
                     <td class="bgGray centerText">결재상태</td>
-                    <td class="textCenter">미완료</td>
+                    <td class="textCenter">${alShow.approval_status}</td>
                 </tr>
             </table>
             <br><hr/><br>
             <table class="customTable" >
                 <tr>
                     <td class="width20 bgGray centerText" >결재유형</td>
-                    <td><input type="text" name="approvalType" id="approvalType"></td>
+                    <td><span id="approvalType">${alShow.approval_type}</span></td>
                 </tr>
                 <tr>
                     <td class="bgGray centerText">제목</td>
-                    <td><input type="text" name="approvalTitle" id="approvalTitle"></td>
+                    <td><span id="approvalTitle">${alShow.approvalTitle}</span></td>
                 </tr>
                 <tr>
                     <td colspan="2" class="bgGray centerText">내용</td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="height450"><input type="text" name="approText" id="approText" class="ApproText"></td>
+                    <td colspan="2" class="height450"><span id="approText" class="ApproText">${alShow.content}</span></td>
                 </tr>
             </table>
     </div>
@@ -195,63 +193,33 @@ body {
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+// 부서가져오
 $(document).ready(function() {
-    // select 요소의 변경 이벤트를 감지
-    $('select').on('change', function() {
-        // 선택한 옵션의 데이터 속성 'data-department' 값을 가져옴
-        var selectedOption = $(this).find(':selected');
-        var displayName = selectedOption.text().split(' ')[0]; // 띄어쓰기로 분리하고 앞에 것만 가져옴
-        $('#receiverDepartmentName').text(displayName);
-    });
-});
-$(document).ready(function() {
-    // 현재 날짜를 가져옵니다.
-    var currentDate = new Date();
+    // 페이지 로드 시 실행할 코드
+    var sender_id = "${alShow.sender_id}";
+    var receiver_id = "${alShow.receiver_id}";
 
-    // 요일을 한글로 변환합니다.
-    var daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-    var dayOfWeek = daysOfWeek[currentDate.getDay()];
+    // Ajax 요청을 사용하여 sender_id와 receiver_id를 서버에 보냅니다.
+    $.ajax({
+        type: "get", // 또는 "GET" 등 HTTP 요청 메서드 선택
+        url: "/approvalDetail", // 서버의 엔드포인트 URL 지정
+        data: {
+            sender_id: sender_id,
+            receiver_id: receiver_id
+        },
+        success: function(data) {
+            // 서버 응답에서 senderName과 receiverName을 추출
+            var senderName = data.senderName;
+            var receiverName = data.receiverName;
 
-    // 날짜를 yyyy-mm-dd (요일) 형식으로 표시합니다.
-    var formattedDate = currentDate.getFullYear() + "-" + 
-                        (currentDate.getMonth() + 1).toString().padStart(2, "0") + "-" + 
-                        currentDate.getDate().toString().padStart(2, "0") + " (" + dayOfWeek + ")";
-
-    // 결과를 화면에 표시합니다.
-    $("#currentDate").text(formattedDate);
-});
-$(document).ready(function() {
-    // "결재요청" 버튼 클릭 이벤트 처리
-    $('form').on('submit', function(e) {
-        e.preventDefault(); // 기본 제출 동작 방지
-
-        // 폼 데이터를 가져옵니다.
-        var formData = {
-            userid: $('#userid').val(),
-            receiver_id: $('#receiver_id').val(),
-            approvalType: $('#approvalType').val(),
-            approvalTitle: $('#approvalTitle').val(),
-            approText: $('#approText').val()
-        };
-        
-        console.log("보낸이",$('#userid').val());
-
-        // Ajax를 사용하여 데이터를 서버에 전송합니다.
-        $.ajax({
-            type: 'POST', // 또는 'GET'에 따라 HTTP 메소드 선택
-            url: '/writeApprovalData', // 요청을 보낼 URL
-            data: formData, // 보낼 데이터
-            success: function(response) {
-                // 서버로부터의 응답을 처리합니다.
-                console.log('결재요청이 성공적으로 전송되었습니다.');
-                // 원하는 동작을 추가하세요.
-                window.location.href = "/approval";
-            },
-            error: function(err) {
-                // 오류 처리
-                console.error('결재요청 전송 중 오류 발생:', err);
-            }
-        });
+            // 추출한 데이터를 페이지에 적용 또는 표시
+            $("#senderName").text(senderName);
+            $("#receiverName").text(receiverName);
+        },
+        error: function(xhr, status, error) {
+            // 에러 처리 코드
+            console.log("에러 발생: " + error);
+        }
     });
 });
 </script>

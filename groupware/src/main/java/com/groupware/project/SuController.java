@@ -9,9 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -503,6 +499,8 @@ public class SuController {
 	public String arriveApproval(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
 		String userid = (String) session.getAttribute("userid");
+		ArrayList<ApprovalsDTO> arrive_approval = Apdao.arrive_approval(userid);
+		model.addAttribute("arrive_approval",arrive_approval);
 		return "approval/arriveApproval";
 	}
 	
@@ -510,13 +508,17 @@ public class SuController {
 	public String comeApproval(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
 		String userid = (String) session.getAttribute("userid");
-		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval(userid);
+		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval1(userid);
 		model.addAttribute("incomplete_approval", incomplete_approval);
 		return "approval/comeApproval";
 	}
 	
 	@GetMapping("/sendApproval")
 	public String sendApproval(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		String userid = (String) session.getAttribute("userid");
+		ArrayList<ApprovalsDTO> send_approval = Apdao.sendList(userid);
+		model.addAttribute("send_approval",send_approval);
 		return "approval/sendApproval";
 	}
 	
@@ -535,4 +537,54 @@ public class SuController {
 		
 		return "approval/writeApproval";
 	}
+	@PostMapping("/writeApprovalData")
+	@ResponseBody
+	public String writeApprovalData(@RequestParam("userid") String sender,
+            @RequestParam("receiver_id") String receiver,
+            @RequestParam("approvalType") String approvalType,
+            @RequestParam("approvalTitle") String approvalTitle,
+            @RequestParam("approText") String approText,
+            Model model) {
+		
+		 System.out.println("userid: " + sender);
+	        System.out.println("receiver_id: " + receiver);
+	        System.out.println("approvalType: " + approvalType);
+	        System.out.println("approvalTitle: " + approvalTitle);
+	        System.out.println("approText: " + approText);
+		
+		Apdao.approvalInsert(sender, receiver, approvalType, approvalTitle, approText);
+		
+		return "";
+	}
+	
+	@GetMapping("/approvalDetail")
+	public String approvalDetail(HttpServletRequest req, Model model) {
+		int approvalID = Integer.parseInt(req.getParameter("ApprovalID"));
+		System.out.println(approvalID);
+		ApprovalsDTO alShow = Apdao.showDetail(approvalID);
+		model.addAttribute("alShow", alShow);
+		
+		String sender_id = req.getParameter("sender_id");
+        String receiver_id = req.getParameter("receiver_id");
+
+        EmployeesDTO senderDepart = edao.senderDepart(sender_id);
+        EmployeesDTO receiverDepart = edao.receiverDepart(receiver_id);
+
+        model.addAttribute("sender",senderDepart);
+        model.addAttribute("receiver",receiverDepart);
+		return "approval/approvalDetail";
+	}
+//	@PostMapping("/loadDepartment") // 요청을 처리할 엔드포인트를 지정합니다.
+//    @ResponseBody
+//    public EmployeesDTO loadDepartment(HttpServletRequest req, Model model) {
+//        String sender_id = req.getParameter("sender_id");
+//        String receiver_id = req.getParameter("receiver_id");
+//
+//        EmployeesDTO senderDepart = edao.senderDepart(sender_id);
+//        EmployeesDTO receiverDepart = edao.receiverDepart(receiver_id);
+//
+//        model.addAttribute("sender",senderDepart);
+//        model.addAttribute("receiver",receiverDepart);
+//        return "";
+//    }
 }
