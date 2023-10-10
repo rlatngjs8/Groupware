@@ -133,7 +133,8 @@ th:nth-child(3) {
   text-align: center;
   font-weight: bold;
   font-weight: 500;
-  vertical-align: middle
+  vertical-align: middle;
+  width: -webkit-fill-available;
 }
   
 
@@ -173,37 +174,35 @@ th:nth-child(3) {
 		<div class="approvalHome">
 			<div class="arriveApproval"><!-- 나한테 결재온거(미완) -->
 				<!-- c:if, forEach 써서 도착한게 있지만, 결재 미완료이면 div로 띄우기 -->
-<c:forEach items="${my_incomplete_approval}" var="my_approval">	
-    <div class="approvalCard">
-        <header>
-            <span class="state ongoing">${my_approval.approval_status}</span>
-        </header>
-        <div class="card_content"> 
-            <div class="form">
-                <div class="card_subject">
-                        ${my_approval.approvalTitle}
-                </div>
-                <div class="form_tr">
-                    <div class="form_th">기 안 자 :</div>
-                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id}</div>
-                </div>
-                <div class="form_tr">
-                    <div class="form_th">기 안 일 :</div>
-                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.createdTime} </div>
-                </div>
-                <div class="form_tr">
-                    <div class="form_th">결재양식 :</div>
-                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id} </div>
-                </div>
-                <div class="card_action">
-                	결제하기
-                </div>
-            </div>
-        </div>
-    </div>
-</c:forEach>
-	
-
+				<c:forEach items="${my_incomplete_approval}" var="my_approval">	
+				    <div class="approvalCard">
+				        <header>
+				            <span class="state ongoing">${my_approval.approval_status}</span>
+				        </header>
+				        <div class="card_content"> 
+				            <div class="form">
+				                <div class="card_subject">
+				                        ${my_approval.approvalTitle}
+				                </div>
+				                <div class="form_tr">
+				                    <div class="form_th">기 안 자 :</div>
+				                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id}</div>
+				                </div>
+				                <div class="form_tr">
+				                    <div class="form_th">기 안 일 :</div>
+				                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.createdTime} </div>
+				                </div>
+				                <div class="form_tr">
+				                    <div class="form_th">결재양식 :</div>
+				                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id} </div>
+				                </div>
+				                <div class="card_action">
+				                	결제하기
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</c:forEach>
 			</div>
 			<div class="comeApproval"> <!--나한테 온거 5개 -->
 				<p class="subtitle">결재수신문서</p><br>

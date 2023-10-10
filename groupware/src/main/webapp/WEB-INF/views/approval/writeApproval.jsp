@@ -117,6 +117,11 @@ body {
 .height450 {
     height: 450px;
 }
+button{
+    background: #fff;
+    border: none;
+    font-size: 17px;
+    }
 </style>
 </head>
 <body>
