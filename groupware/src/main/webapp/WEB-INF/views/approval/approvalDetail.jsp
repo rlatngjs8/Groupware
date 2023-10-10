@@ -129,10 +129,10 @@ body {
         <%@ include file="approvalHeader.jsp"%>
     </div>
     <h3 class="title">결재상세내용</h3>
-    <form action="/writeApprovalData" method="post">
     <div class="tool_bar">
-        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재요청</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
+       	<a id="accept"><span>결재승인</span></a>
+        <a id="no"><span>보류</span></a>
+        <a id="never"><span>거절</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
     <div class="writeForm">
@@ -145,15 +145,15 @@ body {
                     <td><span id="senderName">${alShow.senderName}</span></td>
                     <td rowspan="4"><input type="hidden" id="userid" value="${userid}"></td>
                     <td rowspan="3" class="bgGray width9 centerText">결재</td>
-                    <td class="width13 centerText">${receiver.departmentName}</td>
+                    <td class="width13 centerText">${alShow.receiverDepart}</td>
                 </tr>
                 <tr>
                     <td class="bgGray centerText">부서</td>
-                    <td>${sender.departmentName}</td>
+                    <td>${alShow.sendDepart}</td>
                     <td rowspan="2" class="textCenter">
                         <span id="receiverName">${alShow.receiverName}</span>
                     </td>
-                </tr>
+                </tr> 
                 <tr>
                     <td class="bgGray centerText">기안일</td>
                     <td><span id="currentDate">${alShow.createdTime}</span></td>
@@ -184,43 +184,51 @@ body {
             </table>
     </div>
     <div class="tool_bar" style="margin-bottom:5%">
-        <button type="submit"><span><img src="/img/작성.png" class="tool_bar_icon"></span><span>결재요청</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
+       	<a id="accept"><span>결재승인</span></a>
+        <a id="no"><span>보류</span></a>
+        <a id="never"><span>거절</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
-    </form>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// 부서가져오
-$(document).ready(function() {
-    // 페이지 로드 시 실행할 코드
-    var sender_id = "${alShow.sender_id}";
-    var receiver_id = "${alShow.receiver_id}";
+$(document).on('click', '#accept', function() {
+    sendApprovalStatus('완료');
+});
 
-    // Ajax 요청을 사용하여 sender_id와 receiver_id를 서버에 보냅니다.
+$(document).on('click', '#no', function() {
+    sendApprovalStatus('보류');
+});
+
+$(document).on('click', '#never', function() {
+    sendApprovalStatus('거절');
+});
+
+function sendApprovalStatus(status) {
+    var userId = $("#userid").val();
+    var approvalId = "${alShow.approvalID}";
+
     $.ajax({
-        type: "get", // 또는 "GET" 등 HTTP 요청 메서드 선택
-        url: "/approvalDetail", // 서버의 엔드포인트 URL 지정
+        type: "POST",
+        url: "/update_approval_status",
         data: {
-            sender_id: sender_id,
-            receiver_id: receiver_id
+            userId: userId,
+            approvalId: approvalId,
+            status: status
         },
-        success: function(data) {
-            // 서버 응답에서 senderName과 receiverName을 추출
-            var senderName = data.senderName;
-            var receiverName = data.receiverName;
-
-            // 추출한 데이터를 페이지에 적용 또는 표시
-            $("#senderName").text(senderName);
-            $("#receiverName").text(receiverName);
+        success: function(response) {
+            if (response.success) {
+                alert('결재 상태가 업데이트되었습니다.');
+                // 여기서 추가적인 동작 수행 가능
+            } else {
+                alert('업데이트 실패: ' + response.errorMsg);
+            }
         },
-        error: function(xhr, status, error) {
-            // 에러 처리 코드
-            console.log("에러 발생: " + error);
+        error: function() {
+            alert('서버 요청 실패');
         }
     });
-});
+}
 </script>
 </html>

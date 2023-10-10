@@ -57,7 +57,7 @@ input[type="file"] {position:absolute; width:0; height:0; padding:0; overflow:hi
 		<tr><td>파일첨부</td><td><label for="mailFile" id="mFileLabel">파일선택</label><input type=file id="mailFile" class="mInputText" multiple></td></tr>
 <!-- 		<tr><td>파일첨부</td><td><input type=file id="mailFile" class="mInputText" multiple></td></tr> -->
 		<tr><td></td><td><div class="mailFileName"><label>파일은 3개까지 선택 가능합니다.</label></div></td></tr>
-		<tr><td colspan=2><textarea rows=25 id="mInputContent" class="font_rnffla">${content2}${content}</textarea></td></tr>
+		<tr><td colspan=2><textarea rows=27 id="mInputContent" class="font_rnffla">${content2}${content}</textarea></td></tr>
 		</table>
 	</div>
 </div>
