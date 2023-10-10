@@ -77,7 +77,7 @@
 										<input type="button" id="btnDelete" class="btnPlan" value="예약 취소">
 									</c:if>
 									<c:if test="${name!=getDetailsC.writer}">
-										<input type="button" id="btnCancel" class="btnPlan" value="뒤로">
+										<input type="button" id="btnCancel" class="btnPlan" value="취소">
 									</c:if>	
 								</td>
 							</tr>					

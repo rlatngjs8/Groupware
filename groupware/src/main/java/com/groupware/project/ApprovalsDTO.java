@@ -16,7 +16,22 @@ public class ApprovalsDTO {
 	String SenderName;
 	String ReceiverName;
 	
-	public int getApprovalID() {
+	String sendDepart;
+	String receiverDepart;
+	
+	public String getSendDepart() {
+		return sendDepart;
+}
+public void setSendDepart(String sendDepart) {
+		this.sendDepart = sendDepart;
+}
+public String getReceiverDepart() {
+		return receiverDepart;
+}
+public void setReceiverDepart(String receiverDepart) {
+		this.receiverDepart = receiverDepart;
+}
+public int getApprovalID() {
 		return ApprovalID;
 	}
 	public void setApprovalID(int approvalID) {

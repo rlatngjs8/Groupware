@@ -241,7 +241,7 @@ position: relative;
           <a href="/ko_calendar">캘린더</a>
         </li>
         <li>
-            <a href="/ko_reservation">예약</a>
+            <a href="/reservationList">예약</a>
         </li>
         <li>
             <a href="#">근태관리</a>
