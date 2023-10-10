@@ -324,14 +324,18 @@ $(document).ready(function(){
         }
     });
 
-    $.post('/getNewNotice', {empID: ${sessionScope.userid}}, function(data){
+    $.post('/getNewNotice', {empID: ${sessionScope.EmpId}}, function(data){
+    	console.log(data[0].type);
         for(let i = 0; i < data.length; i++){
             if(data[i].type === "Announcement"){
                 let li = "<li><a href='/announcement' class='stext'>공지사항: " + data[i].title + data[i].time + "</a></li>";
                 $('#notice').append(li);
-            } else {
+            } else if(data[i].type == "Email"){
                 let li = "<li><a href='/mailFolder1' class='stext'>새 메일: " + data[i].title + data[i].time + "</a></li>";
                 $('#notice').append(li);
+            } else if(data[i].type == "Request"){
+            	let li = "<li><a href='/approval' class='stest'>결재요청: "+ data[i].title + data[i].time = "</a></li>";
+            	$('#notice').append(li);
             }
         }
     }, 'json');

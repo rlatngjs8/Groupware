@@ -32,7 +32,7 @@
 }
 .addPlan{
 	border-left:1px solid lightgrey; 
-	padding-left: 10px;
+	padding-left: 0px;
 	height: 920px;
 	width:1500px;
 	float: left;
@@ -40,9 +40,9 @@
 	border-radius: 5px;
 }
 .addPlanTitle{
-	width:1385px;
-	height:80px;
-	border-bottom: 1px solid lightgray
+	width:1500px;
+	height:85px;
+	border-bottom: 1px solid lightgray;
 }
 .ipt_tit{
 	display: inline-block;

@@ -17,7 +17,7 @@
 	<form method="post" action="/planInsert">
 		<div class="addPlan">
 				<div class="addPlanTitle">
-					<h3>일정등록</h3>
+					<h3 style="padding-left:40px; margin-top:20px;">일정등록</h3>
 				</div>
 				<div>
 					<table class="tbl_tit">
