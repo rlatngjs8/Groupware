@@ -6,55 +6,58 @@
 <head>
 <style>
 
-/* 게시물 목록을 감싸는 컨테이너 */
+body{
+	background-color: #f2f2f2;
+}
 .post-container {
     border: 1px solid #ccc;
     margin-bottom: 20px;
     padding: 10px;
-    background-color: #f9f9f9;
+
 }
 
 .post-container:hover {
     background-color: #d4d2d2;
 }
 
-/* 제목 스타일 */
+
 .post-title {
     font-size: 20px;
     font-weight: bold;
 }
 
-/* 작성자 스타일 */
+
 .post-author {
     font-size: 14px;
     color: #666;
 }
 
-/* 내용 스타일 */
 .post-content {
     margin-top: 10px;
     font-size: 16px;
+    white-space: nowrap; /* 텍스트를 한 줄로 만들기 */
+    overflow: hidden;    /* 넘치는 부분을 숨기기 */
+    text-overflow: ellipsis; /* 말 줄임표 사용 */
+    width: calc(100% - 20px); /* 20px는 .post-container의 패딩을 고려한 값 */
 }
 
-/* 게시물 정보 스타일 */
 .post-info {
     margin-top: 10px;
     font-size: 14px;
     color: #888;
 }
 
-/* 조회수와 좋아요 스타일 */
+
 .post-views-likes {
     margin-top: 5px;
 }
 
-/* 시간 스타일 */
+
 .post-time {
     font-size: 12px;
     color: #aaa;
 }
 
-/* 큰 버튼 스타일 */
 .big-button {
     display: block;
     background-color: rgb(106, 176, 173);
@@ -103,20 +106,20 @@
 </div>
 <ul>
 <c:forEach items="${blist}" var="blist">
-	<li class="post-container">
-	<div onclick="location.href='/community_view?seqno=${blist.CommunityID}';" style=" cursor: pointer;">
+    <li class="post-container">
+        <div style="cursor: pointer;" onclick="location.href='/community_view?seqno=${blist.CommunityID}';">
             <span class="post-title">${blist.CommunityTitle}</span><br><br>
-            <span class="post-content">${blist.Content}</span><br><br>
-            <span class="post-info">
+            <div class="post-content">${blist.Content}</div><br><br>
+            <div class="post-info">
                 <span class="post-views-likes">
-                	<span class="post-author">작성자 : ${blist.Name} ${blist.Position}</span><br>
+                    <span class="post-author">작성자 : ${blist.Name} ${blist.Position}</span><br>
                     <span>조회수: ${blist.Views}</span><br>
                     <span><img src="/P_img/like.png" style="width:20px;height:20px"> ${blist.Likes}</span><br>
                 </span>
                 <span class="post-time">${blist.CreatedTime}</span>
-            </span>
             </div>
-        </li>
+        </div>
+    </li>
 </c:forEach>
 </ul>
 <div class="board-search-bar">

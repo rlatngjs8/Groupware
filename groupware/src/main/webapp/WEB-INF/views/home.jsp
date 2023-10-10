@@ -44,9 +44,11 @@
 		    <ul>
 			    <c:forEach items="${alist}" var="alist">
 				    <li>
-					    <span class="title"><a href="/announcement_view?seqno=${alist.communityID}">${alist.communityTitle}</a></span>
+				    	<a href="/announcement_view?seqno=${alist.communityID}">
+					    <span class="title">${alist.communityTitle}</span>
 					    <span class="info">${alist.name} ${alist.position}</span>
 					    <span class="date">${alist.formattedDate}</span>
+					    </a>
 					</li>
 			    </c:forEach>
 			</ul>
@@ -73,6 +75,7 @@
 								<span class="mail-time">${rMlist.sendtime}</span></a><br>
 								</div>
 					    </c:forEach>
+					    <a href="/mailFolder1">더보기></a>
 				</div>
 			    <div class="tab-view" id="tab2">
 					    <c:forEach items="${sMlist}" var="sMlist">
@@ -83,6 +86,7 @@
 							    <span class="mail-time">${sMlist.sendtime}</span></a><br>
 							    </div>
 					    </c:forEach>
+					    <a href="/mailFolder2">더보기></a>
 				</div>
 			    <div class="tab-view" id="tab3">
 					    <c:forEach items="${iMlist}" var="iMlist">
@@ -92,32 +96,77 @@
 							    <span class="mail-time">${iMlist.sendtime}</span></a><br>
 						</div>
 					    </c:forEach>
+					    <a href="/mailMark">더보기></a>
 				</div>
 			</div>
-			<a href="/mailFolder1">더보기></a>
+			
 	    </div>
 	    <h2>결재</h2>
-	    <!-- 결재대기 목록박스 -->
-	    <div class="wait-box">
-	    	123
+	    <div class="wait-box">    	
+	         <div class="tab-box">
+			    <ul>
+			        <li class="selected1" data-tab="tab1-1">결재 대기</li>
+			        <li data-tab="tab2-1">결재 수신</li>
+			        <li data-tab="tab3-1">결재 발송</li>
+			       
+			    </ul>
+			    <div class="tab-view1" id="tab1-1">
+			    		<table>
+			    			<thead>
+			    				<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>기안자</th></tr>
+			    			</thead>
+			    		
+						    <c:forEach items="${wapproval}" var="wapproval">
+						    		<tr><td>${wapproval.createdTime}</td><td>${wapproval.approval_type}</td><td>${wapproval.ApprovalTitle}</td><td>${wapproval.SenderName}</td></tr>
+						    </c:forEach>
+					    </table>
+					    <a href="/mailFolder1">더보기></a>
+				</div>
+			    <div class="tab-view1" id="tab2-1">
+					    <table>
+			    			<thead>
+			    				<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>기안자</th></tr>
+			    			</thead>
+			    		
+						    <c:forEach items="${rapproval}" var="rapproval">
+						    		<tr><td>${rapproval.createdTime}</td><td>${rapproval.approval_type}</td><td>${rapproval.ApprovalTitle}</td><td>${rapproval.SenderName}</td></tr>
+						    </c:forEach>
+					    </table>
+					    <a href="/mailFolder2">더보기></a>
+				</div>
+			    <div class="tab-view1" id="tab3-1">
+					    <table>
+			    			<thead>
+			    				<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>담당자</th></tr>
+			    			</thead>
+			    		
+						    <c:forEach items="${sapproval}" var="sapproval">
+						    		<tr><td>${sapproval.createdTime}</td><td>${sapproval.approval_type}</td><td>${sapproval.ApprovalTitle}</td><td>${wapproval.SenderName}</td></tr>
+						    </c:forEach>
+					    </table>
+					    <a href="/mailMark">더보기></a>
+				</div>
+			</div>
+			
 	    </div>
 	    <h2>게시판</h2>
 	    <!-- 게시판 최근글 -->
 
 	    <div class="commu-box">
-	    	    <ul>
-			    <c:forEach items="${blist}" var="blist">
-				    <li>
-				    	<a href="/community_view?seqno=${blist.communityID}">
-						    <span class="title">${blist.communityTitle}</span>
-						    <span class="info">${blist.name} ${blist.position}</span>
-						    <span class="date">${blist.formattedDate}</span>
-						</a>
-					</li>
-			    </c:forEach>
-			</ul>
-			<a href="/community">더보기></a>
-	    </div>
+		    <ul>
+		        <c:forEach items="${blist}" var="blist">
+		            <li>
+		                <a href="/community_view?seqno=${blist.communityID}" class="full-link">
+		                    <span class="title">${blist.communityTitle}</span>
+		                    <span class="info">${blist.name} ${blist.position}</span>
+		                    <span class="date">${blist.formattedDate}</span>
+		                </a>
+		            </li>
+		        </c:forEach>
+		    </ul>
+		    <a href="/community" class="more-link">더보기></a>
+		</div>
+
   </div>
   	    <div class="calendar_box">
 	    	    <!-- 캘린더박스 -->
@@ -133,7 +182,6 @@ let plan; // 이벤트를 담을 변수 선언
 document.addEventListener('DOMContentLoaded', function() {
 	$.get('/getPlan',{}, function(data){
 		plan = data;
-
 		var calendarEl = document.getElementById('calendar');  
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			googleCalendarApiKey : "AIzaSyCUK8ocVStSIhpAkkQPF2KXgRIilfprcnI",

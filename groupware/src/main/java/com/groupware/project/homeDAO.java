@@ -12,4 +12,8 @@ public interface homeDAO {
 	ArrayList<MailDTO> selectImportantMail(int employeeid);
 	ArrayList<P_BoardDTO> gethomewlist();
 	ArrayList<MailDTO> getboardlist();
+
+	ArrayList<ApprovalsDTO> getWapplist(int employeeid);
+	ArrayList<ApprovalsDTO> getSapplist(int employeeid);
+	ArrayList<ApprovalsDTO> getRapplist(int employeeid);
 }

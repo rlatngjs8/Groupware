@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -283,10 +284,14 @@ position: relative;
         	<ul class="hide" style="margin-left: -30px;">
         	    <li><a href="/"> 홈</a></li>
             	<li><a href="/myInfo">정보수정</a></li>
+				<c:if test="${userid eq '관리자1'}">
+					<li><a href="/manage_attendance">근태관리</a></li>
+					<li><a href="/showEmployee">직원관리</a></li>
+				</c:if>
                 <li><a href="/logout">로그아웃</a></li>
             </ul>
         </li>
-        	</ul>
+        </ul>
 <!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
 <!--     	<div id="pHedaerEmailAlarm"></div> -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->

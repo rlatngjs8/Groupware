@@ -43,4 +43,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY CreatedTime DESC
 		LIMIT 0,5
     </select>
+    <select id="getWapplist" resultType="com.groupware.project.ApprovalsDTO">
+    	select a.createdTime, a.approval_type, a.approvalTitle, b.name as senderName
+		   from approvals a
+		    join employees b on a.sender_id = b.userid
+		    where a.receiver_id = #{param1} and a.approval_status="진행 중";
+    </select>
+    <select id="getRapplist" resultType="com.groupware.project.ApprovalsDTO">
+    	select a.createdTime, a.approval_type, a.approvalTitle, b.name as senderName
+		   from approvals a
+		    join employees b on a.sender_id = b.userid
+		    where a.receiver_id = #{param1} and a.approval_status="진행 중";
+    </select>
+    <select id="getSapplist" resultType="com.groupware.project.ApprovalsDTO">
+    	select a.createdTime, a.approval_type, a.approvalTitle, b.name as senderName
+		   from approvals a
+		    join employees b on a.sender_id = b.userid
+		    where a.receiver_id = #{param1} and a.approval_status="진행 중";
+    </select>
 </mapper>

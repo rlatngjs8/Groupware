@@ -31,68 +31,57 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    align-items: center;
 }
 
 #btnLogout:hover {
-    background-color: rgb(192, 192, 192)
+    background-color: rgb(192, 192, 192);
 }
 
 .home-content {
     margin-left: 70px;
     margin-right: 70px;
     margin-top: 20px;
-    width:900px;
+    width: 900px;
 }
+
 .announcement-box, .mail-box, .calender-box, .wait-box, .commu-box {
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 20px;
-
     text-align: center;
 }
 
-.announcement-box h2 {
-    border-bottom: 1px solid #aaa;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-.announcement-box ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.announcement-box li {
-    display: flex;
+.announcement-box li, .commu-box li {
     justify-content: space-between;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd; 
     padding: 10px 0;
     transition: background-color 0.3s;
 }
 
-.announcement-box li:hover {
+
+.announcement-box li:hover, .commu-box li:hover {
     background-color: rgb(192, 192, 192);
 }
-
-.announcement-box li div {
+.announcement-box span, .commu-box span {
     display: inline-block;
     margin-right: 20px;
     vertical-align: middle;
 }
 
-.announcement-box li div a {
+.announcement-box span a, .commu-box span a {
     color: inherit;
     text-decoration: none;
 }
 
-.announcement-box li div.title {
+.announcement-box span.title, .commu-box span.title {
     width: 30%;
-    text-align: left; 
+    text-align: left;
     font-size: 1.2em;
     font-weight: bold;
 }
 
-.announcement-box li div.content-text {
+.announcement-box span.content-text, .commu-box span.content-text {
     width: 30%;
     text-align: left;
     overflow: hidden;
@@ -100,60 +89,15 @@
     text-overflow: ellipsis;
 }
 
-.announcement-box li div.info {
+.announcement-box span.info, .commu-box span.info {
     width: 25%;
     text-align: right;
 }
 
-.announcement-box li div.date {
+.announcement-box span.date, .commu-box span.date {
     width: 15%;
     text-align: right;
 }
-.commu-box, .mail-box, .calender-box, .wait-box, .commu-box {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-top: 20px;
-    
-    text-align: center;
-}
-
-.commu-box h2 {
-    border-bottom: 1px solid #aaa;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-.commu-box ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.commu-box li {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-    transition: background-color 0.3s;
-}
-
-.commu-box li:hover {
-    background-color: rgb(192, 192, 192)
-}
-
-.commu-box li div {
-    display: inline-block;
-    margin-right: 20px;
-    vertical-align: middle;
-}
-
-.commu-box li div a {
-    color: inherit;
-    text-decoration: none;
-}
-
-
-
-
 
 
 
@@ -169,8 +113,8 @@
     cursor: pointer;
     padding: 10px 15px;
     border: 1px solid #ddd;
-    border-bottom: none; /* 상단 탭 아래쪽의 테두리 제거 */
-    margin-right: -1px; /* 테두리 중복 제거 */
+    border-bottom: none; 
+    margin-right: -1px; 
 }
 
 .tab-box li.selected {
@@ -185,7 +129,7 @@
 }
 
 .tab-view#tab1 {
-    display: block; /* 초기 화면에서 '받은 메일함' 내용을 보여줍니다. */
+    display: block;
 }
 
 .mail-box .tab-view {
@@ -230,7 +174,7 @@
     font-size: 0.8em;
 }
 
-/* 각 div에 대한 hover 효과 */
+
 .rMlist:hover, .sMlist:hover, .iMlist:hover {
     background-color: rgb(192, 192, 192);
 }
@@ -250,8 +194,9 @@
     color: rgb(0, 0, 0);
     
 }
-.rMlist,.sMlist,.iMlist{
-	border-bottom: black;
+.rMlist, .sMlist, .iMlist {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
 }
 
 .calendar{
