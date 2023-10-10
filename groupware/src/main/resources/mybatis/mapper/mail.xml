@@ -76,6 +76,9 @@
 <select id="selectMaxemailid" resultType="Integer">
 	select ifnull(max(emailid),0) from emails
 </select>
+<select id="selectMaxemailid2" resultType="Integer">
+	select ifnull(max(emailid),0) from emails where senderemployeeid=#{param1}
+</select>
 <update id="updateEmailReceive0">
 	update emails set emailreceive=0 where emailid=#{param1}
 </update>

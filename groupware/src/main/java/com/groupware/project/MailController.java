@@ -460,6 +460,11 @@ public class MailController implements WebMvcConfigurer {
 				mdao.insertEmails(subject, content, senderEmployeeID, recID,
 						attachment1, attachment2, attachment3,eid+1);
 			}
+			if(senderEmployeeID==recID) {
+				int cnt = mdao.selectMaxemailid2(senderEmployeeID);
+				System.out.println(cnt);
+				mdao.updateEmailSend1(cnt);
+			}
 		}	
 		return "mailFolder1";
 	}
