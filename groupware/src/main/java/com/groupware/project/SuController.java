@@ -426,7 +426,7 @@ public class SuController {
 	            }
 	        }
 //	        Thread.sleep(4000);
-	        return "document/documentLibrary";
+	        return "redirect:/documentLibrary";
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        // 오류 페이지로 리다이렉트 또는 오류 메시지를 반환할 수 있습니다.
