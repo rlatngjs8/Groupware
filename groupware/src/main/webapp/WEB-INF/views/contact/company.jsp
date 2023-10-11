@@ -397,6 +397,12 @@ hr.hr-3 {
     color: #fff;
 }
 
+h1 {
+  font-size: 40px;
+  margin-top: 0;
+  font-weight: 500;
+  line-height: 1.2;
+}
 
 
 

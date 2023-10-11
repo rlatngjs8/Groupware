@@ -97,6 +97,7 @@ body {
     .customTable {
     	width: 100%;
     }
+    
 
 </style>
 </head>
