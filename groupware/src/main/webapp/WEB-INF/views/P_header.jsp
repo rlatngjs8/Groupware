@@ -166,7 +166,7 @@ position: relative;
 }
 
 .stext{
-   font-size:5px;
+   font-size:12px;
 }
 
 .menu-container {
@@ -320,25 +320,25 @@ $(document)
          function(data){
             for(let i=0; i<data.length; i++){
                if(data[i].type=="Announcement"){
-                  let li = "<a href='/announcement' class='stext'>공지사항: "+data[i].title+data[i].time+"</a>"
+                  let li = "<a href='/announcement' class='stext'>공지사항: "+data[i].title+"<br>"+data[i].time+"</a>"
                   $('#notice').append(li)
                }else if(data[i].type=="Email"){
-                  let li = "<a href='/mailFolder1' class='stext'>새 메일: "+data[i].title+data[i].time+"</a>"
+                  let li = "<a href='/mailFolder1' class='stext'>새 메일: "+data[i].title+"<br>"+data[i].time+"</a>"
                   $('#notice').append(li)
                }else if(data[i].type=="Request"){
-                  let li = "<a href='/approval' class='stext'>결재요청: "+data[i].title+data[i].time+"</a>"
+                  let li = "<a href='/approval' class='stext'>결재요청: "+data[i].title+"<br>"+data[i].time+"</a>"
                   $('#notice').append(li)
                }else if(data[i].type=="InProgress"){
-                  let li = "<a href='/mailFolder1' class='stext'>결재진행중: "+data[i].title+data[i].time+"</a>"
+                  let li = "<a href='/mailFolder1' class='stext'>결재진행중: "+data[i].title+"<br>"+data[i].time+"</a>"
                   $('#notice').append(li)
                }else if(data[i].type=="Suspension"){
-                  let li = "<a href='/mailFolder1' class='stext'>결재보류: "+data[i].title+data[i].time+"</a>"
+                  let li = "<a href='/mailFolder1' class='stext'>결재보류: "+data[i].title+"<br>"+data[i].time+"</a>"
                   $('#notice').append(li)
                }else if(data[i].type=="Approval"){
-                  let li = "<a href='/mailFolder1' class='stext'>결재승인: "+data[i].title+data[i].time+"</a>"
+                  let li = "<a href='/mailFolder1' class='stext'>결재승인: "+data[i].title+"<br>"+data[i].time+"</a>"
                   $('#notice').append(li)
                }else if(data[i].type=="Rejection"){
-                  let li = "<a href='/mailFolder1' class='stext'>결재거절: "+data[i].title+data[i].time+"</a>"
+                  let li = "<a href='/mailFolder1' class='stext'>결재거절: "+data[i].title+"<br>"+data[i].time+"</a>"
                   $('#notice').append(li)
                }
             }
