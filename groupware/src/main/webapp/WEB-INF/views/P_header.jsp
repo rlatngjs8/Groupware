@@ -128,8 +128,12 @@ a {
 
 /* 커스텀 끝 */
 .search-button{
-position: relative;
-    bottom: -4px;
+		position: relative;
+    bottom: -5px;
+    left: 10px;
+    border: none;
+    background-color: #fff;
+    cursor:pointer;
 }
 .nav {
   display: flex;
@@ -141,7 +145,7 @@ position: relative;
 }
 
 .search-bar {
-  border: 1px solid #bbb;
+/*   border: 1px solid #bbb; */
   border-radius: 8px;
   padding: 5px;
 }
@@ -149,6 +153,8 @@ position: relative;
 .search-bar input[type="text"] {
     padding:5px ;
     font-size :20px ;
+    position: relative;
+    left: 50px;
 }
 .profile{
    width:32px;

@@ -55,7 +55,7 @@
     height: 200px;
     align-items: center;
     gap: 10px;
-    border: 1px solid #000;
+    border: 1px solid #ccc;
     padding: 10px;
 }
 
@@ -258,16 +258,18 @@
 	padding-right: 10px;
 }
 .asd{
-	display:flex;
-	border: 1px solid lightgrey;	
-	margin-top: 20px;
-	padding-right:30px;
+		display: flex;
+    border: 1px solid lightgrey;
+    border-bottom: none;
+    margin-top: 20px;
+    margin-bottom: 5%;
+    padding-right: 30px;
 }
 .fc .fc-toolbar-title{
 	font-size:1em;
 }
 .calendar_box{
-	margin-top:100px;
+	margin-top:0px;
 }
 .fc .fc-button-primary{
 	background-color: rgb(106, 176, 173);
@@ -307,7 +309,6 @@
 .centerD{
 	margin-top:10px;
 }
-<<<<<<< HEAD
 
 .calendar {
     width: 400px;
@@ -377,4 +378,9 @@
 #date_info, #time_info {
     font-size: 18px;
     margin: 10px 0;
+}
+.day{
+	  position: relative;
+    top: 20px;
+
 }

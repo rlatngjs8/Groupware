@@ -200,7 +200,7 @@
                     <table class="table-style">
                         <thead class="thead-style">
                         <tr>
-                            <th><input type="checkbox" class="selectAll" data-table="allDocument"></th>
+                            <th>문서번호</th>
                             <th>이름</th>
                             <th>작성자</th>
                             <th>크기</th>
@@ -211,7 +211,7 @@
                         <tbody id="tbody">
                             <c:forEach items="${dlist}" var="docu">
                                 <tr>
-                                    <td><input type="checkbox"></td>
+                                    <td>${docu.documentID}</td>
                                     <td><a href="/documentDownload?fileName=${docu.documentTitle}" download>${docu.documentTitle}</a></td>
                                     <td>${docu.name}</td>
                                     <td data-filesize="${docu.fileSize}">${docu.fileSize}</td>

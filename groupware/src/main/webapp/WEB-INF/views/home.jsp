@@ -212,24 +212,6 @@
 	    </div>
 	    <h2>게시판</h2>
 	    <!-- 게시판 최근글 -->
-
-	    <div class="commu-box">
-		    <ul>
-		        <c:forEach items="${blist}" var="blist">
-		            <li>
-		                <a href="/community_view?seqno=${blist.communityID}" class="full-link">
-		                    <span class="title">${blist.communityTitle}</span>
-		                    <span class="info">${blist.name} ${blist.position}</span>
-		                    <span class="date">${blist.formattedDate}</span>
-		                </a>
-		            </li>
-		        </c:forEach>
-		    </ul>
-		    <br>
-		    <a href="/community" class="more-link">더보기></a>
-		</div>
-		
-		
 		<div class="commu-box">
 		    <ul>
 		        <c:forEach items="${blist}" var="blist">
@@ -248,7 +230,7 @@
   </div>
   	    <div class="calendar_box">
 	    	    <!-- 캘린더박스 -->
-	    <h2>일정</h2><span id="seeMore" class="seeMore">+더보기</span>
+	    <h2 class="day">일정</h2><span id="seeMore" class="seeMore">+더보기</span>
 	    <div id='calendar' class="calendar"></div>
 	    </div>
 </div>

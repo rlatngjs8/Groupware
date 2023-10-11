@@ -151,7 +151,6 @@ body {
 		<table class="customTable">
 		    <thead>
 		        <tr>
-		            <th><input type="checkbox"></th>
 		            <th>문서번호</th>
 		            <th>기안일</th>
 		            <th style= "width: 12%;">결재양식</th>
@@ -173,7 +172,6 @@ body {
 		            <tbody>
 		                <c:forEach items="${send_approval}" var="list">
 		                    <tr>
-		                        <td><input type="checkbox"></td>
 		                        <td class="id">${list.approvalID}</td>
 		                        <td class="time">${list.createdTime}</td>
 		                        <td class="type">${list.approval_type}</td>
