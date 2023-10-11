@@ -335,6 +335,24 @@ public class HwanController {
 	    // 원하는 뷰 이름을 반환
 	    return "attendance_management/attendance"; // 뷰 이름은 실제 프로젝트에서 사용하는 뷰의 이름으로 변경해야 합니다.
 	}
+	
+	@GetMapping("/select_time")
+	@ResponseBody
+	public String select_time(HttpServletRequest req, Model model) {
+	    String date = req.getParameter("date");
+	    String userid = req.getParameter("userid");
+		
+	    ArrayList<AttendanceDTO> select_time = Attdao.select_time(date, userid);
+	    
+	    JSONArray ja = new JSONArray();
+	    for (int i = 0; i < select_time.size(); i++) {
+	        JSONObject jo = new JSONObject();
+	        jo.put("starttime", select_time.get(i).getStartTime()); // 회사 주소 필드 추가
+	        jo.put("endtime", select_time.get(i).getEndTime()); // 메모 필드 추가
+	        ja.add(jo);
+	    }
+	    return ja.toJSONString();
+	}
 
 	
 
