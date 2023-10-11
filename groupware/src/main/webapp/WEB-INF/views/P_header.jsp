@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +32,7 @@ a {
 
 /* 사이드바의 너비와 높이를 변수를 통해 통제 */
 :root {
-  --side-bar-width: 280	px;
+  --side-bar-width: 280   px;
   --side-bar-height: 90vh;
 }
 
@@ -122,7 +123,7 @@ a {
 /* 마우스 인식 시 원래의 위치로 이동 
 .side-bar:hover {
   transform: translate(-20px, 0);    둥근 모서리의 너비만큼 숨겨주기 
-}	
+}   
  사이드바 끝 
 
 /* 커스텀 끝 */
@@ -150,56 +151,12 @@ position: relative;
     font-size :20px ;
 }
 .profile{
-	width:32px;
-	height:32px;
-	border-radius:50%;
-}
-
-/* 새로운 스타일: 메뉴 스타일 및 서브메뉴 애니메이션 추가 */
-.menu {
-    position: relative;
-    margin-right: 20px;
-}
-
-.menu a {
-    cursor: pointer;
-    text-decoration: none;
-    color: white;
-    padding: 5px 10px; /* 좌우 여백을 더 넓게 설정 */
-    transition: background-color 0.3s, color 0.3s; /* 배경색과 텍스트 색상에 애니메이션 적용 */
-    white-space: nowrap; /* 텍스트가 길어도 줄바꿈하지 않도록 설정 */
-    /* overflow: hidden;  넘치는 텍스트 숨김 처리 
-    text-overflow: ellipsis;  넘치는 텍스트에 ... 추가
-    */
-}
-
-.menu ul {
-	border-radius: 10px;
-    position: absolute;
-    background-color: rgb(106, 176, 173);
-    list-style: none;	
-    padding: 5px;
-    opacity: 0;
-    transform: translateY(-20px); /* 초기에 위로 이동한 상태로 시작 */
-    transition: opacity 0.3s, transform 0.3s, background-color 0.3s; /* 투명도, 위치 변경, 배경색에 애니메이션 적용 */
-}
-
-.menu ul li {
-    padding: 5px;
-}
-
-/* 호버 시 배경색 및 텍스트 색상 변경 */
-.menu a:hover {
-    background-color: rgb(116, 137, 136);
-    color: #fff;
-    white-space: normal; /* 호버 시 텍스트가 줄바꿈되도록 설정 */
-    text-overflow: initial; /* 호버 시 ...을 제거하여 텍스트를 모두 표시 */
-}
-
-/* 마우스 호버 시 투명도 변경과 위치 변경으로 나타나게 만듭니다. */
-.menu:hover ul {
-    opacity: 1;
-    transform: translateY(0); /* 서브메뉴가 위에서 아래로 나타나도록 이동합니다. */
+   width:32px;
+   height:32px;
+   border-radius:50%;
+   position: relative;
+    right: 20px;
+    cursor:pointer;
 }
 
 #pHedaerEmailAlarm {
@@ -209,9 +166,52 @@ position: relative;
 }
 
 .stext{
-	font-size:5px;
+   font-size:12px;
 }
 
+.menu-container {
+    position: relative;
+    display: inline-block;
+    margin: 10px; /* 이미지 간 간격을 주기 위한 스타일 */
+}
+.menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    height: 23px; /* 메뉴 하나의 높이 */
+    z-index: 1;
+    background-color: rgb(106, 176, 173);
+    margin-left: -70px;
+}
+.menu1{
+   min-width: 202px;
+}
+.menu2{
+   min-width: 130px;
+}
+.menu a {
+    cursor: pointer;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: rgb(106, 176, 173);
+    color:white;
+}
+.menu a:hover {
+    background-color: rgb(116, 137, 136);
+    color: #fff;
+    white-space: normal; /* 호버 시 텍스트가 줄바꿈되도록 설정 */
+    text-overflow: initial; /* 호버 시 ...을 제거하여 텍스트를 모두 표시 */
+}
+.menu img {
+    width: 24px; /* 이미지의 너비 */
+    height: 24px; /* 이미지의 높이 */
+    margin-right: 5px; /* 이미지와 이미지 사이의 간격 */
+}
+.bell{
+cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -244,110 +244,116 @@ position: relative;
             <a href="/reservationList">예약</a>
         </li>
         <li>
-            <a href="#">근태관리</a>
+            <a href="/attendance_management/attendance">근태관리</a>
         </li>
         <li>
             <a href="/approval">전자결재</a>
         </li>
         <li>
-        	<a href="/todo">ToDO+</a>
+           <a href="/todo">ToDO+</a>
         </li>
         <li>
             <a href="/documentLibrary">자료실</a>
         </li>
         <li>
-            <a href="#">문의</a>
+            <a href="#">-</a>
         </li>
         <li>
-            <a href="#">조직도</a>
+            <a href="#">-</a>
         </li>
       </ul>
     </header>
 
     <div class="nav">
-    	<div class="search-bar">
-    	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button" ><img src="P_img/free-icon-magnifier-71403.png"></button>
-    	</div>
-    	
-    	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>
-    	   	
-    	<ul>       
-        <li class="menu">
-        	<img src="/P_img/bell.png" alt="공지" class="bell"> 
-            <ul id="notice" class="hide" style="margin-left: -100px;"></ul>
-        </li>        
-        </ul>
-        <ul>
-        <li class="menu">
-        	<img src="img/${profileIMG}" class="profile">
-        	<ul class="hide" style="margin-left: -30px;">
-        	    <li><a href="/"> 홈</a></li>
-            	<li><a href="/myInfo">정보수정</a></li>
-                <li><a href="/logout">로그아웃</a></li>
-            </ul>
-        </li>
-        	</ul>
-<!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
-<!--     	<div id="pHedaerEmailAlarm"></div> -->
-<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
-<!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  -->
-<%--     	<img src="img/${profileIMG}" class="profile"> --%>
-	</div>
-	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
+       <div class="search-bar">
+       <input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()"><button class="search-button" id="search-button" ><img src="P_img/free-icon-magnifier-71403.png"></button>
+       </div>
+      <div class="menu-container">
+         <img src="/P_img/bell.png" alt="공지" class="bell">
+          <div id="notice" class="menu menu1"></div>
+      </div>          
+      <div class="menu-container">
+         <img src="img/${profileIMG}" class="profile">
+          <div class="menu menu2">
+              <a href="/">홈</a>
+              <a href="/myInfo">정보수정</a>
+              <c:if test="${userid eq '관리자1'}">
+              <a href="/manage_attendance">근태관리</a>
+              <a href="/showEmployee">직원관리</a>
+              </c:if>
+              <a href="/logout">로그아웃</a>
+          </div>
+      </div>
+   </div>
+   <input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
 
-<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src='https://code.jquery.com/jquery-Latest.js'></script>
 <script>
-$(document).ready(function(){
-    let sessionid = $("#sessionid").val();
-    console.log($("#sessionid").val());
-
-    if(sessionid == null || sessionid == "") {
-        console.log("empid=" + ${sessionScope.userid});
-        if(sessionid == null || sessionid == ""){
-            alert("권한이 없습니다");
-            return false;
-        }
-    }
-
-    $.ajax({
-        url: '/pHeaderAlarm',
-        type: 'post',
-        dataType: 'text',
-        success: function(data) {
-            console.log("/pHeaderAlarm 성공");
-            console.log(data);
-            $('#pHedaerEmailAlarm').text(data);
-        },
-        error: function(data) {
-            alert("/pHeaderAlarm 오류");
-        }
+$(document)
+.ready(function(){
+    $(".menu-container").mouseenter(function(){
+        $(this).children(".menu").fadeIn(200);
     });
-
-    $.post('/getNewNotice', {empID: ${sessionScope.userid}}, function(data){
-        for(let i = 0; i < data.length; i++){
-            if(data[i].type === "Announcement"){
-                let li = "<li><a href='/announcement' class='stext'>공지사항: " + data[i].title + data[i].time + "</a></li>";
-                $('#notice').append(li);
-            } else {
-                let li = "<li><a href='/mailFolder1' class='stext'>새 메일: " + data[i].title + data[i].time + "</a></li>";
-                $('#notice').append(li);
+    $(".menu-container").mouseleave(function(){
+        $(this).children(".menu").fadeOut(200);
+    });
+   console.log("hello world");
+   let sessionid = $("#sessionid").val()
+   console.log($("#sessionid").val())
+   console.log("empid="+${sessionScope.EmpId});
+   if(sessionid == null || sessionid == ""){
+      alert("권한이 없습니다");
+      return false;
+   }
+   $.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+      success:function(data){
+         console.log("/pHeaderAlarm 성공");
+         console.log(data);
+         $('#pHedaerEmailAlarm').text(data);
+      },
+      error:function(data){
+         alert("/pHeaderAlarm 오류");
+      }
+   });
+   $.post('/getNewNotice',{empID:${sessionScope.EmpId}},
+         function(data){
+            for(let i=0; i<data.length; i++){
+               if(data[i].type=="Announcement"){
+                  let li = "<a href='/announcement' class='stext'>공지사항: "+data[i].title+"<br>"+data[i].time+"</a>"
+                  $('#notice').append(li)
+               }else if(data[i].type=="Email"){
+                  let li = "<a href='/mailFolder1' class='stext'>새 메일: "+data[i].title+"<br>"+data[i].time+"</a>"
+                  $('#notice').append(li)
+               }else if(data[i].type=="Request"){
+                  let li = "<a href='/approval' class='stext'>결재요청: "+data[i].title+"<br>"+data[i].time+"</a>"
+                  $('#notice').append(li)
+               }else if(data[i].type=="InProgress"){
+                  let li = "<a href='/mailFolder1' class='stext'>결재진행중: "+data[i].title+"<br>"+data[i].time+"</a>"
+                  $('#notice').append(li)
+               }else if(data[i].type=="Suspension"){
+                  let li = "<a href='/mailFolder1' class='stext'>결재보류: "+data[i].title+"<br>"+data[i].time+"</a>"
+                  $('#notice').append(li)
+               }else if(data[i].type=="Approval"){
+                  let li = "<a href='/mailFolder1' class='stext'>결재승인: "+data[i].title+"<br>"+data[i].time+"</a>"
+                  $('#notice').append(li)
+               }else if(data[i].type=="Rejection"){
+                  let li = "<a href='/mailFolder1' class='stext'>결재거절: "+data[i].title+"<br>"+data[i].time+"</a>"
+                  $('#notice').append(li)
+               }
             }
-        }
-    }, 'json');
-});
-
-$(document).on('click', '#search-button', function(){
-    let search = $('#search-bar').val();
-    console.log(search);
-    document.location = "dosearch?search=" + search;
-    return false;
-});
-
+   },'json');
+})
+.on('click','#search-button',function(){
+   let search = $('#search-bar').val();
+   console.log(search);
+   document.location="dosearch?search="+search;
+   return false;
+})
 function enterkey() {
-    if (window.event.keyCode == 13) {
-        // 엔터키가 눌렸을 때
-        document.getElementById("search-button").click();
+   if (window.event.keyCode == 13) {
+       // 엔터키가 눌렸을 때
+      document.getElementById("search-button").click();
     }
 }
 </script>

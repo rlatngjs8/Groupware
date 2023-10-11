@@ -12,13 +12,13 @@
 <body>
 <div class='pageCalendar'>
 	<div class='sideBar'>
-		<h2 id="c_title" class="c_title" style="margin-left:15px">예 약</h2>
+		<h3 id="c_title" class="c_title" style="margin-left:0px">예 약</h3>
 		<button class="addPlanBtn" id="btnReservation">회의실 예약</button>
 	</div>
 	<form method="post" action="/reservationMeetingrooms">
 		<div class="addPlan">
 				<div class="addPlanTitle">
-					<h2>회의실 예약</h2>
+					<h3 style="padding-left:40px; margin-top:20px;">회의실 예약</h3>
 				</div>
 				<div>
 					<table class="tbl_tit">

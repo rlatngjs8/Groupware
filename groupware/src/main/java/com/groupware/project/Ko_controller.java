@@ -82,7 +82,7 @@ public class Ko_controller {
 		String end = req.getParameter("endHidden");
 		String content = req.getParameter("contentArea");
 		cdao.planUpdate(c_num,title,start,end,content);
-		return "redirect:/ko_calendarDetails?c_no="+c_num;
+		return "ko_calendar";
 	}
 	@GetMapping("ko_calendarDelete")	//일정 삭제하기
 	public String ko_calendarDelete(HttpServletRequest req) {
@@ -226,7 +226,9 @@ public class Ko_controller {
 	@PostMapping("/getNewNotice")
 	@ResponseBody
 	public String getNewNotice(HttpServletRequest req) {
+		System.out.println("request");
 		int empID=Integer.parseInt(req.getParameter("empID"));
+		System.out.println("id="+empID);
 		ArrayList<NoticeDTO> alNotice = ndao.getNewNotice(empID);
 		JSONArray ja = new JSONArray();
 		for(int i=0; i<alNotice.size(); i++) {

@@ -96,44 +96,11 @@
                 border-bottom: 1px solid #e5e5e5;
             }
         }
-        
-       .search-container {
-            position: absolute;
-            top: 10px; /* 원하는 상단 여백 조정 */
-            right: 10px; /* 원하는 오른쪽 여백 조정 */
-            display: flex;
-            align-items: center;
-            background-color: #8bc34a; /* 연두색 배경색상 */
-            border: 2px solid #4caf50; /* 연두색 테두리 */
-            border-radius: 0; /* 모서리를 둥글게 만들지 않음 */
-            overflow: hidden;
-        }
 
-        .search-input {
-            flex: 1;
-            border: none;
-            padding: 10px;
-            font-size: 16px;
-            background-color: white; /* 연두색 배경색상 */
-            color: black; /* 글자색을 흰색으로 지정 */
-        }
-
-        .search-button {
-            background-color: #4caf50; /* 진한 연두색 버튼 배경색상 */
-            color: #fff; /* 버튼 텍스트 색상 */
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        /* 검색 버튼에 호버 효과 추가 */
-        .search-button:hover {
-            background-color: #45a049; /* 호버 시 색상 변경 */
-        }
         body {
 		  line-height: 24px;
 		  color: #333;
-		  background: #ececec;
+		  background: white;
 		  overflow-y: scroll;
 		}
 
@@ -376,13 +343,14 @@ hr.hr-3 {
 		.sidebar {
 			margin-left: 190px;
 		    height: 100%;
-		    width: 250px;
+		    width: 230px;
 		    position: fixed;
 		    top: 0;
 		    left: 0;
 		    background-color: white;
 		    padding-top: 20px;
 		    border-right: 1px solid gray; /* 오른쪽 부분에만 테두리 적용 */
+		    text-align: left;
 		}
 
         /* 사이드바 링크 스타일 */
@@ -397,6 +365,11 @@ hr.hr-3 {
 		.sidebar a:hover {
 		    background-color: #ccc; /* 연한 회색 배경으로 변경 */
 		}
+		
+		
+		
+		
+		
 
         .main {
 		    margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
@@ -424,6 +397,11 @@ hr.hr-3 {
     color: #fff;
 }
 
+
+
+
+
+
 .name-col {
     width: 150px; /* 이름 열 너비 */
 }
@@ -444,22 +422,55 @@ hr.hr-3 {
     width: 200px; /* Email 열 너비 */
 }
 
+.contact-img {
+position: relative;
+top: 10px;
+width: 40px;
+}
+
+/* 헤더 스타일 */
+.header {
+    text-align: center;
+    background-color: #fff;
+    color: #333;
+    padding: 10px;
+    margin-left: 200px;
+}
+
+
     </style>
 </head>
 <body>
 <input type="hidden" id="user_id" value="${sessionScope.userid}">
 <%@ include file="/WEB-INF/views/P_header.jsp" %>
 
-	 <aside>
-	     <!-- 사이드바 -->
+<!-- 	 <aside>
+	     사이드바
+	     <h2>연락처</h2>
 		<div class="sidebar">
 		    <a href="/contact/company">사내 주소록</a>
 		    <a href="/contact/personal">개인 주소록</a>
-		    <!-- 필요한 메뉴 항목을 추가할 수 있습니다. -->
+		    필요한 메뉴 항목을 추가할 수 있습니다.
 		</div>
+    </aside> -->
+    
+     <aside>
+		<div class="sidebar">
+			<section id="attendance_section">
+		  		<h2 style="font-size:28px;"><img src="/img/contact-book.png" alt="로고 이미지" class="contact-img">연락처</h2>
+		        <p id="date_info"></p>
+		        <p id="time_info"><span id="current_time"></span></p>
+		  		<a href="/contact/company">사내 주소록</a>
+			    <a href="/contact/personal">개인 주소록</a>    
+       		</section>
+      	</div>
     </aside>
+    
+    
 	<main class="main">
-    <h1>주소록</h1>
+    <div class="header">
+        <h1 >사내 주소록</h1>
+    </div>
 
     <!-- 주소록 목록을 나타내는 테이블 예시 -->
     <table class="styled-table">

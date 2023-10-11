@@ -29,11 +29,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	                              ORDER BY a.emailid DESC LIMIT 0,5;	
 	</select>
 	<select id="selectImportantMail" resultType="com.groupware.project.homeDTO">
-	SELECT a.emailid, c.name, c.email, a.subject, a.senderemployeeid, a.receiveremployeeid,
-	       a.sendtime FROM emails a INNER JOIN employees c ON a.SenderEmployeeID=c.EmployeeId 
-	                             WHERE (senderemployeeid=#{param1} AND tcsend=0 AND sendmark=1)
-	                                OR (receiveremployeeid=#{param1} AND tcreceive=0 AND receivemark=1)
-	                              ORDER BY a.emailid DESC LIMIT 0,5;       
+		SELECT a.emailid, c.name, c.email, a.subject, a.senderemployeeid, a.receiveremployeeid,
+		       a.sendtime FROM emails a INNER JOIN employees c ON a.SenderEmployeeID=c.EmployeeId 
+		                             WHERE (senderemployeeid=#{param1} AND tcsend=0 AND sendmark=1)
+		                                OR (receiveremployeeid=#{param1} AND tcreceive=0 AND receivemark=1)
+		                              ORDER BY a.emailid DESC LIMIT 0,5;       
 	</select>
 	
 	<select id="getboardlist" resultType="com.groupware.project.homeDTO">

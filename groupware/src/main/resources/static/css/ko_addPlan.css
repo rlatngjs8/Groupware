@@ -6,16 +6,17 @@
 	border-top: 1px solid lightgrey;
 }
 .sideBar{
-	width: 200px; 
+	width: 210px; 
 	height: 920px;
 	float: left;
 	background-color: white;
     border-radius: 5px;
+    padding: 0 18px 0 18px;
 }
 .addPlanBtn{
-	margin-left : 15px;
+	margin-left : 0px;
 	margin-top : 15px;
-	width: 150px;
+	width: 200px;
 	height: 44px;
 	font-size: 14px;
 	border: 1px solid #888;
@@ -30,8 +31,8 @@
 	box-shadow: 1px 1px 20px #ddd;
 }
 .addPlan{
-	border-left:1px solid gray; 
-	padding-left: 10px;
+	border-left:1px solid lightgrey; 
+	padding-left: 0px;
 	height: 920px;
 	width:1500px;
 	float: left;
@@ -39,9 +40,9 @@
 	border-radius: 5px;
 }
 .addPlanTitle{
-	width:1385px;
-	height:80px;
-	border-bottom: 1px solid lightgray
+	width:1500px;
+	height:85px;
+	border-bottom: 1px solid lightgray;
 }
 .ipt_tit{
 	display: inline-block;

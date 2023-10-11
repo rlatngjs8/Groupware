@@ -12,7 +12,6 @@ body {
 }
 .mainSection {
 	display: flex; /* Flexbox를 사용하여 요소들을 가로 배치합니다. */
-	margin-bottom: 20%;
 }
 
 .approvalHome {
@@ -22,7 +21,7 @@ body {
 	height: 850px;
 /* 	border: 1px solid #c0c0c0; */
 }
-.title{
+.title{ 
 		display: block;
     position: absolute;
     top: 20px;
@@ -30,7 +29,7 @@ body {
     width: 100%;
     margin-top: 10px;
     font-size: 24px;
-    font-weight: normal;
+    font-weight: bold;
 }
 .arriveApproval{
 	width: 100%;
@@ -99,18 +98,15 @@ th:nth-child(3) {
     text-transform: uppercase;
 }
 
-.ongoing {
-    color: #007bff;
-    background-color: #e7f3fe;
-}
-
 .card_subject {
     margin: 10px 0;
+    font-size: 21px;
+    font-weight: bold;
 }
 
 .form_th {
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 0px;
     width: 80px; /* 레이블 너비를 조정할 수 있습니다 */
 }
 
@@ -144,6 +140,34 @@ th:nth-child(3) {
 .card_action:hover {
     background-color: lightgreen;
 }
+
+.ongoing {
+    color: #007bff;
+    background-color: #e7f3fe;
+}
+.defer {
+    color: rgb(255, 204, 0); /* 진한 노랑색 배경색 */
+    background-color: rgb(255, 255, 153); /* 연노랑색 배경색 */
+}
+
+.refuse {
+    color: rgb(255, 153, 153); /* 연한빨간색 배경색 */
+    background-color: rgb(204, 0, 0); /* 진한빨강색 배경색 */
+}
+
+.approval {
+	color: rgb(153, 255, 153); /* 연한초록색 배경색 */
+    background-color: rgb(0, 102, 0); /* 진한초록색 배경색 */
+}
+.noDataMessage {
+    color: gray; /* 회색 글씨 색상 */
+    text-align: center; /* 가운데 정렬 */
+    width: 100%;
+    position: relative;
+    top: 88px;
+    font-size: 18px;
+}
+
 </style>
 </head>
 <body>
@@ -157,38 +181,40 @@ th:nth-child(3) {
 		<div class="approvalHome">
 			<div class="arriveApproval"><!-- 나한테 결재온거(미완) -->
 				<!-- c:if, forEach 써서 도착한게 있지만, 결재 미완료이면 div로 띄우기 -->
-<c:forEach items="${my_incomplete_approval}" var="my_approval">	
-    <div class="approvalCard">
-        <header>
-            <span class="state ongoing">${my_approval.approval_status}</span>
-        </header>
-        <div class="card_content"> 
-            <div class="form">
-                <div class="card_subject">
-                        ${my_approval.approvalTitle}
-
-                </div>
-                <div class="form_tr">
-                    <div class="form_th">기안자 :</div>
-                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id} </div>
-                </div>
-                <div class="form_tr">
-                    <div class="form_th">기안일 :</div>
-                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.createdTime} </div>
-                </div>
-                <div class="form_tr">
-                    <div class="form_th">결재양식 :</div>
-                    <div class="form_td" title="${my_approval.sender_id}"> ${my_approval.sender_id} </div>
-                </div>
-                <div class="card_action">
-                	결제하기
-                </div>
-            </div>
-        </div>
-    </div>
-</c:forEach>
-	
-
+			<c:if test="${empty my_incomplete_approval}">
+			    <div class="noDataMessage">
+			        결재할 문서가 없습니다.
+			    </div>
+			</c:if>
+			    <c:forEach items="${my_incomplete_approval}" var="my_approval"> 
+			        <div class="approvalCard">
+			            <header>
+			                <span class="state ongoing">${my_approval.approval_status}</span>
+			            </header>
+			            <div class="card_content"> 
+			                <div class="form">
+			                    <div class="card_subject">
+			                        ${my_approval.approvalTitle}
+			                    </div>
+			                    <div class="form_tr">
+			                        <div class="form_th">기 안 자 :</div>
+			                        <div class="form_td" title="${my_approval.sender_id}">${my_approval.senderName}</div>
+			                    </div>
+			                    <div class="form_tr">
+			                        <div class="form_th">기 안 일 :</div>
+			                        <div class="form_td" title="${my_approval.sender_id}">${my_approval.createdTime}</div>
+			                    </div>
+			                    <div class="form_tr">
+			                        <div class="form_th">결재양식 :</div>
+			                        <div class="form_td" title="${my_approval.sender_id}">${my_approval.approval_type}</div>
+			                    </div>
+			                    <div class="card_action">
+			                        결제하기
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </c:forEach>
 			</div>
 			<div class="comeApproval"> <!--나한테 온거 5개 -->
 				<p class="subtitle">결재수신문서</p><br>
@@ -199,10 +225,10 @@ th:nth-child(3) {
 					<c:forEach items="${receipt_approval}" var="c_approval">
 					<tbody>
 					<tr>
-						<input type="hidden" id="C_createdTime" value="${c_approval.createdTime}">
+						<input type="hidden" id="approvalID" value="${c_approval.approvalID}">
 						<td id= "c_approval_createdTime">${c_approval.createdTime}</td>
 						<td>아무거나</td>
-						<td>${c_approval.approvalTitle}</td>
+						<td id="c_approval_title" data-approvalid="${c_approval.approvalID}" >${c_approval.approvalTitle}</td>
 						<td>${c_approval.senderName}</td>
 						<td>${c_approval.receiverName}</td>
 						<td>${c_approval.approval_status}</td>
@@ -223,7 +249,7 @@ th:nth-child(3) {
 						<input type="hidden" id="I_createdTime" value="${i_approval.createdTime}">
 						<td id="i_approval.createdTime">${i_approval.createdTime}</td>
 						<td>아무거나</td>
-						<td>${i_approval.approvalTitle}</td>
+						<td id="i_approval_title" data-approvalid="${i_approval.approvalID}" >${i_approval.approvalTitle}</td>
 						<td>${i_approval.senderName}</td>
 						<td>${i_approval.receiverName}</td>
 						<td>${i_approval.approval_status}</td>
@@ -246,7 +272,7 @@ th:nth-child(3) {
 						<input type="hidden" id="CO_createdTime" value="${co_approval.createdTime}">
 						<td id="co_approval.createdTime">${co_approval.createdTime}</td>
 						<td>아무거나</td>
-						<td>${co_approval.approvalTitle}</td>
+						<td id="co_approval_title" data-approvalid="${co_approval.approvalID}" >${co_approval.approvalTitle}</td>
 						<td>${co_approval.senderName}</td>
 						<td>${co_approval.receiverName}</td>
 						<td>${co_approval.approval_status}</td>
@@ -261,29 +287,73 @@ th:nth-child(3) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    let dateStringCO = $("#CO_createdTime").val();
-    let dateStringI = $("#I_createdTime").val();
-    let dateStringC = $("#c_createdTime").val();
-
-    // 날짜 부분만을 추출하여 Date 객체로 파싱합니다.
-    let parsedDateCO = new Date(dateStringCO.split(' ')[0]);
-    let parsedDateI = new Date(dateStringI.split(' ')[0]);
-    let parsedDateC = new Date(dateStringC.split(' ')[0]);
-
-    // 날짜 부분만을 ISO 형식으로 변환합니다.
-    let formattedDateCO = parsedDateCO.toISOString().split('T')[0];
-    let formattedDateI = parsedDateI.toISOString().split('T')[0];
-    let formattedDateC = parsedDateC.toISOString().split('T')[0];
+    // 각 approval 제목을 가지고 있는 요소에 대한 이벤트 핸들러를 할당
+    $('td#c_approval_title').on('click', function() {
+        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
+        var approvalID = $(this).data('approvalid');
+        console.log(approvalID); // 콘솔에 출력
+        // 여기에 추가로 할 작업을 추가할 수 있습니다.
+        window.location = "approvalDetail?approvalID=" + approvalID
+    });
+    $('td#i_approval_title').on('click', function() {
+        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
+        var approvalID = $(this).data('approvalid');
+        console.log(approvalID); // 콘솔에 출력
+        // 여기에 추가로 할 작업을 추가할 수 있습니다.
+        window.location = "approvalDetail?approvalID=" + approvalID
+    });
+    $('td#co_approval_title').on('click', function() {
+        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
+        var approvalID = $(this).data('approvalid');
+        console.log(approvalID); // 콘솔에 출력
+        // 여기에 추가로 할 작업을 추가할 수 있습니다.
+        window.location = "approvalDetail?approvalID=" + approvalID
+    });
     
-    console.log("Formatted Date CO: " + formattedDateCO);
-    console.log("Formatted Date I: " + formattedDateI);
-    console.log("Formatted Date C: " + formattedDateC);
-
-    $("#i_approval_createdTime").text(formattedDateI);
-    $("#co_approval_createdTime").text(formattedDateC);
-    $("#c_approval_createdTime").text(formattedDateCO);
+    $('td#c_approval_createdTime').each(function() {
+        var text = $(this).text(); // 원본 createdTime 텍스트 가져오기
+        if (text.length > 10) {
+            var truncatedText = text.substring(0, 10);
+            $(this).text(truncatedText); // 10자까지 자른 텍스트로 설정하기
+        }
+    });
+    
+    $('td#i_approval\\.createdTime').each(function() {
+        var text = $(this).text(); // 원본 createdTime 텍스트 가져오기
+        if (text.length > 10) {
+            var truncatedText = text.substring(0, 10);
+            $(this).text(truncatedText); // 10자까지 자른 텍스트로 설정하기
+        }
+    });
+    
+    $('td#co_approval\\.createdTime').each(function() {
+        var text = $(this).text(); // 원본 createdTime 텍스트 가져오기
+        if (text.length > 10) {
+            var truncatedText = text.substring(0, 10);
+            $(this).text(truncatedText); // 10자까지 자른 텍스트로 설정하기
+        }
+    });
+    
 });
 
 
+
+
+
+
+
+
+let approvalStatus = my_approval.approval_status;
+let stateElement = document.querySelector('.state');
+
+if (approvalStatus === '진행 중') {
+    stateElement.classList.add('ongoing');
+} else if (approvalStatus === '보류') {
+    stateElement.classList.add('defer');
+} else if (approvalStatus === '거절') {
+    stateElement.classList.add('refuse');
+} else if (approvalStatus === '승인') {
+    stateElement.classList.add('approval');
+}
 </script>
 </html>

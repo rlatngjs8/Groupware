@@ -18,4 +18,5 @@ public interface ApprovalsDAO {
 	ApprovalsDTO showDetail(int ApprovalID);
 
 	void approvalInsert(String sender, String receiver, String approvalType, String approvalTitle, String approText);
+	void statusUpdate(int approvalID, String status);
 }
