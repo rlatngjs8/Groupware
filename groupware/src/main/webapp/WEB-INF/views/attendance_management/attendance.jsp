@@ -268,7 +268,7 @@ th.date-col:hover {
             <p id="date_info"></p>
             <p id="time_info"><span id="current_time"></span></p>
       		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
-			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
+			<button class="btn btn-warning m-2" id="btnCheckOut" disabled >퇴근하기</button>
 <!--             <label for="status_select">근무상태 변경:</label> -->
             
 <!--    <select id="status_select">
@@ -283,8 +283,8 @@ th.date-col:hover {
         </section>
         <hr>
         
-        <p id="checkin_time">출근시간: <span id="start_time"></span></p>
-        <p id="checkout_time">퇴근시간: <span id="end_time"></span></p>
+        <p id="checkin_time">출근시간:<span id="start_time"></span></p>
+        <p id="checkout_time">퇴근시간:<span id="end_time"></span></p>
 
 <!--         <section id="my_attendance_section">
         <br><br><br><br>
@@ -364,6 +364,7 @@ th.date-col:hover {
             // 페이지 로드시 초기 시간 업데이트
             updateTime();
             console.log("안녕",  $("#user_name").val() );
+            select_time();   
         });
         
         $(document).ready(function() {
@@ -522,6 +523,63 @@ th.date-col:hover {
             });
 
         });
+        
+        
+        function select_time() {
+            var current_date = (dateParts[0] + dateParts[1] + dateParts[2].replace('.', '')).replace(/\./g, '-');
+            var currentTime = new Date();
+            var hours = currentTime.getHours();
+            var minutes = currentTime.getMinutes();
+            var seconds = currentTime.getSeconds();
+            hours = (hours < 10 ? "0" : "") + hours;
+            minutes = (minutes < 10 ? "0" : "") + minutes;
+            seconds = (seconds < 10 ? "0" : "") + seconds;
+
+            const userid = $('#user_id').val();
+            const date = current_date;
+        	
+            const checkData = {
+                    userid: userid,
+                    date: date,
+                };
+            
+            $.ajax({
+                url: "/select_time",
+                data: checkData,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length === 0) {
+                        console.log("출퇴근시간 받기 실패");
+                    } else {
+                        // 출근시간과 퇴근시간이 각각 하나씩만 있는 경우를 가정합니다.
+                        console.log(data);
+                        $('#start_time').text(data[0]['starttime']);
+                        $('#end_time').text(data[0]['endtime']);
+                        if ($('#start_time').text() === null) {
+                            // 출근시간이 비어 있는 경우
+                            $("#btnCheckIn").prop('disabled', false); // 출근 버튼 활성화
+                            $("#btnCheckOut").prop('disabled', true); // 퇴근 버튼 비활성화
+                        } else {
+                            // 출근시간이 비어 있지 않은 경우
+                            $("#btnCheckIn").prop('disabled', true); // 출근 버튼 비활성화
+
+                            if ($('#end_time').text() !== '00:00:00') {
+                                // 퇴근시간이 00:00:00이 아닌 경우
+                                $("#btnCheckOut").prop('disabled', true); // 퇴근 버튼 비활성화
+                            } else {
+                                // 퇴근시간이 00:00:00인 경우
+                                $("#btnCheckOut").prop('disabled', false); // 퇴근 버튼 활성화
+                            }
+                        }    
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Ajax 요청 실패:", error);
+                }
+            });
+     
+        }
 
         function insert_checkIn() {
             console.log('insert_checkIn 함수 실행 시작');
@@ -538,8 +596,8 @@ th.date-col:hover {
             const date = current_date;
             const startTime = hours + ":" + minutes + ":" + seconds;
             console.log('userid:', userid);
+            
 
-            $('#start_time').text(startTime);
 
             if (currentTime >= workStartTime && currentTime <= workEndTime) {
                 $("#status").val("지각");
@@ -588,18 +646,17 @@ th.date-col:hover {
                         console.log("인서트 성공");
                         Swal.fire({
                             icon: 'success',
-                            showConfirmButton: false,
+                            showConfirmButton: true,
                             position: 'center-center',
-                            timer: 3000,
-                            timerProgressBar: true,
                             title: '출근이 완료되었습니다.',
-                            text: '오늘도 화이팅.',
-                        });
-                        // 출근 버튼 비활성화
-                        $("#btnCheckIn").prop("disabled", true);
-
-                        // 퇴근 버튼 활성화
-                        $("#btnCheckOut").prop("disabled", false);
+                            confirmButtonText: '확인' // 확인 버튼 추가
+           	         }).then((result) => {
+           	           if (result.isConfirmed) {
+           	        	   
+           	             // 확인 버튼을 누르면 페이지 리로드
+           	             location.reload();
+           	           }
+           	         });
                     }
                 },
                 error: function (xhr, status, error) {
@@ -626,7 +683,6 @@ th.date-col:hover {
             seconds = (seconds < 10 ? "0" : "") + seconds;
             const endTime = hours + ":" + minutes + ":" + seconds;
             const date = current_date;
-            $('#end_time').text(endTime);
 
             const checkData = {
                 userid: userid,
@@ -661,18 +717,16 @@ th.date-col:hover {
                     } else {
                         Swal.fire({
                             icon: 'success',
-                            showConfirmButton: false,
+                            showConfirmButton: true,
                             position: 'center-center',
-                            timer: 3000,
-                            timerProgressBar: true,
                             title: '퇴근이 완료되었습니다.',
-                            text: '좋은 하루 보내세요',
-                        });
-                        // 출근 버튼 활성화
-                        $("#btnCheckIn").prop("disabled", true);
-
-                        // 퇴근 버튼 비활성화
-                        $("#btnCheckOut").prop("disabled", true);
+             	         	confirmButtonText: '확인' // 확인 버튼 추가
+           	         }).then((result) => {
+           	           if (result.isConfirmed) {
+           	             // 확인 버튼을 누르면 페이지 리로드
+           	             location.reload();
+           	           }
+           	         });
                     }
                 },
                 error: function (xhr, status, error) {
@@ -798,6 +852,7 @@ th.date-col:hover {
 		                 tableBody.append(noDataMessage);
 		             } else {
 		                 for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {
+		                	 console.log(data);
 		                     const newRow = $('<tr>');
 		                     newRow.append('<td id="att_name" style="width: 70px; text-align: center;">' + data[i]['name'] + '</td>');
 		                     newRow.append('<td id="att_departmentname" style="width: 100px; text-align: center;">' + data[i]['departmentname'] + '</td>');

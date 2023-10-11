@@ -314,3 +314,28 @@
 .centerD{
 	margin-top:10px;
 }
+.attendance {
+  position: relative;
+  left: 240px;
+  max-width: 225px;
+  top: 40px;
+  border: 1px solid;
+}
+.attendance h2 a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.attendance button {
+    margin-top: 10px;
+}
+
+#checkin_time, #checkout_time {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#date_info, #time_info {
+    font-size: 18px;
+    margin: 10px 0;
+}

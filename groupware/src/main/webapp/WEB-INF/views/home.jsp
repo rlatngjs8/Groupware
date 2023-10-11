@@ -8,6 +8,7 @@
 <title>GroupNexa</title>
 <link href='css/main.min.css' rel='stylesheet' />
 <link href="/P_css/home.css" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src='https://cdn.jsdelivr.net/npm/rrule@2.6.4/dist/es5/rrule.min.js'></script>
 <script src='js/main.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/rrule@5.11.5/main.global.min.js'></script>
@@ -36,6 +37,40 @@
 		    <span class=mBtn style="margin-left:240px" id="goToMail"><img src="img/email_icon.png" class='icon'> <span>메일쓰기</span></span>
 		    <span class=mBtn id="goToAddPlan"><img src="img/calendar-icon.png" class='icon'> <span>일정등록</span></span>
 	    </div>
+	    
+	    <div class="attendance">      		
+	    	<h2><a href="/attendance_management/attendance">근태관리</a></h2>
+            <p id="date_info"></p>
+            <p id="time_info"><span id="current_time"></span></p>
+      		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
+			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
+			<hr>
+       		<p id="checkin_time">출근시간: <span id="start_time"></span></p>
+        	<p id="checkout_time">퇴근시간: <span id="end_time"></span></p>
+	    </div>
+	    
+<!-- 	    <div class="atttendance">
+			<div class="sidebar">
+  			<section id="attendance_section">
+      		<h2><a href="/attendance_management/attendance">근태관리</a></h2>
+            <p id="date_info"></p>
+            <p id="time_info"><span id="current_time"></span></p>
+      		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
+			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
+        	</section>
+        <hr>
+        
+        <p id="checkin_time">출근시간: <span id="start_time"></span></p>
+        <p id="checkout_time">퇴근시간: <span id="end_time"></span></p>
+
+       </div>
+    </div> -->
+    
+	    
+	    
+	    
+	    
+	    
     </div>
   <div class="home-content">
 	    <!-- 공지사항 박스 -->
@@ -237,5 +272,67 @@ $(document).ready(function(){
 		}
 	})
 });
+
+// 근태관리 부분
+$(document).ready(function () {
+    // 업무시간 퇴근시간 설정
+    const workStartTime = new Date();
+    workStartTime.setHours(9, 0, 0);
+    const workEndTime = new Date();
+    workEndTime.setHours(18, 0, 0);
+
+    // 현재 시간을 가져오기
+    var currentTime = new Date();
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+    var seconds = currentTime.getSeconds();
+
+    // 시간, 분, 초를 두 자리 숫자로 표시
+    hours = (hours < 10 ? "0" : "") + hours;
+    minutes = (minutes < 10 ? "0" : "") + minutes;
+    seconds = (seconds < 10 ? "0" : "") + seconds;
+
+    // 날짜 업데이트
+    var options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+    var dateStr = currentTime.toLocaleDateString('ko-KR', options);
+    var dateParts = dateStr.split(' ');
+    
+    
+    // 1초마다 updateTime 함수를 호출하여 시간 업데이트
+    setInterval(updateTime, 1000);
+    // 페이지 로드시 초기 시간 업데이트
+    updateTime();
+    console.log("안녕",  $("#user_name").val() );
+});
+
+// 시간 업데이트 함수 정의
+function updateTime() {
+    // 현재 시간을 가져오기
+    var currentTime = new Date();
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+    var seconds = currentTime.getSeconds();
+
+    // 시간, 분, 초를 두 자리 숫자로 표시
+    hours = (hours < 10 ? "0" : "") + hours;
+    minutes = (minutes < 10 ? "0" : "") + minutes;
+    seconds = (seconds < 10 ? "0" : "") + seconds;
+
+    // 날짜 업데이트
+    var options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+    var dateStr = currentTime.toLocaleDateString('ko-KR', options);
+    var dateParts = dateStr.split(' ');
+
+    // 시간 정보를 HTML 요소에 업데이트
+    $("#current_time").text(hours + ":" + minutes + ":" + seconds);
+
+    // 날짜 포맷 변경
+    var formattedDate = (dateParts[0] + dateParts[1] + dateParts[2].replace('.', '') + '(' + dateParts[3].slice(0, -2) + ")").replace(/\./g, '-');
+
+    // 변경된 날짜를 HTML 요소에 업데이트
+    $("#date_info").text(formattedDate);
+}
+
+
 </script>
 </html>
