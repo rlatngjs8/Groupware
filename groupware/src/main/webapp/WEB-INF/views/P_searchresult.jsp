@@ -30,7 +30,7 @@
         	<p>${userid}</p>
         	<span>${emp.departmentName}</span>&nbsp;<span style="font-weight:bold;"> ${name} ${emp.position}</span>
     	</div>
-    	<button id=btnLogout style="position: relative;top: 7px;left: 65px;">로그아웃</button>
+    	<button id=btnLogout >임시 로그아웃</button>
     </div>
 	    <div class="centerD">
 		    <span class=mBtn style="margin-left:240px" id="goToMail"><img src="img/email_icon.png" class='icon'> <span>메일쓰기</span></span>
@@ -52,8 +52,7 @@
 					</li>
 			    </c:forEach>
 			</ul>
-			<br>
-			<a href="/announcement">더보기></a>
+			
 	    </div>
 	    <h2>메일</h2>
 	    <!-- 메일함 박스 -->
@@ -76,8 +75,7 @@
 								<span class="mail-time">${rMlist.sendtime}</span></a><br>
 								</div>
 					    </c:forEach>
-					    <br>
-					    <a href="/mailFolder1">더보기></a>
+					    
 				</div>
 			    <div class="tab-view" id="tab2">
 					    <c:forEach items="${sMlist}" var="sMlist">
@@ -88,8 +86,7 @@
 							    <span class="mail-time">${sMlist.sendtime}</span></a><br>
 							    </div>
 					    </c:forEach>
-					    <br>
-					    <a href="/mailFolder2">더보기></a>
+					    
 				</div>
 			    <div class="tab-view" id="tab3">
 					    <c:forEach items="${iMlist}" var="iMlist">
@@ -99,8 +96,7 @@
 							    <span class="mail-time">${iMlist.sendtime}</span></a><br>
 						</div>
 					    </c:forEach>
-					    <br>
-					    <a href="/mailMark">더보기></a>
+					    
 				</div>
 			</div>
 			
@@ -130,8 +126,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
-					    <br>
-					    <a href="/arriveApproval">더보기></a>
+					    
 				</div>
 			    <div class="tab-view1" id="tab2-1">
 					    <table>
@@ -149,8 +144,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
-					    <br>
-					    <a href="/comeApproval">더보기></a>
+					    
 				</div>
 			    <div class="tab-view1" id="tab3-1">
 					    <table>
@@ -169,8 +163,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
-					    <br>
-					    <a href="/sendApproval">더보기></a>
+					    
 				</div>
 			</div>
 			
@@ -190,25 +183,18 @@
 		            </li>
 		        </c:forEach>
 		    </ul>
-		    <br>
-		    <a href="/community" class="more-link">더보기></a>
 		</div>
-		
-		
-		<div class="commu-box">
+		<h2>일정 검색</h2>
+		<div class="calendar">
 		    <ul>
-		        <c:forEach items="${blist}" var="blist">
+		        <c:forEach items="${calendar}" var="calendar">
 		            <li>
-		                <a href="/community_view?seqno=${blist.communityID}" class="full-link">
-		                    <span class="title">${blist.communityTitle}</span>
-		                    <span class="info">${blist.name} ${blist.position}</span>
-		                    <span class="date">${blist.formattedDate}</span>
-		                </a>
+	                    <span class="calenderTitle">${calendar.CALENDAR_TITLE}</span>
+	                    <span class="calenderInfo">${calendar.calendar_start} ~ ${calendar.calendar_end}</span>
 		            </li>
 		        </c:forEach>
 		    </ul>
 		    <br>
-		    <a href="/community" class="more-link">더보기></a>
 		</div>
   </div>
   	    <div class="calendar_box">

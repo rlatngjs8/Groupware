@@ -159,6 +159,50 @@ body {
 	height:32px;
 	border-radius:50%;
 }
+.menu {
+    position: relative;
+    margin-right: 20px;
+}
+
+.menu a {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px; /* 좌우 여백을 더 넓게 설정 */
+    transition: background-color 0.3s, color 0.3s; /* 배경색과 텍스트 색상에 애니메이션 적용 */
+    white-space: nowrap; /* 텍스트가 길어도 줄바꿈하지 않도록 설정 */
+
+}
+
+.menu ul {
+	border-radius: 10px;
+    position: absolute;
+    background-color: rgb(106, 176, 173);
+    list-style: none;	
+    padding: 5px;
+    opacity: 0;
+    transform: translateY(-20px); /* 초기에 위로 이동한 상태로 시작 */
+    transition: opacity 0.3s, transform 0.3s, background-color 0.3s; /* 투명도, 위치 변경, 배경색에 애니메이션 적용 */
+}
+
+.menu ul li {
+    padding: 5px;
+}
+
+/* 호버 시 배경색 및 텍스트 색상 변경 */
+.menu a:hover {
+    background-color: rgb(116, 137, 136);
+    color: #fff;
+    white-space: normal; /* 호버 시 텍스트가 줄바꿈되도록 설정 */
+    text-overflow: initial; /* 호버 시 ...을 제거하여 텍스트를 모두 표시 */
+}
+
+/* 마우스 호버 시 투명도 변경과 위치 변경으로 나타나게 만듭니다. */
+.menu:hover ul {
+    opacity: 1;
+    transform: translateY(0); /* 서브메뉴가 위에서 아래로 나타나도록 이동합니다. */
+}
+
 </style>
 </head>
 <body>
@@ -182,7 +226,7 @@ body {
           <a href="/manage_attendance">직원근태</a>
         </li>
         <li>
-          <a href="#">-</a>
+          	<a href="#">-</a>
         </li>
         <li>
             <a href="#">-</a>
@@ -210,9 +254,22 @@ body {
     	<input type="text" placeholder="검색" id="search-bar" onkeyup="enterkey()" style="width: 80%"><button class="search-button" id="search-button"><img src="/P_img/free-icon-magnifier-71403.png"></button>
     	</div>
     	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	
-    	<a href="#"><img src="/P_img/bell.png" alt="공지"></a>    	
-    	<a href="#"><img src="/P_img/bell.png" alt="공지"></a> 
-    	<img src="/img/${profileIMG}" class="profile">
+    	<a href="#"><img src="/P_img/bell.png" alt="공지"></a>    	 
+    	<ul>
+        <li class="menu">
+        	<img src="img/${profileIMG}" class="profile">
+        	<ul class="hide" style="margin-left: -30px;">
+        	    <li><a href="/"> 홈</a></li>
+            	<li><a href="/myInfo">정보수정</a></li>
+            	
+				<c:if test="${userid eq '관리자1'}">
+					<li><a href="/manage_attendance">근태관리</a></li>
+					<li><a href="/showEmployee">직원관리</a></li>
+				</c:if>
+                <li><a href="/logout">로그아웃</a></li>
+            </ul>
+        </li>
+        </ul>
 	</div>
 </body>
 
