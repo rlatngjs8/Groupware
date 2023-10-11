@@ -33,24 +33,28 @@ public class HomeController {
 				EmployeesDTO alEmp = edao.getListSelect(userid);
 				model.addAttribute("emp",alEmp);
 				
-				ArrayList<P_BoardDTO> alist=hdao.gethomealist();
-				ArrayList<MailDTO> RecMail = hdao.selectRecMail(empid);
-				ArrayList<MailDTO> sendMail = hdao.selectSendMail(empid);
-				ArrayList<MailDTO> Importantmail = hdao.selectImportantMail(empid);
-				ArrayList<MailDTO> blist = hdao.getboardlist();
-				ArrayList<ApprovalsDTO> wapproval = hdao.getWapplist(empid);
-				ArrayList<ApprovalsDTO> sapproval = hdao.getSapplist(empid);
-				ArrayList<ApprovalsDTO> rapproval = hdao.getRapplist(empid);
+				ArrayList<homeDTO> alist=hdao.gethomealist();
+				ArrayList<homeDTO> blist = hdao.getboardlist();
+				
+				ArrayList<homeDTO> RecMail = hdao.selectRecMail(empid);
+				ArrayList<homeDTO> sendMail = hdao.selectSendMail(empid);
+				ArrayList<homeDTO> Importantmail = hdao.selectImportantMail(empid);
+				
+				ArrayList<homeDTO> Wapproval = hdao.getWapplist(userid);
+				ArrayList<homeDTO> Sapproval = hdao.getSapplist(userid);
+				ArrayList<homeDTO> Rapproval = hdao.getRapplist(userid);
 				
 				model.addAttribute("alist",alist);
 				model.addAttribute("blist",blist);
 				model.addAttribute("rMlist", RecMail);
 				model.addAttribute("sMlist", sendMail);
 				model.addAttribute("iMlist", Importantmail);
-				model.addAttribute("wapproval", wapproval);
-				model.addAttribute("sapproval", sapproval);
-				model.addAttribute("rapproval", rapproval);
 				
+				model.addAttribute("Wapproval", Wapproval);
+				model.addAttribute("Sapproval", Sapproval);
+				model.addAttribute("Rapproval", Rapproval);
+				
+
 				return "home";
 			} else {
 				// 세션에 userid가 없으면 로그인 페이지 표시

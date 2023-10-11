@@ -103,7 +103,7 @@
 	    </div>
 	    <h2>결재</h2>
 	    <div class="wait-box">    	
-	         <div class="tab-box">
+	         <div class="tab-box1">
 			    <ul>
 			        <li class="selected1" data-tab="tab1-1">결재 대기</li>
 			        <li data-tab="tab2-1">결재 수신</li>
@@ -115,36 +115,55 @@
 			    			<thead>
 			    				<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>기안자</th></tr>
 			    			</thead>
-			    		
-						    <c:forEach items="${wapproval}" var="wapproval">
-						    		<tr><td>${wapproval.createdTime}</td><td>${wapproval.approval_type}</td><td>${wapproval.ApprovalTitle}</td><td>${wapproval.SenderName}</td></tr>
-						    </c:forEach>
+			    			<tbody>
+							    <c:forEach items="${Wapproval}" var="Wapproval">
+							    		<tr>
+						                    <td>${Wapproval.createdTime}</td>
+						                    <td>${Wapproval.approval_type}</td>
+						                    <td>${Wapproval.approvalTitle}</td>
+						                    <td>${Wapproval.senderName}</td>
+						                </tr>	
+							    </c:forEach>
+						    </tbody>
 					    </table>
-					    <a href="/mailFolder1">더보기></a>
+					    <a href="/arriveApproval">더보기></a>
 				</div>
 			    <div class="tab-view1" id="tab2-1">
 					    <table>
 			    			<thead>
 			    				<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>기안자</th></tr>
 			    			</thead>
-			    		
-						    <c:forEach items="${rapproval}" var="rapproval">
-						    		<tr><td>${rapproval.createdTime}</td><td>${rapproval.approval_type}</td><td>${rapproval.ApprovalTitle}</td><td>${rapproval.SenderName}</td></tr>
-						    </c:forEach>
+			    			<tbody>
+							    <c:forEach items="${Rapproval}" var="Rapproval">
+							    		<tr>
+								    		<td>${Rapproval.createdTime}</td>
+						                    <td>${Rapproval.approval_type}</td>
+						                    <td>${Rapproval.approvalTitle}</td>
+						                    <td>${Rapproval.senderName}</td>
+							    		</tr>
+							    </c:forEach>
+						    </tbody>
 					    </table>
-					    <a href="/mailFolder2">더보기></a>
+					    <a href="/comeApproval">더보기></a>
 				</div>
 			    <div class="tab-view1" id="tab3-1">
 					    <table>
 			    			<thead>
-			    				<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>담당자</th></tr>
+			    				<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>담당자</th><th>기안자</th><th>결재 상태</th></tr>
 			    			</thead>
-			    		
-						    <c:forEach items="${sapproval}" var="sapproval">
-						    		<tr><td>${sapproval.createdTime}</td><td>${sapproval.approval_type}</td><td>${sapproval.ApprovalTitle}</td><td>${wapproval.SenderName}</td></tr>
-						    </c:forEach>
+			    			<tbody>
+							    <c:forEach items="${Sapproval}" var="Sapproval">
+							    		 <tr>
+								            <td>${Sapproval.createdTime}</td>
+								            <td>${Sapproval.approval_type}</td>
+								            <td>${Sapproval.approvalTitle}</td>
+								            <td>${Sapproval.senderName}</td> <!-- 변경된 부분 -->
+								            <td>${Sapproval.approval_status}</td> <!-- 변경된 부분 -->
+								        </tr>
+							    </c:forEach>
+						    </tbody>
 					    </table>
-					    <a href="/mailMark">더보기></a>
+					    <a href="/sendApproval">더보기></a>
 				</div>
 			</div>
 			
@@ -267,6 +286,19 @@ $(document).ready(function(){
 
         // 모든 탭뷰 숨기기
         $('.tab-view').hide();
+        // 클릭한 탭의 데이터 속성 값을 가져와 해당 탭뷰 보이기
+        $('#' + $(this).data('tab')).show();
+    })
+	
+	
+	$('.tab-box1 li').on('click', function() {
+        // 모든 탭의 'selected' 클래스 제거
+        $('.tab-box1 li').removeClass('selected1');
+        // 클릭한 탭에 'selected' 클래스 추가
+        $(this).addClass('selected1');
+
+        // 모든 탭뷰 숨기기
+        $('.tab-view1').hide();
         // 클릭한 탭의 데이터 속성 값을 가져와 해당 탭뷰 보이기
         $('#' + $(this).data('tab')).show();
     });

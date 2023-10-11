@@ -85,4 +85,48 @@ public class homeDTO {
 		this.sendtime = sendtime;
 	}
 	
+	String createdTime;
+	String approval_type;
+	String approvalTitle;
+	String receiverName;
+	String senderName;
+	String approval_status;
+
+	public String getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
+	}
+	public String getApproval_type() {
+		return approval_type;
+	}
+	public void setApproval_type(String approval_type) {
+		this.approval_type = approval_type;
+	}
+	public String getApprovalTitle() {
+		return approvalTitle;
+	}
+	public void setApprovalTitle(String approvalTitle) {
+		this.approvalTitle = approvalTitle;
+	}
+	public String getSenderName() {
+		return senderName;
+	}
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
+	public String getReceiverName() {
+		return receiverName;
+	}
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
+	public String getApproval_status() {
+		return approval_status;
+	}
+	public void setApproval_status(String approval_status) {
+		this.approval_status = approval_status;
+	}
+	
 }

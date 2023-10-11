@@ -102,14 +102,14 @@
 
 
 
-.tab-box ul {
+.tab-box ul, .tab-box1 ul {
     display: flex;
     border-bottom: 1px solid #ddd;
     padding: 0;
     list-style: none;
 }
 
-.tab-box li {
+.tab-box li, .tab-box1 li {
     cursor: pointer;
     padding: 10px 15px;
     border: 1px solid #ddd;
@@ -117,24 +117,25 @@
     margin-right: -1px; 
 }
 
-.tab-box li.selected {
+.tab-box li.selected, .tab-box1 li.selected1 {
     background-color: #fff;
     font-weight: bold;
 }
 
-.tab-view {
+.tab-view, .tab-view1 {
     display: none;
     border: 1px solid #ddd;
     padding: 10px;
 }
 
-.tab-view#tab1 {
+.tab-view#tab1, .tab-view1#tab1-1 {
     display: block;
 }
 
 .mail-box .tab-view {
     padding: 15px;
 }
+
 
 .mail-name, .mail-email, .mail-subject, .mail-time {
     display: inline-block;
@@ -192,7 +193,6 @@
 .iMlist:hover .mail-subject, 
 .iMlist:hover .mail-time {
     color: rgb(0, 0, 0);
-    
 }
 .rMlist, .sMlist, .iMlist {
     border-bottom: 1px solid #ddd;
