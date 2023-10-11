@@ -45,7 +45,8 @@ body {
 	margin-top:5%;
 }
 .subtitle{
-	font-size:16px;
+	font-size:20px;
+	margin:auto;
 }
 table {
     border-collapse: collapse; /* 테두리 병합 */
@@ -60,10 +61,15 @@ thead {
     height:30px;
 }
 th {
-	font-weight: normal;
+	font-weight: bold;
+	background-color: rgb(106, 176, 173);
+	font-size: 18px;
+	text-align:center;
+	
 }
 tbody td, tbody th {
-    border: none; /* <tbody>의 <td>와 <th>에 테두리 없애기 */
+    border: none;
+    text-align:center;
 }
 th:first-child,th:nth-child(4),th:nth-child(5),th:nth-child(6){
     width: 10%; /* 첫 번째 <th> 요소의 너비를 200px로 설정합니다. */
@@ -94,7 +100,7 @@ th:nth-child(3) {
 .state {
     font-weight: bold;
     padding: 5px 10px;
-    border-radius: 5px;
+	text-align: center;
     text-transform: uppercase;
 }
 
@@ -111,7 +117,7 @@ th:nth-child(3) {
 }
 
 .form_td {
-    color: #007bff;
+    color: block;
     font-weight: bold;
     word-break: break-all; /* 긴 텍스트 줄 바꿈 처리 */
 }
@@ -135,25 +141,11 @@ th:nth-child(3) {
   font-weight: 500;
   vertical-align: middle
 }
-  
-
 .card_action:hover {
-    background-color: lightgreen;
+    background-color: #cccccc; /* 짙은 회색 배경색 */
 }
 
-.ongoing {
-    color: #007bff;
-    background-color: #e7f3fe;
-}
-.defer {
-    color: rgb(255, 204, 0); /* 진한 노랑색 배경색 */
-    background-color: rgb(255, 255, 153); /* 연노랑색 배경색 */
-}
 
-.refuse {
-    color: rgb(255, 153, 153); /* 연한빨간색 배경색 */
-    background-color: rgb(204, 0, 0); /* 진한빨강색 배경색 */
-}
 
 .approval {
 	color: rgb(153, 255, 153); /* 연한초록색 배경색 */
@@ -167,6 +159,42 @@ th:nth-child(3) {
     top: 88px;
     font-size: 18px;
 }
+
+#c_approval_title {
+cursor: pointer;
+}
+
+#i_approval_title {
+cursor: pointer;
+
+}
+
+#co_approval_title{
+cursor: pointer;
+}
+
+.ongoing {
+    color: #0056b3; /* 진한 파랑색 텍스트 색상 */
+    background-color: #dbeeff; /* 연한 파랑색 배경색 */
+}
+
+.defer {
+    color: #996300; /* 진한 갈색 텍스트 색상 */
+    background-color: #fff580; /* 연한 노랑색 배경색 */
+}
+
+.refuse {
+    color: #8c0000; /* 진한 붉은색 텍스트 색상 */
+    background-color: #ff6666; /* 연한 붉은색 배경색 */
+}
+
+.approval {
+    color: #3d8b3d; /* 진한 초록색 텍스트 색상 */
+    background-color: #a3d9a3; /* 연한 초록색 배경색 */
+}
+
+
+
 
 </style>
 </head>
@@ -187,6 +215,7 @@ th:nth-child(3) {
 			    </div>
 			</c:if>
 			    <c:forEach items="${my_incomplete_approval}" var="my_approval"> 
+			    	<input type="hidden" class="approvalID" value="${my_approval.approvalID}">
 			        <div class="approvalCard">
 			            <header>
 			                <span class="state ongoing">${my_approval.approval_status}</span>
@@ -208,8 +237,8 @@ th:nth-child(3) {
 			                        <div class="form_th">결재양식 :</div>
 			                        <div class="form_td" title="${my_approval.sender_id}">${my_approval.approval_type}</div>
 			                    </div>
-			                    <div class="card_action">
-			                        결제하기
+			                    <div class="card_action" onclick="go_approval(this)">
+			                        결재하기
 			                    </div>
 			                </div>
 			            </div>
@@ -231,7 +260,7 @@ th:nth-child(3) {
 						<td id="c_approval_title" data-approvalid="${c_approval.approvalID}" >${c_approval.approvalTitle}</td>
 						<td>${c_approval.senderName}</td>
 						<td>${c_approval.receiverName}</td>
-						<td>${c_approval.approval_status}</td>
+						<td class="state">${c_approval.approval_status}</td>
 					</tr>
 					</c:forEach>	
 					</tbody>
@@ -252,7 +281,7 @@ th:nth-child(3) {
 						<td id="i_approval_title" data-approvalid="${i_approval.approvalID}" >${i_approval.approvalTitle}</td>
 						<td>${i_approval.senderName}</td>
 						<td>${i_approval.receiverName}</td>
-						<td>${i_approval.approval_status}</td>
+						<td class="state">${i_approval.approval_status}</td>
 					</tr>
 					
 					</c:forEach> 
@@ -275,7 +304,7 @@ th:nth-child(3) {
 						<td id="co_approval_title" data-approvalid="${co_approval.approvalID}" >${co_approval.approvalTitle}</td>
 						<td>${co_approval.senderName}</td>
 						<td>${co_approval.receiverName}</td>
-						<td>${co_approval.approval_status}</td>
+						<td class="state">${co_approval.approval_status}</td>
 					</tr>
 					</c:forEach>  
 					</tbody>
@@ -334,26 +363,33 @@ $(document).ready(function() {
         }
     });
     
+    $('.state').each(function() {
+        var approvalStatus = $(this).text();
+        var stateElement = $(this).closest('tr').find('.state'); // 상태 열이 있는 행에서 .state 요소를 찾음
+        
+        console.log("이거입니다",approvalStatus )
+
+        if (approvalStatus === '진행 중') {
+            stateElement.addClass('ongoing');
+        } else if (approvalStatus === '보류') {
+            stateElement.addClass('defer');
+        } else if (approvalStatus === '거절') {
+            stateElement.addClass('refuse');
+        } else if (approvalStatus === '승인') {
+            stateElement.addClass('approval');
+        }
+    });
+    
 });
 
-
-
-
-
-
-
-
-let approvalStatus = my_approval.approval_status;
-let stateElement = document.querySelector('.state');
-
-if (approvalStatus === '진행 중') {
-    stateElement.classList.add('ongoing');
-} else if (approvalStatus === '보류') {
-    stateElement.classList.add('defer');
-} else if (approvalStatus === '거절') {
-    stateElement.classList.add('refuse');
-} else if (approvalStatus === '승인') {
-    stateElement.classList.add('approval');
+function go_approval(element) {
+	var approvalID = $().closest('.approvalCard').find('.approvalID').val();
+    console.log(approvalID); // 콘솔에 출력
+    // 여기에 추가로 할 작업을 추가할 수 있습니다.
+    window.location = "approvalDetail?approvalID=" + approvalID;
 }
+
+
+
 </script>
 </html>
