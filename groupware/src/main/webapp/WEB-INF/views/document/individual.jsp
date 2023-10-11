@@ -90,7 +90,7 @@
             width: calc(85% - 20%);
             padding: 0;
             margin: 0;
-            overflow: auto;
+/*             overflow: auto; */
         }
         
         .document-container {
@@ -138,30 +138,33 @@
             background-color: #ccc;
         }
         
-        .pagination {
+         .pagination {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         
-        .pagination a,
-        .pagination .active {
+        .pagination a{
             display: inline-block;
-            padding: 5px 10px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            margin-right: 5px;
-            text-decoration: none;
-            color: #333;
+				    padding: 5px 10px;
+				    margin: 5px;
+				    background-color: #fff;
+				    color: #333;
+				    border: 1px solid #ccc;
+				    border-radius: 5px;
+				    text-decoration: none;
         }
         
         .pagination a:hover {
-            background-color: #ddd;
+            background-color: #f5f5f5;
         }
         
         .pagination .active {
-            background-color: #10665b;
-            color: #fff;
-            border: 1px solid #10665b;
+            background-color: #6ab0ad;
+				    color: #fff;
+				    padding: 5px 10px;
+				    margin: 5px;
+				    border: 1px solid #6ab0ad;
+				    border-radius: 5px;
         }
         .downloadGuide{
 			position: relative;

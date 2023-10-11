@@ -24,7 +24,7 @@ body {
 	display: block;
 	position: absolute;
 	top: 110px;
-	left: 12%;
+	right: 17%;
 	width: 100%;
 	margin-top: 10px;
 	font-size: 24px;
@@ -34,7 +34,7 @@ body {
 .comeForm {
 	margin-left: 25%;
 	margin-top: 2%;
-	width: 45%;
+	width: 65%;
 	font-size: 16px;
 }
 
@@ -45,13 +45,16 @@ body {
 }
 
 .customTable td, .customTable th {
-	border: 1px solid #ddd;
+/* 	border: 1px solid #ddd; */
 	padding: 8px;
 
 }
 
 .customTable th {
-	background-color: #f2f2f2;
+	  border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background-color: rgb(106, 176, 173);
+    color: #fff;
 }
 
 
@@ -98,7 +101,41 @@ body {
     .customTable {
     	width: 100%;
     }
+  .pagination {
+    text-align: center;
+    margin-top: 20px;
+}
 
+.pagination a {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    background-color: #f5f5f5;
+}
+
+.pagination .current-page {
+    background-color: #6ab0ad;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 5px;
+    border: 1px solid #6ab0ad;
+    border-radius: 5px;
+}
+
+.pagination a:disabled {
+    background-color: #eee;
+    color: #888;
+    pointer-events: none;
+}
+    
 </style>
 </head>
 <body>
@@ -117,8 +154,8 @@ body {
 		            <th><input type="checkbox"></th>
 		            <th>문서번호</th>
 		            <th>기안일</th>
-		            <th>결재양식</th>
-		            <th>제목</th>
+		            <th style= "width: 12%;">결재양식</th>
+		            <th style= "width: 40%;">제목</th>
 		            <th>기안자</th>
 		            <th>담당자</th>
 		            <th>결재상태</th>
@@ -150,10 +187,29 @@ body {
 		        </c:otherwise>
 		    </c:choose>
 		</table>
-
+		<div class="pagination">
+		    <c:choose>
+		        <c:when test="${totalPages > 1}">
+		            <c:forEach begin="1" end="${totalPages}" var="page">
+		                <c:url value="/sendApproval" var="url">
+		                    <c:param name="page" value="${page}" />
+		                </c:url>
+		                <c:choose>
+		                    <c:when test="${page == currentPage}">
+		                        <span class="current-page">${page}</span>
+		                    </c:when>
+		                    <c:otherwise>
+		                        <a href="${url}">${page}</a>
+		                    </c:otherwise>
+		                </c:choose>
+		            </c:forEach>
+		        </c:when>
+		    </c:choose>
+		</div>
 			
 			<!--  ${pagestr} -->
 		</div>
+		<!-- 페이지네이션을 표시할 영역 추가 -->
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

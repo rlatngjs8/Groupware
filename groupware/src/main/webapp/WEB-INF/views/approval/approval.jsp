@@ -12,6 +12,7 @@ body {
 }
 .mainSection {
 	display: flex; /* Flexbox를 사용하여 요소들을 가로 배치합니다. */
+	margin-bottom: 20%;
 }
 
 .approvalHome {
@@ -61,11 +62,11 @@ thead {
     height:30px;
 }
 th {
-	font-weight: bold;
-	background-color: rgb(106, 176, 173);
-	font-size: 18px;
-	text-align:center;
-	
+		font-weight: bold;
+    background-color: rgb(106, 176, 173);
+    font-size: 15px;
+    text-align: center;
+    color: white;
 }
 tbody td, tbody th {
     border: none;
@@ -75,10 +76,10 @@ th:first-child,th:nth-child(4),th:nth-child(5),th:nth-child(6){
     width: 10%; /* 첫 번째 <th> 요소의 너비를 200px로 설정합니다. */
 }
 th:nth-child(2) {
-    width: 18%;
+    width: 20%;
 }
 th:nth-child(3) {
-    width: 45%;
+    width: 35%;
 }
 
 .approvalCard {
@@ -88,7 +89,7 @@ th:nth-child(3) {
     padding: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     width: 300px; /* 크기를 조정할 수 있습니다 */
-    margin-right: 5px;
+    margin-right: 35px;
 }
 
 .cardHeader {
@@ -139,7 +140,8 @@ th:nth-child(3) {
   text-align: center;
   font-weight: bold;
   font-weight: 500;
-  vertical-align: middle
+  vertical-align: middle;
+  width: -webkit-fill-available;
 }
 .card_action:hover {
     background-color: #cccccc; /* 짙은 회색 배경색 */
@@ -237,7 +239,7 @@ cursor: pointer;
 			                        <div class="form_th">결재양식 :</div>
 			                        <div class="form_td" title="${my_approval.sender_id}">${my_approval.approval_type}</div>
 			                    </div>
-			                    <div class="card_action" onclick="go_approval(this)">
+			                    <div class="card_action" onclick="go_approval(this)" style="margin-top: 10px; cursor:pointer">
 			                        결재하기
 			                    </div>
 			                </div>
@@ -256,7 +258,7 @@ cursor: pointer;
 					<tr>
 						<input type="hidden" id="approvalID" value="${c_approval.approvalID}">
 						<td id= "c_approval_createdTime">${c_approval.createdTime}</td>
-						<td>아무거나</td>
+						<td>${c_approval.approval_type}</td>
 						<td id="c_approval_title" data-approvalid="${c_approval.approvalID}" >${c_approval.approvalTitle}</td>
 						<td>${c_approval.senderName}</td>
 						<td>${c_approval.receiverName}</td>
@@ -277,7 +279,7 @@ cursor: pointer;
 					<tr>
 						<input type="hidden" id="I_createdTime" value="${i_approval.createdTime}">
 						<td id="i_approval.createdTime">${i_approval.createdTime}</td>
-						<td>아무거나</td>
+						<td>${i_approval.approval_type}</td>
 						<td id="i_approval_title" data-approvalid="${i_approval.approvalID}" >${i_approval.approvalTitle}</td>
 						<td>${i_approval.senderName}</td>
 						<td>${i_approval.receiverName}</td>
@@ -300,7 +302,7 @@ cursor: pointer;
 					<tr>
 						<input type="hidden" id="CO_createdTime" value="${co_approval.createdTime}">
 						<td id="co_approval.createdTime">${co_approval.createdTime}</td>
-						<td>아무거나</td>
+						<td>${co_approval.approval_type}</td>
 						<td id="co_approval_title" data-approvalid="${co_approval.approvalID}" >${co_approval.approvalTitle}</td>
 						<td>${co_approval.senderName}</td>
 						<td>${co_approval.receiverName}</td>

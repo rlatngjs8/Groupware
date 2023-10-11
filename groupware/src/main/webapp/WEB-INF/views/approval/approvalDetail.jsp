@@ -192,7 +192,7 @@ body {
                     <td><span id="approvalTitle">${alShow.approvalTitle}</span></td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="bgGray centerText">내용</td>
+                    <td colspan="2" class="bgGray centerText" style="text-align:center">내 용</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="height450"><span id="approText" class="ApproText">${alShow.content}</span></td>
