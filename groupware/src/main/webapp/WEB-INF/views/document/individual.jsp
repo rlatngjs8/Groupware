@@ -130,12 +130,12 @@
             width: 160px;
         }
         
-        .table-style tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+/*         .table-style tbody tr:nth-child(even) { */
+/*             background-color: #f2f2f2; */
+/*         } */
         
         .table-style tbody tr:hover {
-            background-color: #ccc;
+            background-color: #f5f5f5;
         }
         
          .pagination {
@@ -195,7 +195,7 @@
         <div class="document-container">
             <div id="indiDocument">
                 <div class="indiSection">
-									<h3>개인 자료실</h3>
+									<h2>개인 자료실</h2>
 									<div><span class="downloadGuide">※파일명 클릭시 다운로드 됩니다.</span></div>
                     <table class="table-style">
                       <thead class="thead-style">

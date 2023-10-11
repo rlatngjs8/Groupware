@@ -130,12 +130,12 @@
             width: 160px;
         }
         
-        .table-style tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+/*         .table-style tbody tr:nth-child(even) { */
+/*             background-color: #f2f2f2; */
+/*         } */
         
         .table-style tbody tr:hover {
-            background-color: #ccc;
+            background-color: #f5f5f5;
         }
         
         .pagination {
@@ -173,6 +173,10 @@
 	    font-size: 14px;
 	    color: red;
 		}
+/* 		.docuSub:hover{ */
+/* 			background-color:#ccc; */
+/* 			cursor:pointer; */
+/* 		} */
 </style>
 </head>
 <body>
@@ -187,15 +191,15 @@
                 </div>
                 <br><br><br>
                 <div>
-                    <a href="/documentLibaray" id="allDocu">전체 자료실</a><br><br><br>
-                    <a href="/individual" id="individual">개인 자료실</a>
+                    <a href="/documentLibaray" id="allDocu" class="docuSub">전체 자료실</a><br><br><br>
+                    <a href="/individual" id="individual" class="docuSub">개인 자료실</a>
                 </div>
             </div>
         </aside>
         <div class="document-container">
             <div id="allDocument">
                 <div class="allSection">
-                	<h3>전체	자료실</h3>
+                	<h2>전체	자료실</h2>
                 	<div><span class="downloadGuide">※파일명 클릭시 다운로드 됩니다.</span></div>
                     <table class="table-style">
                         <thead class="thead-style">

@@ -194,7 +194,10 @@ cursor: pointer;
     color: #3d8b3d; /* 진한 초록색 텍스트 색상 */
     background-color: #a3d9a3; /* 연한 초록색 배경색 */
 }
-
+tbody tr:hover {
+    background-color: #f5f5f5; /* 마우스를 올렸을 때 배경 색상 변경 */
+    cursor: pointer; /* 커서를 포인터 모양으로 변경 */
+}
 
 
 
@@ -217,8 +220,9 @@ cursor: pointer;
 			    </div>
 			</c:if>
 			    <c:forEach items="${my_incomplete_approval}" var="my_approval"> 
-			    	<input type="hidden" class="approvalID" value="${my_approval.approvalID}">
+			    	
 			        <div class="approvalCard">
+			        	<input type="hidden" class="approvalID" value="${my_approval.approvalID}">
 			            <header>
 			                <span class="state ongoing">${my_approval.approval_status}</span>
 			            </header>
@@ -239,7 +243,7 @@ cursor: pointer;
 			                        <div class="form_th">결재양식 :</div>
 			                        <div class="form_td" title="${my_approval.sender_id}">${my_approval.approval_type}</div>
 			                    </div>
-			                    <div class="card_action" onclick="go_approval(this)" style="margin-top: 10px; cursor:pointer">
+			                    <div class="card_action" id="card_action"  style="margin-top: 10px; cursor:pointer">
 			                        결재하기
 			                    </div>
 			                </div>
@@ -277,7 +281,8 @@ cursor: pointer;
 					<tbody>
 					<c:forEach items="${incomplete_approval}" var="i_approval">		
 					<tr>
-						<input type="hidden" id="I_createdTime" value="${i_approval.createdTime}">
+<%-- 						<input type="hidden" id="I_createdTime" value="${i_approval.createdTime}"> --%>
+						<input type="hidden" id="approvalID" value="${i_approval.approvalID}">
 						<td id="i_approval.createdTime">${i_approval.createdTime}</td>
 						<td>${i_approval.approval_type}</td>
 						<td id="i_approval_title" data-approvalid="${i_approval.approvalID}" >${i_approval.approvalTitle}</td>
@@ -300,7 +305,8 @@ cursor: pointer;
 					<tbody>
 					<c:forEach items="${completion_approval}" var="co_approval">
 					<tr>
-						<input type="hidden" id="CO_createdTime" value="${co_approval.createdTime}">
+<%-- 						<input type="hidden" id="CO_createdTime" value="${co_approval.createdTime}"> --%>
+						<input type="hidden" id="approvalID" value="${co_approval.approvalID}">
 						<td id="co_approval.createdTime">${co_approval.createdTime}</td>
 						<td>${co_approval.approval_type}</td>
 						<td id="co_approval_title" data-approvalid="${co_approval.approvalID}" >${co_approval.approvalTitle}</td>
@@ -318,29 +324,18 @@ cursor: pointer;
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    // 각 approval 제목을 가지고 있는 요소에 대한 이벤트 핸들러를 할당
-    $('td#c_approval_title').on('click', function() {
-        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
-        var approvalID = $(this).data('approvalid');
-        console.log(approvalID); // 콘솔에 출력
-        // 여기에 추가로 할 작업을 추가할 수 있습니다.
-        window.location = "approvalDetail?approvalID=" + approvalID
+	$('table tr').click(function() {
+        var approvalID = $(this).find('input[type="hidden"]').val();
+        window.location = "approvalDetail?approvalID=" + approvalID;
     });
-    $('td#i_approval_title').on('click', function() {
-        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
-        var approvalID = $(this).data('approvalid');
-        console.log(approvalID); // 콘솔에 출력
-        // 여기에 추가로 할 작업을 추가할 수 있습니다.
-        window.location = "approvalDetail?approvalID=" + approvalID
-    });
-    $('td#co_approval_title').on('click', function() {
-        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
-        var approvalID = $(this).data('approvalid');
-        console.log(approvalID); // 콘솔에 출력
-        // 여기에 추가로 할 작업을 추가할 수 있습니다.
-        window.location = "approvalDetail?approvalID=" + approvalID
-    });
-    
+	
+	 $('.card_action').click(function() {
+	        var approvalID = $(this).closest('.approvalCard').find('.approvalID').val();
+	        console.log(approvalID); // 콘솔에 출력
+	        // 여기에 추가로 할 작업을 추가할 수 있습니다.
+	        window.location = "approvalDetail?approvalID=" + approvalID;
+	    });
+	
     $('td#c_approval_createdTime').each(function() {
         var text = $(this).text(); // 원본 createdTime 텍스트 가져오기
         if (text.length > 10) {
@@ -384,12 +379,12 @@ $(document).ready(function() {
     
 });
 
-function go_approval(element) {
-	var approvalID = $().closest('.approvalCard').find('.approvalID').val();
-    console.log(approvalID); // 콘솔에 출력
-    // 여기에 추가로 할 작업을 추가할 수 있습니다.
-    window.location = "approvalDetail?approvalID=" + approvalID;
-}
+// function go_approval(element) {
+// 	var approvalID = $(element).closest('.approvalCard').find('.approvalID').val();
+//     console.log(approvalID); // 콘솔에 출력
+//     // 여기에 추가로 할 작업을 추가할 수 있습니다.
+//     window.location = "approvalDetail?approvalID=" + approvalID;
+// }
 
 
 
