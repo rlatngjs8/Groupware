@@ -139,5 +139,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    where a.receiver_id = #{param1} and a.approvalTitle LIKE CONCAT('%',#{param2},'%')
 	    ORDER BY a.ApprovalID DESC 
 	</select>
+	<select id="getSearchcalendar" resultType="com.groupware.project.homeDTO">
+		SELECT CALENDAR_TITLE,DATE_FORMAT(calendar_start, '%y-%m-%d') AS calendar_start,DATE_FORMAT(calendar_end, '%y-%m-%d') AS calendar_end  FROM calendar WHERE CALENDAR_TITLE LIKE CONCAT('%',#{param1},'%');
+	</select>
 	
 </mapper>

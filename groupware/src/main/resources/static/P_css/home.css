@@ -305,3 +305,48 @@
 .centerD{
 	margin-top:10px;
 }
+
+.calendar {
+    width: 400px;
+    height: auto; /* 자동 높이 설정 */
+    background-color: white;
+    padding: 10px;
+    border: 1px solid lightgrey;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    margin-bottom: 20px; /* 여백 추가 */
+}
+
+/* .calendar 내부의 ul 스타일 */
+.calendar ul {
+    list-style-type: none; /* 리스트 표시 제거 */
+    padding-left: 0; /* 왼쪽 패딩 제거 */
+}
+
+/* .calendar 내부의 li 스타일 */
+.calendar li {
+    display: flex; /* 플렉스로 정렬 */
+    justify-content: space-between; /* 내용 사이 간격 동일하게 설정 */
+    padding: 8px;
+    border-bottom: 1px solid lightgrey; /* 하단 경계선 추가 */
+}
+
+/* .calendar 내부의 span 스타일 */
+.calendar span {
+    font-size: 0.9em; /* 글자 크기 조절 */
+}
+
+/* .calendar 내부의 제목 span 스타일 */
+.calendar .calenderTitle {
+    font-weight: bold; /* 굵은 글자 */
+    color: #333; /* 글자 색상 */
+}
+
+/* .calendar 내부의 정보 span 스타일 */
+.calendar .calenderInfo {
+    color: #777; /* 글자 색상 */
+}
+
+/* 브레이크 부분 */
+.calendar br {
+    margin-top: 15px; /* 위쪽 여백 추가 */
+}

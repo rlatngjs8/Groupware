@@ -118,6 +118,8 @@ public class HomeController {
 			HttpSession session = req.getSession();
 			String userid = (String) session.getAttribute("userid");
 			int empid = (Integer) session.getAttribute("EmpId");
+			EmployeesDTO alEmp = edao.getListSelect(userid);
+			model.addAttribute("emp",alEmp);
 			
 			ArrayList<homeDTO> alist=hdao.getSearchAnnouncement(search);
 			ArrayList<homeDTO> blist = hdao.getSearchBoard(search);
@@ -141,6 +143,8 @@ public class HomeController {
 			model.addAttribute("Sapproval", Sapproval);
 			model.addAttribute("Rapproval", Rapproval);
 			
+			ArrayList<homeDTO> searchcalendar = hdao.getSearchcalendar(search);
+			model.addAttribute("calendar", searchcalendar);
 			return "P_searchresult";
 		}
 }

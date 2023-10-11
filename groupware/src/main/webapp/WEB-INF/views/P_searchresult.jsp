@@ -184,7 +184,18 @@
 		        </c:forEach>
 		    </ul>
 		</div>
-
+		<h2>일정 검색</h2>
+		<div class="calendar">
+		    <ul>
+		        <c:forEach items="${calendar}" var="calendar">
+		            <li>
+	                    <span class="calenderTitle">${calendar.CALENDAR_TITLE}</span>
+	                    <span class="calenderInfo">${calendar.calendar_start} ~ ${calendar.calendar_end}</span>
+		            </li>
+		        </c:forEach>
+		    </ul>
+		    <br>
+		</div>
   </div>
   	    <div class="calendar_box">
 	    	    <!-- 캘린더박스 -->

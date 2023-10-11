@@ -52,6 +52,7 @@
 					</li>
 			    </c:forEach>
 			</ul>
+			<br>
 			<a href="/announcement">더보기></a>
 	    </div>
 	    <h2>메일</h2>
@@ -75,6 +76,7 @@
 								<span class="mail-time">${rMlist.sendtime}</span></a><br>
 								</div>
 					    </c:forEach>
+					    <br>
 					    <a href="/mailFolder1">더보기></a>
 				</div>
 			    <div class="tab-view" id="tab2">
@@ -86,6 +88,7 @@
 							    <span class="mail-time">${sMlist.sendtime}</span></a><br>
 							    </div>
 					    </c:forEach>
+					    <br>
 					    <a href="/mailFolder2">더보기></a>
 				</div>
 			    <div class="tab-view" id="tab3">
@@ -96,6 +99,7 @@
 							    <span class="mail-time">${iMlist.sendtime}</span></a><br>
 						</div>
 					    </c:forEach>
+					    <br>
 					    <a href="/mailMark">더보기></a>
 				</div>
 			</div>
@@ -126,6 +130,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
+					    <br>
 					    <a href="/arriveApproval">더보기></a>
 				</div>
 			    <div class="tab-view1" id="tab2-1">
@@ -144,6 +149,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
+					    <br>
 					    <a href="/comeApproval">더보기></a>
 				</div>
 			    <div class="tab-view1" id="tab3-1">
@@ -163,6 +169,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
+					    <br>
 					    <a href="/sendApproval">더보기></a>
 				</div>
 			</div>
@@ -183,9 +190,26 @@
 		            </li>
 		        </c:forEach>
 		    </ul>
+		    <br>
 		    <a href="/community" class="more-link">더보기></a>
 		</div>
-
+		
+		
+		<div class="commu-box">
+		    <ul>
+		        <c:forEach items="${blist}" var="blist">
+		            <li>
+		                <a href="/community_view?seqno=${blist.communityID}" class="full-link">
+		                    <span class="title">${blist.communityTitle}</span>
+		                    <span class="info">${blist.name} ${blist.position}</span>
+		                    <span class="date">${blist.formattedDate}</span>
+		                </a>
+		            </li>
+		        </c:forEach>
+		    </ul>
+		    <br>
+		    <a href="/community" class="more-link">더보기></a>
+		</div>
   </div>
   	    <div class="calendar_box">
 	    	    <!-- 캘린더박스 -->

@@ -135,6 +135,28 @@ public class homeDTO {
 		ApprovalID = approvalID;
 	}
 	
+	String CALENDAR_TITLE;
+	String calendar_start;
+	String calendar_end;
+
+	public String getCALENDAR_TITLE() {
+		return CALENDAR_TITLE;
+	}
+	public void setCALENDAR_TITLE(String cALENDAR_TITLE) {
+		CALENDAR_TITLE = cALENDAR_TITLE;
+	}
+	public String getCalendar_start() {
+		return calendar_start;
+	}
+	public void setCalendar_start(String calendar_start) {
+		this.calendar_start = calendar_start;
+	}
+	public String getCalendar_end() {
+		return calendar_end;
+	}
+	public void setCalendar_end(String calendar_end) {
+		this.calendar_end = calendar_end;
+	}
 	
 	
 }
