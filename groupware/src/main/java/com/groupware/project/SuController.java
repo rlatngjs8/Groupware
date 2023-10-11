@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -347,9 +346,8 @@ public class SuController {
 		}
 	}
 	@GetMapping("/documentLibrary")
-	public String documentLibrary(HttpServletRequest req, Model model, 
-	    @RequestParam(defaultValue = "1") int page,
-	    @RequestParam(defaultValue = "all") String documentType) {
+	public String documentLibrary(HttpServletRequest req, Model model,
+	    @RequestParam(defaultValue = "1") int page) {
 	    HttpSession session = req.getSession();
 	    String userid = (String) session.getAttribute("userid");
 	    String name = (String) session.getAttribute("name");
@@ -358,25 +356,41 @@ public class SuController {
 	    int itemsPerPage = 10; // 한 페이지당 보여줄 항목 수를 조정할 수 있습니다.
 	    int startIndex = (page - 1) * itemsPerPage;
 
-	    ArrayList<DocumentDTO> alDocu = null;
-	    if ("all".equals(documentType)) {
-	        // 전체 문서 목록 조회
-	        alDocu = ddao.getListForPage(startIndex, itemsPerPage);
-	    } else if ("individual".equals(documentType)) {
-	        // 개인 문서 목록 조회
-	        alDocu = ddao.getListUserForPage(userid, startIndex, itemsPerPage);
-	    }
-
+	    // 전체 문서 목록 조회
+	    ArrayList<DocumentDTO> alDocu = ddao.getListForPage(startIndex, itemsPerPage);
 	    model.addAttribute("dlist", alDocu);
-
-	    // 개인 자료실 목록도 모델에 추가
-	    if ("individual".equals(documentType)) {
-	        ArrayList<DocumentDTO> alIndiDocu = ddao.getListUserForPage(userid, startIndex, itemsPerPage);
-	        model.addAttribute("indi", alIndiDocu);
-	    }
 
 	    // 전체 페이지 수 계산
 	    int totalItems = ddao.getCount();
+
+	    // 전체 자료실 데이터가 10개 미만인 경우 페이지 번호 표시 안 함
+	    boolean showPageNumbers = totalItems >= itemsPerPage;
+
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("documentType", "all");
+	    model.addAttribute("showPageNumbers", showPageNumbers);
+
+	    return "document/documentLibrary";
+	}
+	@GetMapping("/individual")
+	public String individual(HttpServletRequest req, Model model,
+	    @RequestParam(defaultValue = "1") int page) {
+	    HttpSession session = req.getSession();
+	    String userid = (String) session.getAttribute("userid");
+	    String name = (String) session.getAttribute("name");
+
+	    // 페이지당 항목 수와 시작 위치 계산
+	    int itemsPerPage = 10; // 한 페이지당 보여줄 항목 수를 조정할 수 있습니다.
+	    int startIndex = (page - 1) * itemsPerPage;
+
+	    // 개인 문서 목록 조회
+	    ArrayList<DocumentDTO> alIndiDocu = ddao.getListUserForPage(userid, startIndex, itemsPerPage);
+	    model.addAttribute("indi", alIndiDocu);
+
+	    // 전체 페이지 수 계산
+	    int totalItems = ddao.getCountUser(userid);
 
 	    // 개인 자료실 데이터가 10개 미만인 경우 페이지 번호 표시 안 함
 	    boolean showPageNumbers = totalItems >= itemsPerPage;
@@ -384,11 +398,12 @@ public class SuController {
 	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 	    model.addAttribute("totalPages", totalPages);
 	    model.addAttribute("currentPage", page);
-	    model.addAttribute("documentType", documentType);
+	    model.addAttribute("documentType", "individual");
 	    model.addAttribute("showPageNumbers", showPageNumbers);
 
-	    return "document/documentLibrary";
+	    return "document/individual";
 	}
+	
 	
 	@Value("${document.upload.directory}")
 	private String documentUploadDirectory;
@@ -407,21 +422,29 @@ public class SuController {
 	        for (MultipartFile documentFile : documentFiles) {
 	            if (!documentFile.isEmpty()) {
 	                // 업로드할 파일 정보
-	                String filename = documentFile.getOriginalFilename();
-	                String filetype = filename.substring(filename.lastIndexOf('.') + 1);
-	                long filesize = documentFile.getSize();
+	                String originalFilename = documentFile.getOriginalFilename();
+	                String fileType = originalFilename.substring(originalFilename.lastIndexOf('.') + 1);
+	                long fileSize = documentFile.getSize();
+
+	                // 파일 이름 중복 처리
+	                String filename = originalFilename;
+	                int counter = 1;
+	                while (new File(documentUploadDirectory, filename).exists()) {
+	                    String fileNameWithoutExtension = originalFilename.substring(0, originalFilename.lastIndexOf('.'));
+	                    String extension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+	                    filename = fileNameWithoutExtension + " (" + counter + ")" + extension;
+	                    counter++;
+	                }
 
 	                // 파일을 서버에 저장
 	                String uploadDirectory = documentUploadDirectory;
-
 	                String filePath = uploadDirectory + "/" + filename;
 	                documentFile.transferTo(new File(filePath));
 
-	                // 파일 정보를 데이터베이스에 저장
-	                ddao.insert(filename, userid, filetype, filesize, storageType);
+	                // 파일 정보를 데이터베이스에 저장 (동일한 파일 이름으로 저장)
+	                ddao.insert(filename, userid, fileType, fileSize, storageType);
 	            }
 	        }
-//	        Thread.sleep(4000);
 	        return "redirect:/documentLibrary";
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -566,11 +589,14 @@ public class SuController {
 		
    		return "approval/approvalDetail";
  	}
+	
+	 
 	@PostMapping("/update_approval_status")
 	public String update_approval_status(HttpServletRequest req) {
+			String userid = req.getParameter("userid");
 			int approvalID = Integer.parseInt(req.getParameter("approvalID"));
 			String status = req.getParameter("status");
-			
+
 			Apdao.statusUpdate(approvalID, status);
 			
 			return "approval/approval";

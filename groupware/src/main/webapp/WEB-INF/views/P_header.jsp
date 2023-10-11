@@ -154,6 +154,8 @@ position: relative;
 	width:32px;
 	height:32px;
 	border-radius:50%;
+	position: relative;
+    right: 20px;
 }
 
 /* 새로운 스타일: 메뉴 스타일 및 서브메뉴 애니메이션 추가 */
@@ -202,6 +204,10 @@ position: relative;
     opacity: 1;
     transform: translateY(0); /* 서브메뉴가 위에서 아래로 나타나도록 이동합니다. */
 }
+/* .bell:hover ul { */
+/* 		opacity: 1; */
+/*     transform: translateY(0); */
+/* } */
 
 #pHedaerEmailAlarm {
   display: inline-block; /* div를 인라인 블록 요소로 설정 */
@@ -245,7 +251,7 @@ position: relative;
             <a href="/reservationList">예약</a>
         </li>
         <li>
-            <a href="#">근태관리</a>
+            <a href="/attendance_management/attendance">근태관리</a>
         </li>
         <li>
             <a href="/approval">전자결재</a>
@@ -254,7 +260,7 @@ position: relative;
         	<a href="/todo">ToDO+</a>
         </li>
         <li>
-            <a href="/documentLibrary?documentType=all">자료실</a>
+            <a href="/documentLibrary">자료실</a>
         </li>
         <li>
             <a href="#">-</a>
@@ -271,89 +277,101 @@ position: relative;
     	</div>
     	
     	<a href="#"><img src="/P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>
-    	   	
-    	<ul>       
-        <li class="menu">
-        	<img src="/P_img/bell.png" alt="공지" class="bell"> 
-            <ul id="notice" class="hide" style="margin-left: -100px;"></ul>
-        </li>        
-        </ul>
+	    	<ul>       
+	        <li class="menu">
+	        	<img src="/P_img/bell.png" alt="공지" class="bell"> 
+	            <ul id="notice" class="hide" style="margin-left: -100px;"></ul>
+	        </li>        
+	      </ul>
         <ul>
-        <li class="menu">
-        	<img src="img/${profileIMG}" class="profile">
-        	<ul class="hide" style="margin-left: -30px;">
-        	    <li><a href="/"> 홈</a></li>
-            	<li><a href="/myInfo">정보수정</a></li>
-				<c:if test="${userid eq '관리자1'}">
-					<li><a href="/manage_attendance">근태관리</a></li>
-					<li><a href="/showEmployee">직원관리</a></li>
-				</c:if>
-                <li><a href="/logout">로그아웃</a></li>
-            </ul>
-        </li>
+	        <li class="menu">
+	        	<img src="img/${profileIMG}" class="profile">
+	        	<ul class="hide" style="margin-left: -30px;">
+	        	    <li><a href="/"> 홈</a></li>
+	            	<li><a href="/myInfo">정보수정</a></li>
+	              <li><a href="/logout">로그아웃</a></li>
+	          </ul>
+	        </li>
         </ul>
 <!--     	<a href="#"><img src="P_img/free-icon-question-mark-3272332.png" alt="FAQ"></a>    	 -->
 <!--     	<div id="pHedaerEmailAlarm"></div> -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>    	 -->
 <!--     	<a href="#"><img src="P_img/bell.png" alt="공지"></a>  -->
 <%--     	<img src="img/${profileIMG}" class="profile"> --%>
-	</div>
+		</div>
 	<input type="hidden" value= '${sessionScope.userid}' id="sessionid">
 </body>
 
-<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src='https://code.jquery.com/jquery-Latest.js'></script>
 <script>
-$(document).ready(function(){
-    let sessionid = $("#sessionid").val();
-    console.log($("#sessionid").val());
-
-    if(sessionid == null || sessionid == "") {
-        console.log("empid=" + ${sessionScope.userid});
-        if(sessionid == null || sessionid == ""){
-            alert("권한이 없습니다");
-            return false;
-        }
-    }
-
-    $.ajax({
-        url: '/pHeaderAlarm',
-        type: 'post',
-        dataType: 'text',
-        success: function(data) {
-            console.log("/pHeaderAlarm 성공");
-            console.log(data);
-            $('#pHedaerEmailAlarm').text(data);
-        },
-        error: function(data) {
-            alert("/pHeaderAlarm 오류");
-        }
-    });
-
-    $.post('/getNewNotice', {empID: ${sessionScope.userid}}, function(data){
-        for(let i = 0; i < data.length; i++){
-            if(data[i].type === "Announcement"){
-                let li = "<li><a href='/announcement' class='stext'>공지사항: " + data[i].title + data[i].time + "</a></li>";
-                $('#notice').append(li);
-            } else {
-                let li = "<li><a href='/mailFolder1' class='stext'>새 메일: " + data[i].title + data[i].time + "</a></li>";
-                $('#notice').append(li);
-            }
-        }
-    }, 'json');
-});
-
-$(document).on('click', '#search-button', function(){
-    let search = $('#search-bar').val();
-    console.log(search);
-    document.location = "dosearch?search=" + search;
-    return false;
-});
-
+$(document)
+.ready(function(){
+	console.log("hello world");
+	let sessionid = $("#sessionid").val()
+	console.log($("#sessionid").val())
+	console.log("empid="+${sessionScope.EmpId});
+	if(sessionid == null || sessionid == ""){
+		alert("권한이 없습니다");
+		return false;
+	}
+	$.ajax({url:'/pHeaderAlarm',type:'post',dataType:'text',
+		success:function(data){
+			console.log("/pHeaderAlarm 성공");
+			console.log(data);
+			$('#pHedaerEmailAlarm').text(data);
+		},
+		error:function(data){
+			alert("/pHeaderAlarm 오류");
+		}
+	});
+	$.post('/getNewNotice',{empID:${sessionScope.EmpId}},
+			function(data){
+				for(let i=0; i<data.length; i++){
+					if(data[i].type=="Announcement"){
+						let li = "<li><a href='/announcement' class='stext'>공지사항: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Email"){
+						let li = "<li><a href='/mailFolder1' class='stext'>새 메일: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Request"){
+						let li = "<li><a href='/approval' class='stext'>결재요청: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="InProgress"){
+						let li = "<li><a href='/mailFolder1' class='stext'>결재진행중: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Suspension"){
+						let li = "<li><a href='/mailFolder1' class='stext'>결재보류: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Approval"){
+						let li = "<li><a href='/mailFolder1' class='stext'>결재승인: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}else if(data[i].type=="Rejection"){
+						let li = "<li><a href='/mailFolder1' class='stext'>결재거절: "+data[i].title+data[i].time+"</a></li>"
+						$('#notice').append(li)
+					}
+				}
+	},'json');
+})
+.on('click','#search-button',function(){
+	let search = $('#search-bar').val();
+	console.log(search);
+	document.location="dosearch?search="+search;
+	return false;
+})
 function enterkey() {
-    if (window.event.keyCode == 13) {
-        // 엔터키가 눌렸을 때
-        document.getElementById("search-button").click();
+	if (window.event.keyCode == 13) {
+    	// 엔터키가 눌렸을 때
+		document.getElementById("search-button").click();
     }
 }
+// //"bell" 클래스에 마우스를 올렸을 때 이벤트 핸들러 추가
+$('.bell').hover(function() {
+    // 마우스를 올렸을 때
+    $('#notice').removeClass('hide'); // "#notice"의 hide 클래스 제거하여 보이도록 함
+}, function() {
+    // 마우스를 뗐을 때
+    $('#notice').addClass('hide'); // "#notice"에 hide 클래스 추가하여 숨김
+});
+// });
 </script>
 </html>

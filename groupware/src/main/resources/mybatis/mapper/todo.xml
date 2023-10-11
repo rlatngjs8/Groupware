@@ -27,13 +27,23 @@
 </select>
 <select id="selectTodoEmp2" resultType="com.groupware.project.TodoDTO">
 	select a.employeeid, a.name, a.position, b.departmentname from employees a
-		inner join departments b on a.departmentid=b.departmentid  where b.departmentname="생산부"
+		inner join departments b on a.departmentid=b.departmentid where b.departmentname="영업부"
 </select>
 <select id="selectTodoEmp3" resultType="com.groupware.project.TodoDTO">
 	select a.employeeid, a.name, a.position, b.departmentname from employees a
-		inner join departments b on a.departmentid=b.departmentid  where b.departmentname="영업부"
+		inner join departments b on a.departmentid=b.departmentid where b.departmentname="생산부"
 </select>
 <insert id="insertTodomember2" parameterType="java.util.HashMap">
-	insert into todomember set eid=#{param1} where tid=#{param2}
+	insert into todomember set tid=#{param1}, eid=#{param2}
 </insert>
+<delete id="deleteTodoBoard">
+	delete from todos where todoid=#{param1}
+</delete>
+<insert id="insertTodoContentTitle" parameterType="java.util.HashMap">
+	insert into todocontent set todoid=#{param1}, empid=#{param2}, todotitle=#{param3}
+</insert>
+<select id="selectTodoContent" resultType="com.groupware.project.TodoDTO">
+	select a.todocontentid, a.todoid, a.empid, a.todotitle, a.todocontent, a.time from todocontent a
+		inner join todomember b on a.todoid=b.tid where b.eid=a.empid and todoid=#{param1}
+</select>
 </mapper>

@@ -51,15 +51,35 @@ public class TodoController {
 		model.addAttribute("emp2",emp2);
 		ArrayList<TodoDTO> emp3 = tdao.selectTodoEmp3();
 		model.addAttribute("emp3",emp3);
+		
+		ArrayList<TodoDTO> selectTC = tdao.selectTodoContent(tid);
+		model.addAttribute("selectTC", selectTC);
 		return "todo/todoDetail";
 	}
 	@PostMapping("/todoEmp")
 	@ResponseBody
 	public String todoEmp(HttpServletRequest req, Model model) {
 		HttpSession s = req.getSession();
-		int eid = (Integer) s.getAttribute("employeeid");
-		int tid = (Integer) s.getAttribute("todoid");
-		tdao.insertTodomember2(eid,tid);
+		int tid = Integer.parseInt(req.getParameter("todoid"));
+		int eid = Integer.parseInt(req.getParameter("employeeid"));
+		tdao.insertTodomember2(tid,eid);
 		return "todo/todo";
+	}
+	@PostMapping("/todoDel")
+	@ResponseBody
+	public void todoDel(HttpServletRequest req, Model model) {
+		HttpSession s = req.getSession();
+		int tid = Integer.parseInt(req.getParameter("todoid"));
+		tdao.deleteTodoBoard(tid);
+	}
+	
+	@PostMapping("/newboardContentTitleAdd")
+	@ResponseBody
+	public void newboardContentTitleAdd(HttpServletRequest req, Model model) {
+		HttpSession s = req.getSession();
+		int eid = (Integer) s.getAttribute("empID");
+		int tid = Integer.parseInt(req.getParameter("todoid"));
+		String title = req.getParameter("title");
+		tdao.insertTodoContentTitle(tid,eid,title);
 	}
 }

@@ -19,18 +19,19 @@
         }
         
         .btn_upload {
-            overflow: hidden;
-            transition: all 0.3s ease;
-            padding: 13px 64px;
-            font-size: 15px;
-            cursor: pointer;
-            outline: none;
-            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
-            width: 200px;
-            height: 50px;
-            border-radius: 4px;
-            border: 1px solid #c0c0c0;
-            background: #fff;
+        		overflow: hidden;
+				    transition: all 0.3s ease;
+				    padding: 0px 33px;
+				    font-size: 17px;
+				    /* font-weight: bold; */
+				    cursor: pointer;
+				    outline: none;
+				    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+				    width: 200px;
+				    height: 50px;
+				    border-radius: 4px;
+				    border: 1px solid #c0c0c0;
+				    background: #fff;
         }
         
         .btn_upload:hover {
@@ -162,6 +163,12 @@
             color: #fff;
             border: 1px solid #10665b;
         }
+		.downloadGuide{
+			position: relative;
+	    left: 1020px;
+	    font-size: 14px;
+	    color: red;
+		}
 </style>
 </head>
 <body>
@@ -170,31 +177,32 @@
     <section class="all-documentLibrary">
         <aside>
             <div class="sidebar">
+            <h4 style="font-size: 22px; cursor: pointer;"id="documentHome">자료실</h4>
                 <div class="upload">
-                    <label>
-                        <h4 style="font-size: 22px;">자료실</h4>
-                        <button class="btn_upload" id="btn_upload">파일업로드</button>
-                    </label>
+                  <button class="btn_upload" id="btn_upload">파일업로드</button>
                 </div>
                 <br><br><br>
                 <div>
-                    <button id="allDocu">전체 자료실</button><br><br><br>
-                    <button  id="individual">개인 자료실</button>
+                    <a href="/documentLibaray" id="allDocu">전체 자료실</a><br><br><br>
+                    <a href="/individual" id="individual">개인 자료실</a>
                 </div>
             </div>
         </aside>
         <div class="document-container">
             <div id="allDocument">
                 <div class="allSection">
-                	<h3>전체	자료실aaaaa</h3>
+                	<h3>전체	자료실</h3>
+                	<div><span class="downloadGuide">※파일명 클릭시 다운로드 됩니다.</span></div>
                     <table class="table-style">
                         <thead class="thead-style">
+                        <tr>
                             <th><input type="checkbox" class="selectAll" data-table="allDocument"></th>
                             <th>이름</th>
                             <th>작성자</th>
                             <th>크기</th>
                             <th>확장자</th>
                             <th>등록날짜</th>
+                        </tr>
                         </thead>
                         <tbody id="tbody">
                             <c:forEach items="${dlist}" var="docu">
@@ -216,56 +224,14 @@
                                     <span class="active">${pageNumber}</span>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="/documentLibrary?page=${pageNumber}&amp;documentType=all">${pageNumber}</a>
+                                    <a href="/documentLibrary?page=${pageNumber}">${pageNumber}</a>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                     </div>
                 </div>
             </div>
-            <div id="indiDocument" style="display: none;">
-                <div class="indiSection">
-<!--                 	<h3 id="indiDocumentTitle">개인 자료실</h3> -->
-									<h3>개인 자료실</h3>
-                    <table class="table-style">
-                    <caption>
-                        <thead class="thead-style">
-                        <tr>
-                            <th><input type="checkbox" class="selectAll" data-table="indiDocument"></th>
-                            <th>이름</th>
-                            <th>작성자</th>
-                            <th>크기</th>
-                            <th>확장자</th>
-                            <th>등록날짜</th>
-                        </tr>
-                        </thead>
-                        <tbody id="tbody">
-                            <c:forEach items="${indi}" var="indi">
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td><a href="/documentDownload?fileName=${docu.documentTitle}" download>${docu.documentTitle}</a></td>
-                                    <td>${indi.name}</td>
-                                    <td data-filesize="${indi.fileSize}">${indi.fileSize}</td>
-                                    <td>${indi.fileType}</td>
-                                    <td>${indi.createdTime}</td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                    <div class="pagination">
-                        <c:forEach begin="1" end="${totalPages}" var="pageNumber">
-                            <c:choose>
-                                <c:when test="${pageNumber == currentPage}">
-                                    <span class="active">${pageNumber}</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="/documentLibrary?page=${pageNumber}&amp;documentType=individual">${pageNumber}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </section>
     <div class="modal" id="documentUpload">
@@ -299,46 +265,48 @@
         $(document).on('click', '#closeModal', function () {
             $('#documentUpload').hide();
         });
-      $(document).on('click', '#individual', function(){
-	    $('#indiDocument').show();
-	    $('#allDocument').hide();
-	    document.location="/documentLibrary?documentType=individual";
-	    return false;
-		});
+//       $(document).on('click', '#individual', function(){
+// 	    $('#indiDocument').show();
+// 	    $('#allDocument').hide();
+// 	    document.location="/documentLibrary?documentType=individual";
+// 	    return false;
+// 		});
 	
-	$(document).on('click', '#allDocu', function(){
-	    $('#allDocument').show();
-	    $('#indiDocument').hide();
-	    document.location="/documentLibrary?documentType=all";
-	    return false;
-		});
+// 	$(document).on('click', '#allDocu', function(){
+// 	    $('#allDocument').show();
+// 	    $('#indiDocument').hide();
+// 	    document.location="/documentLibrary?documentType=all";
+// 	    return false;
+// 		});
  });
-     
+    $('#documentHome').click(function(){
+   	 window.location.href="/documentLibrary";
+    })
     
     // 페이지 번호 클릭 시 해당 documentType으로 이동
-	$('.pagination a').click(function (event) {
-	    event.preventDefault(); // 기본 링크 동작 방지
+// 	$('.pagination a').click(function (event) {
+// 	    event.preventDefault(); // 기본 링크 동작 방지
 	
-	    // 현재 URL에서 쿼리 문자열을 가져옵니다.
-	    var queryString = window.location.search;
+// 	    // 현재 URL에서 쿼리 문자열을 가져옵니다.
+// 	    var queryString = window.location.search;
 	
-	    // 쿼리 문자열에서 documentType 매개변수를 찾습니다.
-	    var documentType = getParameterValueFromQueryString(queryString, 'documentType');
+// 	    // 쿼리 문자열에서 documentType 매개변수를 찾습니다.
+// 	    var documentType = getParameterValueFromQueryString(queryString, 'documentType');
 	
-	    // 클릭한 페이지 번호를 가져옵니다.
-	    var pageNumber = $(this).text();
+// 	    // 클릭한 페이지 번호를 가져옵니다.
+// 	    var pageNumber = $(this).text();
 	
-	    // 새로운 URL을 생성합니다.
-	    var newURL = '/documentLibrary?page=' + pageNumber + '&documentType=' + documentType;
-			console.log("타입",documentType);
-	    // 새로운 URL로 이동합니다.
-	    window.location.href = newURL;
-	});
+// 	    // 새로운 URL을 생성합니다.
+// 	    var newURL = '/documentLibrary?page=' + pageNumber + '&documentType=' + documentType;
+// 			console.log("타입",documentType);
+// 	    // 새로운 URL로 이동합니다.
+// 	    window.location.href = newURL;
+// 	});
 
-		// 쿼리 문자열에서 매개변수 값을 가져오는 함수
-		function getParameterValueFromQueryString(queryString, parameterName) {
-		    var params = new URLSearchParams(queryString);
-		    return params.get(parameterName);
-		}
+// 		// 쿼리 문자열에서 매개변수 값을 가져오는 함수
+// 		function getParameterValueFromQueryString(queryString, parameterName) {
+// 		    var params = new URLSearchParams(queryString);
+// 		    return params.get(parameterName);
+// 		}
 </script>
 </html>

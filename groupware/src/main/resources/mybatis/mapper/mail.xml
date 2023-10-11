@@ -76,6 +76,9 @@
 <select id="selectMaxemailid" resultType="Integer">
 	select ifnull(max(emailid),0) from emails
 </select>
+<select id="selectMaxemailid2" resultType="Integer">
+	select ifnull(max(emailid),0) from emails where senderemployeeid=#{param1}
+</select>
 <update id="updateEmailReceive0">
 	update emails set emailreceive=0 where emailid=#{param1}
 </update>
@@ -112,6 +115,9 @@
 <update id="updateSendMark1">
 	update emails set sendmark=1 where emailid=#{param1}
 </update>
+<select id="selectmyMarkCount" resultType="Integer">
+	select count(*) from emails where senderemployeeid=receiveremployeeid and emailid=#{param1}
+</select>
 <select id="selectReceiverEmailscnt" resultType="Integer">
 	select count(*) from emails where receiveremployeeid=#{param1} and (emailreceive=0 or emailreceive=1) and tcreceive=0
 </select>

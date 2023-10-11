@@ -17,6 +17,7 @@
 	padding-top: 20px;
 	border-right: 1px solid #c0c0c0;
 	order: 1;
+	text-align: left;
 	/* .asidebar의 스타일을 지정합니다. */
 }
 

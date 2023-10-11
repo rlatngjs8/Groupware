@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <body>
 <div class='pageCalendar'>
 	<div class='sideBar'>
-		<h3 class="c_title" id="c_title" style="margin-left:15px;">캘린더</h3>
+		<h3 class="c_title" id="c_title" style="margin-left:0px;">캘린더</h3>
 		<button class="addPlanBtn" id="addPlanBtn">일정등록</button>
 		<table class="sideBarTbl">
 			<tbody>
