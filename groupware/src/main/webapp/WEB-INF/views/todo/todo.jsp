@@ -25,8 +25,6 @@
 <body style="font-size:14px; background-color:white;">
 <div class="boardmain">
 	<div id="tDivMain">
-<!-- 		<input type="button" class="whiteBtn newBoard" value="새 보드 만들기">  -->
-<!-- 		<div style="height:30px; padding-top:20px;"> 내 보드 </div> -->
 		<div class="todoBoardName"> 내 보드 </div>
 		<div id="tDivMyboard">
 			<c:forEach items="${tlist}" var="t">
@@ -37,13 +35,6 @@
 			<div class="boardAdd boardAdd0 boardAdd1 drag-prevent">
 			+
 			</div>
-	<!-- 		<div id="boardAdd" class="boardAdd drag-prevent"> -->
-	<!-- 			<div style="padding-top:10px; height:25px;">이름</div> -->
-	<!-- 			<div><input class="todobasic" value='새 보드'></div> -->
-	<!-- 			<div style="padding-top:10px; height:25px;"> -->
-	<!-- 				<input type=button class="todoBtn1 bcM cWhite" value='확인'> -->
-	<!-- 	 			<input type=button class="todoBtn1 bcWhite" value='취소'> -->
-	<!-- 	 		</div> -->
 		</div>
 	</div>	
 </div>

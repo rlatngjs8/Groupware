@@ -16,6 +16,7 @@ public interface TodoDAO {
 	void insertAddtodos(int eid, String title);
 	void insertTodomember1(int tid, int eid);
 	void insertTodomember2(int tid, int eid);
+	void deleteTodomember(int tid, int eid);
 	void deleteTodoBoard(int todoid);
 	void insertTodoContentTitle(int tid, int eid, String title);
 	
