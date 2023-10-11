@@ -36,6 +36,9 @@
 <insert id="insertTodomember2" parameterType="java.util.HashMap">
 	insert into todomember set tid=#{param1}, eid=#{param2}
 </insert>
+<delete id="deleteTodomember">
+	delete from todomember where tid=#{param1} and eid=#{param2}
+</delete>
 <delete id="deleteTodoBoard">
 	delete from todos where todoid=#{param1}
 </delete>

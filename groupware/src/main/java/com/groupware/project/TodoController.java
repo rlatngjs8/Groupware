@@ -65,6 +65,16 @@ public class TodoController {
 		tdao.insertTodomember2(tid,eid);
 		return "todo/todo";
 	}
+	@PostMapping("/todoEmp2")
+	@ResponseBody
+	public String todoEmp2(HttpServletRequest req, Model model) {
+		HttpSession s = req.getSession();
+		int tid = Integer.parseInt(req.getParameter("todoid"));
+		int eid = Integer.parseInt(req.getParameter("employeeid"));
+		tdao.deleteTodomember(tid,eid);
+		return "todo/todo";
+	}
+	
 	@PostMapping("/todoDel")
 	@ResponseBody
 	public void todoDel(HttpServletRequest req, Model model) {
