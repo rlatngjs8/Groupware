@@ -308,6 +308,8 @@
 .icon{
 	width:30px;
 	height:23px;
+	position:relative;
+	top: 5px;
 }
 .centerD{
 	margin-top:10px;
