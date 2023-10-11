@@ -120,12 +120,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where CommunityID=#{param1}
 	</update>
 	<select id="getasearch" resultType="com.groupware.project.P_BoardDTO">
-    SELECT a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
-	FROM announcement a
-	INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
-	WHERE a.Content LIKE CONCAT('%',#{param3},'%') OR a.CommunityTitle LIKE CONCAT('%',#{param3},'%')
-	GROUP BY a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
-	ORDER BY a.CreatedTime DESC
-	LIMIT #{param1}, #{param2}
+	    SELECT a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
+		FROM announcement a
+		INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		WHERE a.Content LIKE CONCAT('%',#{param3},'%') OR a.CommunityTitle LIKE CONCAT('%',#{param3},'%')
+		GROUP BY a.CommunityID, a.CommunityTitle, b.Name, a.Content, a.Views, a.CreatedTime, b.Position
+		ORDER BY a.CreatedTime DESC
+		LIMIT #{param1}, #{param2}
     </select>
 </mapper>

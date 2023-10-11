@@ -111,4 +111,36 @@ public class HomeController {
 		   s.invalidate();
 		   return "redirect:/";
 		}
+		
+		@GetMapping("/dosearch")
+		public String doSearch(HttpServletRequest req,Model model) {
+			String search = req.getParameter("search");
+			HttpSession session = req.getSession();
+			String userid = (String) session.getAttribute("userid");
+			int empid = (Integer) session.getAttribute("EmpId");
+			
+			ArrayList<homeDTO> alist=hdao.getSearchAnnouncement(search);
+			ArrayList<homeDTO> blist = hdao.getSearchBoard(search);
+			
+			model.addAttribute("alist",alist);
+			model.addAttribute("blist",blist);
+			
+			ArrayList<homeDTO> RecMail = hdao.getSearchReceiveMail(empid,search);
+			ArrayList<homeDTO> sendMail = hdao.getSearchSendMail(empid,search);
+			ArrayList<homeDTO> Importantmail = hdao.getSearchImportantMail(empid,search);
+			
+			model.addAttribute("rMlist", RecMail);
+			model.addAttribute("sMlist", sendMail);
+			model.addAttribute("iMlist", Importantmail);
+			
+			ArrayList<homeDTO> Wapproval = hdao.getSearchWaitApproval(userid,search);
+			ArrayList<homeDTO> Sapproval = hdao.getSearchSendApproval(userid,search);
+			ArrayList<homeDTO> Rapproval = hdao.getSearchReceiveApproval(userid,search);
+			
+			model.addAttribute("Wapproval", Wapproval);
+			model.addAttribute("Sapproval", Sapproval);
+			model.addAttribute("Rapproval", Rapproval);
+			
+			return "P_searchresult";
+		}
 }

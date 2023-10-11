@@ -29,12 +29,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectSendMail" resultType="com.groupware.project.homeDTO">
-	SELECT a.emailid,  b.name, b.email, a.subject,  a.senderemployeeid, a.receiveremployeeid,
-	       a.sendtime FROM emails a INNER JOIN employees b ON a.receiveremployeeid=b.employeeid 
-	                       WHERE senderemployeeid=#{param1}
-	                              AND (a.emailsend=0 OR a.emailsend=1) AND tcsend=0
-	                    AND (multiplesend=0 OR emailid IN (SELECT MIN(emailid) FROM emails GROUP BY multiplesend))
-	                              ORDER BY a.emailid DESC LIMIT 0,5;	
+		SELECT a.emailid,  b.name, b.email, a.subject,  a.senderemployeeid, a.receiveremployeeid,
+		       a.sendtime FROM emails a INNER JOIN employees b ON a.receiveremployeeid=b.employeeid 
+		                       WHERE senderemployeeid=#{param1}
+		                              AND (a.emailsend=0 OR a.emailsend=1) AND tcsend=0
+		                    AND (multiplesend=0 OR emailid IN (SELECT MIN(emailid) FROM emails GROUP BY multiplesend))
+		                              ORDER BY a.emailid DESC LIMIT 0,5;	
 	</select>
 	<select id="selectImportantMail" resultType="com.groupware.project.homeDTO">
 		SELECT a.emailid, c.name, c.email, a.subject, a.senderemployeeid, a.receiveremployeeid,
@@ -45,22 +45,99 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-    <select id="getWapplist" resultType="com.groupware.project.homeDTO">
-    	select a.createdTime, a.approval_type, a.approvalTitle, b.name as senderName
-		   from approvals a
-		    join employees b on a.sender_id = b.userid
-		    where a.receiver_id = #{param1} and a.approval_status="진행 중";
-    </select>
-    <select id="getRapplist" resultType="com.groupware.project.homeDTO">
-    	select a.createdTime, a.approval_type, a.approvalTitle, b.name as senderName, a.approval_status
-		   from approvals a
-		    join employees b on a.sender_id = b.userid
-		    where a.receiver_id = #{param1};
-    </select>
-    <select id="getSapplist" resultType="com.groupware.project.homeDTO">
-    	select a.createdTime, a.approval_type, a.approvalTitle, b.name as receiverName, a.approval_status
-		   from approvals a
-		    join employees b on a.receiver_id = b.userid
-		    where sender_id = #{param1};
-    </select>
+   <select id="getWapplist" resultType="com.groupware.project.homeDTO">
+	    select a.createdTime, a.approval_type, a.approvalTitle, b.name as senderName, a.ApprovalID
+	    from approvals a
+	    join employees b on a.sender_id = b.userid
+	    where a.receiver_id = #{param1} and a.approval_status='진행 중'
+	    ORDER BY a.ApprovalID DESC LIMIT 0,5
+	</select>
+	<select id="getRapplist" resultType="com.groupware.project.homeDTO">
+	    select a.createdTime, a.approval_type, a.approvalTitle, b.name as senderName, a.approval_status, a.ApprovalID
+	    from approvals a
+	    join employees b on a.sender_id = b.userid
+	    where a.receiver_id = #{param1}
+	    ORDER BY a.ApprovalID DESC LIMIT 0,5
+	</select>
+	<select id="getSapplist" resultType="com.groupware.project.homeDTO">
+	    select a.createdTime, a.approval_type, a.approvalTitle, b.name as receiverName, a.approval_status, a.ApprovalID
+	    from approvals a
+	    join employees b on a.receiver_id = b.userid
+	    where a.sender_id = #{param1}
+	    ORDER BY a.ApprovalID DESC LIMIT 0,5
+	</select>
+	
+	<select id="getSearchAnnouncement" resultType="com.groupware.project.homeDTO">
+		SELECT a.CommunityID, a.CommunityTitle,a.Content,b.Name,DATE_FORMAT(a.CreatedTime, '%Y-%m-%d') AS FormattedDate, b.Position
+		FROM announcement a
+		INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		WHERE a.Content LIKE CONCAT('%',#{param1},'%') OR a.CommunityTitle LIKE CONCAT('%',#{param1},'%')
+		ORDER BY CreatedTime DESC
+		
+		
+	</select>
+	<select id="getSearchBoard" resultType="com.groupware.project.homeDTO">
+		SELECT a.CommunityID, a.CommunityTitle,a.Content,b.Name,DATE_FORMAT(a.CreatedTime, '%Y-%m-%d') AS FormattedDate, b.Position
+		FROM communities a
+		INNER JOIN employees b ON a.AuthorEmployeeID = b.EmployeeID
+		WHERE a.Content LIKE CONCAT('%',#{param1},'%') OR a.CommunityTitle LIKE CONCAT('%',#{param1},'%')
+		ORDER BY CreatedTime DESC
+		
+	</select>
+	
+	<select id="getSearchReceiveMail" resultType="com.groupware.project.homeDTO">
+	    SELECT a.emailid, c.name, c.email, a.subject, a.senderemployeeid, a.receiveremployeeid, a.sendtime 
+	    FROM emails a 
+	    INNER JOIN employees c ON a.SenderEmployeeID = c.EmployeeId 
+	    WHERE a.receiveremployeeid = #{param1} 
+	    AND a.subject LIKE CONCAT('%',#{param2},'%') 
+	    AND (a.emailreceive = 0 OR a.emailreceive = 1) 
+	    AND a.tcreceive = 0
+	    ORDER BY a.emailid DESC 
+	</select>
+	
+	<select id="getSearchSendMail" resultType="com.groupware.project.homeDTO">
+	    SELECT a.emailid, b.name, b.email, a.subject, a.senderemployeeid, a.receiveremployeeid, a.sendtime 
+	    FROM emails a 
+	    INNER JOIN employees b ON a.receiveremployeeid = b.employeeid 
+	    WHERE a.senderemployeeid = #{param1} 
+	    AND a.subject LIKE CONCAT('%',#{param2},'%') 
+	    AND (a.emailsend = 0 OR a.emailsend = 1) 
+	    AND a.tcsend = 0
+	    AND (a.multiplesend = 0 OR a.emailid IN (SELECT MIN(emailid) FROM emails GROUP BY multiplesend))
+	    ORDER BY a.emailid DESC 	
+	</select>
+	
+	<select id="getSearchImportantMail" resultType="com.groupware.project.homeDTO">
+	    SELECT a.emailid, c.name, c.email, a.subject, a.senderemployeeid, a.receiveremployeeid, a.sendtime 
+	    FROM emails a 
+	    INNER JOIN employees c ON a.SenderEmployeeID = c.EmployeeId 
+	    WHERE (a.senderemployeeid = #{param1} AND a.tcsend = 0 AND a.sendmark = 1 AND a.SUBJECT LIKE CONCAT('%',#{param2},'%'))
+	    OR (a.receiveremployeeid = #{param1} AND a.tcreceive = 0 AND a.receivemark = 1 AND a.SUBJECT LIKE CONCAT('%',#{param2},'%'))
+	    ORDER BY a.emailid DESC 
+	</select>
+
+	
+	<select id="getSearchWaitApproval" resultType="com.groupware.project.homeDTO">
+		select a.createdTime, a.approval_type, a.approvalTitle, b.name as senderName, a.ApprovalID
+	    from approvals a
+	    join employees b on a.sender_id = b.userid
+	    where a.receiver_id = #{param1} and a.approval_status='진행 중' and a.approvalTitle LIKE CONCAT('%',#{param2},'%')
+	    ORDER BY a.ApprovalID DESC 
+	</select>
+	<select id="getSearchSendApproval" resultType="com.groupware.project.homeDTO">
+		select a.createdTime, a.approval_type, a.approvalTitle, b.name as receiverName, a.approval_status, a.ApprovalID
+	    from approvals a
+	    join employees b on a.receiver_id = b.userid
+	    where a.sender_id = #{param1} and a.approvalTitle LIKE CONCAT('%',#{param2},'%')
+	    ORDER BY a.ApprovalID DESC 
+	</select>
+	<select id="getSearchReceiveApproval" resultType="com.groupware.project.homeDTO">
+		select a.createdTime, a.approval_type, a.approvalTitle, b.name as senderName, a.approval_status, a.ApprovalID
+	    from approvals a
+	    join employees b on a.sender_id = b.userid
+	    where a.receiver_id = #{param1} and a.approvalTitle LIKE CONCAT('%',#{param2},'%')
+	    ORDER BY a.ApprovalID DESC 
+	</select>
+	
 </mapper>

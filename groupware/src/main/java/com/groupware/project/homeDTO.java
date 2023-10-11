@@ -91,7 +91,7 @@ public class homeDTO {
 	String receiverName;
 	String senderName;
 	String approval_status;
-
+	String ApprovalID;
 	public String getCreatedTime() {
 		return createdTime;
 	}
@@ -128,5 +128,13 @@ public class homeDTO {
 	public void setApproval_status(String approval_status) {
 		this.approval_status = approval_status;
 	}
+	public String getApprovalID() {
+		return ApprovalID;
+	}
+	public void setApprovalID(String approvalID) {
+		ApprovalID = approvalID;
+	}
+	
+	
 	
 }

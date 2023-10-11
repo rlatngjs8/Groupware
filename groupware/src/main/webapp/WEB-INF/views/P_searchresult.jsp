@@ -52,7 +52,7 @@
 					</li>
 			    </c:forEach>
 			</ul>
-			<a href="/announcement">더보기></a>
+			
 	    </div>
 	    <h2>메일</h2>
 	    <!-- 메일함 박스 -->
@@ -75,7 +75,7 @@
 								<span class="mail-time">${rMlist.sendtime}</span></a><br>
 								</div>
 					    </c:forEach>
-					    <a href="/mailFolder1">더보기></a>
+					    
 				</div>
 			    <div class="tab-view" id="tab2">
 					    <c:forEach items="${sMlist}" var="sMlist">
@@ -86,7 +86,7 @@
 							    <span class="mail-time">${sMlist.sendtime}</span></a><br>
 							    </div>
 					    </c:forEach>
-					    <a href="/mailFolder2">더보기></a>
+					    
 				</div>
 			    <div class="tab-view" id="tab3">
 					    <c:forEach items="${iMlist}" var="iMlist">
@@ -96,7 +96,7 @@
 							    <span class="mail-time">${iMlist.sendtime}</span></a><br>
 						</div>
 					    </c:forEach>
-					    <a href="/mailMark">더보기></a>
+					    
 				</div>
 			</div>
 			
@@ -126,7 +126,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
-					    <a href="/arriveApproval">더보기></a>
+					    
 				</div>
 			    <div class="tab-view1" id="tab2-1">
 					    <table>
@@ -144,7 +144,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
-					    <a href="/comeApproval">더보기></a>
+					    
 				</div>
 			    <div class="tab-view1" id="tab3-1">
 					    <table>
@@ -163,7 +163,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
-					    <a href="/sendApproval">더보기></a>
+					    
 				</div>
 			</div>
 			
@@ -183,7 +183,6 @@
 		            </li>
 		        </c:forEach>
 		    </ul>
-		    <a href="/community" class="more-link">더보기></a>
 		</div>
 
   </div>

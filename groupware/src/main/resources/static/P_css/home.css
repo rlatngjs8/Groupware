@@ -1,5 +1,53 @@
 @charset "UTF-8";
 
+.tab-view1 table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+/* 테이블 헤더 스타일 */
+.tab-view1 table thead {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #d1d1d1;
+}
+
+.tab-view1 table thead th {
+    padding: 10px 15px;
+    font-weight: bold;
+    text-align: left;
+    border-right: 1px solid #d1d1d1;
+}
+
+.tab-view1 table thead th:last-child {
+    border-right: none;
+}
+
+/* 테이블 바디 스타일 */
+.tab-view1 table tbody td {
+    padding: 10px 15px;
+    border: 1px solid #d1d1d1;
+    border-top: none;
+}
+
+.tab-view1 table tbody tr:hover {
+    background-color: #e9e9e9;
+}
+
+/* 링크 스타일 (더보기 링크) */
+.tab-view1 a {
+    color: inherit;
+    text-decoration: none;
+    
+}
+
+
+
+/* 테이블 행 클릭 가능한 것을 표시 */
+.approval-row {
+    cursor: pointer;
+}
+
 .profile-box {
     margin-left: 240px;
     margin-top: 50px;
