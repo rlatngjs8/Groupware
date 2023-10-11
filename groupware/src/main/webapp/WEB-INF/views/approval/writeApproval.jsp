@@ -137,6 +137,42 @@ button{
  #approvalType, #approvalTitle {
  	border:1px solid #bfbfbf;
  }
+ 
+ .modal{
+    position:absolute;
+    display:none;
+    
+    justify-content: center;
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    
+
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal_body
+{
+    position:absolute;
+    top:50%; 
+
+
+    width:400px;  
+    height:600px; 
+
+    padding:40px;  
+
+    text-align: center;
+
+    background-color: rgb(255,255,255); 
+    border-radius:10px; 
+    box-shadow:0 2px 3px 0 rgba(34,36,38,0.15); 
+
+    transform:translateY(-50%); 
+}
 </style>
 </head>
 <body>
@@ -149,9 +185,19 @@ button{
     <form action="/writeApprovalData" method="post">
     <div class="tool_bar">
         <button type="submit"><span><img src="/img/수정.png" class="tool_bar_icon1"></span><span>결재요청</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
+        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span class="pre-view">미리보기</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
+    
+    <div class="modal">
+        <div class="modal_body">
+            <h2>모달창 제목</h2>
+            <p>모달창 내용 </p>
+        </div>
+    </div>
+    
+    
+    
     <div class="writeForm">
             <table class="customTable">
                 <tr>
@@ -221,7 +267,7 @@ button{
     </div>
     <div class="tool_bar" style="margin-bottom:5%">
         <button type="submit"><span><img src="/img/수정.png" class="tool_bar_icon"></span><span>결재요청</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
+        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span class="pre-view">미리보기</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
     </form>
@@ -230,6 +276,22 @@ button{
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
+	
+	let modal = document.querySelector('.modal');
+	let btnOpenModal=document.querySelector('.pre-view');
+	let approvalType = document.getElementById('approvalType').value;
+    let receiver_id = document.getElementById('receiver_id').value;
+
+	btnOpenModal.addEventListener("click", ()=>{
+	    modal.style.display="flex";
+	});
+	
+	document.querySelector('.modal').addEventListener('click', function(e) {
+	    if (e.target === this) {
+	      this.style.display = 'none';
+	    }
+	  });
+	
     // select 요소의 변경 이벤트를 감지
     $('#receiver_id').on('change', function() {
         // 선택한 옵션의 데이터 속성 'data-department' 값을 가져옴
