@@ -236,7 +236,7 @@ cursor:pointer;
           <a href="/">홈</a>
         </li>
         <li>
-          <a href="/contact/company">연락처</a>
+          <a href="/company">연락처</a>
         </li>
         <li>
           <a href="/mailFolder1">메일<div id="pHedaerEmailAlarm"></div></a>
@@ -251,7 +251,7 @@ cursor:pointer;
             <a href="/reservationList">예약</a>
         </li>
         <li>
-            <a href="/attendance_management/attendance">근태관리</a>
+            <a href="/attendance">근태관리</a>
         </li>
         <li>
             <a href="/approval">전자결재<div id="pHeaderRequest">3</div></a>
