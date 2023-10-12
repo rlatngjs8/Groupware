@@ -134,11 +134,21 @@ public class homeDTO {
 	public void setApprovalID(String approvalID) {
 		ApprovalID = approvalID;
 	}
-	
+	int calendar_no;
 	String CALENDAR_TITLE;
 	String calendar_start;
 	String calendar_end;
+	int birthday;
+	int reservation;
+	String connectionID;
 
+	
+	public int getCalendar_no() {
+		return calendar_no;
+	}
+	public void setCalendar_no(int calendar_no) {
+		this.calendar_no = calendar_no;
+	}
 	public String getCALENDAR_TITLE() {
 		return CALENDAR_TITLE;
 	}
@@ -156,6 +166,24 @@ public class homeDTO {
 	}
 	public void setCalendar_end(String calendar_end) {
 		this.calendar_end = calendar_end;
+	}
+	public int getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(int birthday) {
+		this.birthday = birthday;
+	}
+	public int getReservation() {
+		return reservation;
+	}
+	public void setReservation(int reservation) {
+		this.reservation = reservation;
+	}
+	public String getConnectionID() {
+		return connectionID;
+	}
+	public void setConnectionID(String connectionID) {
+		this.connectionID = connectionID;
 	}
 	
 	

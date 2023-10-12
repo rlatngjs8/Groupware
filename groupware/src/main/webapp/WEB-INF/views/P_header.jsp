@@ -166,7 +166,7 @@ a {
     cursor:pointer;
 }
 
-#pHedaerEmailAlarm {
+#pHedaerEmailAlarm, #pHeaderRequest{
   display: inline-block; /* div를 인라인 블록 요소로 설정 */
   vertical-align: top; /* 텍스트의 위쪽에 맞추기 */
   margin-left: 15px; /* 좌측 마진 추가 (선택사항) */
@@ -254,7 +254,7 @@ cursor:pointer;
             <a href="/attendance_management/attendance">근태관리</a>
         </li>
         <li>
-            <a href="/approval">전자결재</a>
+            <a href="/approval">전자결재<div id="pHeaderRequest">3</div></a>
         </li>
         <li>
            <a href="/todo">ToDO+</a>
@@ -350,6 +350,10 @@ $(document)
                }
             }
    },'json');
+   $.post('/countRequest',{empID:${sessionScope.EmpId}},
+		   function(data){
+	   	       $('#pHeaderRequest').text(data);
+   },'text');
 })
 .on('click','#search-button',function(){
    let search = $('#search-bar').val();

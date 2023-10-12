@@ -31,4 +31,9 @@
 	ORDER BY TIME DESC
 	LIMIT 5
 </select>
+<select id="countRequest" resultType="int">
+	SELECT COUNT(a.ApprovalID) 
+	FROM approvals a LEFT OUTER JOIN employees b ON a.receiver_id=b.userid
+	WHERE b.employeeid=#{param1} AND approval_status="진행 중";
+</select>
 </mapper>
