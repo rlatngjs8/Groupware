@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>GroupNexa</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link href='css/main.min.css' rel='stylesheet' />
 <link href="/P_css/home.css" rel="stylesheet" type="text/css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -428,6 +429,274 @@ function updateTime() {
     // 변경된 날짜를 HTML 요소에 업데이트
     $("#date_info").text(formattedDate);
 }
+
+// 업무시간 퇴근시간 설정
+const workStartTime = new Date();
+workStartTime.setHours(9, 0, 0);
+const workEndTime = new Date();
+workEndTime.setHours(18, 0, 0);
+
+// 현재 시간을 가져오기
+var currentTime = new Date();
+var hours = currentTime.getHours();
+var minutes = currentTime.getMinutes();
+var seconds = currentTime.getSeconds();
+
+// 시간, 분, 초를 두 자리 숫자로 표시
+hours = (hours < 10 ? "0" : "") + hours;
+minutes = (minutes < 10 ? "0" : "") + minutes;
+seconds = (seconds < 10 ? "0" : "") + seconds;
+
+// 날짜 업데이트
+var options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+var dateStr = currentTime.toLocaleDateString('ko-KR', options);
+var dateParts = dateStr.split(' ');
+
+var date = $("#date").val();
+
+function select_time() {
+    var current_date = (dateParts[0] + dateParts[1] + dateParts[2].replace('.', '')).replace(/\./g, '-');
+    var currentTime = new Date();
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+    var seconds = currentTime.getSeconds();
+    hours = (hours < 10 ? "0" : "") + hours;
+    minutes = (minutes < 10 ? "0" : "") + minutes;
+    seconds = (seconds < 10 ? "0" : "") + seconds;
+
+    const userid = $('#userid').val();
+    const date = current_date;
+	
+    const checkData = {
+            userid: userid,
+            date: date,
+        };
+    
+    $.ajax({
+        url: "/select_time",
+        data: checkData,
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+            if (data.length === 0) {
+                console.log("출퇴근시간 받기 실패");
+            } else {
+                // 출근시간과 퇴근시간이 각각 하나씩만 있는 경우를 가정합니다.
+                console.log(data);
+                $('#start_time').text(data[0]['starttime']);
+                $('#end_time').text(data[0]['endtime']);
+                if ($('#start_time').text() === null) {
+                    // 출근시간이 비어 있는 경우
+                    $("#btnCheckIn").prop('disabled', false); // 출근 버튼 활성화
+                    $("#btnCheckOut").prop('disabled', true); // 퇴근 버튼 비활성화
+                } else {
+                    // 출근시간이 비어 있지 않은 경우
+                    $("#btnCheckIn").prop('disabled', true); // 출근 버튼 비활성화
+
+                    if ($('#end_time').text() !== '00:00:00') {
+                        // 퇴근시간이 00:00:00이 아닌 경우
+                        $("#btnCheckOut").prop('disabled', true); // 퇴근 버튼 비활성화
+                    } else {
+                        // 퇴근시간이 00:00:00인 경우
+                        $("#btnCheckOut").prop('disabled', false); // 퇴근 버튼 활성화
+                    }
+                }    
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Ajax 요청 실패:", error);
+        }
+    });
+
+}
+
+$(document).ready(function() {
+    select_time();
+});
+
+function insert_checkIn() {
+    console.log('insert_checkIn 함수 실행 시작');
+    var current_date = (dateParts[0] + dateParts[1] + dateParts[2].replace('.', '')).replace(/\./g, '-');
+    var currentTime = new Date();
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+    var seconds = currentTime.getSeconds();
+    hours = (hours < 10 ? "0" : "") + hours;
+    minutes = (minutes < 10 ? "0" : "") + minutes;
+    seconds = (seconds < 10 ? "0" : "") + seconds;
+
+    const userid = $('#userid').val();
+    const date = current_date;
+    const startTime = hours + ":" + minutes + ":" + seconds;
+    console.log('userid:', userid);
+    
+
+
+    if (currentTime >= workStartTime && currentTime <= workEndTime) {
+        $("#status").val("지각");
+    } else {
+        $("#status").val("정상출근");
+    }
+
+    var AttendanceStatus = $("#status").val();
+
+    if (!userid) {
+        console.log('로그인 필요');
+        Swal.fire({
+            icon: 'warning',
+            title: '로그인 필요',
+            text: '출근 기록을 저장하려면 먼저 로그인해주세요.',
+        });
+        return;
+    }
+
+    const checkData = {
+        userid: userid,
+        date: date,
+        startTime: startTime
+    };
+
+    console.log('checkData:', checkData);
+
+    $.ajax({
+        url: "/insert_checkIn",
+        data: checkData,
+        type: 'post',
+        success: function (data) {
+            console.log("보내는data:", data);
+            if (data === '0') {
+                console.error("인서트 실패:", data);
+                Swal.fire({
+                    icon: 'error',
+                    showConfirmButton: false,
+                    position: 'center-center',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    title: '출근 실패',
+                    text: '출근 데이터 insert중 오류가 발생했습니다.',
+                });
+            } else {
+                console.log("인서트 성공");
+                Swal.fire({
+                    icon: 'success',
+                    showConfirmButton: true,
+                    position: 'center-center',
+                    title: '출근이 완료되었습니다.',
+                    confirmButtonText: '확인' // 확인 버튼 추가
+   	         }).then((result) => {
+   	           if (result.isConfirmed) {
+   	        	   
+   	             // 확인 버튼을 누르면 페이지 리로드
+   	             location.reload();
+   	           }
+   	         });
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Ajax 요청 실패:", error);
+            Swal.fire({
+                icon: 'error',
+                title: '출근 실패',
+                text: '출근 데이터 insert중 오류가 발생했습니다',
+            });
+        }
+    });
+    console.log('insert_checkIn 함수 실행 종료');
+}
+
+function insert_checkOut() {
+    const userid = $('#userid').val();
+    var current_date = (dateParts[0] + dateParts[1] + dateParts[2].replace('.', '')).replace(/\./g, '-');
+    var currentTime = new Date();
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+    var seconds = currentTime.getSeconds();
+    hours = (hours < 10 ? "0" : "") + hours;
+    minutes = (minutes < 10 ? "0" : "") + minutes;
+    seconds = (seconds < 10 ? "0" : "") + seconds;
+    const endTime = hours + ":" + minutes + ":" + seconds;
+    const date = current_date;
+
+    const checkData = {
+        userid: userid,
+        date: date,
+        endTime: endTime,
+    };
+
+    if (!userid) {
+        console.log('로그인 필요');
+        Swal.fire({
+            icon: 'warning',
+            title: '로그인 필요',
+            text: '출근 기록을 저장하려면 먼저 로그인해주세요.',
+        });
+        return;
+    }
+    console.log('checkData:', checkData);
+
+    $.ajax({
+        url: "/insert_checkOut",
+        data: checkData,
+        type: 'post',
+        success: function (data) {
+            console.log('Ajax 요청 성공');
+            if (data === '0') {
+                console.error("인서트 실패:", data);
+                Swal.fire({
+                    icon: 'error',
+                    title: '퇴근 실패',
+                    text: '퇴근 데이터 insert중 오류가 발생했습니다.',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    showConfirmButton: true,
+                    position: 'center-center',
+                    title: '퇴근이 완료되었습니다.',
+     	         	confirmButtonText: '확인' // 확인 버튼 추가
+   	         }).then((result) => {
+   	           if (result.isConfirmed) {
+   	             // 확인 버튼을 누르면 페이지 리로드
+   	             location.reload();
+   	           }
+   	         });
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Ajax 요청 실패:", error);
+            Swal.fire({
+                icon: 'error',
+                title: '퇴근 실패',
+                text: '퇴근 데이터 insert중 오류가 발생했습니다',
+            });
+        }
+    });
+}
+
+$().ready(function () {
+    $("#btnCheckIn").click(function () {
+        insert_checkIn(); // 출근 함수
+    });
+
+    $("#btnCheckOut").click(function () {
+        Swal.fire({
+            title: '지금 퇴근하실껀가요?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소',
+            reverseButtons: false, // 버튼 순서 거꾸로
+        }).then((result) => {
+            if (result.isConfirmed) {
+                insert_checkOut();
+            }
+        });
+    });
+
+});
+
 
 
 </script>

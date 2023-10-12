@@ -25,12 +25,12 @@ public class HwanController {
 	private AttendanceDAO Attdao;
 
 	
-	@GetMapping("/contact/company")
+	@GetMapping("/company")
 	public String company() {
 		return "contact/company";
 	}
 	
-	@GetMapping("/contact/personal")
+	@GetMapping("/personal")
 	public String personal() {
 		return "contact/personal";
 	}
@@ -40,7 +40,7 @@ public class HwanController {
 		return "contact/detail";
 	}
 	
-	@GetMapping("/attendance_management/attendance")
+	@GetMapping("/attendance")
 	public String attendance(HttpServletRequest req, Model model) {
 		return "attendance_management/attendance";
 	}
