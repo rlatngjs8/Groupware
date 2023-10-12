@@ -12,6 +12,9 @@
 		</choose>);
 </insert>
 
+<select id="select_time" resultType="com.groupware.project.AttendanceDTO">
+SELECT StartTime,EndTime FROM attendance WHERE date = #{param1} AND userid = #{param2} LIMIT 1;
+</select>
 
 <update id="insert_checkOut">
 UPDATE attendance

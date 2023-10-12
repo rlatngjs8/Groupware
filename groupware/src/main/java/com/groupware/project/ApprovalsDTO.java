@@ -12,7 +12,7 @@ public class ApprovalsDTO {
 	String Approval_completed_at; // 전자결재 문서가 완료된 날짜와 시간
 	String CreatedTime; // 전자결재 문서가 생성된 날짜와 시간
 	String Comment; // 전자결재 문서에 대한 코멘트 또는 메모
-	 
+
 	String SenderName;
 	String ReceiverName;
 	
@@ -21,17 +21,17 @@ public class ApprovalsDTO {
 	
 	public String getSendDepart() {
 		return sendDepart;
-}
-public void setSendDepart(String sendDepart) {
-		this.sendDepart = sendDepart;
-}
-public String getReceiverDepart() {
-		return receiverDepart;
-}
-public void setReceiverDepart(String receiverDepart) {
-		this.receiverDepart = receiverDepart;
-}
-public int getApprovalID() {
+	}
+	public void setSendDepart(String sendDepart) {
+			this.sendDepart = sendDepart;
+	}
+	public String getReceiverDepart() {
+			return receiverDepart;
+	}
+	public void setReceiverDepart(String receiverDepart) {
+			this.receiverDepart = receiverDepart;
+	}
+	public int getApprovalID() {
 		return ApprovalID;
 	}
 	public void setApprovalID(int approvalID) {

@@ -90,7 +90,7 @@
             width: calc(85% - 20%);
             padding: 0;
             margin: 0;
-            overflow: auto;
+/*             overflow: auto; */
         }
         
         .document-container {
@@ -130,38 +130,41 @@
             width: 160px;
         }
         
-        .table-style tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+/*         .table-style tbody tr:nth-child(even) { */
+/*             background-color: #f2f2f2; */
+/*         } */
         
         .table-style tbody tr:hover {
-            background-color: #ccc;
+            background-color: #f5f5f5;
         }
         
-        .pagination {
+         .pagination {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         
-        .pagination a,
-        .pagination .active {
+        .pagination a{
             display: inline-block;
-            padding: 5px 10px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            margin-right: 5px;
-            text-decoration: none;
-            color: #333;
+				    padding: 5px 10px;
+				    margin: 5px;
+				    background-color: #fff;
+				    color: #333;
+				    border: 1px solid #ccc;
+				    border-radius: 5px;
+				    text-decoration: none;
         }
         
         .pagination a:hover {
-            background-color: #ddd;
+            background-color: #f5f5f5;
         }
         
         .pagination .active {
-            background-color: #10665b;
-            color: #fff;
-            border: 1px solid #10665b;
+            background-color: #6ab0ad;
+				    color: #fff;
+				    padding: 5px 10px;
+				    margin: 5px;
+				    border: 1px solid #6ab0ad;
+				    border-radius: 5px;
         }
         .downloadGuide{
 			position: relative;
@@ -192,12 +195,12 @@
         <div class="document-container">
             <div id="indiDocument">
                 <div class="indiSection">
-									<h3>개인 자료실</h3>
+									<h2>개인 자료실</h2>
 									<div><span class="downloadGuide">※파일명 클릭시 다운로드 됩니다.</span></div>
                     <table class="table-style">
                       <thead class="thead-style">
                         <tr>
-                            <th><input type="checkbox" class="selectAll" data-table="indiDocument"></th>
+                        		<th>문서번호</th>
                             <th>이름</th>
                             <th>작성자</th>
                             <th>크기</th>
@@ -208,7 +211,7 @@
                         <tbody id="tbody">
                             <c:forEach items="${indi}" var="indi">
                                 <tr>
-                                    <td><input type="checkbox"></td>
+                                    <td>${indi.documentID}</td>
                                     <td><a href="/documentDownload?fileName=${indi.documentTitle}" download>${indi.documentTitle}</a></td>
                                     <td>${indi.name}</td>
                                     <td data-filesize="${indi.fileSize}">${indi.fileSize}</td>

@@ -8,7 +8,6 @@
 <title>GroupNexa</title>
 <link href='css/main.min.css' rel='stylesheet' />
 <link href="/P_css/home.css" rel="stylesheet" type="text/css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src='https://cdn.jsdelivr.net/npm/rrule@2.6.4/dist/es5/rrule.min.js'></script>
 <script src='js/main.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/rrule@5.11.5/main.global.min.js'></script>
@@ -31,46 +30,12 @@
         	<p>${userid}</p>
         	<span>${emp.departmentName}</span>&nbsp;<span style="font-weight:bold;"> ${name} ${emp.position}</span>
     	</div>
-    	<button id=btnLogout style="position: relative;top: 7px;left: 65px;">로그아웃</button>
+    	<button id=btnLogout >임시 로그아웃</button>
     </div>
 	    <div class="centerD">
 		    <span class=mBtn style="margin-left:240px" id="goToMail"><img src="img/email_icon.png" class='icon'> <span>메일쓰기</span></span>
 		    <span class=mBtn id="goToAddPlan"><img src="img/calendar-icon.png" class='icon'> <span>일정등록</span></span>
 	    </div>
-	    
-	    <div class="attendance">      		
-	    	<h2><a href="/attendance_management/attendance">근태관리</a></h2>
-            <p id="date_info"></p>
-            <p id="time_info"><span id="current_time"></span></p>
-      		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
-			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
-			<hr>
-       		<p id="checkin_time">출근시간: <span id="start_time"></span></p>
-        	<p id="checkout_time">퇴근시간: <span id="end_time"></span></p>
-	    </div>
-	    
-<!-- 	    <div class="atttendance">
-			<div class="sidebar">
-  			<section id="attendance_section">
-      		<h2><a href="/attendance_management/attendance">근태관리</a></h2>
-            <p id="date_info"></p>
-            <p id="time_info"><span id="current_time"></span></p>
-      		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
-			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
-        	</section>
-        <hr>
-        
-        <p id="checkin_time">출근시간: <span id="start_time"></span></p>
-        <p id="checkout_time">퇴근시간: <span id="end_time"></span></p>
-
-       </div>
-    </div> -->
-    
-	    
-	    
-	    
-	    
-	    
     </div>
   <div class="home-content">
 	    <!-- 공지사항 박스 -->
@@ -87,8 +52,7 @@
 					</li>
 			    </c:forEach>
 			</ul>
-			<br>
-			<a href="/announcement">더보기></a>
+			
 	    </div>
 	    <h2>메일</h2>
 	    <!-- 메일함 박스 -->
@@ -111,8 +75,7 @@
 								<span class="mail-time">${rMlist.sendtime}</span></a><br>
 								</div>
 					    </c:forEach>
-					    <br>
-					    <a href="/mailFolder1">더보기></a>
+					    
 				</div>
 			    <div class="tab-view" id="tab2">
 					    <c:forEach items="${sMlist}" var="sMlist">
@@ -123,8 +86,7 @@
 							    <span class="mail-time">${sMlist.sendtime}</span></a><br>
 							    </div>
 					    </c:forEach>
-					    <br>
-					    <a href="/mailFolder2">더보기></a>
+					    
 				</div>
 			    <div class="tab-view" id="tab3">
 					    <c:forEach items="${iMlist}" var="iMlist">
@@ -134,8 +96,7 @@
 							    <span class="mail-time">${iMlist.sendtime}</span></a><br>
 						</div>
 					    </c:forEach>
-					    <br>
-					    <a href="/mailMark">더보기></a>
+					    
 				</div>
 			</div>
 			
@@ -165,8 +126,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
-					    <br>
-					    <a href="/arriveApproval">더보기></a>
+					    
 				</div>
 			    <div class="tab-view1" id="tab2-1">
 					    <table>
@@ -184,8 +144,7 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
-					    <br>
-					    <a href="/comeApproval">더보기></a>
+					    
 				</div>
 			    <div class="tab-view1" id="tab3-1">
 					    <table>
@@ -204,15 +163,15 @@
 							    </c:forEach>
 						    </tbody>
 					    </table>
-					    <br>
-					    <a href="/sendApproval">더보기></a>
+					    
 				</div>
 			</div>
 			
 	    </div>
 	    <h2>게시판</h2>
 	    <!-- 게시판 최근글 -->
-		<div class="commu-box">
+
+	    <div class="commu-box">
 		    <ul>
 		        <c:forEach items="${blist}" var="blist">
 		            <li>
@@ -224,13 +183,23 @@
 		            </li>
 		        </c:forEach>
 		    </ul>
+		</div>
+		<h2>일정 검색</h2>
+		<div class="calendar">
+		    <ul>
+		        <c:forEach items="${calendar}" var="calendar">
+		            <li>
+	                    <span class="calenderTitle">${calendar.CALENDAR_TITLE}</span>
+	                    <span class="calenderInfo">${calendar.calendar_start} ~ ${calendar.calendar_end}</span>
+		            </li>
+		        </c:forEach>
+		    </ul>
 		    <br>
-		    <a href="/community" class="more-link">더보기></a>
 		</div>
   </div>
   	    <div class="calendar_box">
 	    	    <!-- 캘린더박스 -->
-	    <h2 class="day">일정</h2><span id="seeMore" class="seeMore">+더보기</span>
+	    <h2>일정</h2><span id="seeMore" class="seeMore">+더보기</span>
 	    <div id='calendar' class="calendar"></div>
 	    </div>
 </div>
@@ -368,67 +337,5 @@ $(document).ready(function(){
 		}
 	})
 });
-
-// 근태관리 부분
-$(document).ready(function () {
-    // 업무시간 퇴근시간 설정
-    const workStartTime = new Date();
-    workStartTime.setHours(9, 0, 0);
-    const workEndTime = new Date();
-    workEndTime.setHours(18, 0, 0);
-
-    // 현재 시간을 가져오기
-    var currentTime = new Date();
-    var hours = currentTime.getHours();
-    var minutes = currentTime.getMinutes();
-    var seconds = currentTime.getSeconds();
-
-    // 시간, 분, 초를 두 자리 숫자로 표시
-    hours = (hours < 10 ? "0" : "") + hours;
-    minutes = (minutes < 10 ? "0" : "") + minutes;
-    seconds = (seconds < 10 ? "0" : "") + seconds;
-
-    // 날짜 업데이트
-    var options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
-    var dateStr = currentTime.toLocaleDateString('ko-KR', options);
-    var dateParts = dateStr.split(' ');
-    
-    
-    // 1초마다 updateTime 함수를 호출하여 시간 업데이트
-    setInterval(updateTime, 1000);
-    // 페이지 로드시 초기 시간 업데이트
-    updateTime();
-    console.log("안녕",  $("#user_name").val() );
-});
-
-// 시간 업데이트 함수 정의
-function updateTime() {
-    // 현재 시간을 가져오기
-    var currentTime = new Date();
-    var hours = currentTime.getHours();
-    var minutes = currentTime.getMinutes();
-    var seconds = currentTime.getSeconds();
-
-    // 시간, 분, 초를 두 자리 숫자로 표시
-    hours = (hours < 10 ? "0" : "") + hours;
-    minutes = (minutes < 10 ? "0" : "") + minutes;
-    seconds = (seconds < 10 ? "0" : "") + seconds;
-
-    // 날짜 업데이트
-    var options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
-    var dateStr = currentTime.toLocaleDateString('ko-KR', options);
-    var dateParts = dateStr.split(' ');
-
-    // 시간 정보를 HTML 요소에 업데이트
-    $("#current_time").text(hours + ":" + minutes + ":" + seconds);
-
-    // 날짜 포맷 변경
-    var formattedDate = (dateParts[0] + dateParts[1] + dateParts[2].replace('.', '') + '(' + dateParts[3].slice(0, -2) + ")").replace(/\./g, '-');
-
-    // 변경된 날짜를 HTML 요소에 업데이트
-    $("#date_info").text(formattedDate);
-}
-
-
 </script>
 </html>

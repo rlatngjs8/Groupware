@@ -53,6 +53,10 @@
 	line-height: 2;
 	font-size: 15px;
 }
+/* .appSub:hover { */
+/* 	background-color: #ccc; /* hover 상태에서 배경색 변경 */ 
+/* 	cursor: pointer; */
+/* } */
 
 .apphome {
 	letter-spacing: 1px;

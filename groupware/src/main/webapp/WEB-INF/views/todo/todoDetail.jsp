@@ -10,27 +10,33 @@
 <%@ include file="../P_header.jsp" %>
 </head>
 <style>
-.todoBoard {width:206px; min-height:100px; height:auto; float:left; border:none;
- 			margin:10px 10px 10px 0; padding:10px; background-color: #EAEAEA;}
+.todoBoard {width:206px; height:auto; max-height:85%; float:left; border:none;
+ 			margin:10px 10px 10px 0; padding:10px; background-color: #EAEAEA; overflow:hidden;}
 .todoBoard0 {height:30px; line-height:30px; text-align:center; font-size:28px; color:gray;
-			cursor:pointer; border: 1px dashed gray;}
+			cursor:pointer; border: 1px dashed gray; margin-top:5px; padding-bottom:5px;}
 .todoBoard0:hover {background-color:lightgray;}
+.todoBoard1 {height:30px; line-height:30px; text-align:center; font-size:28px; color:gray;
+			cursor:pointer; padding-bottom:5px;}
 .todoBoardContentTitle{height:30px; line-height:30px; text-align:center; color:black;  background-color:white;
-				cursor:pointer; border: 1px solid black; margin-bottom:5px;}
+				cursor:pointer; margin-bottom:5px; margin-right:4px;}
 .titlepadding {padding-top:5px; height:30px; padding-bottom:3px;}
-#tdemp {display:none; border: 1px solid gray; padding:15px; width:240px; cursor:pointer;}
+#tdemp {position:absolute; display:none; border: 1px solid gray; padding:15px; 
+			background-color:white; width:240px; cursor:pointer;}
 #tdemp p{padding:0; margin:0; margin-top:2px;}
 .todoOlc{border-bottom:1px solid gray; padding-bottom:20px;} 
 .todoMenuImg{width:18px;height:17px;}
 .todoEmp1 {background-color:white}
 .todoEmp1:hover{background-color:lightgray;}
-.todoEmp2 {background-color:rgba(106, 176, 173, 0.2); cursor:default}
+.todoEmp2 {background-color:rgba(106, 176, 173, 0.2); cursor:pointer;}
 #newboardContentTitle {width:200px; height:100px;}
+#tcidMain {height:auto; max-height:560px; overflow:auto;}
+#tDivMain {height:100%;}
+#tDivMyboard {height:90%;}
 </style>
 <body style="font-size:14px; background-color:white;">
 <div class="boardmain">
 	<div id="tDivMain">
-		<input type="button" id="btnMemberAdd" class="whiteBtn newBoard" value="멤버 추가"> 
+		<input type="button" id="btnMemberAdd" class="whiteBtn newBoard" value="멤버 관리"> 
 		<input type="button" id="btnBoardDel" class="whiteBtn newBoard" value="보드 삭제">
 		<div style="width:900px; height:20px; padding-top:20px; padding:10px;">
 			현재 멤버: <c:forEach items="${member}" var="m" varStatus="status">
@@ -61,9 +67,9 @@
 			<div class="todoBoardName">${tpost.subject}</div>
 			<div class="todoBoard">
 				<div class='titlepadding'>
-					<label>진행</label><div style="display:inline; float:right;"><img src='mailpageImg/todomenu.png' id="todoMenu" class="todoMenuImg"></div>
+					<label>진행</label><div style="display:inline; float:right;"><img src='mailpageImg/todomenu.png' class="todoMenuImg"></div>
 				</div>
-				<div>
+				<div id="tcidMain">
 				<c:forEach items="${selectTC}" var="tc">
 					<div id="tcid_${tc.todocontentid}" class="todoBoardContentTitle">${tc.todotitle}</div>
 				</c:forEach>
@@ -73,7 +79,17 @@
 				</div>
 			</div>
 			<div class="todoBoard">
-				<div class='titlepadding'>완료</div>
+				<div class='titlepadding'>
+					<label>완료</label><div style="display:inline; float:right;"><img src='mailpageImg/todomenu.png' class="todoMenuImg"></div>
+				</div>
+				<div class="todoBoard0">
+				+
+				</div>
+			</div>
+			<div class="todoBoard">
+				<div class="todoBoard1">
+				+
+				</div>
 			</div>
 		</div>
 	</div>	
@@ -110,7 +126,7 @@ $(document)
 .on('click','.todoEmp1',function(){
 	let tp = $(this).attr("id");
 	tp = tp.substring(4); //employeeid;
-	console.log(tp);
+// 	console.log(tp);
 	for(let i = 0; i < checklist.length; i++) { //중복 사원 금지
 		 if(checklist[i] == tp){
 			 return false;
@@ -127,25 +143,61 @@ $(document)
 		}
 	});
 })
-.on('click','#btnBoardDel',function(){
-	$.ajax({url:'/todoDel',data:{todoid:$('#todoMyid').text()}, type:'post',dataType:'text',
-		success:function(data){
-			console.log("/todoDel 성공");
-			document.location="todo";
-		},
-		error:function(data){
-			alert("/todoDel 오류");
-		}
-	});
+.on('click','.todoEmp2',function(){
+	let tp = $(this).attr("id");
+	tp = tp.substring(4); //employeeid;
+// 	console.log(tp);
+	if(confirm("멤버를 제외하시겠습니까?")){
+// 		console.log("A");
+		$.ajax({url:'/todoEmp2',data:{employeeid:tp,todoid:$('#todoMyid').text()}, type:'post',dataType:'text',
+			success:function(data){
+				console.log("/todoEmp2 성공");
+				$('#tdemp').hide();
+				location.reload();
+			},
+			error:function(data){
+				alert("/todoEmp2 오류");
+			}
+		});
+	}
 })
-.on('click','#todoMenu',function(){
+.on('click', function(e) { // #tdemp 밖 선택 시 화면 hide
+    let t = $("#tdemp");
+//     console.log($(e.target).attr("id"));
+    if($(e.target).attr("id")!="btnMemberAdd"){
+        if (!$(e.target).closest(t).length) {
+        	$('#tdemp').hide();
+        }
+    }
+})
+.on('click','#btnBoardDel',function(){
+	if(confirm("보드를 삭제하시겠습니까?")){
+		$.ajax({url:'/todoDel',data:{todoid:$('#todoMyid').text()}, type:'post',dataType:'text',
+			success:function(data){
+				console.log("/todoDel 성공");
+				document.location="todo";
+			},
+			error:function(data){
+				alert("/todoDel 오류");
+			}
+		});
+	}
+})
+.on('click','#todoMenuImg',function(){
 	
 })
+.on('click','.todoBoard1',function(){
+	$(this).parent('.tDivMyboard').append("<div class='todoBoard'><div class='titlepadding'>"
+	+"<label>완료</label><div style='display:inline; float:right;'>"
+	+"<img src='mailpageImg/todomenu.png' class='todoMenuImg'></div></div>"
+	+"<div class='todoBoard0'>+</div></div><div class='todoBoard'><div class='todoBoard1'></div></div>");
+// 	$(this).remove();
+})
 .on('click','.todoBoard0',function(){
-	$(this).parent('.todoBoard').append("<div><textarea id='newboardContentTitle' class='todobasic'></textarea></div>"
+	$(this).parent('.todoBoard').append("<div id='todoTextarea'><div style='margin-top:5px;'><textarea id='newboardContentTitle' class='todobasic'></textarea></div>"
 				+"<div style='padding-top:10px; height:25px; padding-bottom:10px;'>"
 				+"<input type=button id='btnAddOK' class='todoBtn1 bcM cWhite' value='확인'> "
-				+"<input type=button id='btnAddNO' class='todoBtn1 bcLg' value='취소'></div>");
+				+"<input type=button id='btnAddNO' class='todoBtn1 bcLg' value='취소'></div></div>");
 	$(this).remove();
 	$('#newboardContentTitle').focus();
 })
@@ -167,9 +219,10 @@ $(document)
 	}
 })
 .on('click','#btnAddNO',function(){
-	$('.boardAdd').html("+");
-	$('.boardAdd').removeClass("boardAdd2");
-	$('.boardAdd').addClass("boardAdd1");
+	console.log($(this).parent());
+	$(this).parents('.todoBoard').append("<div class='todoBoard0'>+</div>");
+	$('#todoTextarea').remove();
 })
+
 </script>
 </html>
