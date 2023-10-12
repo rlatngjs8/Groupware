@@ -244,7 +244,7 @@ tbody tr:hover {
 			                        <div class="form_th">결재양식 :</div>
 			                        <div class="form_td" title="${my_approval.sender_id}">${my_approval.approval_type}</div>
 			                    </div>
-			                    <div class="card_action" id="card_action"  style="margin-top: 10px; cursor:pointer">
+			                    <div class="card_action" id="card_action"  style="margin-top: 5px; cursor:pointer">
 			                        결재하기
 			                    </div>
 			                </div>

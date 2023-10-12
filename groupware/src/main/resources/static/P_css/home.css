@@ -16,18 +16,19 @@
     padding: 10px 15px;
     font-weight: bold;
     text-align: left;
-    border-right: 1px solid #d1d1d1;
+    border: 1px solid #d1d1d1;
 }
 
-.tab-view1 table thead th:last-child {
-    border-right: none;
-}
+/*.tab-view1 table thead th:last-child {*/
+/*    border-right: none;*/
+/*}*/
 
 /* 테이블 바디 스타일 */
 .tab-view1 table tbody td {
     padding: 10px 15px;
     border: 1px solid #d1d1d1;
     border-top: none;
+    font-size:15px;
 }
 
 .tab-view1 table tbody tr:hover {
@@ -57,6 +58,7 @@
     gap: 10px;
     border: 1px solid #ccc;
     padding: 10px;
+  	margin-top: 89px;
 }
 
 .rounded-image {
@@ -124,10 +126,9 @@
 }
 
 .announcement-box span.title, .commu-box span.title {
-    width: 30%;
+	  width: 40%;
     text-align: left;
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 15px;
 }
 
 .announcement-box span.content-text, .commu-box span.content-text {

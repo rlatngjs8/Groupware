@@ -276,23 +276,9 @@ button{
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-	
-	let modal = document.querySelector('.modal');
-	let btnOpenModal=document.querySelector('.pre-view');
-	let approvalType = document.getElementById('approvalType').value;
-    let receiver_id = document.getElementById('receiver_id').value;
 
-	btnOpenModal.addEventListener("click", ()=>{
-	    modal.style.display="flex";
-	});
 	
-	document.querySelector('.modal').addEventListener('click', function(e) {
-	    if (e.target === this) {
-	      this.style.display = 'none';
-	    }
-	  });
-	
-    // select 요소의 변경 이벤트를 감지
+  // select 요소의 변경 이벤트를 감지
     $('#receiver_id').on('change', function() {
         // 선택한 옵션의 데이터 속성 'data-department' 값을 가져옴
         var selectedOption = $(this).find(':selected');

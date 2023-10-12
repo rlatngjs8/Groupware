@@ -12,6 +12,7 @@ body, ul, li {
   margin: 0;
   padding: 0;
   list-style: none;   /* 해당 태그의 list-style을 none으로 하는 것으로 ●을 제거한다 */
+   overflow-x: hidden; /* 가로 스크롤을 숨깁니다. */
 }
 
 a {
@@ -165,7 +166,7 @@ a {
     cursor:pointer;
 }
 
-#pHedaerEmailAlarm {
+#pHedaerEmailAlarm, #pHeaderRequest{
   display: inline-block; /* div를 인라인 블록 요소로 설정 */
   vertical-align: top; /* 텍스트의 위쪽에 맞추기 */
   margin-left: 15px; /* 좌측 마진 추가 (선택사항) */
@@ -219,6 +220,7 @@ a {
 cursor:pointer;
 }
 </style>
+<link href="P_css/header.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <header class="side-bar">
@@ -253,7 +255,7 @@ cursor:pointer;
             <a href="/attendance">근태관리</a>
         </li>
         <li>
-            <a href="/approval">전자결재</a>
+            <a href="/approval">전자결재<div id="pHeaderRequest">3</div></a>
         </li>
         <li>
            <a href="/todo">ToDO+</a>
@@ -349,6 +351,10 @@ $(document)
                }
             }
    },'json');
+   $.post('/countRequest',{empID:${sessionScope.EmpId}},
+		   function(data){
+	   	       $('#pHeaderRequest').text(data);
+   },'text');
 })
 .on('click','#search-button',function(){
    let search = $('#search-bar').val();
