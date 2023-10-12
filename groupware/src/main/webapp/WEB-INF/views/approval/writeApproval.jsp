@@ -84,6 +84,7 @@ body {
     padding-bottom: 50%;
     box-sizing: border-box;
     font-size: 19px;
+    border:none;
 }
 
 /* 새로운 CSS 클래스 추가 */
@@ -126,8 +127,52 @@ body {
 button{
     background: #fff;
     border: none;
-    font-size: 17px;
+    font-size: 16px;
+    cursor:pointer;
     }
+ .receiver_id{
+ 	height:40px;
+ 	border:1px solid #bfbfbf;
+ }
+ #approvalType, #approvalTitle {
+ 	border:1px solid #bfbfbf;
+ }
+ 
+ .modal{
+    position:absolute;
+    display:none;
+    
+    justify-content: center;
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    
+
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal_body
+{
+    position:absolute;
+    top:50%; 
+
+
+    width:400px;  
+    height:600px; 
+
+    padding:40px;  
+
+    text-align: center;
+
+    background-color: rgb(255,255,255); 
+    border-radius:10px; 
+    box-shadow:0 2px 3px 0 rgba(34,36,38,0.15); 
+
+    transform:translateY(-50%); 
+}
 </style>
 </head>
 <body>
@@ -140,26 +185,36 @@ button{
     <form action="/writeApprovalData" method="post">
     <div class="tool_bar">
         <button type="submit"><span><img src="/img/수정.png" class="tool_bar_icon1"></span><span>결재요청</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
+        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span class="pre-view">미리보기</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
+    
+    <div class="modal">
+        <div class="modal_body">
+            <h2>모달창 제목</h2>
+            <p>모달창 내용 </p>
+        </div>
+    </div>
+    
+    
+    
     <div class="writeForm">
             <table class="customTable">
                 <tr>
                     <td class="td1" colspan="5">업 무 기 안</td>
                 </tr>
                 <tr>
-                    <td class="bgGray width9 centerText" style="width: 10%">기안자</td>
+                    <td class="bgGray width9 centerText" style="width: 10%;border-bottom: 1px solid #bfbfbf;">기안자</td>
                     <td style="font-weight: bold;">${name}<input type="hidden" name="userid" id="userid" value="${userid}"></td>
                     <td rowspan="4"></td>
-                    <td rowspan="3" class="bgGray width9 centerText" style="width: 10%">결재</td>
+                    <td rowspan="3" class="bgGray width9 centerText" style="width: 10%; border-bottom: 1px solid #bfbfbf;">결재</td>
                     <td class="width13 centerText" id="receiverDepartmentName"></td>
                 </tr>
                 <tr>
-                    <td class="bgGray centerText">부서</td>
+                    <td class="bgGray centerText" style="border-bottom: 1px solid #bfbfbf;">부서</td>
                     <td>${alEmp.departmentName}</td>
                     <td rowspan="2" class="textCenter">
-                        <select name="receiver_id" id="receiver_id">
+                        <select name="receiver_id" id="receiver_id" class="receiver_id" >
                             <option value="" disabled selected>결재 담당자를 선택해주세요</option>
                             <c:forEach items="${allMem}" var="mem">
                                 <option value="${mem.userid}">${mem.departmentName} - ${mem.name}   ${mem.position}</option>
@@ -168,7 +223,7 @@ button{
                     </td>
                 </tr>
                 <tr>
-                    <td class="bgGray centerText">기안일</td>
+                    <td class="bgGray centerText" style="border-bottom: 1px solid #bfbfbf;">기안일</td>
                     <td><span id="currentDate"></span></td>
                 </tr>
                 <tr>
@@ -181,15 +236,29 @@ button{
             <br><hr/><br>
             <table class="customTable" >
                 <tr>
-                    <td class="width20 bgGray centerText" style="width: 20%">결재유형</td>
-                    <td><input type="text" name="approvalType" id="approvalType"></td>
+                    <td class="width20 bgGray centerText" style="width: 20%; border-bottom: 1px solid #bfbfbf;">결재유형</td>
+<!--                     <td><input type="text" name="approvalType" id="approvalType"></td> -->
+										<td>
+										<select name="approvalType" id="approvalType">
+											<option value="" disabled selected>결재유형선택</option>
+											<option value="업무기안">업무기안</option>
+											<option value="업무협조">업무협조</option>
+											<option value="일반품의서">일반품의</option>
+											<option value="구매신청서">구매신청서</option>
+											<option value="출장신청서">출장신청서</option>
+											<option value="채용요청">채용요청</option>
+											<option value="회의록">회의록</option>
+											<option value="휴가신청서">휴가신청서</option>
+											<option value="사유서">사유서</option>
+										</select>
+										</td>
                 </tr>
                 <tr>
-                    <td class="bgGray centerText">제목</td>
+                    <td class="bgGray centerText" style="border-bottom: 1px solid #bfbfbf;">제목</td>
                     <td><input type="text" name="approvalTitle" id="approvalTitle"></td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="bgGray centerText">내용</td>
+                    <td colspan="2" class="bgGray centerText" style="text-align:center">내 용</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="height450"><input type="text" name="approText" id="approText" class="ApproText"></td>
@@ -198,7 +267,7 @@ button{
     </div>
     <div class="tool_bar" style="margin-bottom:5%">
         <button type="submit"><span><img src="/img/수정.png" class="tool_bar_icon"></span><span>결재요청</span></button>
-        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span>미리보기</span></a>
+        <a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span class="pre-view">미리보기</span></a>
         <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
     </div>
     </form>
@@ -207,8 +276,10 @@ button{
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    // select 요소의 변경 이벤트를 감지
-    $('select').on('change', function() {
+
+	
+  // select 요소의 변경 이벤트를 감지
+    $('#receiver_id').on('change', function() {
         // 선택한 옵션의 데이터 속성 'data-department' 값을 가져옴
         var selectedOption = $(this).find(':selected');
         var displayName = selectedOption.text().split(' ')[0]; // 띄어쓰기로 분리하고 앞에 것만 가져옴
@@ -235,7 +306,15 @@ $(document).ready(function() {
     // "결재요청" 버튼 클릭 이벤트 처리
     $('form').on('submit', function(e) {
         e.preventDefault(); // 기본 제출 동작 방지
+        
 
+     		// 필수 입력 필드가 비어있는지 확인
+        if ($('#userid').val()=== "" || $('#receiver_id').val()=== "" || $('#approvalType').val()=== null || $('#approvalTitle').val()=== "" || $('#approText').val() === "") {
+            alert("모든 필수 입력 필드를 작성해주세요.");
+            return false;
+        }
+        
+        
         // 폼 데이터를 가져옵니다.
         var formData = {
             userid: $('#userid').val(),
@@ -244,6 +323,7 @@ $(document).ready(function() {
             approvalTitle: $('#approvalTitle').val(),
             approText: $('#approText').val()
         };
+             		
         
         console.log("보낸이",$('#userid').val());
 
@@ -261,6 +341,7 @@ $(document).ready(function() {
             error: function(err) {
                 // 오류 처리
                 console.error('결재요청 전송 중 오류 발생:', err);
+                alert("결재수신자를 선택해주세요")
             }
         });
     });

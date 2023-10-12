@@ -24,7 +24,7 @@ body {
 	display: block;
 	position: absolute;
 	top: 110px;
-	left: 12%;
+	right:17%;
 	width: 100%;
 	margin-top: 10px;
 	font-size: 24px;
@@ -34,7 +34,7 @@ body {
 .comeForm {
 	margin-left: 25%;
 	margin-top: 2%;
-	width: 45%;
+	width: 65%;
 	font-size: 16px;
 }
 
@@ -45,13 +45,16 @@ body {
 }
 
 .customTable td, .customTable th {
-	border: 1px solid #ddd;
+/* 	border: 1px solid #ddd; */
 	padding: 8px;
 
 }
 
 .customTable th {
-	background-color: #f2f2f2;
+	  border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background-color: rgb(106, 176, 173);
+    color: #fff;
 }
 
 
@@ -98,6 +101,44 @@ body {
     .customTable {
     	width: 100%;
     }
+      .pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    background-color: #f5f5f5;
+}
+
+.pagination .current-page {
+    background-color: #6ab0ad;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 5px;
+    border: 1px solid #6ab0ad;
+    border-radius: 5px;
+}
+
+.pagination a:disabled {
+    background-color: #eee;
+    color: #888;
+    pointer-events: none;
+}
+tbody tr:hover {
+    background-color: #f5f5f5; /* 마우스를 올렸을 때 배경 색상 변경 */
+    cursor: pointer; /* 커서를 포인터 모양으로 변경 */
+}   
 
 </style>
 </head>
@@ -114,11 +155,10 @@ body {
 		<table class="customTable">
 		    <thead>
 		        <tr>
-		            <th><input type="checkbox"></th>
 		            <th>문서번호</th>
 		            <th>기안일</th>
-		            <th>결재양식</th>
-		            <th>제목</th>
+		            <th style= "width: 12%;">결재양식</th>
+		            <th style= "width: 40%;">제목</th>
 		            <th>기안자</th>
 		            <th>담당자</th>
 		            <th>결재상태</th>
@@ -136,7 +176,6 @@ body {
 		            <c:forEach items="${arrive_approval}" var="list">
 		                <tbody>
 		                    <tr>
-		                        <td><input type="checkbox"></td>
 		                        <td class="id">${list.approvalID}</td>
 		                        <td class="time">${list.createdTime}</td>
 		                        <td class="type">${list.approval_type}</td>
@@ -150,7 +189,25 @@ body {
 		        </c:otherwise>
 		    </c:choose>
 		</table>
-
+		<div class="pagination">
+		    <c:choose>
+		        <c:when test="${totalPages > 1}">
+		            <c:forEach begin="1" end="${totalPages}" var="page">
+		                <c:url value="/sendApproval" var="url">
+		                    <c:param name="page" value="${page}" />
+		                </c:url>
+		                <c:choose>
+		                    <c:when test="${page == currentPage}">
+		                        <span class="current-page">${page}</span>
+		                    </c:when>
+		                    <c:otherwise>
+		                        <a href="${url}">${page}</a>
+		                    </c:otherwise>
+		                </c:choose>
+		            </c:forEach>
+		        </c:when>
+		    </c:choose>
+		</div>
 			<!--  ${pagestr} -->
 		</div>
 	</div>
@@ -159,9 +216,9 @@ body {
 <script>
 $(document).ready(function() {
     // 각 approval 제목을 가지고 있는 요소에 대한 이벤트 핸들러를 할당
-    $('td.Apptitle').on('click', function() {
-        // 클릭된 요소의 data-approvalid 속성 값을 가져옴
-        var approvalID = $(this).data('approvalid');
+    $('tbody tr').on('click', function() {
+        // 클릭된 요소의 첫 번째 td 요소 내의 내용(approvalID)을 가져옴
+        var approvalID = $(this).find('td.id').text();
         console.log(approvalID); // 콘솔에 출력
         window.location = "approvalDetail?approvalID=" + approvalID;
     });

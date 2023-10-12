@@ -97,6 +97,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		<table class="sideBarTbl">
 			<tbody>
 			<tr>
+				<td class="planTd">공휴일</td><td><div class="circle" style="background-color:#fa573c;"></div></td>
+			</tr>
+			<tr>
 				<td class="planTd">일정</td><td><div class="circle" style="background-color:#cd74e6;"></div></td>
 			</tr>
 			<tr>

@@ -19,5 +19,7 @@ public interface AttendanceDAO {
 	ArrayList<AttendanceDTO> getManageList_sort_name(String month, String year );
 	ArrayList<AttendanceDTO> getManageList_sort_department(String month, String year );
 	ArrayList<AttendanceDTO> getManageList_sort_date(String month, String year );
+	
+	ArrayList<AttendanceDTO> select_time(String date, String userid);
  
 }

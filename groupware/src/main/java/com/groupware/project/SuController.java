@@ -519,30 +519,78 @@ public class SuController {
 	
 	
 	@GetMapping("/arriveApproval")
-	public String arriveApproval(HttpServletRequest req, Model model) {
+	public String arriveApproval(HttpServletRequest req, Model model,@RequestParam(defaultValue = "1") int page) {
 		HttpSession session = req.getSession();
 		String userid = (String) session.getAttribute("userid");
-		ArrayList<ApprovalsDTO> arrive_approval = Apdao.arrive_approval(userid);
+		int itemsPerPage = 15; // 한 페이지당 보여줄 항목 수
+		ArrayList<ApprovalsDTO> allarrive_approval = Apdao.arrive_approval(userid);
+		
+		// 전체 항목 수 계산
+	    int totalItems = allarrive_approval.size();
+	    
+	    // 총 페이지 수 계산
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    
+	    // 현재 페이지에 보여줄 항목 계산
+	    int startIndex = (page - 1) * itemsPerPage;
+	    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+	    
+	    ArrayList<ApprovalsDTO> arrive_approval = new ArrayList<>(allarrive_approval.subList(startIndex, endIndex));
+		
 		model.addAttribute("arrive_approval",arrive_approval);
+		model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
 		return "approval/arriveApproval";
 	}
 	
 	@GetMapping("/comeApproval")
-	public String comeApproval(HttpServletRequest req, Model model) {
+	public String comeApproval(HttpServletRequest req, Model model,@RequestParam(defaultValue = "1") int page) {
 		HttpSession session = req.getSession();
 		String userid = (String) session.getAttribute("userid");
-		ArrayList<ApprovalsDTO> incomplete_approval = Apdao.select_incomplete_approval1(userid);
-		model.addAttribute("incomplete_approval", incomplete_approval);
+		int itemsPerPage = 15; // 한 페이지당 보여줄 항목 수
+		ArrayList<ApprovalsDTO> allincomplete_approval = Apdao.select_incomplete_approval1(userid);
+		
+		// 전체 항목 수 계산
+	    int totalItems = allincomplete_approval.size();
+	    
+	    // 총 페이지 수 계산
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    
+	    // 현재 페이지에 보여줄 항목 계산
+	    int startIndex = (page - 1) * itemsPerPage;
+	    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+	    ArrayList<ApprovalsDTO> incomplete_approval = new ArrayList<>(allincomplete_approval.subList(startIndex, endIndex));
+	    
+	    model.addAttribute("incomplete_approval", incomplete_approval);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+		
 		return "approval/comeApproval";
 	}
 	
 	@GetMapping("/sendApproval")
-	public String sendApproval(HttpServletRequest req, Model model) {
-		HttpSession session = req.getSession();
-		String userid = (String) session.getAttribute("userid");
-		ArrayList<ApprovalsDTO> send_approval = Apdao.sendList(userid);
-		model.addAttribute("send_approval",send_approval);
-		return "approval/sendApproval";
+	public String sendApproval(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int page) {
+	    HttpSession session = req.getSession();
+	    String userid = (String) session.getAttribute("userid");
+	    int itemsPerPage = 15; // 한 페이지당 보여줄 항목 수
+	    ArrayList<ApprovalsDTO> allSendApproval = Apdao.sendList(userid);
+	    
+	    // 전체 항목 수 계산
+	    int totalItems = allSendApproval.size();
+	    
+	    // 총 페이지 수 계산
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    
+	    // 현재 페이지에 보여줄 항목 계산
+	    int startIndex = (page - 1) * itemsPerPage;
+	    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+	    ArrayList<ApprovalsDTO> sendApproval = new ArrayList<>(allSendApproval.subList(startIndex, endIndex));
+	    
+	    model.addAttribute("send_approval", sendApproval);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+	    
+	    return "approval/sendApproval";
 	}
 	
 	
@@ -569,7 +617,7 @@ public class SuController {
             @RequestParam("approText") String approText,
             Model model) {
 		
-		 System.out.println("userid: " + sender);
+		 	System.out.println("userid: " + sender);
 	        System.out.println("receiver_id: " + receiver);
 	        System.out.println("approvalType: " + approvalType);
 	        System.out.println("approvalTitle: " + approvalTitle);

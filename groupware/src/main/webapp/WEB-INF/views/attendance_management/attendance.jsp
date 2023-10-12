@@ -3,12 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link
-         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-         rel="stylesheet"
-         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-         crossorigin="anonymous"
-      />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- jQuery 라이브러리 추가 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -26,7 +20,7 @@
     left: 0;
     background-color: white;
     padding-top: 20px;
-    border-right: 1px solid gray; /* 오른쪽 부분에만 테두리 적용 */
+    border-right: 1px solid lightgray; /* 오른쪽 부분에만 테두리 적용 */
 }
 
       /* 사이드바 링크 스타일 */
@@ -65,7 +59,7 @@
          	margin-top:20px;
             padding: 20px;
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
         }
 
         /* 헤더 스타일 */
@@ -252,8 +246,38 @@ th.date-col:hover {
 }
 
 
-    
-    
+/* 출근/퇴근 버튼 스타일 */
+.btn {
+  padding: 15px 30px;
+  font-size: 17px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 15px 10px;
+  transition: all 0.3s ease;
+  border: none;
+  max-width: 250px;
+  max-height: 50px;
+}
+
+/* .btn 클래스의 disabled 상태 스타일 */
+.btn:disabled {
+    background-color: #ccc; /* 비활성 상태 배경색 */
+    color: #666; /* 비활성 상태 텍스트 색상 */
+    cursor: not-allowed; /* 비활성 상태에서 포인터 변경 방지 */
+}
+
+.btn-success {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: #ff9800;
+    color: #fff;
+}
+
+
+
     
     </style>
 <body>
@@ -264,11 +288,11 @@ th.date-col:hover {
     <aside>
 			<div class="sidebar">
   			<section id="attendance_section">
-      		<h2><a href="/attendance_management/attendance">근태관리</a></h2>
+      		<h2><a href="/attendance">근태관리</a></h2>
             <p id="date_info"></p>
             <p id="time_info"><span id="current_time"></span></p>
       		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>
-			<button class="btn btn-warning m-2" id="btnCheckOut" disabled>퇴근하기</button>
+			<button class="btn btn-warning m-2" id="btnCheckOut" disabled >퇴근하기</button>
 <!--             <label for="status_select">근무상태 변경:</label> -->
             
 <!--    <select id="status_select">
@@ -283,8 +307,8 @@ th.date-col:hover {
         </section>
         <hr>
         
-        <p id="checkin_time">출근시간: <span id="start_time"></span></p>
-        <p id="checkout_time">퇴근시간: <span id="end_time"></span></p>
+        <p id="checkin_time">출근시간:<span id="start_time"></span></p>
+        <p id="checkout_time">퇴근시간:<span id="end_time"></span></p>
 
 <!--         <section id="my_attendance_section">
         <br><br><br><br>
@@ -364,6 +388,7 @@ th.date-col:hover {
             // 페이지 로드시 초기 시간 업데이트
             updateTime();
             console.log("안녕",  $("#user_name").val() );
+            select_time();   
         });
         
         $(document).ready(function() {
@@ -522,6 +547,63 @@ th.date-col:hover {
             });
 
         });
+        
+        
+        function select_time() {
+            var current_date = (dateParts[0] + dateParts[1] + dateParts[2].replace('.', '')).replace(/\./g, '-');
+            var currentTime = new Date();
+            var hours = currentTime.getHours();
+            var minutes = currentTime.getMinutes();
+            var seconds = currentTime.getSeconds();
+            hours = (hours < 10 ? "0" : "") + hours;
+            minutes = (minutes < 10 ? "0" : "") + minutes;
+            seconds = (seconds < 10 ? "0" : "") + seconds;
+
+            const userid = $('#user_id').val();
+            const date = current_date;
+        	
+            const checkData = {
+                    userid: userid,
+                    date: date,
+                };
+            
+            $.ajax({
+                url: "/select_time",
+                data: checkData,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length === 0) {
+                        console.log("출퇴근시간 받기 실패");
+                    } else {
+                        // 출근시간과 퇴근시간이 각각 하나씩만 있는 경우를 가정합니다.
+                        console.log(data);
+                        $('#start_time').text(data[0]['starttime']);
+                        $('#end_time').text(data[0]['endtime']);
+                        if ($('#start_time').text() === null) {
+                            // 출근시간이 비어 있는 경우
+                            $("#btnCheckIn").prop('disabled', false); // 출근 버튼 활성화
+                            $("#btnCheckOut").prop('disabled', true); // 퇴근 버튼 비활성화
+                        } else {
+                            // 출근시간이 비어 있지 않은 경우
+                            $("#btnCheckIn").prop('disabled', true); // 출근 버튼 비활성화
+
+                            if ($('#end_time').text() !== '00:00:00') {
+                                // 퇴근시간이 00:00:00이 아닌 경우
+                                $("#btnCheckOut").prop('disabled', true); // 퇴근 버튼 비활성화
+                            } else {
+                                // 퇴근시간이 00:00:00인 경우
+                                $("#btnCheckOut").prop('disabled', false); // 퇴근 버튼 활성화
+                            }
+                        }    
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Ajax 요청 실패:", error);
+                }
+            });
+     
+        }
 
         function insert_checkIn() {
             console.log('insert_checkIn 함수 실행 시작');
@@ -538,8 +620,8 @@ th.date-col:hover {
             const date = current_date;
             const startTime = hours + ":" + minutes + ":" + seconds;
             console.log('userid:', userid);
+            
 
-            $('#start_time').text(startTime);
 
             if (currentTime >= workStartTime && currentTime <= workEndTime) {
                 $("#status").val("지각");
@@ -588,18 +670,17 @@ th.date-col:hover {
                         console.log("인서트 성공");
                         Swal.fire({
                             icon: 'success',
-                            showConfirmButton: false,
+                            showConfirmButton: true,
                             position: 'center-center',
-                            timer: 3000,
-                            timerProgressBar: true,
                             title: '출근이 완료되었습니다.',
-                            text: '오늘도 화이팅.',
-                        });
-                        // 출근 버튼 비활성화
-                        $("#btnCheckIn").prop("disabled", true);
-
-                        // 퇴근 버튼 활성화
-                        $("#btnCheckOut").prop("disabled", false);
+                            confirmButtonText: '확인' // 확인 버튼 추가
+           	         }).then((result) => {
+           	           if (result.isConfirmed) {
+           	        	   
+           	             // 확인 버튼을 누르면 페이지 리로드
+           	             location.reload();
+           	           }
+           	         });
                     }
                 },
                 error: function (xhr, status, error) {
@@ -626,7 +707,6 @@ th.date-col:hover {
             seconds = (seconds < 10 ? "0" : "") + seconds;
             const endTime = hours + ":" + minutes + ":" + seconds;
             const date = current_date;
-            $('#end_time').text(endTime);
 
             const checkData = {
                 userid: userid,
@@ -661,18 +741,16 @@ th.date-col:hover {
                     } else {
                         Swal.fire({
                             icon: 'success',
-                            showConfirmButton: false,
+                            showConfirmButton: true,
                             position: 'center-center',
-                            timer: 3000,
-                            timerProgressBar: true,
                             title: '퇴근이 완료되었습니다.',
-                            text: '좋은 하루 보내세요',
-                        });
-                        // 출근 버튼 활성화
-                        $("#btnCheckIn").prop("disabled", true);
-
-                        // 퇴근 버튼 비활성화
-                        $("#btnCheckOut").prop("disabled", true);
+             	         	confirmButtonText: '확인' // 확인 버튼 추가
+           	         }).then((result) => {
+           	           if (result.isConfirmed) {
+           	             // 확인 버튼을 누르면 페이지 리로드
+           	             location.reload();
+           	           }
+           	         });
                     }
                 },
                 error: function (xhr, status, error) {
@@ -798,6 +876,7 @@ th.date-col:hover {
 		                 tableBody.append(noDataMessage);
 		             } else {
 		                 for (let i = (page - 1) * perPage; i < page * perPage && i < data.length; i++) {
+		                	 console.log(data);
 		                     const newRow = $('<tr>');
 		                     newRow.append('<td id="att_name" style="width: 70px; text-align: center;">' + data[i]['name'] + '</td>');
 		                     newRow.append('<td id="att_departmentname" style="width: 100px; text-align: center;">' + data[i]['departmentname'] + '</td>');
