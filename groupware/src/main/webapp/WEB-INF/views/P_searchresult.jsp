@@ -189,8 +189,20 @@
 		    <ul>
 		        <c:forEach items="${calendar}" var="calendar">
 		            <li>
-	                    <span class="calenderTitle">${calendar.CALENDAR_TITLE}</span>
-	                    <span class="calenderInfo">${calendar.calendar_start} ~ ${calendar.calendar_end}</span>
+	                    <c:choose>
+						    <c:when test="${calendar.birthday==1}">
+			                    <span class="calenderTitle">${calendar.CALENDAR_TITLE}</span>
+			                    <span class="calenderInfo">${calendar.calendar_start} ~ ${calendar.calendar_end}</span>	
+						    </c:when>
+						    <c:when test="${calendar.reservation==1}">
+			                    <span class="calenderTitle"><a href="/ko_reservationDetails?c_no=${calendar.connectionID}">${calendar.CALENDAR_TITLE}</a></span>
+			                    <span class="calenderInfo">${calendar.calendar_start} ~ ${calendar.calendar_end}</span>
+						    </c:when>
+						    <c:otherwise>
+			                    <span class="calenderTitle"><a href="/ko_calendarDetails?c_no=${calendar.calendar_no}">${calendar.CALENDAR_TITLE}</a></span>
+			                    <span class="calenderInfo">${calendar.calendar_start} ~ ${calendar.calendar_end}</span>
+						    </c:otherwise>
+						</c:choose>
 		            </li>
 		        </c:forEach>
 		    </ul>
