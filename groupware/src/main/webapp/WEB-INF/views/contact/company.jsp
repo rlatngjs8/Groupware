@@ -349,7 +349,7 @@ hr.hr-3 {
 		    left: 0;
 		    background-color: white;
 		    padding-top: 20px;
-		    border-right: 1px solid gray; /* 오른쪽 부분에만 테두리 적용 */
+		    border-right: 1px solid lightgray; /* 오른쪽 부분에만 테두리 적용 */
 		    text-align: left;
 		}
 
@@ -466,8 +466,8 @@ width: 40px;
 		  		<h2 style="font-size:28px;"><img src="/img/contact-book.png" alt="로고 이미지" class="contact-img">연락처</h2>
 		        <p id="date_info"></p>
 		        <p id="time_info"><span id="current_time"></span></p>
-		  		<a href="/contact/company">사내 주소록</a>
-			    <a href="/contact/personal">개인 주소록</a>    
+		  		<a href="/company">사내 주소록</a>
+			    <a href="/personal">개인 주소록</a>    
        		</section>
       	</div>
     </aside>
