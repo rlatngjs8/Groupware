@@ -240,4 +240,11 @@ public class Ko_controller {
 		}	
 		return ja.toJSONString();
 	}
+	@PostMapping("/countRequest")
+	@ResponseBody
+	public int countRequest(HttpServletRequest req) {
+		int empID=Integer.parseInt(req.getParameter("empID"));
+		int countRequest = ndao.countRequest(empID);
+		return countRequest;
+	}
 }
