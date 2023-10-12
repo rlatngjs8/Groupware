@@ -12,6 +12,7 @@ body, ul, li {
   margin: 0;
   padding: 0;
   list-style: none;   /* 해당 태그의 list-style을 none으로 하는 것으로 ●을 제거한다 */
+   overflow-x: hidden; /* 가로 스크롤을 숨깁니다. */
 }
 
 a {
