@@ -7,15 +7,16 @@
     <title>자료실</title>
     <style>
         .sidebar {
-            margin-left: 220px;
-            height: 100%;
-            width: 225px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #fff;
-            padding-top: 20px;
-            border-right: 1px solid #c0c0c0;
+		  margin-left: 215px;
+		  height: 100%;
+		  width: 225px;
+		  position: fixed;
+		  top: 114px;
+		  left: 0;
+		  background-color: #fff;
+		  padding-top: 20px;
+		  border-right: 1px solid #c0c0c0;
+		  border-top: 1px solid lightgray;
         }
         
         .btn_upload {
@@ -94,8 +95,9 @@
         }
         
         .document-container {
-            margin-left: 200px;
-            margin-top: 2%;
+			  margin-left: 190px;
+			  margin-top: 2%;
+			  border-top: 1px solid lightgray;
         }
         
         .table-style {

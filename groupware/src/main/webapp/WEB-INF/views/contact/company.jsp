@@ -135,23 +135,6 @@ a.button {
   border-radius: 5px;
   transition: all 0.2s;
 }
-
-.btnBlueGreen {
-  background: #00AE68;
-}
-
-.btnLightBlue {
-  background: #5DC8CD;
-}
-
-.btnOrange {
-  background: #FFAA40;
-}
-
-.btnPurple {
-  background: #A74982;
-}
-
 /* FLOAT */
 .btnFloat {
   background: none;
@@ -341,16 +324,17 @@ hr.hr-3 {
 		
 		        /* 사이드바 스타일 */
 		.sidebar {
-			margin-left: 190px;
-		    height: 100%;
-		    width: 230px;
-		    position: fixed;
-		    top: 0;
-		    left: 0;
-		    background-color: white;
-		    padding-top: 20px;
-		    border-right: 1px solid lightgray; /* 오른쪽 부분에만 테두리 적용 */
-		    text-align: left;
+		  margin-left: 191px;
+		  height: 100%;
+		  width: 230px;
+		  position: fixed;
+		  top: 78px;
+		  left: 0;
+		  background-color: white;
+		  padding-top: 20px;
+		  border-right: 1px solid lightgray;
+		  text-align: left;
+		  border-top: 1px solid lightgray;
 		}
 
         /* 사이드바 링크 스타일 */
@@ -366,14 +350,10 @@ hr.hr-3 {
 		    background-color: #ccc; /* 연한 회색 배경으로 변경 */
 		}
 		
-		
-		
-		
-		
-
         .main {
-		    margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
-		    padding: 20px; /* 콘텐츠 패딩 설정 */
+			  margin-left: 250px;
+			  padding: 20px;
+			  border-top: 1px solid lightgray;
 		}
 #pagination {
     text-align: center;
@@ -442,6 +422,7 @@ width: 40px;
     padding: 10px;
     margin-left: 200px;
 }
+
 
 
     </style>
