@@ -191,7 +191,7 @@
                 </div>
                 <br><br><br>
                 <div>
-                    <a href="/documentLibaray" id="allDocu" class="docuSub">전체 자료실</a><br><br><br>
+                    <a href="/documentLibrary" id="allDocu" class="docuSub">전체 자료실</a><br><br><br>
                     <a href="/individual" id="individual" class="docuSub">개인 자료실</a>
                 </div>
             </div>
