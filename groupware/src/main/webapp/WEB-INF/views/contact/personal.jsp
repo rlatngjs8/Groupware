@@ -230,16 +230,17 @@ hr.hr-3 {
 		
 		        /* 사이드바 스타일 */
 		.sidebar {
-			margin-left: 190px;
-		    height: 100%;
-		    width: 230px;
-		    position: fixed;
-		    top: 0;
-		    left: 0;
-		    background-color: white;
-		    padding-top: 20px;
-		    border-right: 1px solid lightgray; /* 오른쪽 부분에만 테두리 적용 */
-		    text-align: left;
+		  margin-left: 191px;
+		  height: 100%;
+		  width: 230px;
+		  position: fixed;
+		  top: 78px;
+		  left: 0;
+		  background-color: white;
+		  padding-top: 20px;
+		  border-right: 1px solid lightgray;
+		  text-align: left;
+		  border-top: 1px solid lightgray;
 		}
 
         /* 사이드바 링크 스타일 */
@@ -257,8 +258,9 @@ hr.hr-3 {
 		
 
         .main {
-		    margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
-		    padding: 20px; /* 콘텐츠 패딩 설정 */
+			  margin-left: 250px;
+			  padding: 20px;
+			  border-top: 1px solid lightgray;
 		}
 		.name-col {
     width: 150px; /* 이름 열 너비 */
@@ -302,7 +304,7 @@ hr.hr-3 {
 
 .contact-img {
 position: relative;
-top: -2px;
+top: 10px;
 width: 40px;
 }
 
@@ -608,7 +610,6 @@ $().ready(function () {
 		   // 선택된 연락처가 있으면 삭제 확인 모달을 표시
 		   Swal.fire({
 		     title: '연락처를 삭제하시겠습니까?',
-		     text: '다시 되돌릴 수 없습니다. 신중하세요.',
 		     icon: 'warning',
 		     showCancelButton: true,
 		     confirmButtonColor: '#3085d6',

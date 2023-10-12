@@ -7,18 +7,17 @@
 <title>Insert title here</title>
 <style>
 .asidebar {
-	margin-left: 220px;
-	height: 100%;
-	width: 225px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: #fff;
-	padding-top: 20px;
-	border-right: 1px solid #c0c0c0;
-	order: 1;
-	text-align: left;
-	/* .asidebar의 스타일을 지정합니다. */
+  margin-left: 215px;
+  height: 100%;
+  width: 225px;
+  position: fixed;
+  top: 77px;
+  left: 0;
+  background-color: #fff;
+  padding-top: 20px;
+  border-right: 1px solid #c0c0c0;
+  order: 1;
+  text-align: left;
 }
 
 .newApproval {

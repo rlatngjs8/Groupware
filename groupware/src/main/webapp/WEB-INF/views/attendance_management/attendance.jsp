@@ -12,15 +12,16 @@
 <style>
         /* 사이드바 스타일 */
 .sidebar {
-	margin-left: 190px;
-    height: 100%;
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: white;
-    padding-top: 20px;
-    border-right: 1px solid lightgray; /* 오른쪽 부분에만 테두리 적용 */
+  margin-left: 191px;
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  top: 99px;
+  left: 0;
+  background-color: white;
+  padding-top: 20px;
+  border-right: 1px solid lightgray;
+  border-top: 1px solid lightgray;
 }
 
       /* 사이드바 링크 스타일 */
@@ -55,10 +56,11 @@
             max-width: 1435px;
             height: 850px;
 			max-height: 850px;
-            margin-left: 460px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
+            margin-left: 441px; /* 사이드바 너비만큼 왼쪽 여백 설정 */
          	margin-top:20px;
             padding: 20px;
             background-color: #fff;
+            border-top: 1px solid lightgray;
 
         }
 
@@ -276,6 +278,10 @@ th.date-col:hover {
     color: #fff;
 }
 
+hr {
+    border-color: lightgray; /* 원하는 색상 코드를 여기에 입력하세요 */
+}
+
 
 
     
@@ -360,7 +366,6 @@ th.date-col:hover {
       <th>출 근</th>
       <th>퇴 근</th>
       <th>출결상태</th>
-      <th>휴 가</th>
     </tr>
   </thead>
   <tbody id="attendanceListBody">
@@ -884,7 +889,7 @@ th.date-col:hover {
 		                     newRow.append('<td id="att_starttime" style="width: 120px; text-align: center;">' + data[i]['starttime'] + '</td>');
 		                     newRow.append('<td id="att_endtime" style="width: 120px; text-align: center;">' + data[i]['endtime'] + '</td>');
 		                     newRow.append('<td id="att_attendancestatus" style="width: 150px; text-align: center;">' + data[i]['attendancestatus'] + '</td>');
-		                     newRow.append('<td id="att_vacationtype" style="width: 100px; text-align: center;">' + (data[i]['vacationtype'] ? data[i]['vacationtype'] : '') + '</td>');
+		                   
 		                     $('#attendanceListBody').append(newRow);
 		                 }
 		             }
