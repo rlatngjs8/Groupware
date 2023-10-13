@@ -2,16 +2,22 @@
 
 /* 사이드바 스타일 */
 .sidebar {
-	margin-left: 191px;
-	height: 100%;
-	width: 250px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: white;
-	padding-top: 20px;
-	border-right: 1px solid lightgray;
-	border-top: 1px solid lightgray;
+  margin-left: 211px;
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  padding-top: 20px;
+  border-right: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+}
+
+#my_attendance_section {
+  position: relative;
+  top: -76px;
+  font-size: 19px;
 }
 
 /* 사이드바 링크 스타일 */
@@ -51,15 +57,14 @@
 
 /* 메인 컨테이너 */
 .main {
-	max-width: 1435px;
-	height: 850px;
-	max-height: 850px;
-	margin-left: 441px;
-	/* 사이드바 너비만큼 왼쪽 여백 설정 */
-	margin-top: 20px;
-	padding: 20px;
-	background-color: #fff;
-	border-top: 1px solid lightgray;
+  max-width: 1350px;
+  height: 850px;
+  max-height: 850px;
+  margin-left: 495px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-top: 1px solid lightgray;
 
 }
 
