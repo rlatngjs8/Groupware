@@ -71,7 +71,9 @@
 <select id="selectmultipleEmail" resultType="com.groupware.project.MailDTO"> 
 	select name, email from employees where employeeid=#{param1}
 </select>
-
+<select id="selectmetomecnt" resultType="Integer">
+	select count(*) from emails where senderemployeeid=receiveremployeeid and emailid=#{param1}
+</select>
 <!-- 현재 최대 emailid -->
 <select id="selectMaxemailid" resultType="Integer">
 	select ifnull(max(emailid),0) from emails

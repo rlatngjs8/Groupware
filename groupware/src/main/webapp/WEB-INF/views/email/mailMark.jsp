@@ -9,10 +9,6 @@
 <title>받은메일함</title>
 <%@ include file="../P_header.jsp" %>
 </head>
-<style>
-#mailMark {color:black; font-weight:bold;}
-input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 0 auto; cursor: pointer;}
-</style>
 <body style="font-size:14px; background-color:white;">
 <div style="display:flex; height: 100%;">
 <!-- 	<div style="width:210px; background-color: rgb(106, 176, 173);"></div> -->
@@ -23,7 +19,7 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 		<c:if test='${rlist==""}'><p class="mline"></p><br><br><br><br><br><h2 style="text-align:center;">받은 메일이 없습니다.</h2><br><br><br><br><br><br><br><br><br></c:if>
 		<c:if test='${rlist!=""}'>
 		<div style="height:28px; padding:10px 0 10px 40px;">
-			<input type="checkbox" name="mChkAll" id="mCheckAll">
+			<input type="checkbox" name="mChkAll" id="mCheckAll" class="inputtypecheckbox">
 			&nbsp;&nbsp;&nbsp;<input type=button id="mRead" class="mFolderBtn" value="읽음">
 			&nbsp;&nbsp;&nbsp;<input type=button id="mDelete" class="mFolderBtn" value="삭제">
 		</div>
@@ -31,7 +27,7 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 		<table id="rmailTable">
 			<c:forEach items="${rlist}" var="r">
 			<tr>
-				<td class="rMailChk"><input type="checkbox" class="mChk" name="mChk"><div id="rEmailid" class="divHidden">${r.emailid}</div></td>
+				<td class="rMailChk"><input type="checkbox" class="mChk inputtypecheckbox" name="mChk"><div id="rEmailid" class="divHidden">${r.emailid}</div></td>
 				<td class="rMailMark">
 					<c:if test='${eid==r.senderemployeeid && eid!=r.receiveremployeeid}'>
 						<div id="emailRmark" class="divHidden emailRmark e_erm">${r.sendmark}</div>
@@ -104,6 +100,4 @@ input[type=checkbox] {width: 16px; height: 16px; vertical-align:middle; margin: 
 </body>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="js/email.js"></script>
-<script>
-</script>
 </html>

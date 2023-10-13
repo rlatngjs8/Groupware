@@ -2,7 +2,6 @@
 
 html {height: 90%; margin:0;}
 body {height: 100%; margin:0; overflow:hidden;}
-#tDivMain {width:100%; height:100%; overflow: auto; border:none;}
 .drag-prevent{
     -ms-user-select: none;
     -moz-user-select: -moz-none;
@@ -21,3 +20,45 @@ body {height: 100%; margin:0; overflow:hidden;}
 .todoBoardName {height:30px; padding-top:20px; font-size:17px; padding-bottom:10px;}
 .newBoard {width:130px; height:50px;}
 .divHidden {display:none;}
+
+/******************** todo.jsp ********************/
+#tDivMain1 {width:100%; height:100%; overflow: auto; border:none;}
+.boardAdd0 {width:246px; height:100px; float:left;
+			border-radius:8px; margin:10px 10px 10px 0; padding:10px;}
+.boardAdd1 {line-height:100px; text-align:center; font-size:28px; color:gray; 
+			cursor:pointer; border: 1px dashed gray;}
+.boardAdd1:hover {border:1px solid rgba(106, 176, 173, 0.1); background-color:rgba(106, 176, 173, 0.1);}
+.boardAdd2 {border: 1px solid gray;}
+.iamboard {transition-duration: 0.2s; cursor:pointer}
+.iamboard:hover {transform: translateY(-3px); box-shadow: 0 3px 5px -3px #B3BDBD;}
+#newboardtitle {width:238px;}
+#tDivMyboard1>div {display:inline-block;}
+.subjectpadding{padding-top:10px; height:25px;}
+
+/******************** todoDetail.jsp ********************/
+#tDivMain2 {height:100%; width:90%; backgorund-color:gray;}
+.todoBoard {width:206px; height:auto; max-height:85%; display:inline-block; border:none; vertical-align:top;
+ 			margin:10px 10px 10px 0; padding:10px; background-color: #EAEAEA; overflow:hidden;}
+.todoBoard0 {height:30px; line-height:30px; text-align:center; font-size:28px; color:gray;
+			cursor:pointer; border: 1px dashed gray; margin-top:5px; padding-bottom:5px;}
+.todoBoard0:hover {background-color:lightgray;}
+.todoBoard1 {height:30px; line-height:30px; text-align:center; font-size:28px; color:gray;
+			cursor:pointer; padding-bottom:5px;}
+.todoBoardContent{height:auto; line-height:30px; text-align:center; color:black;  background-color:white;
+				cursor:pointer; margin-bottom:5px; margin-right:4px; white-space:pre;}
+.titlepadding {padding-top:5px; height:30px; padding-bottom:3px;}
+#tdemp {position:absolute; display:none; border: 1px solid gray; padding:15px; 
+			background-color:white; width:240px; cursor:pointer;}
+#tdemp p{padding:0; margin:0; margin-top:2px;}
+.todoOlc{border-bottom:1px solid gray; padding-bottom:20px;} 
+.todoEmp1 {background-color:white}
+.todoEmp1:hover{background-color:lightgray;}
+.todoEmp2 {background-color:rgba(106, 176, 173, 0.2); cursor:pointer;}
+#newboardContent {width:190px; height:100px;}
+.tcidMain {height:auto; max-height:560px; overflow:auto;}
+#tDivMyboard2 {width:88vw; white-space:nowrap; overflow:auto;}
+.nametag {color:gray; font-size:12px; text-align:right; padding-right:5px;}
+#todonewtitle {width:190px;}
+#todonew {padding:5px;}
+.todoXbtn {display:inline; float:right; font-size:16px; line-height:16px; cursor:pointer;}
+.todoM {background-color: #6AB0AD; color:white;}

@@ -16,6 +16,7 @@ public interface TodoDAO {
 	int selectMaxtodoid2(int employeeid);
 	void insertAddtodos(int eid, String title);
 	void insertTodomember(int tid, int eid);
+	TodoDTO selectTodomember2(int tid);
 	void deleteTodomember(int tid, int eid);
 	void deleteTodoBoard(int todoid);
 	void insertTodoTitle0(int tid, int eid, String todotitle);
