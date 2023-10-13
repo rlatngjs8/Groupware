@@ -3,11 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-	crossorigin="anonymous" />
 <link href="css/manage/company_attendance.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- jQuery 라이브러리 추가 -->

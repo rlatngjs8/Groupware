@@ -3,6 +3,8 @@ $(document).ready(function() {
 	let totalFormattedTime;
 	let remainingFormattedTime;
 	let accumulatedFormattedTime;
+	let currentPage = 1; // 현재 페이지 번호
+	const perPage = 15; // 한 페이지당 표시할 데이터 수
 
 	$(document).ready(function() {
 		// 1초마다 updateTime 함수를 호출하여 시간 업데이트
@@ -332,8 +334,6 @@ $(document).ready(function() {
 		});
 	}
 
-	let currentPage = 1; // 현재 페이지 번호
-	const perPage = 15; // 한 페이지당 표시할 데이터 수
 
 	// 페이지 번호를 클릭할 때 호출되는 함수
 	function changePage(page) {
