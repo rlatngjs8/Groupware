@@ -42,5 +42,6 @@ public interface MailDAO {
 	int selectSenderEmailscnt(int eid);
 	int selectTrashCancnt(int eid);
 	int selectMarkcnt(int eid);
+	String selectmailcontent(int emailid);
 
 }

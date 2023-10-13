@@ -65,12 +65,12 @@ body {height: 100%; margin:0; overflow:hidden;}
 #mailTableW td {height:28px; padding:0 20px 20px 40px;}
 #mailTableW td:nth-child(1) {width:90px; font-weight:bold;}
 #mailTableW tr:nth-child(1) td{padding:0 18px 10px 40px;}
-#mailTableW tr:last-child td {border: 1px solid lightgray; border-width:1px 0 0;}
+#mailTableW tr:last-child td {border: 1px solid lightgray; border-width:1px 0 0; padding:0px;}
 .mInputText {width:99%; border-width: 0; outline:none; font-size:14px;
  			caret-color:#6AB0AD; padding:9px 0 9px 4px;}
 .mInputEmail {width:auto; height:16px; border-width: 0; outline:none; font-size:14px;
  			caret-color:#6AB0AD; padding:9px 0 9px 4px; background-color:transparent;}
-.font_rnffla {font-family: '굴림', Gulim; width:99%; padding:15px 0 15px 0; border:none; outline:none; resize:none;}
+.font_rnffla {font-family: '굴림', Gulim; width:100%;}
 #mailFile {position:absolute; width:0; height:0; padding:0; overflow:hidden; border: 0;}
 #mFileLabel{border: 1px solid lightgray; padding:4px 12px 4px 12px; border-radius:4px;}
 #mFileLabel:hover{border: 1px solid gray; cursor:pointer;}

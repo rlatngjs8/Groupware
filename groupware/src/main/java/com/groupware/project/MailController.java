@@ -367,17 +367,19 @@ public class MailController implements WebMvcConfigurer {
 	@ResponseBody
 	public String mdAnswer(HttpServletRequest req, Model model) {
 		sessionL(req);
+		int emailid = Integer.parseInt(req.getParameter("emailid"));
+		String content = mdao.selectmailcontent(emailid);
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
 		String email2 = req.getParameter("email2");
 		String emailDate = req.getParameter("emailDate");
 		String subject = req.getParameter("subject");
-		String content = req.getParameter("content");
+//		String content = req.getParameter("content");
 		HttpSession s = req.getSession();
-		String content2 = "--- Original Message ---&#13;&#10;From : "+name+"&#13;&#10;"
-					+"To : "+email2+"&#13;&#10;"
-					+"Date : "+emailDate+"&#13;&#10;"
-					+"Subject : "+subject+"&#13;&#10;";
+		String content2 = "--- Original Message ---<br>From : "+name+"<br>"
+					+"To : "+email2+"<br>"
+					+"Date : "+emailDate+"<br>"
+					+"Subject : "+subject+"<br>";
 		s.setAttribute("mdAnswer_email", email);
 		s.setAttribute("mdAnswer_subject", subject);
 		s.setAttribute("mdAnswer_content", content);

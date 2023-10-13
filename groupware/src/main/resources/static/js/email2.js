@@ -2,6 +2,20 @@
 let mailFileContent1 = $('#mailFileContent1').text();
 let mailFileContent2 = $('#mailFileContent2').text();
 let mailFileContent3 = $('#mailFileContent3').text();
+let oEditors = []
+smartEditor = function() {
+    console.log("Naver SmartEditor")
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: oEditors,
+        elPlaceHolder: "mInputContent",
+        sSkinURI: "smarteditor/SmartEditor2Skin2_1.html",
+        fCreator: "createSEditor2",
+        htParams : {fOnBeforeUnload : function(){}} // 이페이지 나오기 alert 삭제
+    })
+}
+$(document).ready(function() {
+    smartEditor()
+});
 
 $(document)
 .ready(function(){
@@ -40,6 +54,7 @@ $(document)
 	//
 })
 .on('click','#mdAnswer',function(){
+	let rEmailid = $('#rEmailid').text();
 	let name = $('#namebox1').text();
 	let email = $('#emailbox1').text();
 	email = email.substring(email.indexOf('＜')+1);
@@ -48,8 +63,7 @@ $(document)
 	let email2 = $('#emailbox2').text();
 	let emailDate = $('#emailDate').text();
 	let subject = "Re: "+$('#mdSubject').text();
-	let content = $('#mailDContent').text();
-	$.ajax({url:'/mdAnswer',data:{name:name,email:email[0],email2:email2,emailDate:emailDate,subject:subject,content:content},type:'post',dataType:'text',
+	$.ajax({url:'/mdAnswer',data:{emailid:rEmailid, name:name,email:email[0],email2:email2,emailDate:emailDate,subject:subject},type:'post',dataType:'text',
 		success:function(data){
 			console.log("/mdAnswer 성공");	
 			document.location="/mailWrite2";
@@ -171,8 +185,8 @@ $(document)
     }
 })
 .on('click','#btnMailSend',function(){
-// 	console.log($('.emailbox').text());
-// 	console.log(dataTransfer.files.length);
+	oEditors.getById["mInputContent"].exec("UPDATE_CONTENTS_FIELD", []) //스마트에디터
+	
 	let formData = new FormData();
 	let mailFile = $('#mailFile')[0].files;
 	if(!$('label').hasClass('emailbox')){alert('받는사람이 없습니다!'); return false;}
@@ -182,7 +196,7 @@ $(document)
 	
 	formData.append('mailCC', $('#mInputCC').val());
 	formData.append('mailContent', $('#mInputContent').val());
-	
+	console.log($('#mInputContent').val());
 	if($('#mailFile').val()!=''){
 		if(mailFile.length>3){
 			alert('파일은 3개까지만 선택 가능합니다.');
@@ -190,7 +204,7 @@ $(document)
 		} else {
 			for(let i=0; i<mailFile.length; i++){  
 				console.log(mailFile[i].size);
-				if(!fileCheck(mailFile[i].size)){ //파일 형식이나 크기가 안 맞을 경우 X
+				if(!fileCheck(mailFile[i].size)){
 					console.log("들어왔는가?");
 					return false;
 				}

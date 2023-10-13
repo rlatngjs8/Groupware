@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <link href="css/emailCSS.css" rel="stylesheet" type="text/css"/>
+<style>#smart_editor2_content{width: 100%}</style>
+<script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <title>메일</title>
 <%@ include file="../P_header.jsp" %>
 </head>

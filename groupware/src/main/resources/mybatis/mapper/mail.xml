@@ -136,4 +136,7 @@
 <select id="selectMarkcnt" resultType="Integer">
 	select count(*) from emails where (senderemployeeid=#{param1} and tcsend=0 and sendmark=1) or (receiveremployeeid=#{param1} and tcreceive=0 and receivemark=1)
 </select>
+<select id="selectmailcontent" resultType="String">
+	select content from emails where emailid=#{param1}
+</select>
 </mapper>
