@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>자료실</title>
     <style>
-        .sidebar {
+        .sidebar { 
 		  margin-left: 215px;
 		  height: 100%;
 		  width: 225px;
