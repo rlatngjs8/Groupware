@@ -18,7 +18,7 @@
 		  border-right: 1px solid #c0c0c0;
 		  border-top: 1px solid lightgray;
         }
-        
+         
         .btn_upload {
         		overflow: hidden;
 				    transition: all 0.3s ease;
