@@ -88,6 +88,11 @@ height: 400px;
 }
 .inputbox{
     margin-top: 250px;
+    }
+.Post_Content p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 </style>
 </head>

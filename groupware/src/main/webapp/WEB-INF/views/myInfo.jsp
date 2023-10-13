@@ -7,6 +7,7 @@
 <title>나의 정보</title>
 </head>
 <script src='https://code.jquery.com/jquery-Latest.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <script src="js/myInfo.js"></script>
 <link href="css/myInfo.css" rel="stylesheet">
 </head>
