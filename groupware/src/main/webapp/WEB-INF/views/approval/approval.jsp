@@ -18,7 +18,6 @@
 		<div class="asidebar">
 			<%@ include file="approvalHeader.jsp"%>
 		</div>
-		<h3 class="title">전자결재 홈</h3>
 		<div class="approvalHome">
 			<div class="arriveApproval">
 				<!-- 나한테 결재온거(미완) -->
