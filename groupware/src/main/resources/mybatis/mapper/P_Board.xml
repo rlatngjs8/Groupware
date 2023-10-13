@@ -82,10 +82,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    delete from comments where CommentID=#{param1}
 	</delete>
 	<insert id="like">
-		insert into Boardlikes set CommunityID=#{param1} ,EmployeeID=#{param2},created_at=now()
+		insert into boardlikes set CommunityID=#{param1} ,EmployeeID=#{param2},created_at=now()
 	</insert>
 	<delete id="undolike">
-	    delete from Boardlikes WHERE Employeeid = #{param2} AND communityid = #{param1}
+	    delete from boardlikes WHERE Employeeid = #{param2} AND communityid = #{param1}
 	</delete>
 	<update id="ahitup">
 		update announcement set Views=Views+1 where CommunityID=#{param1}
