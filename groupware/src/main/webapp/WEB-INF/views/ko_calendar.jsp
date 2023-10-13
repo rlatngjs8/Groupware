@@ -16,7 +16,6 @@
 <script src='https://code.jquery.com/jquery-Latest.js'></script>
 <script>
 let plan; // 이벤트를 담을 변수 선언
-
 document.addEventListener('DOMContentLoaded', function() {
 	$.get('/getPlan',{}, function(data){
 		plan = data;
@@ -38,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	            className: 'koreanHoliday',
 	            color:'#fa573c'
 	            }
-		    	],
+		    	],            
 		 	events : plan.map(function(item) {
 		 		if(item.birthday==1){
 			      	return {
@@ -88,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		calendar.render();
 	},'json');
 });
+
 </script>
 <body>
 <div class='pageCalendar'>
