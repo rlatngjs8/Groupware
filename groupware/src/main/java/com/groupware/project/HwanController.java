@@ -35,7 +35,7 @@ public class HwanController {
 		return "contact/personal";
 	}
 	
-	@GetMapping("/contact/detail")
+	@GetMapping("/detail")
 	public String detail() {
 		return "contact/detail";
 	}
