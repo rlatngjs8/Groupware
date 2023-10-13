@@ -32,12 +32,15 @@ body{
     color: #666;
 }
 
-.post-content {
+
+.post-content  {
+    max-height: 100px; /* 예시로 60px로 설정, 필요에 따라 조절 가능 */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
     margin-top: 10px;
     font-size: 16px;
-    white-space: nowrap; /* 텍스트를 한 줄로 만들기 */
-    overflow: hidden;    /* 넘치는 부분을 숨기기 */
-    text-overflow: ellipsis; /* 말 줄임표 사용 */
     width: calc(100% - 20px); /* 20px는 .post-container의 패딩을 고려한 값 */
 }
 
@@ -84,6 +87,7 @@ body{
     padding:5px ;
     font-size :20px ;
 }
+
 </style>
 <meta charset="UTF-8">
 <title>게시판</title>
@@ -129,6 +133,7 @@ body{
 </div>
 </body>
 <script>
+
 $(document)	 
 .on('click','#search-board-button',function(){
 	let search = $('#board-search-bar').val();
