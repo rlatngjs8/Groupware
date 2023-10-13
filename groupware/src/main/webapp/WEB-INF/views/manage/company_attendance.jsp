@@ -12,7 +12,7 @@
 <title>근태관리</title>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/P_header.jsp"%>
+	<%@ include file="/WEB-INF/views/manage/manage_header.jsp"%>
 	<input type="hidden" id="user_id" value="${sessionScope.userid}">
 	<input type="hidden" id="user_name" value="${name}">
 
@@ -20,7 +20,7 @@
 		<div class="sidebar">
 			<section id="attendance_section">
 				<h2>
-					<a href="/attendance_management/attendance">근태관리</a>
+					<a href="/company_attendance">근태관리</a>
 				</h2>
 				<p id="date_info">1</p>
 				<p id="time_info">
@@ -52,7 +52,7 @@
 				<br>
 				<h2>전사 근태관리</h2>
 				<ul>
-					<li><a href="/manage/company_attendance">전사 근태현황</a></li>
+					<li><a href="/company_attendance">전사 근태현황</a></li>
 				</ul>
 			</section>
 		</div>
