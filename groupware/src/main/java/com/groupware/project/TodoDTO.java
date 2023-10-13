@@ -10,18 +10,18 @@ public class TodoDTO {
 	int tid;
 	int eid;
 	
-	int todocontentid;
+	int todotitleid;
 	int empid;
     String todotitle;
+    int ttid;
+    
+    int todocontentid;
     String todocontent;
-    String time;
     
     String name;
     String position;
     int departmentid;
     String departmentname;
-    
-    
 	public int getTodoid() {
 		return todoid;
 	}
@@ -52,7 +52,6 @@ public class TodoDTO {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
 	public int getTid() {
 		return tid;
 	}
@@ -65,12 +64,19 @@ public class TodoDTO {
 	public void setEid(int eid) {
 		this.eid = eid;
 	}
-	
-	public int getTodocontentid() {
-		return todocontentid;
+	public int getTodotitleid() {
+		return todotitleid;
 	}
-	public void setTodocontentid(int todocontentid) {
-		this.todocontentid = todocontentid;
+	public void setTodotitleid(int todotitleid) {
+		this.todotitleid = todotitleid;
+	}
+	
+	
+	public int getTtid() {
+		return ttid;
+	}
+	public void setTtid(int ttid) {
+		this.ttid = ttid;
 	}
 	public int getEmpid() {
 		return empid;
@@ -84,17 +90,18 @@ public class TodoDTO {
 	public void setTodotitle(String todotitle) {
 		this.todotitle = todotitle;
 	}
+	
+	public int getTodocontentid() {
+		return todocontentid;
+	}
+	public void setTodocontentid(int todocontentid) {
+		this.todocontentid = todocontentid;
+	}
 	public String getTodocontent() {
 		return todocontent;
 	}
 	public void setTodocontent(String todocontent) {
 		this.todocontent = todocontent;
-	}
-	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
 	}
 	public String getName() {
 		return name;
@@ -120,5 +127,6 @@ public class TodoDTO {
 	public void setDepartmentname(String departmentname) {
 		this.departmentname = departmentname;
 	}
+	
 	
 }
