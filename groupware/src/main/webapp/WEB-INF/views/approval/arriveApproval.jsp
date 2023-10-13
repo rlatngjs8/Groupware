@@ -16,7 +16,7 @@
 	<div class="mainSection">
 		<div class="asidebar">
 			<%@ include file="approvalHeader.jsp"%>
-		</div>
+		</div> 
 		<h3 class="title">결재대기문서</h3>
 		<div class="comeForm">
 
