@@ -27,12 +27,6 @@ import jakarta.servlet.http.HttpSession;
 @Configuration
 @Controller
 public class MailController implements WebMvcConfigurer {
-//	@Override
-//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//    	registry.addResourceHandler("/img/**") //지금eclipse 내 사진폴더 classpath:/static
-//    		.addResourceLocations("file:///C:/Users/1234/git/Groupware/groupware/src/main/resources/static/img"); //내 로컬 폴더	
-//   	}
-	
 	int mpageStart, mpageSize, mailPno, pageCnt;
 	
 	@Autowired
@@ -373,17 +367,19 @@ public class MailController implements WebMvcConfigurer {
 	@ResponseBody
 	public String mdAnswer(HttpServletRequest req, Model model) {
 		sessionL(req);
+		int emailid = Integer.parseInt(req.getParameter("emailid"));
+		String content = mdao.selectmailcontent(emailid);
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
 		String email2 = req.getParameter("email2");
 		String emailDate = req.getParameter("emailDate");
 		String subject = req.getParameter("subject");
-		String content = req.getParameter("content");
+//		String content = req.getParameter("content");
 		HttpSession s = req.getSession();
-		String content2 = "--- Original Message ---&#13;&#10;From : "+name+"&#13;&#10;"
-					+"To : "+email2+"&#13;&#10;"
-					+"Date : "+emailDate+"&#13;&#10;"
-					+"Subject : "+subject+"&#13;&#10;";
+		String content2 = "--- Original Message ---<br>From : "+name+"<br>"
+					+"To : "+email2+"<br>"
+					+"Date : "+emailDate+"<br>"
+					+"Subject : "+subject+"<br>";
 		s.setAttribute("mdAnswer_email", email);
 		s.setAttribute("mdAnswer_subject", subject);
 		s.setAttribute("mdAnswer_content", content);
@@ -567,32 +563,60 @@ public class MailController implements WebMvcConfigurer {
 		String mtChklist = req.getParameter("mtChklist");
 		mtChklist = mtChklist.replace("[","").replace("]","").replace("\"","");
 		String[] mtChklist2 = mtChklist.split(",");
+		int me;
 		
 		if (now.equals("receive")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
+				me = mdao.selectmetomecnt(emailid);
+				if(me==1) {
+					mdao.updateEmailSend2(emailid);	
+				}
 				mdao.updateEmailReceive2(emailid);	
 			}
 		} else if (now.equals("send")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
+				me = mdao.selectmetomecnt(emailid);
+				if(me==1) {
+					mdao.updateEmailReceive2(emailid);	
+				}
 				mdao.updateEmailSend2(emailid);	
 			}
 		} else if (now.equals("mark")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
 				if (mtChklist2[i].equals("mR")) {
+					me = mdao.selectmetomecnt(emailid);
+					if(me==1) {
+						mdao.updateEmailSend2(emailid);	
+					}
 					mdao.updateEmailReceive2(emailid);	
 				} else if (mtChklist2[i].equals("mS")) {
+					me = mdao.selectmetomecnt(emailid);
+					if(me==1) {
+						mdao.updateEmailReceive2(emailid);	
+					}
 					mdao.updateEmailSend2(emailid);	
 				}
 			}
 		}  else if (now.equals("trash")) {
 			for(int i=0; i<mlist2.length;i++) {
 				emailid = Integer.parseInt(mlist2[i]);
+				System.out.println("trash");
 				if (mtChklist2[i].equals("tR")) {
+					System.out.println("tR");
+					me = mdao.selectmetomecnt(emailid);
+					if(me==1) {
+						mdao.updateEmailSend3(emailid);	
+					}
 					mdao.updateEmailReceive3(emailid);	
 				} else if (mtChklist2[i].equals("tS")) {
+					System.out.println("tS");
+					me = mdao.selectmetomecnt(emailid);
+					if(me==1) {
+						mdao.updateEmailReceive3(emailid);	
+					}
 					mdao.updateEmailSend3(emailid);	
 				}
 			}
@@ -702,23 +726,48 @@ public class MailController implements WebMvcConfigurer {
 		int emailid = Integer.parseInt(req.getParameter("emailid"));
 		String now = req.getParameter("now");
 		String now2 = req.getParameter("now2");
+		int me;
 		if (now.equals("receive")) {
+			me = mdao.selectmetomecnt(emailid);
+			if(me==1) {
+				mdao.updateEmailSend2(emailid);	
+			}
 			mdao.updateEmailReceive2(emailid);	
 		} else if (now.equals("send")) {
+			me = mdao.selectmetomecnt(emailid);
+			if(me==1) {
+				mdao.updateEmailReceive2(emailid);	
+			}
 			mdao.updateEmailSend2(emailid);	
 		} else if (now.equals("mark")) {
 			if (now2.equals("mR")) {
+				me = mdao.selectmetomecnt(emailid);
+				if(me==1) {
+					mdao.updateEmailSend2(emailid);	
+				}
 				mdao.updateEmailReceive2(emailid);	
 				model.addAttribute("trs","");
 			} else if (now2.equals("mS")) {
+				me = mdao.selectmetomecnt(emailid);
+				if(me==1) {
+					mdao.updateEmailReceive2(emailid);	
+				}
 				mdao.updateEmailSend2(emailid);	
 				model.addAttribute("trs","");
 			}
 		} else if (now.equals("trash")) {
 			if (now2.equals("tR")) {
+				me = mdao.selectmetomecnt(emailid);
+				if(me==1) {
+					mdao.updateEmailSend3(emailid);	
+				}
 				mdao.updateEmailReceive3(emailid);	
 				model.addAttribute("trs","");
 			} else if (now2.equals("tS")) {
+				me = mdao.selectmetomecnt(emailid);
+				if(me==1) {
+					mdao.updateEmailReceive3(emailid);	
+				}
 				mdao.updateEmailSend3(emailid);	
 				model.addAttribute("trs","");
 			}

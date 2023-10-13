@@ -21,6 +21,7 @@ public interface MailDAO {
 	MailDTO selectSenderName(int emailid);
 	ArrayList<MailDTO> selectmultipleEid(int multiplesend);
 	MailDTO selectmultipleEmail(int employeeid);
+	int selectmetomecnt(int emailid);
 	int selectMaxemailid();
 	int selectMaxemailid2(int employeeid);
 	void updateEmailReceive0(int emailid);
@@ -41,5 +42,6 @@ public interface MailDAO {
 	int selectSenderEmailscnt(int eid);
 	int selectTrashCancnt(int eid);
 	int selectMarkcnt(int eid);
+	String selectmailcontent(int emailid);
 
 }

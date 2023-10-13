@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f2f2f2;
+	margin: 0;
+	padding: 0;
+}
+
+h2 {
+	margin-top: 0;
+}
+
+h2.horizontal-layout {
+	display: inline-block;
+	/* 인라인 블록 요소로 설정하여 가로 배치 */
+	margin-right: 20px;
+	/* 원하는 간격 설정 */
+}
+
+.table-container {
+	background-color: #fff;
+	border-radius: 5px;
+	margin-left: 20%;
+	margin-top: 5%;
+	padding: 20px;
+	width: 70%;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th,
+td {
+	padding: 10px;
+	text-align: left;
+}
+
+th {
+	background-color: rgb(106, 176, 173);
+	color: #fff;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+input[type="checkbox"] {
+	margin-right: 5px;
+}
+
+#viewName,
+#viewUserid {
+	cursor: pointer;
+}
+
+.pagenation {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.pagenation a {
+	display: inline-block;
+	padding: 5px 10px;
+	margin: 5px;
+	background-color: #fff;
+	color: #333;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-decoration: none;
+}
+
+.pagenation a:hover {
+	background-color: #f5f5f5;
+}
+
+.pagenation .current {
+	background-color: #6ab0ad;
+	color: #fff;
+	padding: 5px 10px;
+	margin: 5px;
+	border: 1px solid #6ab0ad;
+	border-radius: 5px;
+}
+
+.pagination a:disabled {
+	background-color: #eee;
+	color: #888;
+	pointer-events: none;
+}
+
+.accountGuide {
+	position: relative;
+	left: 70%;
+	top: 20px;
+	font-size: 14px;
+	color: red;
+}

@@ -12,13 +12,16 @@
 <select id="selectTodomember" resultType="com.groupware.project.TodoDTO">
 	select a.tid, a.eid, b.name from todomember a inner join employees b on a.eid=b.employeeid where tid=#{param1}
 </select>
-<select id="selectMaxtodoid" resultType="Integer">
+<select id="selectMaxtodoid1" resultType="Integer">
+	select max(todoid) from todos
+</select>
+<select id="selectMaxtodoid2" resultType="Integer">
 	select max(todoid) from todos where employeeid=#{param1}
 </select>
 <insert id="insertAddtodos" parameterType="java.util.HashMap">
 	insert into todos set employeeid=#{param1}, subject=#{param2}
 </insert>
-<insert id="insertTodomember1" parameterType="java.util.HashMap">
+<insert id="insertTodomember" parameterType="java.util.HashMap">
 	insert into todomember set tid=#{param1}, eid=#{param2}
 </insert>
 <select id="selectTodoEmp1" resultType="com.groupware.project.TodoDTO">
@@ -33,20 +36,52 @@
 	select a.employeeid, a.name, a.position, b.departmentname from employees a
 		inner join departments b on a.departmentid=b.departmentid where b.departmentname="생산부"
 </select>
-<insert id="insertTodomember2" parameterType="java.util.HashMap">
-	insert into todomember set tid=#{param1}, eid=#{param2}
-</insert>
+<select id="selectTodomember2" resultType="com.groupware.project.TodoDTO">
+	select tid, eid from todomember where tid = #{param1}
+</select>
 <delete id="deleteTodomember">
 	delete from todomember where tid=#{param1} and eid=#{param2}
 </delete>
 <delete id="deleteTodoBoard">
 	delete from todos where todoid=#{param1}
 </delete>
-<insert id="insertTodoContentTitle" parameterType="java.util.HashMap">
-	insert into todocontent set todoid=#{param1}, empid=#{param2}, todotitle=#{param3}
+<insert id="insertTodoTitle1" parameterType="java.util.HashMap">
+	insert into todotitle set todoid=#{param1}, empid=#{param2}, todotitle="진행"
 </insert>
-<select id="selectTodoContent" resultType="com.groupware.project.TodoDTO">
-	select a.todocontentid, a.todoid, a.empid, a.todotitle, a.todocontent, a.time from todocontent a
+<insert id="insertTodoTitle2" parameterType="java.util.HashMap">
+	insert into todotitle set todoid=#{param1}, empid=#{param2}, todotitle="완료"
+</insert>
+<insert id="insertTodoContent" parameterType="java.util.HashMap">
+	insert into todocontent set ttid=#{param1}, empid=#{param2}, todocontent=#{param3}
+</insert>
+<select id="selectTodoTitle" resultType="com.groupware.project.TodoDTO">
+	select a.todotitleid, a.todoid, a.empid, a.todotitle from todotitle a
 		inner join todomember b on a.todoid=b.tid where b.eid=a.empid and todoid=#{param1}
 </select>
+<select id="selectTodoTitleid" resultType="com.groupware.project.TodoDTO">
+	select todotitleid from todotitle where todoid=#{param1}
+</select>
+<select id="selectTodoContent" resultType="com.groupware.project.TodoDTO">
+	select a.todotitleid, a.todoid, a.empid, a.todotitle, b.ttid, b.todocontentid, b.todocontent, c.name, c.position 
+		from todotitle a inner join todocontent b on a.todotitleid=b.ttid
+        					inner join employees c on b.empid=c.employeeid where b.ttid=#{param1}
+</select>
+<insert id="insertTodoTitle0" parameterType="java.util.HashMap">
+	insert into todotitle set todoid=#{param1}, empid=#{param2}, todotitle=#{param3}
+</insert>
+<delete id="deleteTodoTitle">
+	delete from todotitle where todotitleid=#{param1}
+</delete>
+<delete id="deleteTodoContent1">
+	delete from todocontent where ttid=#{param1}
+</delete>
+<select id="selectTodoMaxCid" resultType="Integer">
+	select max(todocontentid) from todocontent
+</select>
+<update id="updateTodoContent">
+	update todocontent set ttid=#{param1}, todocontentid=#{param2} where todocontentid=#{param3};
+</update>
+<delete id="deleteTodoContent2">
+	delete from todocontent where todocontentid=#{param1}
+</delete>
 </mapper>

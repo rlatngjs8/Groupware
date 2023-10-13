@@ -223,7 +223,7 @@ body {
           <a href="showEmployee">직원관리</a>
         </li>
         <li>
-          <a href="/manage_attendance">직원근태</a>
+          <a href="/company_attendance">직원근태</a>
         </li>
         <li>
           	<a href="#">-</a>
@@ -263,7 +263,7 @@ body {
             	<li><a href="/myInfo">정보수정</a></li>
             	
 				<c:if test="${userid eq '관리자1'}">
-					<li><a href="/manage_attendance">근태관리</a></li>
+					<li><a href="/company_attendance">근태관리</a></li>
 					<li><a href="/showEmployee">직원관리</a></li>
 				</c:if>
                 <li><a href="/logout">로그아웃</a></li>
