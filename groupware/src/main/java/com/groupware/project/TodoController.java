@@ -127,7 +127,14 @@ public class TodoController {
 		HttpSession s = req.getSession();
 		int tid = Integer.parseInt(req.getParameter("todoid"));
 		int eid = Integer.parseInt(req.getParameter("employeeid"));
-		tdao.deleteTodomember(tid,eid);
+		TodoDTO member = tdao.selectTodomember2(tid);
+//		System.out.println(member.getEid());
+		int tmember = member.getEid();
+		if(tmember==eid) {
+			return "NO";
+		} else {
+			tdao.deleteTodomember(tid,eid);
+		}
 		return "todo/todo";
 	}
 	

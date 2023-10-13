@@ -36,6 +36,9 @@
 	select a.employeeid, a.name, a.position, b.departmentname from employees a
 		inner join departments b on a.departmentid=b.departmentid where b.departmentname="생산부"
 </select>
+<select id="selectTodomember2" resultType="com.groupware.project.TodoDTO">
+	select tid, eid from todomember where tid = #{param1}
+</select>
 <delete id="deleteTodomember">
 	delete from todomember where tid=#{param1} and eid=#{param2}
 </delete>
