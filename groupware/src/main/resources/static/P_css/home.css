@@ -16,18 +16,19 @@
     padding: 10px 15px;
     font-weight: bold;
     text-align: left;
-    border-right: 1px solid #d1d1d1;
+    border: 1px solid #d1d1d1;
 }
 
-.tab-view1 table thead th:last-child {
-    border-right: none;
-}
+/*.tab-view1 table thead th:last-child {*/
+/*    border-right: none;*/
+/*}*/
 
 /* 테이블 바디 스타일 */
 .tab-view1 table tbody td {
     padding: 10px 15px;
     border: 1px solid #d1d1d1;
     border-top: none;
+    font-size:15px;
 }
 
 .tab-view1 table tbody tr:hover {
@@ -57,6 +58,7 @@
     gap: 10px;
     border: 1px solid #ccc;
     padding: 10px;
+  	margin-top: 89px;
 }
 
 .rounded-image {
@@ -98,6 +100,7 @@
     padding: 10px;
     margin-top: 20px;
     text-align: center;
+    border-radius: 4px;
 }
 
 .announcement-box li, .commu-box li {
@@ -123,10 +126,9 @@
 }
 
 .announcement-box span.title, .commu-box span.title {
-    width: 30%;
+	  width: 40%;
     text-align: left;
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 15px;
 }
 
 .announcement-box span.content-text, .commu-box span.content-text {
@@ -354,31 +356,88 @@
 .calendar br {
     margin-top: 15px; /* 위쪽 여백 추가 */
     }
+
+/* 근태 관리 섹션 스타일 */
 .attendance {
-  position: relative;
-  left: 240px;
-  max-width: 225px;
-  top: 40px;
-  border: 1px solid;
-}
-.attendance h2 a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.attendance button {
-    margin-top: 10px;
-}
-
-#checkin_time, #checkout_time {
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-#date_info, #time_info {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.01);
+    padding: 40px;
+    text-align: center;
     font-size: 18px;
-    margin: 10px 0;
+    margin: 20px;
+    max-width: 150px;
+    margin: 0 auto;
+    position: relative;
+  	left: 120px;
+  	top:35px;
 }
+
+/* 출근/퇴근 버튼 스타일 */
+.btn {
+  padding: 15px 30px;
+  font-size: 17px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 15px 10px;
+  transition: all 0.3s ease;
+  border: none;
+  max-width: 130px;
+  max-height: 50px;
+}
+
+/* .btn 클래스의 disabled 상태 스타일 */
+.btn:disabled {
+    background-color: #ccc; /* 비활성 상태 배경색 */
+    color: #666; /* 비활성 상태 텍스트 색상 */
+    cursor: not-allowed; /* 비활성 상태에서 포인터 변경 방지 */
+}
+
+.btn-success {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: #ff9800;
+    color: #fff;
+}
+
+/* 출근/퇴근 시간 스타일 */
+#checkin_time, #checkout_time {
+    font-size: 17px;
+    margin: 20px 0;
+    color: #333;
+    text-align: left;
+	font-weight: bold;
+}
+
+/* 링크 스타일 */
+h2 a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+h2 a:hover {
+    color: lightslategrey;
+}
+
+/* 현재 시간 스타일 */
+#current_time {
+    font-weight: bold;
+    color: #333;
+    font-size: 24px;
+}
+
+#date_info {
+	font-weight: bold;
+}
+
+
+
+
 .day{
 	  position: relative;
     top: 20px;

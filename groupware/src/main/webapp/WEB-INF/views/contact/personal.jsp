@@ -3,12 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link
-         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-         rel="stylesheet"
-         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-         crossorigin="anonymous"
-      />
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <meta charset="UTF-8">
@@ -103,40 +97,7 @@
                 border-bottom: 1px solid #e5e5e5;
             }
         }
-        
-       .search-container {
-            position: absolute;
-            top: 10px; /* 원하는 상단 여백 조정 */
-            right: 10px; /* 원하는 오른쪽 여백 조정 */
-            display: flex;
-            align-items: center;
-            background-color: #8bc34a; /* 연두색 배경색상 */
-            border: 2px solid #4caf50; /* 연두색 테두리 */
-            border-radius: 0; /* 모서리를 둥글게 만들지 않음 */
-            overflow: hidden;
-        }
-
-        .search-input {
-            flex: 1;
-            border: none;
-            padding: 10px;
-            font-size: 16px;
-            background-color: white; /* 연두색 배경색상 */
-            color: black; /* 글자색을 흰색으로 지정 */
-        }
-
-        .search-button {
-            background-color: #4caf50; /* 진한 연두색 버튼 배경색상 */
-            color: #fff; /* 버튼 텍스트 색상 */
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        /* 검색 버튼에 호버 효과 추가 */
-        .search-button:hover {
-            background-color: #45a049; /* 호버 시 색상 변경 */
-        }
+       
 
         body {
 		  line-height: 24px;
@@ -175,126 +136,6 @@ a.button {
   border-radius: 5px;
   transition: all 0.2s;
 }
-
-.btnBlueGreen {
-  background: #00AE68;
-}
-
-.btnLightBlue {
-  background: #5DC8CD;
-}
-
-.btnOrange {
-  background: #FFAA40;
-}
-
-.btnPurple {
-  background: #A74982;
-}
-
-/* FLOAT */
-.btnFloat {
-  background: none;
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
-}
-
-.btnFloat:before {
-  content: '추가';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120px;
-  height: 50px;
-  border-radius: 5px;
-  transition: all 0.2s;
-}
-
-.btnBlueGreen.btnFloat:before {
-  background: #00AE68;
-}
-
-.btnLightBlue.btnFloat:before {
-  background: #5DC8CD;
-}
-
-.btnOrange.btnFloat:before {
-  background: #FFAA40;
-}
-
-.btnPurple.btnFloat:before {
-  background: #8D336A;
-}
-
-.btnFloat:before {
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.4);
-}
-
-.btnFloat:hover:before {
-  margin-top: -2px;
-  margin-left: 0px;
-  transform: scale(1.1, 1.1);
-  -ms-transform: scale(1.1, 1.1);
-  -webkit-transform: scale(1.1, 1.1);
-  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
-}
-
-/* 추가 버튼 */
-.btnFloatAdd:before {
-  content: '추가';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120px;
-  height: 50px;
-  border-radius: 5px;
-  transition: all 0.2s;
-  /* 나머지 스타일 속성들은 동일하게 유지 */
-}
-
-/* 삭제 버튼 */
-.btnFloatDelete:before {
-  content: '삭제';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120px;
-  height: 50px;
-  border-radius: 5px;
-  transition: all 0.2s;
-  /* 나머지 스타일 속성들은 동일하게 유지 */
-}
-
-/* 수정 버튼 */
-.btnFloatEdit:before {
-  content: '뭐야';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120px;
-  height: 50px;
-  border-radius: 5px;
-  transition: all 0.2s;
-  /* 나머지 스타일 속성들은 동일하게 유지 */
-}
-
-/* 다른 버튼 */
-.btnFloatOther:before {
-  content: '뭐임?';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 120px;
-  height: 50px;
-  border-radius: 5px;
-  transition: all 0.2s;
-  /* 나머지 스타일 속성들은 동일하게 유지 */
-}
-
   .swal2-input {
     margin-bottom: 5px; /* 각 입력 필드 아래의 마진 조절 */
   }
@@ -397,7 +238,7 @@ hr.hr-3 {
 		    left: 0;
 		    background-color: white;
 		    padding-top: 20px;
-		    border-right: 1px solid gray; /* 오른쪽 부분에만 테두리 적용 */
+		    border-right: 1px solid lightgray; /* 오른쪽 부분에만 테두리 적용 */
 		    text-align: left;
 		}
 
@@ -474,6 +315,36 @@ width: 40px;
     margin-left: 200px;
 }
 	
+	/* 출근/퇴근 버튼 스타일 */
+.btn {
+  padding: 0px 30px;
+  font-size: 17px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 15px 10px;
+  transition: all 0.3s ease;
+  border: none;
+  max-width: 130px;
+  max-height: 50px;
+}
+
+/* .btn 클래스의 disabled 상태 스타일 */
+.btn:disabled {
+    background-color: #ccc; /* 비활성 상태 배경색 */
+    color: #666; /* 비활성 상태 텍스트 색상 */
+    cursor: not-allowed; /* 비활성 상태에서 포인터 변경 방지 */
+}
+
+.btn-success {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: #ff6666;;
+    color: #fff;
+}
+	
   
 </style>
 
@@ -490,8 +361,8 @@ width: 40px;
 		  		<h2 style=" font-weight: bold; font-size:28px; margin-top:35px;"><img src="/img/contact-book.png" alt="로고 이미지" class="contact-img">연락처</h2>
 		        <p id="date_info"></p>
 		        <p id="time_info"><span id="current_time"></span></p>
-		  		<a href="/contact/company">사내 주소록</a>
-			    <a href="/contact/personal">개인 주소록</a>    
+		  		<a href="/company">사내 주소록</a>
+			    <a href="/personal">개인 주소록</a>    
        		</section>
       	</div>
     </aside>
@@ -504,8 +375,8 @@ width: 40px;
     </div>
 
 	<div class="btnLine" style="margin-left: 275px; margin-bottom: 30px;">
-		<button class="btn btn-warning m-2" id="promptStart" style="width: 100px; height: 50px;">등 록</button>
-		<button class="btn btn-danger m-2" id="confirmStart" style="width: 100px; height: 50px;">삭 제</button>
+		<button class="btn btn-success m-2" id="promptStart" style="width: 100px; height: 50px;">등 록</button>
+		<button class="btn btn-warning m-2" id="confirmStart" style="width: 100px; height: 50px;">삭 제</button>
   </div>
 
 	

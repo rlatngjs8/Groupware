@@ -3,12 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link
-         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-         rel="stylesheet"
-         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-         crossorigin="anonymous"
-      />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- jQuery 라이브러리 추가 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -26,7 +20,7 @@
     left: 0;
     background-color: white;
     padding-top: 20px;
-    border-right: 1px solid gray; /* 오른쪽 부분에만 테두리 적용 */
+    border-right: 1px solid lightgray; /* 오른쪽 부분에만 테두리 적용 */
 }
 
       /* 사이드바 링크 스타일 */
@@ -65,7 +59,7 @@
          	margin-top:20px;
             padding: 20px;
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
         }
 
         /* 헤더 스타일 */
@@ -252,8 +246,38 @@ th.date-col:hover {
 }
 
 
-    
-    
+/* 출근/퇴근 버튼 스타일 */
+.btn {
+  padding: 15px 30px;
+  font-size: 17px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 15px 10px;
+  transition: all 0.3s ease;
+  border: none;
+  max-width: 250px;
+  max-height: 50px;
+}
+
+/* .btn 클래스의 disabled 상태 스타일 */
+.btn:disabled {
+    background-color: #ccc; /* 비활성 상태 배경색 */
+    color: #666; /* 비활성 상태 텍스트 색상 */
+    cursor: not-allowed; /* 비활성 상태에서 포인터 변경 방지 */
+}
+
+.btn-success {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: #ff9800;
+    color: #fff;
+}
+
+
+
     
     </style>
 <body>
@@ -264,7 +288,7 @@ th.date-col:hover {
     <aside>
 			<div class="sidebar">
   			<section id="attendance_section">
-      		<h2><a href="/attendance_management/attendance">근태관리</a></h2>
+      		<h2><a href="/attendance">근태관리</a></h2>
             <p id="date_info"></p>
             <p id="time_info"><span id="current_time"></span></p>
       		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>

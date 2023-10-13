@@ -12,6 +12,7 @@ body, ul, li {
   margin: 0;
   padding: 0;
   list-style: none;   /* 해당 태그의 list-style을 none으로 하는 것으로 ●을 제거한다 */
+   overflow-x: hidden; /* 가로 스크롤을 숨깁니다. */
 }
 
 a {
@@ -219,6 +220,7 @@ a {
 cursor:pointer;
 }
 </style>
+<link href="P_css/header.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <header class="side-bar">
@@ -235,7 +237,7 @@ cursor:pointer;
           <a href="/">홈</a>
         </li>
         <li>
-          <a href="/contact/company">연락처</a>
+          <a href="/company">연락처</a>
         </li>
         <li>
           <a href="/mailFolder1">메일<div id="pHedaerEmailAlarm"></div></a>
@@ -250,7 +252,7 @@ cursor:pointer;
             <a href="/reservationList">예약</a>
         </li>
         <li>
-            <a href="/attendance_management/attendance">근태관리</a>
+            <a href="/attendance">근태관리</a>
         </li>
         <li>
             <a href="/approval">전자결재<div id="pHeaderRequest">3</div></a>
