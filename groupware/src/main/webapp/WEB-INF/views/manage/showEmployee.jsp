@@ -25,11 +25,12 @@ h2.horizontal-layout {
 
 .table-container {
 	background-color: #fff;
-	border-radius: 5px;
-	margin: 20px auto;
-	padding: 20px;
-	width: 70%;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-left: 20%;
+  margin-top: 5%;
+  padding: 20px;
+  width: 70%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 table {
@@ -96,7 +97,15 @@ input[type="checkbox"] {
 				</c:forEach>
 			</tbody>
 		</table>
-		${pagestr}
+		<div class="pagination">
+		  <ul>
+		    <c:forEach var="i" begin="1" end="${pagecount}">
+		      <li class="<c:if test="${i == pno}">active</c:if>">
+		        <a href="/showEmployee?pageno=${i}">${i}</a>
+		      </li>
+		    </c:forEach>
+		  </ul>
+		</div>
 	</div>
 
 	<!-- 직원 생성 모달 -->

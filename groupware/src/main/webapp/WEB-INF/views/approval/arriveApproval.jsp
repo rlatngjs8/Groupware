@@ -193,7 +193,7 @@ tbody tr:hover {
 		    <c:choose>
 		        <c:when test="${totalPages > 1}">
 		            <c:forEach begin="1" end="${totalPages}" var="page">
-		                <c:url value="/sendApproval" var="url">
+		                <c:url value="/arriveApproval" var="url">
 		                    <c:param name="page" value="${page}" />
 		                </c:url>
 		                <c:choose>
