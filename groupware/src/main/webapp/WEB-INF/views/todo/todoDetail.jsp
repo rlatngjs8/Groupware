@@ -281,15 +281,19 @@ $(document)
 	let x = $(this).parent().siblings().children('.todotitleid').text();
 	x = x.split("/");
 	console.log(x[0]);
-	$.ajax({url:'/todoXbtn',data:{ttid:x[0]}, type:'post',dataType:'text',
-		success:function(data){
-			console.log("/todoXbtn 성공");
-			location.reload();
-		},
-		error:function(data){
-			alert("/todoXbtn 오류");
-		}
-	});
+	let tp = $(this).siblings('label').text();
+	console.log(tp);
+	if(confirm("\""+tp+"\"을(를) 삭제하시겠습니까?")){
+		$.ajax({url:'/todoXbtn',data:{ttid:x[0]}, type:'post',dataType:'text',
+			success:function(data){
+				console.log("/todoXbtn 성공");
+				location.reload();
+			},
+			error:function(data){
+				alert("/todoXbtn 오류");
+			}
+		});
+	}
 })
 .on('click','.todoBoard1',function(){
 	console.log(".todoBoard1 클릭");
@@ -302,15 +306,22 @@ $(document)
 })
 .on('click','#btnAddTitleOK',function(){
 	let nowTitle = $('#todonewtitle').val();
-	$.ajax({url:'/btnAddTitleOK',data:{todoid:$('#todoMyid').text(),nowTitle:nowTitle}, type:'post',dataType:'text',
-		success:function(data){
-			console.log("/btnAddTitleOK 성공");
-			location.reload();
-		},
-		error:function(data){
-			alert("/btnAddTitleOK 오류");
-		}
-	});
+	if(nowTitle.length>50){
+		alert("50글자 이하로 작성해 주십시오.");
+		return false;
+	} else if(nowTitle.length==0){
+		return false;
+	} else {
+		$.ajax({url:'/btnAddTitleOK',data:{todoid:$('#todoMyid').text(),nowTitle:nowTitle}, type:'post',dataType:'text',
+			success:function(data){
+				console.log("/btnAddTitleOK 성공");
+				location.reload();
+			},
+			error:function(data){
+				alert("/btnAddTitleOK 오류");
+			}
+		});
+	}
 })
 .on('click','#btnAddTitleNO',function(){
 	$('.todoBoard1').remove();
@@ -332,7 +343,7 @@ $(document)
 	ttid = ttid.split("/");
 // 	console.log(ttid[0]);
 	if(newboardContent.length>50){
-		alert("50글자 이하로 작성해 주십시오.")
+		alert("50글자 이하로 작성해 주십시오.");
 		return false;
 	} else if(newboardContent.length==0){
 		return false;
