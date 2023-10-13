@@ -38,9 +38,9 @@
 		    <span class=mBtn style="margin-left:240px" id="goToMail"><img src="img/email_icon.png" class='icon'> <span>메일쓰기</span></span>
 		    <span class=mBtn id="goToAddPlan"><img src="img/calendar-icon.png" class='icon'> <span>일정등록</span></span>
 	    </div>
-	    
+	   
+		 <h2 style="position: relative;  left: 233px; bottom: -40px;"><a href="/attendance">근태관리</a></h2>
 	    <div class="attendance">      		
-	    	<h2><a href="/attendance_management/attendance">근태관리</a></h2>
             <p id="date_info"></p>
             <p id="time_info"><span id="current_time"></span></p>
       		<button class="btn btn-success m-2" id="btnCheckIn">출근하기</button>

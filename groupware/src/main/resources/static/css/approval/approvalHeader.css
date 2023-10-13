@@ -1,0 +1,65 @@
+@charset "UTF-8";
+.asidebar {
+  margin-left: 190px;
+  height: 100%;
+  width: 225px;
+  position: fixed;
+  top: 0px;
+  left: 1px;
+  background-color: #fff;
+  padding-top: 20px;
+  border-right: 1px solid #c0c0c0;
+  order: 1;
+  border-top: 1px solid lightgray;
+  padding: 8px;
+  padding-top: 10px;
+}
+
+
+.newApproval {
+  overflow: hidden;
+  transition: all 0.3s ease;
+  padding: 13px 50px;
+  font-size: 15px;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+  width: 200px;
+  height: 50px;
+  border-radius: 4px;
+  border: 1px solid #c0c0c0;
+  background: #fff;
+  text-align: center;
+  position: relative;
+  left: 13px;
+}
+
+.newApproval:hover {
+	background: rgb(106, 176, 173);
+	border: 1px solid #c0c0c0;
+	color: #fff;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sidebarMenu {
+	margin-top: 70px;
+}
+
+.appSub {
+	margin-left: 25px;
+	letter-spacing: 1px;
+	line-height: 2;
+	font-size: 15px;
+}
+
+/* .appSub:hover { */
+/* 	background-color: #ccc; /* hover 상태에서 배경색 변경 */
+/* 	cursor: pointer; */
+/* } */
+
+.apphome {
+	letter-spacing: 1px;
+	line-height: 3.5;
+	font-size: 22px;
+	font-weight: bold;
+}

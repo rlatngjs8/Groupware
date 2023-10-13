@@ -107,17 +107,22 @@ ORDER BY
 
 <select id="getList_sort_position" resultType="com.groupware.project.EmployeesDTO">
     <!-- 주소록 가져오는데 사용 -->
-	SELECT *, departments.DepartmentName
-	FROM employees
-	INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
-	ORDER BY 
-	  CASE
-	    WHEN Position COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
-	    WHEN Position COLLATE utf8mb4_unicode_ci REGEXP '^[A-Za-z]' THEN 2 
-	    WHEN Position COLLATE utf8mb4_unicode_ci REGEXP '^[0-9]' THEN 3 
-	    ELSE 4 
-	  END,
-	  Position COLLATE utf8mb4_unicode_ci;
+SELECT *, departments.DepartmentName
+FROM employees
+INNER JOIN departments ON employees.DepartmentID = departments.DepartmentID
+ORDER BY 
+  CASE
+    WHEN Position COLLATE utf8mb4_unicode_ci = '회장' THEN 1
+    WHEN Position COLLATE utf8mb4_unicode_ci = '사장' THEN 2
+    WHEN Position COLLATE utf8mb4_unicode_ci = '이사' THEN 3
+    WHEN Position COLLATE utf8mb4_unicode_ci = '부장' THEN 4
+    WHEN Position COLLATE utf8mb4_unicode_ci = '과장' THEN 5
+    WHEN Position COLLATE utf8mb4_unicode_ci = '대리' THEN 6
+    WHEN Position COLLATE utf8mb4_unicode_ci = '사원' THEN 7
+    ELSE 8
+  END,
+  Position COLLATE utf8mb4_unicode_ci;
+
 </select>
 
 
@@ -201,6 +206,8 @@ ORDER BY
 	    ELSE 4 
 	  END,
 	  position COLLATE utf8mb4_unicode_ci;
+	  
+	  
 </select>
 
 <select id="getListPa_sort_phone" resultType="com.groupware.project.AddressbookDTO"> <!-- 주소록 가져오는데 사용 -->
@@ -209,9 +216,13 @@ ORDER BY
 	WHERE Writer_id = #{param1}
 	ORDER BY 
 	  CASE
-	    WHEN phone COLLATE utf8mb4_unicode_ci REGEXP '^[가-힣]' THEN 1 
-	    WHEN phone COLLATE utf8mb4_unicode_ci REGEXP '^[A-Za-z]' THEN 2 
-	    WHEN phone COLLATE utf8mb4_unicode_ci REGEXP '^[0-9]' THEN 3 
+	    WHEN Position COLLATE utf8mb4_unicode_ci = '회장' THEN 1
+	    WHEN Position COLLATE utf8mb4_unicode_ci = '사장' THEN 2
+	    WHEN Position COLLATE utf8mb4_unicode_ci = '이사' THEN 3
+	    WHEN Position COLLATE utf8mb4_unicode_ci = '부장' THEN 4
+	    WHEN Position COLLATE utf8mb4_unicode_ci = '과장' THEN 5
+	    WHEN Position COLLATE utf8mb4_unicode_ci = '대리' THEN 6
+	    WHEN Position COLLATE utf8mb4_unicode_ci = '사원' THEN 7
 	    ELSE 4 
 	  END,
 	  phone COLLATE utf8mb4_unicode_ci;
