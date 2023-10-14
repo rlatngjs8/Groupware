@@ -36,6 +36,9 @@ dependencies {
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
+bootWar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
 
 tasks.named('test') {
     useJUnitPlatform()
