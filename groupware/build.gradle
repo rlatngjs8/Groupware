@@ -39,6 +39,9 @@ dependencies {
 bootWar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
+war {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
 
 tasks.named('test') {
     useJUnitPlatform()
