@@ -93,7 +93,7 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td class="bgGray centerText"
+						<td class="bgGray centerText" 
 						
 							style="border-bottom: 1px solid #bfbfbf;">제목</td>
 						<td><input type="text" name="approvalTitle"
