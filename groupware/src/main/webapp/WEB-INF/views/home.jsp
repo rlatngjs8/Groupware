@@ -680,7 +680,7 @@ $().ready(function () {
 
     $("#btnCheckOut").click(function () {
         Swal.fire({
-            title: '지금 퇴근하실껀가요?',
+            title: '지금 퇴근하시겠습니까?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

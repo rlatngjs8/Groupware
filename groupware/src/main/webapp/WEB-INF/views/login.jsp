@@ -17,26 +17,46 @@ body {
 }
 
 .container {
-	text-align: center;
-	padding: 20px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1059;
+    height: 600px;
+    width: 400px;
 }
 
 h3 {
 	margin: 0;
+    text-align: left;
+    color: rgb(106, 176, 173);
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 25%;
+    margin-left: 10px;
 }
 
 input[type="text"], input[type="password"] {
-	width: 70%;
-	padding: 10px;
-	margin: 10px 0;
-	border: 1px solid #ccc;
-	border-radius: 3px;
+	  width: 90%;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid #a1a1a1;
+    border-radius: 3px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    z-index:2000;
+    position: relative;
 }
 
 input[type="submit"] {
+<<<<<<< HEAD
 	width: 40%;
 	padding: 10px;
 	background-color: #007bff;
@@ -44,27 +64,64 @@ input[type="submit"] {
 	border: none;
 	border-radius: 3px;
 	cursor: pointer;
+=======
+	    width: 40%;
+    padding: 10px;
+    background-color: rgb(106, 176, 173);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 58%;
+    margin-top: 60px;
+    font-size: 17px;
+>>>>>>> refs/remotes/origin/master
 }
 
 #auto {
 	margin-left: -50%;
 }
+<<<<<<< HEAD
+
+=======
+.check{
+	position: relative;
+    right: 40px;
+    top: 10px;
+    color: #585858;
+}
+.logo{
+height: 400px;
+    width: 400px;
+    left: 20px;
+    bottom: 260px;
+    position: absolute;
+}
+.inputbox{
+    margin-top: 250px;
+    }
+.Post_Content p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+>>>>>>> refs/remotes/origin/master
 </style>
 </head>
 <body>
     <div class="container">
         <div>
             <div>
-                <h3>로그인</h3>
+<!--                 <h3>로그인</h3> -->
+								<a href="/"><img src="/img/loginLogo.png" class="logo" ></a>
                 <br>
-                <hr />
                 <br>
             </div>
             <form id="frmLogin" action="/doLogin" method="post">
-                <div>
+                <div class="inputbox">
                     <input type="text" id="userid" name="userid" placeholder="사번" autofocus>
                     <input type="password" id="password" name="password" placeholder="비밀번호"><br>
-                    <input type="checkbox" id="auto"><a class="saveid">로그인저장</a>
+                    <div class="check"><input type="checkbox" id="auto"><a class="saveid">로그인저장</a></div>
                 </div>
                 <br>
                 <div>
@@ -94,7 +151,12 @@ input[type="submit"] {
         }
         $.ajax({
             url: '/doLogin',
-            data: { userid: $('#userid').val(), password: hashedPassword, cookiePW: $('#password').val() },
+            data: { 
+            	userid: $('#userid').val(), 
+           password: hashedPassword,
+//             	password:password,
+            	cookiePW: $('#password').val() 
+            },
             type: "post",
             success: function(data) {
                 if (data == 'success') {

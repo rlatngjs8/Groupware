@@ -24,6 +24,7 @@ button.btn {
 	border: none;
 	padding: 10px 15px;
 	cursor: pointer;
+	border-radius: 3px;
 }
 
 .modal {
@@ -432,3 +433,19 @@ img#previewIMG {
 }
 
 /* 로딩중 */
+
+	
+.btnSubmit{
+/*	width: 150px;*/
+/*    height: 35px;*/
+    background-color: rgb(106,176,173);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 15px;
+    margin-top: 8%;
+    cursor:pointer
+}
+.btnSubmit:hover{
+	background-color: rgb(46, 146, 143);
+}

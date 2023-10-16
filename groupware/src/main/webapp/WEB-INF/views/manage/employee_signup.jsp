@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>직원생성</title>
 </head>
+<<<<<<< HEAD
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -13,6 +14,14 @@ body {
 	margin: 0;
 	padding: 0;
 }
+=======
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+<script src="js/manage/employee_signup.js"></script>
+<link href="css/manage/employee_signup.css" rel="stylesheet">
+<body>
+<div class="modal-content">
+>>>>>>> refs/remotes/origin/master
 
 h2 {
 	margin-top: 0;
@@ -300,6 +309,7 @@ img#previewIMG {
 					<option value="사원">사원</option>
 				</select>
 		</div>
+<<<<<<< HEAD
 		<div class="modal-right">
 			<span class="close-button" id="closeEmployeeModalBtn">×</span>
 			<!-- 생년월일 -->
@@ -328,6 +338,20 @@ img#previewIMG {
 			<input type="submit" class="btn" id="saveEmployeeBtn" value="저장" style="margin-top: 8%">
 		</div>
 		</form>
+=======
+		<!-- 나머지 -->
+		<label class="lblclass">전화번호</label> 
+		<input type="text" placeholder="전화번호" id="phoneNumber" name="phoneNumber" class="text"> 
+		<label class="lblclass">주소</label> 
+		<input type="text" placeholder="주소" id="address" name="address" class="text"> 
+		<label class="lblclass">이메일</label>
+		<input type="email" placeholder="이메일" id="email" name="email">
+		<label class="lblclass">월 급여</label> 
+		<input type="text" placeholder="월 급여" id="salary" name="salary" class="text"> 
+		<label class="lblclass">입사일</label> 
+		<input type="date" placeholder="입사일" id="hireDate" name="hireDate"> 
+		<input type="submit" class="btnSubmit" id="saveEmployeeBtn" value="저장">
+>>>>>>> refs/remotes/origin/master
 	</div>
 	
 	</body>

@@ -132,6 +132,7 @@ button{
  	border:1px solid #bfbfbf;
  }
  
+<<<<<<< HEAD
  .modal{
     position:absolute;
     display:none;
@@ -147,3 +148,6 @@ button{
 
     background-color: rgba(0,0,0,0.4);
 }
+=======
+
+>>>>>>> refs/remotes/origin/master

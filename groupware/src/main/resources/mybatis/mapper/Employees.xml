@@ -67,7 +67,7 @@
 	update employees set name=#{param1}, departmentID=#{param2}, position=#{param3}, phoneNumber=#{param4}, address=#{param5}, email=#{param6}, salary=#{param7}, profilePicture=#{param8} where userid=#{param9}
 </update>
 <update id="selfEdit">
-	update employees set password=#{param1}, phoneNumber=#{param2}, address=#{param3}, email=#{param4} where userid=#{param5}
+	update employees set password=#{param1}, phoneNumber=#{param2}, address=#{param3} where userid=#{param4}
 </update>
 <select id="getListAll" resultType="com.groupware.project.EmployeesDTO"> <!-- 주소록 가져오는데 사용 -->
 	SELECT employees.*, departments.DepartmentName

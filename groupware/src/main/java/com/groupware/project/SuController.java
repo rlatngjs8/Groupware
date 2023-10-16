@@ -101,6 +101,8 @@ public class SuController {
 			String hireDate = req.getParameter("hireDate");
 
 			String fileName;
+			
+			System.out.println("해싱비밀번호="+password);
 
 			if (profileIMG != null && !profileIMG.isEmpty()) {
 				// 프로필 이미지가 제공된 경우 업로드
@@ -123,7 +125,8 @@ public class SuController {
 //			String fileName = userid + "_" + name + ".jpg";
 //			String filePath = imageUploadDirectory + "/" + fileName;
 //			profileIMG.transferTo(new File(filePath));
-
+			
+			
 			edao.signup(userid, password, name, departmentID, position, birthdate, phoneNumber, address, email, salary,
 					fileName, hireDate);
 
@@ -288,9 +291,6 @@ public class SuController {
 			String password = req.getParameter("password1");
 			String phoneNumber = req.getParameter("phoneNumber1");
 			String address = req.getParameter("address1");
-			String email = req.getParameter("email1");
-
-			System.out.println(email);
 			String imgName = req.getParameter("imgName");
 			String fileName = "";
 
@@ -335,7 +335,7 @@ public class SuController {
 				}
 			}
 			
-			edao.selfEdit(password, phoneNumber, address, email, userid);
+			edao.selfEdit(password, phoneNumber, address, userid);
 			Thread.sleep(4000);
 			return "redirect:/myInfo";
 		} catch (Exception e) {
@@ -505,7 +505,7 @@ public class SuController {
 
 
 		
-		
+		 
 		System.out.println("adssad" + my_incomplete_approval.size());
 		 
 		model.addAttribute("receipt_approval", receipt_approval);
