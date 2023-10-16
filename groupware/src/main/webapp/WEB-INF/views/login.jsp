@@ -39,15 +39,13 @@ input[type="text"], input[type="password"] {
 input[type="submit"] {
 	width: 40%;
 	padding: 10px;
-	background-color: rgb(106, 176, 173);
+	background-color: #007bff;
 	color: #fff;
 	border: none;
 	border-radius: 3px;
 	cursor: pointer;
 }
-input[type="submit"]:hover{
-	background-color: rgb(46, 146, 143);
-}
+
 #auto {
 	margin-left: -50%;
 }
