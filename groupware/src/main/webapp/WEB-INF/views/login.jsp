@@ -73,6 +73,9 @@ input[type="submit"]:hover{
 #auto {
 	margin-left: -50%;
 }
+<<<<<<< HEAD
+
+=======
 .check{
 	position: relative;
     right: 40px;
@@ -94,6 +97,7 @@ height: 400px;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+>>>>>>> refs/remotes/origin/master
 </style>
 </head>
 <body>
