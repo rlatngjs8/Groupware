@@ -2,23 +2,22 @@
 
 /* 사이드바 스타일 */
 .sidebar {
-  margin-left: 211px;
-  height: 100%;
-  width: 250px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: white;
-  padding-top: 20px;
-  border-right: 1px solid lightgray;
-  border-top: 1px solid lightgray;
+margin-left: 191px;
+height: 100%;
+width: 250px;
+position: fixed;
+top: 0;
+left: 0;
+background-color: white;
+padding-top: 20px;
+border-right: 1px solid gray;
 }
-
+/*
 #my_attendance_section {
   position: relative;
   top: -76px;
   font-size: 19px;
-}
+}*/
 
 /* 사이드바 링크 스타일 */
 .sidebar a {
