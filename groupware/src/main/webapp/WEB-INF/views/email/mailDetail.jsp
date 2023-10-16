@@ -21,6 +21,7 @@
 	<c:if test='${rs=="receive"}'><p id="mailSideTitle">받은메일함</p></c:if>
 	<c:if test='${rs=="send"}'><p id="mailSideTitle">보낸메일함</p></c:if>
 	<c:if test='${rs=="trash"}'><p id="mailSideTitle">휴지통</p></c:if>
+	<c:if test='${rs=="mark"}'><p id="mailSideTitle">중요메일함</p></c:if>
 	<div style="height:28px; padding:10px 0 10px 30px;">
 		<input type=button id="mdAnswer" class="mFolderBtn2" value="답장">
 		&nbsp;&nbsp;&nbsp;<input type=button id="mdDelete" class="mFolderBtn2" value="삭제">

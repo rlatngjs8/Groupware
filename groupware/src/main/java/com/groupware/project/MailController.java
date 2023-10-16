@@ -35,7 +35,7 @@ public class MailController implements WebMvcConfigurer {
 //	public static void sessionL(HttpServletRequest req) {
 //		//로그인임시
 //		HttpSession s = req.getSession();
-//		s.setAttribute("empID", 85);
+//		s.setAttribute("empID", 47);
 //		//로그인임시
 //	}
 	public void sessionL(HttpServletRequest req) {
@@ -85,11 +85,29 @@ public class MailController implements WebMvcConfigurer {
 				}
 			}
 		} else {
-			for(int i=mailPno-2; i<=mailPno+2; i++) {
-				if(mailPno==i) {
-					pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
-				} else {
-					pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+			if(mailPno==pagecount-1) {
+				for(int i=mailPno-2; i<=mailPno+1; i++) {
+					if(mailPno==i) {
+						pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+					} else {
+						pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+					}
+				}
+			} else if(mailPno==pagecount){
+				for(int i=mailPno-2; i<=mailPno; i++) {
+					if(mailPno==i) {
+						pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+					} else {
+						pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+					}
+				}
+			} else if(mailPno<=pagecount-2){
+				for(int i=mailPno-2; i<=mailPno+2; i++) {
+					if(mailPno==i) {
+						pagestr+="&nbsp;<label>"+i+"</label>&nbsp;";
+					} else {
+						pagestr+="&nbsp;<a href='/mailFolder1?pageno="+i+"' style='color:lightgray; text-decoration-line:none;'>"+i+"</a>&nbsp;";
+					}
 				}
 			}
 		}
@@ -376,7 +394,7 @@ public class MailController implements WebMvcConfigurer {
 		String subject = req.getParameter("subject");
 //		String content = req.getParameter("content");
 		HttpSession s = req.getSession();
-		String content2 = "--- Original Message ---<br>From : "+name+"<br>"
+		String content2 = "<br><br><br>--- Original Message ---<br>From : "+name+"<br>"
 					+"To : "+email2+"<br>"
 					+"Date : "+emailDate+"<br>"
 					+"Subject : "+subject+"<br>";
@@ -660,6 +678,7 @@ public class MailController implements WebMvcConfigurer {
 
 		MailDTO detailMail = mdao.selectDetailMail(emailid);
 		int ms = detailMail.getMultiplesend();
+//		System.out.println(ms);
 		
 		ArrayList<MailDTO> multipleEmail2 = new ArrayList<MailDTO>();
 		
@@ -673,8 +692,8 @@ public class MailController implements WebMvcConfigurer {
 			model.addAttribute("dlist", multipleEmail2);
 		} else {
 			model.addAttribute("dlist", "");
-			model.addAttribute("dmail", detailMail);
 		}
+		model.addAttribute("dmail", detailMail);
 		
 		MailDTO detailMail2 = mdao.selectSenderName(emailid);
 		model.addAttribute("dmail2", detailMail2);
