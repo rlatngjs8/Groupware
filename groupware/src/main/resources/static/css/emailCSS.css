@@ -24,7 +24,7 @@ body {height: 100%; margin:0; overflow:hidden;}
 .mFolderBtn2:hover {border: 1px solid #6AB0AD; color:#6AB0AD; cursor:pointer;}
 
 /* mailLeftDiv*/
-.leftDiv {width:210px; height:100%; padding:0 18px 0 18px; border:1px solid lightgray; border-right-width: 0; border-bottom:0;}
+.leftDiv {width:210px; height:100%; padding:0 18px 0 18px; border:1px solid lightgray; border-right-width: 0; border-bottom:0;border-left:none;}
 .leftDiv a {text-decoration: none; color: black;}
 .leftDiv a:hover {color: gray;} 
 .leftDiv ul {padding-left:0; margin:20px 0 0 0;}

@@ -8,7 +8,7 @@
     <script src="js/contact/personal.js"></script>
     <link href='css/contact/personal.css' rel='stylesheet' />
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>개인 주소록</title>
 </head>
 <body>
     <input type="hidden" id="user_id" value="${sessionScope.userid}">
