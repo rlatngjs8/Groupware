@@ -1,0 +1,273 @@
+@charset "UTF-8";
+
+/* 사이드바 스타일 */
+.sidebar {
+	margin-left: 191px;
+	height: 100%;
+	width: 250px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: white;
+	padding-top: 20px;
+	border-right: 1px solid gray;
+}
+
+/* 사이드바 링크 스타일 */
+.sidebar a {
+	padding: 15px;
+	text-decoration: none;
+	/* 링크 밑줄 제거 */
+	color: black;
+	/* 글자색 설정 */
+	display: block;
+	/* 블록 요소로 표시하여 세로로 배치 */
+}
+
+/* 사이드바 링크 호버 스타일 */
+.sidebar a:hover {
+	background-color: #ccc;
+	/* 연한 회색 배경으로 변경 */
+}
+
+#current_time {
+	font-size: 50px;
+	/* 원하는 크기로 조정하세요 */
+}
+
+#date_info {
+	font-size: 30px;
+	margin-left: 10px;
+
+}
+
+.swal-toast {
+	width: 500px;
+	/* 토스트 창의 너비를 조절합니다. */
+	height: 100px;
+	/* 토스트 창의 높이를 조절합니다. */
+}
+
+/* 메인 컨테이너 */
+.main {
+	max-width: 1405px;
+	height: 850px;
+	max-height: 850px;
+	margin-left: 485px;
+	/* 사이드바 너비만큼 왼쪽 여백 설정 */
+	margin-top: 20px;
+	padding: 20px;
+	background-color: #fff;
+}
+
+/* 헤더 스타일 */
+.header {
+	text-align: center;
+	background-color: #fff;
+	color: #333;
+	padding: 10px;
+}
+
+/* 월 네비게이션 스타일 */
+.month-navigation {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 20px 0;
+}
+
+.month-navigation button {
+	font-size: 18px;
+	background-color: #333;
+	/* 버튼 배경색 */
+	color: #fff;
+	/* 버튼 텍스트 색상 */
+	padding: 5px 10px;
+	border: none;
+	cursor: pointer;
+}
+
+.attendance-summary p {
+	font-size: 16px;
+	margin: 5px 0;
+}
+
+.attendance-summary {
+	display: flex;
+	justify-content: space-between;
+	/* 요소들 사이의 공간을 균등하게 배분 */
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+
+.attendance-summary div {
+	flex-basis: calc(50% - 10px);
+	background-color: #f0f0f0;
+	padding: 10px;
+	margin: 5px;
+	text-align: center;
+}
+
+.attendance-summary div span {
+	font-weight: bold;
+}
+
+.weekly-summary {
+	text-align: center;
+	margin-top: 20px;
+}
+
+
+.weekly-summary h2 {
+	background-color: #007BFF;
+	color: #fff;
+	padding: 10px;
+	text-align: center;
+}
+
+.weekly-summary p {
+	background-color: #f0f0f0;
+	padding: 10px;
+	text-align: center;
+}
+
+body {
+	color: #666;
+	font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+	width: 100%;
+}
+
+th,
+td {
+	padding: 6px 15px;
+}
+
+th {
+	background: #42444e;
+	color: #fff;
+	text-align: left;
+}
+
+tr:first-child th:first-child {
+	border-top-left-radius: 6px;
+}
+
+tr:first-child th:last-child {
+	border-top-right-radius: 6px;
+}
+
+td {
+	border-right: 1px solid #c6c9cc;
+	border-bottom: 1px solid #c6c9cc;
+}
+
+td:first-child {
+	border-left: 1px solid #c6c9cc;
+}
+
+tr:nth-child(even) td {
+	background: #eaeaed;
+}
+
+tr:last-child td:first-child {
+	border-bottom-left-radius: 6px;
+}
+
+tr:last-child td:last-child {
+	border-bottom-right-radius: 6px;
+}
+
+/* CSS를 사용하여 텍스트를 가운데 정렬 */
+th {
+	text-align: center;
+	/* 가운데 정렬 */
+}
+
+/* CSS를 사용하여 텍스트를 가운데 정렬하고 호버 및 커서 포인터 스타일 추가 */
+th.name-col,
+th.department-col,
+th.date-col {
+	text-align: center;
+	/* 가운데 정렬 */
+	cursor: pointer;
+	/* 커서 포인터 스타일 추가 */
+}
+
+/* 호버 시 적용할 스타일 */
+th.name-col:hover,
+th.department-col:hover,
+th.date-col:hover {
+	background-color: gray;
+	/* 밝은 회색 배경색으로 변경 */
+	color: white;
+	/* 텍스트 색상을 흰색으로 변경 */
+}
+
+#pagination {
+	text-align: center;
+	margin-top: 20px;
+}
+
+#pagination a {
+	display: inline-block;
+	margin: 0 5px;
+	padding: 5px 10px;
+	background-color: #fff;
+	color: #000;
+	text-decoration: none;
+	border-radius: 5px;
+	border: 1px solid #000;
+}
+
+#pagination a:hover {
+	background-color: #333;
+	color: #fff;
+}
+
+/* 버튼 배경색을 초록색(성공)으로 변경 */
+.btn-success {
+	background-color: var(--bs-teal);
+	color: #fff;
+	/* 텍스트 색상 변경 (선택 사항) */
+	width: 230px;
+}
+
+.btn-warning {
+	width: 230px;
+}
+
+
+#current_month {
+	font-size: 24px;
+	/* 원하는 글자 크기로 조절하세요 */
+	font-weight: bold;
+	/* 글자 두께를 두꺼운(bold)으로 설정 */
+	color: #333;
+	/* 글자 색상을 파란색으로 설정 */
+}
+
+#time_info {
+	margin-bottom: 2rem;
+	margin-top: 40px;
+}
+
+#checkout_time {
+	margin-top: 40px;
+	font-weight: bold;
+	/* 굵은 글꼴 설정 */
+	font-size: 25px;
+	margin-left: 10px;
+}
+
+#checkin_time {
+	font-weight: bold;
+	/* 굵은 글꼴 설정 */
+	font-size: 25px;
+	margin-left: 10px;
+}
