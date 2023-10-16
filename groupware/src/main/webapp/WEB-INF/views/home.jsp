@@ -152,7 +152,7 @@
 			    </ul>
 			    <div class="tab-view1" id="tab1-1">
 			    		<table>
-			    			<thead>
+			    			<thead style="text-align: center;">
 			    				<tr><th>기안일</th><th>결재양식</th><th>제목</th><th>기안자</th></tr>
 			    			</thead>
 			    			<tbody>
