@@ -4,7 +4,7 @@
 <mapper namespace="com.groupware.project.AttendanceDAO">
 
 <insert id="insert_checkIn">
-	INSERT INTO attendance (userid, Date, startTime, AttendanceStatus)
+	INSERT INTO Attendance (userid, Date, startTime, AttendanceStatus)
 	VALUES (#{param1}, #{param2}, #{param3}, 
 		<choose>
 			<when test="param3 &gt;= '09:00:00' and param3 &lt;= '18:00:00'">'지각'</when>

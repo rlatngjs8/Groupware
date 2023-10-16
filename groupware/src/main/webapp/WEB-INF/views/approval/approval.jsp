@@ -12,11 +12,13 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/P_header.jsp"%>
-	<input type="hidden" id="user_id" name="user_id" value="${sessionScope.userid}">
+	<input type="hidden" id="user_id" name="user_id"
+		value="${sessionScope.userid}">
 	<div class="mainSection">
 		<div class="asidebar">
 			<%@ include file="approvalHeader.jsp"%>
 		</div>
+		<h3 class="title">전자결재 홈</h3>
 		<div class="approvalHome">
 			<div class="arriveApproval">
 				<!-- 나한테 결재온거(미완) -->
@@ -25,8 +27,10 @@
 					<div class="noDataMessage">결재할 문서가 없습니다.</div>
 				</c:if>
 				<c:forEach items="${my_incomplete_approval}" var="my_approval">
+
 					<div class="approvalCard">
-						<input type="hidden" class="approvalID"	value="${my_approval.approvalID}">
+						<input type="hidden" class="approvalID"
+							value="${my_approval.approvalID}">
 						<header>
 							<span class="state ongoing">${my_approval.approval_status}</span>
 						</header>
@@ -45,7 +49,8 @@
 									<div class="form_th">결재양식 :</div>
 									<div class="form_td" title="${my_approval.sender_id}">${my_approval.approval_type}</div>
 								</div>
-								<div class="card_action" id="card_action"	style="margin-top: 5px; cursor: pointer">결재하기</div>
+								<div class="card_action" id="card_action"
+									style="margin-top: 5px; cursor: pointer">결재하기</div>
 							</div>
 						</div>
 					</div>
@@ -69,10 +74,12 @@
 					<c:forEach items="${receipt_approval}" var="c_approval">
 						<tbody>
 							<tr>
-								<input type="hidden" id="approvalID" value="${c_approval.approvalID}">
+								<input type="hidden" id="approvalID"
+									value="${c_approval.approvalID}">
 								<td id="c_approval_createdTime">${c_approval.createdTime}</td>
 								<td>${c_approval.approval_type}</td>
-								<td id="c_approval_title"	data-approvalid="${c_approval.approvalID}">${c_approval.approvalTitle}</td>
+								<td id="c_approval_title"
+									data-approvalid="${c_approval.approvalID}">${c_approval.approvalTitle}</td>
 								<td>${c_approval.senderName}</td>
 								<td>${c_approval.receiverName}</td>
 								<td class="state">${c_approval.approval_status}</td>
@@ -99,16 +106,21 @@
 					<tbody>
 						<c:forEach items="${incomplete_approval}" var="i_approval">
 							<tr>
-								<input type="hidden" id="approvalID" value="${i_approval.approvalID}">
+								<%-- 						<input type="hidden" id="I_createdTime" value="${i_approval.createdTime}"> --%>
+								<input type="hidden" id="approvalID"
+									value="${i_approval.approvalID}">
 								<td id="i_approval.createdTime">${i_approval.createdTime}</td>
 								<td>${i_approval.approval_type}</td>
-								<td id="i_approval_title" data-approvalid="${i_approval.approvalID}">${i_approval.approvalTitle}</td>
+								<td id="i_approval_title"
+									data-approvalid="${i_approval.approvalID}">${i_approval.approvalTitle}</td>
 								<td>${i_approval.senderName}</td>
 								<td>${i_approval.receiverName}</td>
 								<td class="state">${i_approval.approval_status}</td>
 							</tr>
+
 						</c:forEach>
 					</tbody>
+
 				</table>
 			</div>
 			<div class="complete">
@@ -130,10 +142,12 @@
 						<c:forEach items="${completion_approval}" var="co_approval">
 							<tr>
 								<%-- 						<input type="hidden" id="CO_createdTime" value="${co_approval.createdTime}"> --%>
-								<input type="hidden" id="approvalID" value="${co_approval.approvalID}">
+								<input type="hidden" id="approvalID"
+									value="${co_approval.approvalID}">
 								<td id="co_approval.createdTime">${co_approval.createdTime}</td>
 								<td>${co_approval.approval_type}</td>
-								<td id="co_approval_title" data-approvalid="${co_approval.approvalID}">${co_approval.approvalTitle}</td>
+								<td id="co_approval_title"
+									data-approvalid="${co_approval.approvalID}">${co_approval.approvalTitle}</td>
 								<td>${co_approval.senderName}</td>
 								<td>${co_approval.receiverName}</td>
 								<td class="state">${co_approval.approval_status}</td>
