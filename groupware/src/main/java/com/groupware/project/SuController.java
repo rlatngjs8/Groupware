@@ -101,6 +101,8 @@ public class SuController {
 			String hireDate = req.getParameter("hireDate");
 
 			String fileName;
+			
+			System.out.println("해싱비밀번호="+password);
 
 			if (profileIMG != null && !profileIMG.isEmpty()) {
 				// 프로필 이미지가 제공된 경우 업로드
@@ -123,7 +125,8 @@ public class SuController {
 //			String fileName = userid + "_" + name + ".jpg";
 //			String filePath = imageUploadDirectory + "/" + fileName;
 //			profileIMG.transferTo(new File(filePath));
-
+			
+			
 			edao.signup(userid, password, name, departmentID, position, birthdate, phoneNumber, address, email, salary,
 					fileName, hireDate);
 

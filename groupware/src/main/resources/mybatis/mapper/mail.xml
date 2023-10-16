@@ -71,7 +71,9 @@
 <select id="selectmultipleEmail" resultType="com.groupware.project.MailDTO"> 
 	select name, email from employees where employeeid=#{param1}
 </select>
-
+<select id="selectmetomecnt" resultType="Integer">
+	select count(*) from emails where senderemployeeid=receiveremployeeid and emailid=#{param1}
+</select>
 <!-- 현재 최대 emailid -->
 <select id="selectMaxemailid" resultType="Integer">
 	select ifnull(max(emailid),0) from emails
@@ -133,5 +135,8 @@
 </select>
 <select id="selectMarkcnt" resultType="Integer">
 	select count(*) from emails where (senderemployeeid=#{param1} and tcsend=0 and sendmark=1) or (receiveremployeeid=#{param1} and tcreceive=0 and receivemark=1)
+</select>
+<select id="selectmailcontent" resultType="String">
+	select content from emails where emailid=#{param1}
 </select>
 </mapper>

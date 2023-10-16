@@ -7,6 +7,7 @@
 <title>직원생성</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <script src="js/manage/employee_signup.js"></script>
 <link href="css/manage/employee_signup.css" rel="stylesheet">
 <body>

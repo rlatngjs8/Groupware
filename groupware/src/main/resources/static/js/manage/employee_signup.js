@@ -168,6 +168,7 @@ $(document).ready(function() {
 
 	async function hashPassword(password) {
 		// TextEncoder를 사용하여 비밀번호를 바이트 배열로 변환
+		console.log("실행되냐?")
 		var encoder = new TextEncoder();
 		var data = encoder.encode(password);
 

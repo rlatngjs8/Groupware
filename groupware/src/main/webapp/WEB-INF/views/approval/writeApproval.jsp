@@ -17,7 +17,7 @@
 			<%@ include file="approvalHeader.jsp"%>
 		</div>
 		<h3 class="title">전자결재 작성</h3>
-		<form action="/writeApprovalData" method="post">
+<!-- 		<form action="/writeApprovalData" method="post"> -->
 			<div class="tool_bar">
 				<button type="submit">
 					<span><img src="/img/수정.png" class="tool_bar_icon1"></span><span>결재요청</span>
@@ -97,6 +97,7 @@
 					</tr>
 					<tr>
 						<td class="bgGray centerText"
+						
 							style="border-bottom: 1px solid #bfbfbf;">제목</td>
 						<td><input type="text" name="approvalTitle"
 							id="approvalTitle"></td>
@@ -112,14 +113,15 @@
 				</table>
 			</div>
 			<div class="tool_bar" style="margin-bottom: 5%">
-				<button type="submit">
+<!-- 				<button type="submit">
 					<span><img src="/img/수정.png" class="tool_bar_icon"></span><span>결재요청</span>
-				</button>
+				</button> -->
+				<button id ="submit_btn"><span><img src="/img/수정.png" class="tool_bar_icon"></span><span>결재요청</span></button>
 				<a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span
 					class="pre-view">미리보기</span></a> <a href="/approval"><span><img
 						src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
 			</div>
-		</form>
+<!-- 		</form> -->
 	</div>
 </body>
 </html>
