@@ -54,27 +54,8 @@
     color: #aaa;
 }
 
-/* 큰 버튼 스타일 */
-.big-button {
-    display: block;
-    background-color: rgb(106, 176, 173);
-    color: #fff;
-    text-align: center;
-    text-decoration: none;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    font-size: 18px;
-    border-radius: 5px;
-}
-
 .page-side a:hover {
     background-color: #cfcfcf;
-}
-.board-search-bar {
-  
-  border-radius: 8px;
-  padding: 5px;
-  text-align: center;
 }
 
 .board-search-bar input[type="text"] {
@@ -88,37 +69,40 @@
 <%@ include file="../P_header.jsp" %>
 </head>
 <body>
-
-<div class="page-side">
-    <h1>공지사항</h1>
-
-  <%
-  	String id =(String)session.getAttribute("userid");
+<div class="board">
+	<div class="page-side">
+    	<h3 class="boardTitle">커뮤니티</h3>
+  		<%
+  		String id =(String)session.getAttribute("userid");
 		if(id.equals("관리자1")){
-	%>
-		<a href='/announcement_write' class="big-button">공지사항쓰기</a> <!-- 큰 버튼 스타일 적용 -->
-	<div>
-        <a href='/announcement'>공지사항</a><br>
-        <a href='/community'>자유게시판</a>
-    </div>
-	<%
+		%>
+			<a href='/announcement_write' class="big-button">공지사항 작성</a> <!-- 큰 버튼 스타일 적용 -->
+			<div class="sideA">
+        		<a href='/announcement' style="font-weight:bold;">공지사항</a><br>
+    		</div>
+    		<div class="sideA">
+        		<a href='/community'>자유게시판</a>
+    		</div>
+		<%
 		}else{
-	%>
-	<div>
-        <a href='/announcement'>공지사항</a><br>
-        <a href='/community'>자유게시판</a>
-    </div>
-	<%
-		}
-	%>
+		%>
+			<div class="sideA">
+        		<a href='/announcement'>공지사항</a><br>
+    		</div>
+    		<div class="sideA">
+        		<a href='/community'>자유게시판</a>
+    		</div>
+		<%
+			}
+		%>
 </div>
 <div class="Main_Content">
-<div class="board-search-bar">
-<input type="text" placeholder="공지사항 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
+	<h3 class="boardTitle" style="padding-left: 40px;">공지사항</h3>
+<div class="board-search-bar" style="border-bottom:1px solid lightgrey">
+	<input type="text" placeholder="공지사항 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
 </div>
 <ul>
 <c:forEach items="${blist}" var="blist">
-
 	<li class="post-container">
 	<div onclick="location.href='/announcement_view?seqno=${blist.CommunityID}';" style=" cursor: pointer;">
             <span class="post-title">${blist.CommunityTitle}</span><br><br>
@@ -135,10 +119,12 @@
 </c:forEach>
 </ul>
 <div class="board-search-bar">
-<input type="text" placeholder="공지사항 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button" style=" position: absolute;"><img src="P_img/free-icon-magnifier-71403.png"></button>
+<input type="text" placeholder="공지사항 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
 </div>
 <div style="margin-left:auto;margin-right:auto;text-align:center;font-size: x-large">${pagestr}</div>
 </div>
+</div>
+
 </body>
 <script>
 $(document)	 

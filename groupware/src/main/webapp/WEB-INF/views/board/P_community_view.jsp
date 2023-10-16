@@ -11,15 +11,15 @@
 <%@ include file="../P_header.jsp" %>
 <style>
     /* 전체 페이지 스타일 */
-    body {
-        background-color: #f2f2f2;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
     /* 게시물 컨테이너 스타일 */
     .Post_Content {
         padding: 20px;
+        padding-left:40px;
         border-bottom: 1px solid #ccc;
     }
 
@@ -40,16 +40,22 @@
     /* 댓글 입력 부분 스타일 */
     .comment-input {
         margin-top: 20px;
+        padding-left:40px;
     }
 
 	/* 댓글 스타일 */
 	.comment {
 	    margin-top: 20px;
+
 	}
 	
 	.comment .comment-box {
 	    border-bottom: 1px solid #ccc;
-	    padding: 10px 0;
+	    padding-top:10px;
+	    padding-bottom:10px;
+	}
+	.comment-box{
+		padding-left:40px;
 	}
 	
 	.comment .comment-comment_Userid {
@@ -66,18 +72,7 @@
 	    margin-top: 5px;
 	}
 	/* 좋아요 버튼 스타일 */
-	/* 큰 버튼 스타일 */
-	.big-button {
-	    display: block;
-	    background-color: rgb(106, 176, 173);
-	    color: #fff;
-	    text-align: center;
-	    text-decoration: none;
-	    padding: 10px 20px;
-	    margin-bottom: 20px;
-	    font-size: 18px;
-	    border-radius: 5px;
-	}
+
 	
 	.page-side a:hover {
 	    background-color: #cfcfcf;
@@ -120,19 +115,24 @@
 
 </head>
 <body>
-
-<div class="page-side">
-    <h1>게시판</h1>
-    <a href='/community_write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
-	<div>
-        <a href='/announcement'>공지사항</a><br>
-        <a href='/community'>자유게시판</a><br>
-    </div>
-</div>
-    <div class="Main_Content">
+<div class="board">
+	<div class="page-side">
+    	<h3 class="boardTitle">커뮤니티</h3>
+    	<a href='/community_write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
+		<div class="sideA">
+        	<a href='/announcement'>공지사항</a><br>
+        </div>
+        <div class="sideA">
+        	<a href='/community'>자유게시판</a><br>
+    	</div>
+	</div>
+    <div class="Main_Content" style="margin-left:426px;">
+    	<div style="border-bottom:1px solid lightgrey;">
+    			<h3 class="boardTitle" style="padding-left:40px;">게시글 상세</h3>
+    	</div>
         <div class="Post_Content">
         <input type="hidden" value="${bpost.communityID}" id="seq">
-            <h3>제목: ${bpost.communityTitle}</h3>
+            <h3 class="boardTitle">제목: ${bpost.communityTitle}</h3>
             <span>작성자: ${bpost.name} ${bpost.position}</span>
             <span>작성시간: ${bpost.createdTime}</span> <span>${modidel}</span>
             <p>${bpost.content}</p>
@@ -150,7 +150,7 @@
             <span>댓글 : </span><input type="text" id="comment-input" onclick="enterkey()"><input type="button" id="comment-submit" onclick="submitComment()" value="작성">          
         </div>
         <div class="comment">
-        	<span>댓글 목록</span>
+        	<span style="padding-left:40px;">댓글 목록</span>
             <c:forEach items="${alComment}" var="alComment">
 			    <div class="comment-box">
 			        <span class="comment-comment_Userid">작성자: ${alComment.comment_Name} ${alComment.comment_Position}</span><br>
@@ -173,6 +173,7 @@
 			</c:forEach>
         </div>
     </div>
+</div>
 </body>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script src='P_js/P_communityview.js'></script>

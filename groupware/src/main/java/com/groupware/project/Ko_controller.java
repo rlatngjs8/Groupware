@@ -63,7 +63,7 @@ public class Ko_controller {
 		String writer = req.getParameter("writer");
 		String content = req.getParameter("contentArea");
 		cdao.planInsert(title,start,end,content,writer);
-		return "ko_calendar";
+		return "redirect:/ko_calendar";
 	}
 	@GetMapping("ko_calendarDetails")		// 게시글 상세페이지로 이동
 	public String ko_calendarDetails(HttpServletRequest req, Model model) {
@@ -124,7 +124,7 @@ public class Ko_controller {
 		String endTime = req.getParameter("eHourHidden");
 		System.out.println(reserverEmpID);
 		rdao.reservations(roomID,reserverEmpID,reservationDate,startTime,endTime,connectionID);
-		return "reservationList";
+		return "redirect:/reservationList";
 	}
 	@PostMapping("/getTime")	//예약된 시간들 체크하기
 	@ResponseBody
@@ -239,5 +239,12 @@ public class Ko_controller {
 			ja.add(jo);
 		}	
 		return ja.toJSONString();
+	}
+	@PostMapping("/countRequest")
+	@ResponseBody
+	public int countRequest(HttpServletRequest req) {
+		int empID=Integer.parseInt(req.getParameter("empID"));
+		int countRequest = ndao.countRequest(empID);
+		return countRequest;
 	}
 }

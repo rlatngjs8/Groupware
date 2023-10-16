@@ -207,6 +207,7 @@ public class P_controller {
 		int  seqno= Integer.parseInt(req.getParameter("seqno"));
 		HttpSession session = req.getSession();
 		int EmpID= (int) session.getAttribute("EmpId");
+		System.out.println("please"+seqno+EmpID);
 		bdao.like(seqno,EmpID); 
 		return "1";
 	}
@@ -276,6 +277,7 @@ public class P_controller {
 		Integer seqno = Integer.parseInt(req.getParameter("seqno"));
 		P_BoardDTO bdto = bdao.aview(seqno);
 		String oriwri=bdto.getUserid();
+		System.out.println(seqno);
 		bdao.ahitup(seqno);
 		model.addAttribute("bpost",bdto);
 		HttpSession session = req.getSession();

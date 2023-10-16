@@ -5,13 +5,15 @@ $(document)
 .ready(function(){
 	window.location;
 	$('.mFolderBtn').css("width","45px");
-// 	$('#mRead').mouseover(function(){ //css
-// 		$('#mRead').addClass('mFolderBtn2');
-// //	 	$('#Read').css({"color":"#6AB0AD","border-color":"#6AB0AD","cursor":"pointer"});
-// 	},function(){
-// 		$('#mRead').removeClass('mFolderBtn2');
-// 	});
-	
+ 	if($('#mailSideTitle').text()=="받은메일함"){
+		$('#mailFolder1').css({"color":"black","font-weight":"bold"});
+	} else if($('#mailSideTitle').text()=="보낸메일함") {
+		$('#mailFolder2').css({"color":"black","font-weight":"bold"});
+	} else if($('#mailSideTitle').text()=="휴지통") {
+		$('#trashcanFolder').css({"color":"black","font-weight":"bold"});
+	} else if($('#mailSideTitle').text()=="중요메일함") {
+		$('#mailMark').css({"color":"black","font-weight":"bold"});
+	} 
 	$('.erSendtime').addClass(function(index){
 		return 'erSendtime' + index;
 	});
@@ -270,3 +272,12 @@ window.onpageshow = function(event) { //뒤로가기 감지
         console.log('back button event');
     }
 }
+
+/* mailLeftDiv */
+$(document)
+.on('click','#mailTitle', function(){
+	document.location="/mailFolder1";
+})
+.on('click','#mailWriteBtn', function(){
+	document.location="/mailWrite";
+});
