@@ -1,6 +1,7 @@
 //JavaScript와 jQuery를 사용한 AJAX 요청
 $(document)
 .ready(function(){
+	console.log(123123);
 	let likeButton = $('#like-button');
     let isLiked = $('#chklike').val();
     console.log(isLiked);

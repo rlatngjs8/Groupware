@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+body {
+    overflow-x: hidden; /* 가로 스크롤을 숨깁니다. */
+}
+
+.mainSection {
+    display: flex;
+    flex-direction: column; /* 요소들을 수직으로 배치합니다. */
+}
+
+.title {
+    display: block;
+    position: absolute;
+    top: 20px;
+    left: 25%;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.writeForm {
+    margin-left: 25%;
+    margin-top: 2%;
+    width: 45%;
+    font-size: 16px;
+}
+
+/* 추가된 CSS 클래스 */
+.customTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.customTable td, .customTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.customTable th {
+    background-color: #f2f2f2;
+}
+
+.tool_bar {
+    margin-left: 25%;
+    margin-top: 30px;
+}
+
+.tool_bar a {
+    margin-right: 10px;
+    cursor: pointer; /* 커서를 포인터로 설정 */
+}
+
+.tool_bar_icon,.tool_bar_icon1 {
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+    position: relative;
+    top: 4px;
+    right: 3px;
+}
+.tool_bar_icon1{
+    width: 18px;
+    height: 18px;
+    position: relative;
+    top: 2px;
+}
+
+.td1 {
+    font-size: 35px;
+    text-align: center !important; /* 텍스트를 가운데 정렬합니다. */
+}
+
+.ApproText {
+    width: 100%;
+    padding-bottom: 50%;
+    box-sizing: border-box;
+    font-size: 19px;
+    border:none;
+}
+
+/* 새로운 CSS 클래스 추가 */
+.bgGray {
+    background-color: rgb(221, 221, 221);
+    text-align: center;
+}
+
+.centerText {
+    text-align: center;
+}
+
+.centerVertical {
+    vertical-align: middle;
+}
+
+.textRight {
+    text-align: right;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.width9 {
+    width: 9%;
+}
+
+.width13 {
+    width: 13%;
+}
+
+.width25 {
+    width: 25%;
+}
+
+.height450 {
+    height: 450px;
+}
+button{
+    background: #fff;
+    border: none;
+    font-size: 16px;
+    cursor:pointer;
+    }
+ .receiver_id{
+ 	height:40px;
+ 	border:1px solid #bfbfbf;
+ }
+ #approvalType, #approvalTitle {
+ 	border:1px solid #bfbfbf;
+ }
+ 
+

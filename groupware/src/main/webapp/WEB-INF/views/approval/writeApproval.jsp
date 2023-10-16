@@ -11,6 +11,7 @@
 <title>전자결재</title>
 </head>
 <body>
+<<<<<<< HEAD
 	<%@ include file="/WEB-INF/views/P_header.jsp"%>
 	<div class="mainSection">
 		<div class="asidebar">
@@ -24,7 +25,22 @@
 				</button>
 					 <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
 			</div>
+=======
+<%@ include file="/WEB-INF/views/P_header.jsp"%>
+<div class="mainSection">
+    <div class="asidebar">
+        <%@ include file="approvalHeader.jsp"%>
+    </div>
+    <h3 class="title">전자결재 작성</h3>
+    <form action="/writeApprovalData" method="post">
+    <div class="tool_bar">
+        <button type="submit"><span><img src="/img/수정.png" class="tool_bar_icon1"></span><span>결재요청</span></button>
+       
+        <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
+    </div>
+>>>>>>> refs/remotes/origin/Park
 
+<<<<<<< HEAD
 			<div class="modal">
 				<div class="modal_body">
 					<h2>모달창 제목</h2>
