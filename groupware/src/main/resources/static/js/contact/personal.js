@@ -5,7 +5,7 @@ $(document).ready(function() {
 		var nameColumn = $(this).find('#per_name'); // #per_name 열을 선택
 		console.log("뭐요")
 
-
+ 
 		// 클릭한 열의 #per_name 열을 클릭한 경우에만 페이지 이동
 		if ($(event.target).is(nameColumn)) {
 			var name = nameColumn.text();
