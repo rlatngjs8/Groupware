@@ -75,6 +75,7 @@ div.fc-daygrid-day-frame:has(a.koreanHoliday){
 }
 .fc .fc-button-primary{
 	background-color: rgb(106, 176, 173);
+	border: none;
 }
 .fc .fc-toolbar-title {
 	margin-right:15px;

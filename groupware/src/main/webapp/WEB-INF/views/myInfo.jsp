@@ -74,7 +74,7 @@
           <td>${emp.hireDate}</td>
         </tr>
       </table>
-      <button id="editModal">정보수정</button>
+      <button id="editModal" class="editModal">정보수정</button>
     </div>
     <!-- 모달로 수정만든후에 저장 버튼 누르면 info에 업데이트 -->
     <!-- 로딩 중도 띄워야 함 -->

@@ -291,9 +291,6 @@ public class SuController {
 			String password = req.getParameter("password1");
 			String phoneNumber = req.getParameter("phoneNumber1");
 			String address = req.getParameter("address1");
-			String email = req.getParameter("email1");
-
-			System.out.println(email);
 			String imgName = req.getParameter("imgName");
 			String fileName = "";
 
@@ -338,7 +335,7 @@ public class SuController {
 				}
 			}
 			
-			edao.selfEdit(password, phoneNumber, address, email, userid);
+			edao.selfEdit(password, phoneNumber, address, userid);
 			Thread.sleep(4000);
 			return "redirect:/myInfo";
 		} catch (Exception e) {

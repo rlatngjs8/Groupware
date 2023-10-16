@@ -78,7 +78,7 @@
 		<input type="text" placeholder="월 급여" id="salary" name="salary" class="text"> 
 		<label class="lblclass">입사일</label> 
 		<input type="date" placeholder="입사일" id="hireDate" name="hireDate"> 
-		<input type="submit" class="btn" id="saveEmployeeBtn" value="저장" style="margin-top: 8%">
+		<input type="submit" class="btnSubmit" id="saveEmployeeBtn" value="저장">
 	</div>
 	</form>
 </div>

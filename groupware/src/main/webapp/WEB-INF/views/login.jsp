@@ -139,7 +139,12 @@ height: 400px;
         }
         $.ajax({
             url: '/doLogin',
-            data: { userid: $('#userid').val(), password: hashedPassword, cookiePW: $('#password').val() },
+            data: { 
+            	userid: $('#userid').val(), 
+           password: hashedPassword,
+//             	password:password,
+            	cookiePW: $('#password').val() 
+            },
             type: "post",
             success: function(data) {
                 if (data == 'success') {

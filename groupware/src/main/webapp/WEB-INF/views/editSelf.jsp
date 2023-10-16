@@ -8,6 +8,7 @@
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="js/editSelf.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <link href="css/editSelf.css" rel="stylesheet">
 <body>
 <div class="modal-content">
@@ -62,7 +63,7 @@
         </tr>
         <tr>
           <td class="tdclass">이메일</td>
-          <td><input type="text" id="email2" name="email2" value="${emp.email.split('@')[0]}" style="width:35%">@example.com<input type="hidden" id="email1" name="email1"></td>
+          <td><span id="email">${emp.email}</span></td>
         </tr>
         <tr>
           <td class="tdclass">생년월일</td>

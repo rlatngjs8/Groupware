@@ -351,4 +351,30 @@ body {
 	width: 100px;
 }
 
+.btnSubmit {
+	width: 100px;
+	height: 35px;
+	background-color: rgb(106, 176, 173);
+	border: none;
+	border-radius: 3px;
+	color: #fff;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.btnSubmit:hover {
+	background-color: rgb(46, 146, 143);
+}
+
+.btnBack {
+	width: 100px;
+	height: 35px;
+	background-color: rgb(255 255 255);
+	border: 1px solid black;
+	border-radius: 3px;
+	color: #000;
+	font-size: 15px;
+	cursor: pointer;
+}
+
 /* 로딩중 */

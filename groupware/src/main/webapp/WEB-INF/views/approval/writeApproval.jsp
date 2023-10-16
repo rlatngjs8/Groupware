@@ -22,9 +22,7 @@
 				<button type="submit">
 					<span><img src="/img/수정.png" class="tool_bar_icon1"></span><span>결재요청</span>
 				</button>
-				<a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span
-					class="pre-view">미리보기</span></a> <a href="/approval"><span><img
-						src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
+					 <a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
 			</div>
 
 			<div class="modal">
@@ -115,9 +113,7 @@
 				<button type="submit">
 					<span><img src="/img/수정.png" class="tool_bar_icon"></span><span>결재요청</span>
 				</button>
-				<a><span><img src="/img/미리보기.png" class="tool_bar_icon"></span><span
-					class="pre-view">미리보기</span></a> <a href="/approval"><span><img
-						src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
+					<a href="/approval"><span><img src="/img/취소.png" class="tool_bar_icon"></span><span>취소</span></a>
 			</div>
 		</form>
 	</div>

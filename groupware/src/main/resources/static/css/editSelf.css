@@ -288,7 +288,7 @@
 	width: 200px;
 	border-radius: 100%;
 	margin: 40px auto;
-	margin-top: -30%;
+	margin-top: -20%;
 	background-color: rgba(255, 255, 255, 0.6);
 }
 
@@ -343,3 +343,27 @@
 }
 
 /* 로딩중 */
+
+.btnSubmit{
+	width: 150px;
+    height: 35px;
+    background-color: rgb(106,176,173);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+}
+.btnSubmit:hover{
+	background-color: rgb(46, 146, 143);
+}
+.closeModal{
+	width: 100px;
+    height: 35px;
+    background-color: rgb(255 255 255);
+    border: 1px solid black;
+    border-radius: 3px;
+    color: #000;
+    font-size: 15px;
+    cursor: pointer;
+}

@@ -50,7 +50,7 @@ public interface EmployeesDAO {
 //						String phoneNumber, String address, String email, String salary, String filePath, String userid);
 		void editEMP(String name, String departmentID, String position, String phoneNumber, String address,
 				String email, String salary, String fileName, String userid);
-		void selfEdit(String password, String phoneNumber, String address, String email, String userid);
+		void selfEdit(String password, String phoneNumber, String address, String userid);
 		
 		EmployeesDTO senderDepart(String sender_id);
 		EmployeesDTO receiverDepart(String receiver_id);
