@@ -74,12 +74,10 @@
 					<c:forEach items="${receipt_approval}" var="c_approval">
 						<tbody>
 							<tr>
-								<input type="hidden" id="approvalID"
-									value="${c_approval.approvalID}">
+								<input type="hidden" id="approvalID" value="${c_approval.approvalID}">
 								<td id="c_approval_createdTime">${c_approval.createdTime}</td>
 								<td>${c_approval.approval_type}</td>
-								<td id="c_approval_title"
-									data-approvalid="${c_approval.approvalID}">${c_approval.approvalTitle}</td>
+								<td id="c_approval_title" data-approvalid="${c_approval.approvalID}">${c_approval.approvalTitle}</td>
 								<td>${c_approval.senderName}</td>
 								<td>${c_approval.receiverName}</td>
 								<td class="state">${c_approval.approval_status}</td>
@@ -107,20 +105,16 @@
 						<c:forEach items="${incomplete_approval}" var="i_approval">
 							<tr>
 								<%-- 						<input type="hidden" id="I_createdTime" value="${i_approval.createdTime}"> --%>
-								<input type="hidden" id="approvalID"
-									value="${i_approval.approvalID}">
+								<input type="hidden" id="approvalID" value="${i_approval.approvalID}">
 								<td id="i_approval.createdTime">${i_approval.createdTime}</td>
 								<td>${i_approval.approval_type}</td>
-								<td id="i_approval_title"
-									data-approvalid="${i_approval.approvalID}">${i_approval.approvalTitle}</td>
+								<td id="i_approval_title" data-approvalid="${i_approval.approvalID}">${i_approval.approvalTitle}</td>
 								<td>${i_approval.senderName}</td>
 								<td>${i_approval.receiverName}</td>
 								<td class="state">${i_approval.approval_status}</td>
 							</tr>
-
 						</c:forEach>
 					</tbody>
-
 				</table>
 			</div>
 			<div class="complete">
@@ -142,12 +136,10 @@
 						<c:forEach items="${completion_approval}" var="co_approval">
 							<tr>
 								<%-- 						<input type="hidden" id="CO_createdTime" value="${co_approval.createdTime}"> --%>
-								<input type="hidden" id="approvalID"
-									value="${co_approval.approvalID}">
+								<input type="hidden" id="approvalID" value="${co_approval.approvalID}">
 								<td id="co_approval.createdTime">${co_approval.createdTime}</td>
 								<td>${co_approval.approval_type}</td>
-								<td id="co_approval_title"
-									data-approvalid="${co_approval.approvalID}">${co_approval.approvalTitle}</td>
+								<td id="co_approval_title" data-approvalid="${co_approval.approvalID}">${co_approval.approvalTitle}</td>
 								<td>${co_approval.senderName}</td>
 								<td>${co_approval.receiverName}</td>
 								<td class="state">${co_approval.approval_status}</td>

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/approval/approvalHeader.js"></script>
+<!-- <script src="js/approval/approvalHeader.js"></script> -->
 <link href='css/approval/approvalHeader.css' rel='stylesheet' />
 <title>Insert title here</title>
 </head>
@@ -23,6 +23,8 @@
 	</div>
 </body>
 <script>
-	
+$('#newApproval').click(function(){
+	window.location.href="/writeApproval";
+})
 </script>
 </html>

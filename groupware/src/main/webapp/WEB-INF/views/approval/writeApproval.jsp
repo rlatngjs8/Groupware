@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>전자결재</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/approval/writeapproval.js"></script>
-<link href="css/approval/writeapproval.css" rel="stylesheet">
+<script src="js/approval/writeApproval.js"></script>
+<link href="css/approval/writeApproval.css" rel="stylesheet">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/P_header.jsp"%>
@@ -30,7 +30,6 @@
 					<p>모달창 내용</p>
 				</div>
 			</div>
-			
 			<div class="writeForm">
 				<table class="customTable">
 					<tr>

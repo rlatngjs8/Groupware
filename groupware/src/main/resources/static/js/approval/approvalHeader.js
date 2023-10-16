@@ -1,3 +1,5 @@
-$('#newApproval').click(function(){
-	window.location.href="/writeApproval";
+$(document).ready(function() {
+	$('#newApproval').click(function() {
+		window.location.href = "/writeApproval";
+	})
 })
