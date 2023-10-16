@@ -56,11 +56,7 @@ input[type="submit"]:hover{
 #auto {
 	margin-left: -50%;
 }
-.Post_Content p {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
+
 </style>
 </head>
 <body>
