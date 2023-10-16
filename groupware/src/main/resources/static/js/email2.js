@@ -3,6 +3,11 @@ let mailFileContent1 = $('#mailFileContent1').text();
 let mailFileContent2 = $('#mailFileContent2').text();
 let mailFileContent3 = $('#mailFileContent3').text();
 let oEditors = []
+
+/* mailWrite.jsp */
+const dataTransfer = new DataTransfer();
+let cnt = 1;
+
 smartEditor = function() {
     console.log("Naver SmartEditor")
     nhn.husky.EZCreator.createInIFrame({
@@ -13,9 +18,6 @@ smartEditor = function() {
         htParams : {fOnBeforeUnload : function(){}} // 이페이지 나오기 alert 삭제
     })
 }
-$(document).ready(function() {
-    smartEditor()
-});
 
 $(document)
 .ready(function(){
@@ -51,7 +53,17 @@ $(document)
  	$('#mailC1').text(C1);
 	$('#mailC2').text(C2);
 	$('#mailC3').text(C3);
-	//
+	smartEditor();
+	
+	///* mailWrite.jsp */
+	if($('#mInputEmail').val()!=""){
+		let text = $('#mInputEmail').val().split(' ').join('');
+		$('#mInputEmail').before("<div class='ppEmailbox'><label id='emailbox"+cnt+"' class='emailbox'>"+text+" <input type=button id=emailXBtn value=X></label></div>");
+		$('#mInputEmail').val("");
+		cnt++;
+//		console.log($('.ppEmailbox').width());
+	}
+	
 })
 .on('click','#mdAnswer',function(){
 	let rEmailid = $('#rEmailid').text();
@@ -97,22 +109,6 @@ $(document)
 	let thistext = $(this).find('.efileHidden').text();
 // 	console.log(thistext);
 	document.location="/mailFiledownload?attachment="+thistext;
-});
-
-
-/* mailWrite.jsp */
-const dataTransfer = new DataTransfer();
-let cnt = 1;
-$(document)
-.ready(function(){
-	if($('#mInputEmail').val()!=""){
-		let text = $('#mInputEmail').val().split(' ').join('');
-		$('#mInputEmail').before("<div class='ppEmailbox'><label id='emailbox"+cnt+"' class='emailbox'>"+text+" <input type=button id=emailXBtn value=X></label></div>");
-		$('#mInputEmail').val("");
-		cnt++;
-		console.log($('.ppEmailbox').width());
-		$('#mInputEmail').focus();
-	}
 })
 .on('click','#emailXBtn',function(){
 	$(this).parent(".emailbox").remove();

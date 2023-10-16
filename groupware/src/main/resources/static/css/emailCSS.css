@@ -43,7 +43,7 @@ body {height: 100%; margin:0; overflow:hidden;}
 #rMailName div {display:block !important; width:170px; height: 28px; white-space: nowrap; overflow:hidden; text-overflow: ellipsis;}
 #rmailTable tr:first-child td {border: none;}
 #rmailTable tr:last-child td {border-width: 1px 0 1px 0;}
-#mailPageDiv {font-size:17px; text-align:center;}
+#mailPageDiv {font-size:17px; text-align:center; position: absolute;bottom: 10px; left:45%; right:30%;}
 #emailReadImg {width: 20px; height: 20px; vertical-align:middle; padding-top: 2px;}
 #emailMark {width: 20px; height: 20px; vertical-align:middle; padding-top: 2px;}
 .emailbox {width:auto; height: 21px; line-height:21px; border:1px solid #6AB0AD; border-radius:14px; 
