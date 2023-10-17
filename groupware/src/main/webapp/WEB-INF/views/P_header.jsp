@@ -10,11 +10,9 @@
 </head>
 <body>
     <header class="side-bar">
-      <section class="side-bar__icon-box" onclick="toggleSidebar()">
+      <section class="side-bar__icon-box">
         <section class="side-bar__icon-1">
-          <div></div>
-          <div></div>
-          <div></div>
+      
         </section>
       </section>
       <a href="/"><img src="/P_img/logonexa.png" style="height:170px;width:210px;" alt="홈"></a>

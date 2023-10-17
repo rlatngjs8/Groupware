@@ -169,9 +169,12 @@ public class SuController {
 
 	@GetMapping("/account")
 	public String account(HttpServletRequest req, Model model) {
+		System.out.println("어카운트1");
 		String userid = req.getParameter("userid");
+		System.out.println("어카운트2");
 		EmployeesDTO alEmp = edao.getListSelect(userid);
-
+		System.out.println("어카운트3");
+		
 		model.addAttribute("emp", alEmp);
 		System.out.println(alEmp.getProfilePicture());
 		return "manage/account";
@@ -245,7 +248,7 @@ public class SuController {
 			edao.editEMP(name, departmentID, position, phoneNumber, address, email, salary, fileName, userid);
 			Thread.sleep(4000);
 			System.out.println("성공");
-			return "redirect:/account?userid=" + userid;
+			return "redirect:/account";
 		} catch (Exception e) {
 			System.out.println("실패");
 			e.printStackTrace();
