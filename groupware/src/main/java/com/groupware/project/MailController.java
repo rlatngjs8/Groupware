@@ -407,7 +407,8 @@ public class MailController implements WebMvcConfigurer {
 	@PostMapping("/mailSend")
 	@ResponseBody
 	public String mailSend(HttpServletRequest req, Model model, HttpServletResponse response, MultipartFile[] uploadFile) {		
-		String uploadFolder = "C:/Users/1234/git/Groupware/groupware/src/main/resources/static/mailImg";
+//		String uploadFolder = "C:/Users/1234/git/Groupware/groupware/src/main/resources/static/mailImg";
+		String uploadFolder = "/home/opc/server/Groupware/groupware/src/main/resources/static/mailImg";
 		File uploadPath = new File(uploadFolder); //폴더만들고 업로드
 		if(uploadPath.exists() == false) {//폴더 없을 시에만 폴더생성.
 			uploadPath.mkdirs();
