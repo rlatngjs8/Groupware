@@ -244,13 +244,13 @@ hr.hr-3 {
 	height: 100%;
 	width: 230px;
 	position: fixed;
-	top: 0;
+	top: 78px;
 	left: 0;
 	background-color: white;
 	padding-top: 20px;
 	border-right: 1px solid lightgray;
 	text-align: left;
-	border-top: 1px solid lightgray;
+	border-top: none;
 }
 
 /* 사이드바 링크 스타일 */
@@ -278,17 +278,17 @@ hr.hr-3 {
 }
 
 .name-col {
-	width: 150px;
+	width: 90px;
 	/* 이름 열 너비 */
 }
 
 .position-col {
-	width: 120px;
+	width: 160px;
 	/* 직위 열 너비 */
 }
 
 .phone-col {
-	width: 130px;
+	width: 150px;
 	/* 휴대폰 열 너비 */
 }
 
@@ -303,7 +303,7 @@ hr.hr-3 {
 }
 
 .company-col {
-	width: 150px;
+	width: 180px;
 	/* 회사 열 너비 */
 }
 
@@ -318,12 +318,12 @@ hr.hr-3 {
 }
 
 .memo-col {
-	width: 220px;
+	width: 305px;
 	/* 메모 열 너비 */
 }
 
 .group-col {
-	width: 120px;
+	width: 155px;
 	/* 그룹 열 너비 */
 }
 

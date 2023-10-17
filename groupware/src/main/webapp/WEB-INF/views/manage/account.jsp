@@ -7,17 +7,19 @@
 <meta charset="UTF-8">
 <title>직원 상세 정보</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/manage/account.js"></script>
-<link href="css/manage/account.css" rel="stylesheet">
+<script src="/js/manage/account.js"></script>
+<link href="/css/manage/account.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="/WEB-INF/views/P_header.jsp"%>
+<%@ include file="manage_header.jsp" %> 
 <h3>직원통합관리 > 직원상세</h3>
 <div id="container">
+<%--     <c:forEach items="${Elist}" var="emp"> --%>
         <div id="image">
         <input type="hidden" id="userid" value="${emp.userid}">
             <label>
             <p style="font-weight:bold;">프로필이미지</p>
+<%--             	[${emp.profilePicture}] --%>
                 <img src="/img/${emp.profilePicture}" id="exProfileIMG">
             </label>
             <p style="font-size:12px">⚠️ 이미지가 제대로 나오지 않는다면 새로고침(f5)를 눌러주세요.</p>
@@ -80,6 +82,7 @@
                 <td>${emp.hireDate}</td>
             </tr>
         </table>
+<%--     </c:forEach> --%>
     <input type="button" class="btnEdit" id="btnEdit" value="수정메뉴">
     <input type="button" class="btnBack" id="btnBack" value="돌아가기">
 </div>

@@ -505,7 +505,7 @@ public class SuController {
 
 
 		
-		
+		 
 		System.out.println("adssad" + my_incomplete_approval.size());
 		 
 		model.addAttribute("receipt_approval", receipt_approval);

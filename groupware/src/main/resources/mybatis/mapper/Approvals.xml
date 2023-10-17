@@ -56,13 +56,13 @@
 
 <select id="select_completion_approval" resultType="com.groupware.project.ApprovalsDTO">
 	SELECT a.*, s.Name AS SenderName, r.Name AS ReceiverName
-	FROM approvals a
-	JOIN employees s ON a.Sender_id = s.Userid
-	JOIN employees r ON a.Receiver_id = r.Userid
-	WHERE ( a.Sender_id = #{param1} or a.Receiver_id = #{param1} )
-	AND (a.Approval_status = '보류' OR a.Approval_status = '거절' OR a.Approval_status = '완료')
-	ORDER BY a.CreatedTime DESC
-	LIMIT 5;
+FROM approvals a
+JOIN employees s ON a.Sender_id = s.Userid
+JOIN employees r ON a.Receiver_id = r.Userid
+WHERE (a.Sender_id = #{param1} OR a.Receiver_id = #{param1})
+AND a.Approval_status NOT IN ('진행 중')
+ORDER BY a.CreatedTime DESC
+LIMIT 5;
 </select>
 
 <select id="select_my_incomplete_approval"  resultType="com.groupware.project.ApprovalsDTO" >

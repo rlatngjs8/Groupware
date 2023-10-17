@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <title>전자결재</title>
 </head>
-<body>	
+<body>
 <%@ include file="/WEB-INF/views/P_header.jsp"%>
 <input type="hidden" id="user_id" value="${name}">
 <input type="hidden" id="receiverName" value="${alShow.receiverName}">

@@ -5,7 +5,7 @@ $(document).ready(function() {
 		var nameColumn = $(this).find('#per_name'); // #per_name 열을 선택
 		console.log("뭐요")
 
-
+ 
 		// 클릭한 열의 #per_name 열을 클릭한 경우에만 페이지 이동
 		if ($(event.target).is(nameColumn)) {
 			var name = nameColumn.text();
@@ -24,7 +24,10 @@ $(document).ready(function() {
 			window.location.href = 'detail?name=' + encodeURIComponent(name) + '&position=' + encodeURIComponent(position) + '&phone=' + encodeURIComponent(phone) + '&email=' + encodeURIComponent(email) + '&department=' + encodeURIComponent(department) + '&company=' + encodeURIComponent(company) + '&companyPhone=' + encodeURIComponent(companyPhone) + '&companyAddress=' + encodeURIComponent(companyAddress) + '&memo=' + encodeURIComponent(memo) + '&groupName=' + encodeURIComponent(groupName) + '&addressBookId=' + encodeURIComponent(addressBookId);
 		}
 	});
+	
+	
 });
+
 
 
 let currentPage = 1; // 현재 페이지 번호
@@ -226,10 +229,27 @@ $().ready(function() {
 			}
 		});
 	});
+	
+		// 핸드폰 번호 포맷팅 함수 정의
+	function formatPhoneNumber(phoneNumber) {
+	    // 입력된 번호에서 숫자만 추출
+	    const digits = phoneNumber.replace(/\D/g, '');
+	
+	    // 10자리 혹은 11자리 번호인 경우에만 포맷팅
+	    if (digits.length === 10) {
+	        return digits.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+	    } else if (digits.length === 11) {
+	        return digits.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+	    } else {
+	        return phoneNumber; // 10자리나 11자리가 아니면 원래 값을 반환
+	    }
+	}
+
 
 
 	$(document).on('click', '#promptStart', function() {
 		(async () => {
+			
 			const { value: formValues, dismiss: dismissReason } = await Swal.fire({
 				position: 'top',
 				title: '새 연락처 등록',
@@ -263,7 +283,7 @@ $().ready(function() {
 					const values = [
 						$('#swal-input1').val(),
 						$('#swal-input2').val(),
-						formatPhoneNumber($('#swal-input3').val()), // 핸드폰 번호 포맷팅 함수 호출
+		    formatPhoneNumber($('#swal-input3').val()), // 핸드폰 번호 포맷팅 함수 호출
 						$('#swal-input4').val(),
 						$('#swal-input5').val(),
 						$('#swal-input6').val(),
@@ -276,7 +296,7 @@ $().ready(function() {
 					const isValid = values.every(value => value !== '' && value !== null);
 
 					if (!isValid) {
-						Swal.showValidationMessage('모든 필드를 입력하세요.');
+						Swal.showValidationMessage('빈칸을 채워주세요.');
 					}
 
 					return values;
@@ -291,20 +311,6 @@ $().ready(function() {
 			}
 		})();
 	});
-
-
-	// 핸드폰 번호 포맷팅 함수 정의
-	function formatPhoneNumber(phoneNumber) {
-		// 입력된 번호에서 숫자만 추출
-		const digits = phoneNumber.replace(/\D/g, '');
-
-		// 11자리 번호인 경우에만 포맷팅
-		if (digits.length === 11) {
-			return digits.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-		} else {
-			return phoneNumber; // 11자리가 아니면 원래 값을 반환
-		}
-	}
 
 
 	// 주소록 추가 함수
@@ -368,59 +374,5 @@ $().ready(function() {
 		});
 	}
 
-	$("#toastStart").click(function() {
-		const Toast = Swal.mixin({
-			toast: true,
-			position: 'center-center',
-			showConfirmButton: false,
-			timer: 3000,
-			timerProgressBar: true,
-			didOpen: (toast) => {
-				toast.addEventListener('mouseenter', Swal.stopTimer)
-				toast.addEventListener('mouseleave', Swal.resumeTimer)
-			}
-		})
-
-		Toast.fire({
-			icon: 'success',
-			title: 'toast 알림이 정상적으로 실행 되었습니다.'
-		})
-	});
-
-
-	$("#ajaxStart").click(function() {
-		Swal.fire({
-			title: 'Submit your Github username',
-			input: 'text',
-			inputAttributes: {
-				autocapitalize: 'off'
-			},
-			showCancelButton: true,
-			confirmButtonText: 'Look up',
-			showLoaderOnConfirm: true,
-			preConfirm: (login) => {
-				return fetch(`//api.github.com/users/${login}`)
-					.then(response => {
-						if (!response.ok) {
-							throw new Error(response.statusText)
-						}
-						return response.json()
-					})
-					.catch(error => {
-						Swal.showValidationMessage(
-							`Request failed: ${error}`
-						)
-					})
-			},
-			allowOutsideClick: () => !Swal.isLoading()
-		}).then((result) => {
-			if (result.isConfirmed) {
-				Swal.fire({
-					title: `${result.value.login}'s avatar`,
-					imageUrl: result.value.avatar_url
-				})
-			}
-		})
-	});
 
 });
