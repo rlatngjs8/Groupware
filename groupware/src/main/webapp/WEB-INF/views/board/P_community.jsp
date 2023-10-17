@@ -4,68 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-.post-container {
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-
-}
-
-.post-container:hover {
-    background-color: #d4d2d2;
-}
-
-
-.post-title {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-
-.post-author {
-    font-size: 14px;
-    color: #666;
-}
-
-
-.post-content  {
-    max-height: 100px; /* 예시로 60px로 설정, 필요에 따라 조절 가능 */
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 4;
-    margin-top: 10px;
-    font-size: 16px;
-    width: calc(100% - 20px); /* 20px는 .post-container의 패딩을 고려한 값 */
-}
-
-.post-info {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #888;
-}
-
-
-.post-views-likes {
-    margin-top: 5px;
-}
-
-
-.post-time {
-    font-size: 12px;
-    color: #aaa;
-}
-.page-side a:hover {
-    background-color: #cfcfcf;
-}
-
-.board-search-bar input[type="text"] {
-    padding:5px ;
-    font-size :20px ;
-}
-
-</style>
+<link href="/P_css/P_community.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>게시판</title>
 <link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
@@ -113,20 +52,5 @@
 	</div>
 </div>
 </body>
-<script>
-
-$(document)	 
-.on('click','#search-board-button',function(){
-	let search = $('#board-search-bar').val();
-	console.log(search);
-	document.location="doboardsearch?search="+search;
-	return false;
-})
-function boardenterkey() {
-	if (window.event.keyCode == 13) {
-    	// 엔터키가 눌렸을 때
-		document.getElementById("search-board-button").click();
-    }
-}
-</script>
+<script src='P_js/P_community.js'></script>
 </html>

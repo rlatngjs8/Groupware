@@ -4,65 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-
-/* 게시물 목록을 감싸는 컨테이너 */
-.post-container {
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-}
-
-.post-container:hover {
-    background-color: #d4d2d2;
-}
-
-/* 제목 스타일 */
-.post-title {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-/* 작성자 스타일 */
-.post-author {
-    font-size: 14px;
-    color: #666;
-}
-
-/* 내용 스타일 */
-.post-content {
-    margin-top: 10px;
-    font-size: 16px;
-}
-
-/* 게시물 정보 스타일 */
-.post-info {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #888;
-}
-
-/* 조회수와 좋아요 스타일 */
-.post-views-likes {
-    margin-top: 5px;
-}
-
-/* 시간 스타일 */
-.post-time {
-    font-size: 12px;
-    color: #aaa;
-}
-
-.page-side a:hover {
-    background-color: #cfcfcf;
-}
-
-.board-search-bar input[type="text"] {
-    padding:5px ;
-    font-size :20px ;
-}
-</style>
+<link href="P_css/P_announcement.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>게시판</title>
 <link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
@@ -126,19 +68,5 @@
 </div>
 
 </body>
-<script>
-$(document)	 
-.on('click','#search-board-button',function(){
-	let search = $('#board-search-bar').val();
-	console.log(search);
-	document.location="doaboardsearch?search="+search;
-	return false;
-})
-function boardenterkey() {
-	if (window.event.keyCode == 13) {
-    	// 엔터키가 눌렸을 때
-		document.getElementById("search-board-button").click();
-    }
-}
-</script>
+<script src='P_js/P_announcement'></script>
 </html>
