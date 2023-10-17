@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>editSelf</title>
+<title>나의정보수정</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="js/editSelf.js"></script>

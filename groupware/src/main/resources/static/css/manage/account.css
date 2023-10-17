@@ -59,6 +59,7 @@ td {
 	color: #fff;
 	font-size: 15px;
 	cursor: pointer;
+	margin-top: 15px;
 }
 
 .btnEdit:hover {
