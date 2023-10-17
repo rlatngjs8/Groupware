@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    delete from comments where CommentID=#{param1}
 	</delete>
 	<delete id="deletelike">
-	    delete from Boardlikes WHERE communityid = #{param1}
+	    delete from boardlikes WHERE communityid = #{param1}
 	</delete>
 	<update id="updateBoard">
 		update communities set CommunityTitle=#{param2},Content=#{param3}

@@ -170,9 +170,10 @@ public class P_controller {
 	@GetMapping("/deletepost")
 	public String deletepost(HttpServletRequest req,Model model) {
 		int seqno= Integer.parseInt(req.getParameter("seq"));
+		bdao.deletelike(seqno);
 		bdao.deleteBoardcmt(seqno);
 		bdao.deleteBoard(seqno);
-		bdao.deletelike(seqno);
+		
 		return "redirect:/community";
 	}
 	@PostMapping("/addComment")
