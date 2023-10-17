@@ -11,7 +11,7 @@
 <link href="/css/manage/account.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="manage_header.jsp" %> 
+<%@ include file="/WEB-INF/views/P_header.jsp"%>
 <h3>직원통합관리 > 직원상세</h3>
 <div id="container">
 <%--     <c:forEach items="${Elist}" var="emp"> --%>

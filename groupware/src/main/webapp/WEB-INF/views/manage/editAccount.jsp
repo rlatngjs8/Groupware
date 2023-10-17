@@ -11,10 +11,10 @@
 <script src="js/manage/editAccount.js"></script>
 <link href="css/manage/editAccount.css" rel="stylesheet">
 <body>
-<%@ include file="manage_header.jsp" %>
+<%@ include file="/WEB-INF/views/P_header.jsp"%>
 <h3>직원통합관리 > 직원상세 > 직원수정</h3>
 <div class="container">
-	<form id="frmEdit" action="/editEMP" method="post" enctype="multipart/form-data">
+	<form id="frmEdit" action="/editEMP" method="post" enctype="multipart/form-data" >
 <%-- 		<c:forEach items="${Elist}" var="emp"> --%>
 		<input type="hidden" id="userid" name="userid" value="${emp.userid}">
 		<!-- 이미지 -->
@@ -114,6 +114,7 @@
 		<input type="submit" id="btnSubmit" class="btnSubmit" value="수정완료">
 		<input type="button" id="btnBack" class="btnBack" value="이전메뉴">
 	</form>
+<!-- <iframe name="kkk" style="display: none;"></iframe> -->
 </div>
 <!-- 로딩중 -->
 <div class="loading-container" id="loading-container" style="display:none;">
