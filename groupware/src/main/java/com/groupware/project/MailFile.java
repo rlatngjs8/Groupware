@@ -31,7 +31,6 @@ public class MailFile {
 		String attachment = req.getParameter("attachment");
 		try {
 			attachment = URLEncoder.encode(attachment, "UTF-8"); //16진수로
-//			System.out.println(attachment);
 			
 		}  catch (UnsupportedEncodingException e1) {
             e1.printStackTrace();
@@ -48,7 +47,6 @@ public class MailFile {
 //			String deAttachment = URLDecoder.decode(attachment, "UTF-8");
 //			deAttachment = deAttachment.substring(deAttachment.indexOf(".")+1); 
 			attachment = attachment.substring(attachment.indexOf(".")+1); 
-//			System.out.println(attachment);
 			
 			HttpHeaders headers = new HttpHeaders();
 			// 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
