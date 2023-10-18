@@ -39,6 +39,7 @@
 		<%
 			}
 		%>
+    </div>
     <div class="Main_Content" style="margin-left: 426px;">
     	<div style="border-bottom:1px solid lightgrey;">
     			<h3 class="boardTitle" style="padding-left:40px;">공지사항 상세</h3>
