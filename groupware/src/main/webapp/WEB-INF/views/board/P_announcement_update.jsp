@@ -15,13 +15,29 @@
 	<input type="hidden" value="${bpost.communityID}" id="seq">
 	<div class="page-side">
 	    <h3 class="boardTitle">커뮤니티</h3>
-	    <a href='/community_write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
-		<div class="sideA">
-	        <a href='/announcement'>공지사항</a>
-	    </div>
-	    <div class="sideA">
-	        <a href='/community'>자유게시판</a>
-	    </div>
+	    <%
+  		String id =(String)session.getAttribute("userid");
+		if(id.equals("관리자1")){
+		%>
+			<a href='/announcement_write' class="big-button">공지사항 작성</a> <!-- 큰 버튼 스타일 적용 -->
+			<div class="sideA">
+        		<a href='/announcement' style="font-weight:bold;">공지사항</a><br>
+    		</div>
+    		<div class="sideA">
+        		<a href='/community'>자유게시판</a>
+    		</div>
+		<%
+		}else{
+		%>
+			<div class="sideA">
+        		<a href='/announcement'>공지사항</a><br>
+    		</div>
+    		<div class="sideA">
+        		<a href='/community'>자유게시판</a>
+    		</div>
+		<%
+			}
+		%>
 	</div>
 	<div class="writeTitle">
 		<h3 class="boardTitle">공지사항 수정</h3>
