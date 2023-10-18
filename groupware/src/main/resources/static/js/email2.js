@@ -237,11 +237,9 @@ $('.mailFileName2').on("dragenter", function(e){
 }).on("dragover", function(e){
     e.preventDefault();
     e.stopPropagation();
-	$(this).css("border","1px solid #6AB0AD");
 }).on("dragleave", function(e){
     e.preventDefault();
     e.stopPropagation();
-    $(this).css("border","1px solid black");
 }).on('drop', function (e) {
 	e.preventDefault();
 	let files = e.originalEvent.dataTransfer.files;
