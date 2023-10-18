@@ -16,14 +16,29 @@
 <div class="board">
 	<div class="page-side">
     	<h3 class="boardTitle">커뮤니티</h3>
-    	<a href='/community_write' class="big-button">글쓰기</a> <!-- 큰 버튼 스타일 적용 -->
-		<div class="sideA">
-	        <a href='/announcement'>공지사항</a>
-	    </div>
-	    <div class="sideA">
-	        <a href='/community'>자유게시판</a><br>
-	    </div>
-	</div>
+    	  	<%
+  		String id =(String)session.getAttribute("userid");
+		if(id.equals("관리자1")){
+		%>
+			<a href='/announcement_write' class="big-button">공지사항 작성</a> <!-- 큰 버튼 스타일 적용 -->
+			<div class="sideA">
+        		<a href='/announcement' style="font-weight:bold;">공지사항</a><br>
+    		</div>
+    		<div class="sideA">
+        		<a href='/community'>자유게시판</a>
+    		</div>
+		<%
+		}else{
+		%>
+			<div class="sideA">
+        		<a href='/announcement'>공지사항</a><br>
+    		</div>
+    		<div class="sideA">
+        		<a href='/community'>자유게시판</a>
+    		</div>
+		<%
+			}
+		%>
     <div class="Main_Content" style="margin-left: 426px;">
     	<div style="border-bottom:1px solid lightgrey;">
     			<h3 class="boardTitle" style="padding-left:40px;">공지사항 상세</h3>
