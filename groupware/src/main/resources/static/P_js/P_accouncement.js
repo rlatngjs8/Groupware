@@ -17,7 +17,7 @@ function boardenterkey() {
 		document.getElementById("search-board-button").click();
     }
 }
-function boardenterkey() {
+function boardenterkey2() {
 	if (window.event.keyCode == 13) {
     	// 엔터키가 눌렸을 때
 		document.getElementById("search-board-button2").click();
