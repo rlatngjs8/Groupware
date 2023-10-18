@@ -118,7 +118,7 @@
 				</table>
 			</div>
 			<div class="complete">
-				<p class="subtitle">결제완료문서</p>
+				<p class="subtitle">결재완료문서</p>
 				<br>
 				<!-- 나한테 결재 온거, 내가 보낸거(완료) 5개 -->
 				<table>

@@ -12,7 +12,7 @@ $(document).ready(function() {
 
 
 let currentPage = 1; // 현재 페이지 번호
-const perPage = 10; // 한 페이지당 표시할 데이터 수
+const perPage = 13; // 한 페이지당 표시할 데이터 수
 
 // 페이지 번호를 클릭할 때 호출되는 함수
 function changePage(page) {

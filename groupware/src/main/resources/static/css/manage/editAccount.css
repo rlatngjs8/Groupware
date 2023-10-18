@@ -69,9 +69,9 @@ td {
 }
 
 /** BEGIN CSS **/
-body {
-	background: #333333;
-}
+/*body {*/
+/*	background: #333333;*/
+/*}*/
 
 @keyframes rotate-loading {
 	0% {
