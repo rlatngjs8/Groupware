@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <title>공지 쓰기</title>
-<link href="P_css/P_announcement_write" rel="stylesheet" type="text/css">
+<link href="P_css/P_announcement_write.css" rel="stylesheet" type="text/css">
 </head>
 <%@ include file="../P_header.jsp" %>
 <link href="/P_css/Main_Content.css" rel="stylesheet" type="text/css">
@@ -18,7 +18,7 @@
  		String id =(String)session.getAttribute("userid");
 		if(id.equals("관리자1")){
 		%>
-			<a href='/announcement_write' class="big-button">공지사항쓰기</a> <!-- 큰 버튼 스타일 적용 -->
+			<a href='/announcement_write' class="big-button">공지사항 작성</a>
 			<div class="sideA">
        			<a href='/announcement'>공지사항</a>
    			</div>
@@ -53,5 +53,5 @@
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
-<script src='P_js/P_announcement_write'></script>
+<script src='P_js/P_announcement_write.js'></script>
 </html>
