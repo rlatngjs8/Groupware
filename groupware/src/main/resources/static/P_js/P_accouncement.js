@@ -5,9 +5,21 @@ $(document)
 	document.location="doaboardsearch?search="+search;
 	return false;
 })
+.on('click','#search-board-butto2n',function(){
+	let search = $('#board-search-ba2r').val();
+	console.log(search);
+	document.location="doaboardsearch?search="+search;
+	return false;
+})
 function boardenterkey() {
 	if (window.event.keyCode == 13) {
     	// 엔터키가 눌렸을 때
 		document.getElementById("search-board-button").click();
+    }
+}
+function boardenterkey() {
+	if (window.event.keyCode == 13) {
+    	// 엔터키가 눌렸을 때
+		document.getElementById("search-board-button2").click();
     }
 }
