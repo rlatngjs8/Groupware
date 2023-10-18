@@ -69,5 +69,5 @@
 
 </body>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
-<script src='P_js/P_announcement.js'></script>
+<script src='P_js/P_accouncement.js'></script>
 </html>
