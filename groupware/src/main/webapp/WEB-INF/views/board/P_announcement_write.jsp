@@ -13,7 +13,7 @@
 <body>
 <div class="board">
 	<div class="page-side">
-		<h3 class="boardTitle">켜뮤니티</h3>
+		<h3 class="boardTitle">커뮤니티</h3>
 		<%
  		String id =(String)session.getAttribute("userid");
 		if(id.equals("관리자1")){
