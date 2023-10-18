@@ -43,7 +43,7 @@
 	</aside>
 	<main class="main">
 		<div class="header">
-			<h1>전체 사원 근태 현황</h1>
+			<h1>개인 근태 누적 현황 조회</h1>
 		</div>
 		<div class="month-navigation">
 			<button id="prevMonthButton">&lt;</button>

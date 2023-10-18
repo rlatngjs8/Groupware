@@ -42,7 +42,7 @@
    </aside>
    <main class="main">
       <div class="header">
-         <h1>근태 현황</h1>
+         <h1>전사 근태 현황 조회</h1>
       </div>
 
       <div class="month-navigation">
