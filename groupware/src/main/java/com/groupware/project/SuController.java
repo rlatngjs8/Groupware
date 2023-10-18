@@ -285,7 +285,7 @@ public class SuController {
 		}
 	}
 
-	@PostMapping("/selfEdit")
+	@PostMapping("/selfEdit") 
 	public String selfEdit(HttpServletRequest req, @RequestParam(name = "profileIMG") MultipartFile profileIMG) {
 		try {
 			HttpSession session = req.getSession();
