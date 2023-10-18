@@ -2,7 +2,7 @@
 
 /* 사이드바 스타일 */
 .sidebar {
-  margin-left: 211px;
+  margin-left: 190px;
   height: 100%;
   width: 250px;
   position: fixed;
@@ -11,7 +11,6 @@
   background-color: white;
   padding-top: 20px;
   border-right: 1px solid lightgray;
-  border-top: 1px solid lightgray;
 }
 
 #my_attendance_section {
