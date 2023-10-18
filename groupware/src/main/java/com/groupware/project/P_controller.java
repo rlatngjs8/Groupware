@@ -317,7 +317,7 @@ public class P_controller {
 	public String deleteapost(HttpServletRequest req,Model model) {
 		int seqno= Integer.parseInt(req.getParameter("seq"));
 		bdao.deleteaBoard(seqno);
-		return "/announcement";
+		return "redirect:/announcement";
 	}
 	@GetMapping("/doaboardsearch")
 	@SuppressWarnings("unchecked")

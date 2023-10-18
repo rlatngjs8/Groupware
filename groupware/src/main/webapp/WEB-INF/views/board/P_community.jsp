@@ -45,8 +45,8 @@
     			</li>
 			</c:forEach>
 		</ul>
-		<div class="board-search-bar">
-			<input type="text" placeholder="게시판 검색"  id="board-search-bar" onkeyup="boardenterkey()"><button class="search-board-button" id="search-board-button"><img src="P_img/free-icon-magnifier-71403.png"></button>
+		<div class="board-search-bar" style="border-bottom:1px solid lightgrey">
+			<input type="text" placeholder="게시판 검색"  id="board-search-bar2" onkeyup="boardenterkey2()"><button class="search-board-button" id="search-board-button2"><img src="P_img/free-icon-magnifier-71403.png"></button>
 		</div>
 		<div style="margin-left:auto;margin-right:auto;text-align:center;font-size: x-large">${pagestr}</div>
 	</div>
