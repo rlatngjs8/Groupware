@@ -5,8 +5,8 @@ $(document)
 	document.location="doaboardsearch?search="+search;
 	return false;
 })
-.on('click','#search-board-butto2n',function(){
-	let search = $('#board-search-ba2r').val();
+.on('click','#search-board-button2',function(){
+	let search = $('#board-search-bar2').val();
 	console.log(search);
 	document.location="doaboardsearch?search="+search;
 	return false;
