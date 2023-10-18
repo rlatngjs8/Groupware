@@ -30,7 +30,7 @@
         	<p>${userid}</p>
         	<span>${emp.departmentName}</span>&nbsp;<span style="font-weight:bold;"> ${name} ${emp.position}</span>
     	</div>
-    	<button id=btnLogout >임시 로그아웃</button>
+    	<button id=btnLogout  style="position: relative;top: 7px;left: 65px;">로그아웃</button>
     </div>
 	    <div class="centerD">
 		    <span class=mBtn style="margin-left:240px" id="goToMail"><img src="img/email_icon.png" class='icon'> <span>메일쓰기</span></span>
