@@ -237,11 +237,14 @@ $('.mailFileName2').on("dragenter", function(e){
 }).on("dragover", function(e){
     e.preventDefault();
     e.stopPropagation();
+	$(this).css("border","1px solid #6AB0AD");
 }).on("dragleave", function(e){
     e.preventDefault();
     e.stopPropagation();
+    $(this).css("border","1px solid lightgray");
 }).on('drop', function (e) {
 	e.preventDefault();
+	$(this).css("border","1px solid lightgray");
 	let files = e.originalEvent.dataTransfer.files;
 	console.log(files.length);
 	for(let i=0; i<files.length; i++){
