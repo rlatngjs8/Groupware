@@ -40,5 +40,5 @@
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
-<script src='P_js/P_announcement_view.js'></script>
+<script src='P_js/P_announcement.js'></script>
 </html>
