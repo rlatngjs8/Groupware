@@ -9,7 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/manage/account.js"></script>
 <link href="/css/manage/account.css" rel="stylesheet">
-</head>
+</head> 
 <body>
 <%@ include file="/WEB-INF/views/P_header.jsp"%>
 <h3>직원통합관리 > 직원상세</h3>
