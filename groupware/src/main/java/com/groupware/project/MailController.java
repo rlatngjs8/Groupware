@@ -151,8 +151,7 @@ public class MailController implements WebMvcConfigurer {
 		page(req,model);
 		HttpSession s = req.getSession();
 		int eid = (Integer) s.getAttribute("empID");
-		
-		int cnt=mdao.selectSenderEmailscnt(eid); //전체 메일 수
+		int cnt=mdao.selectSenderEmailscnt(eid);
 		int pagecount = (int) Math.ceil(cnt/15.0); 
 		pageCnt = pagecount;
 		int totalpage = (int) Math.ceil(pagecount/5.0);
