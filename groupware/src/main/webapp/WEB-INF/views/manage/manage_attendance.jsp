@@ -17,7 +17,7 @@
    <input type="hidden" id="user_name" value="${name}">
    <aside>
       <div class="sidebar">
-         <section id="attendance_section">
+         <section id="attendance_section"> 
             <h2>
                <a href="/manage_attendance">근태관리</a>
             </h2>
