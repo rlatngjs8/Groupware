@@ -151,8 +151,7 @@ public class MailController implements WebMvcConfigurer {
 		page(req,model);
 		HttpSession s = req.getSession();
 		int eid = (Integer) s.getAttribute("empID");
-		
-		int cnt=mdao.selectSenderEmailscnt(eid); //전체 메일 수
+		int cnt=mdao.selectSenderEmailscnt(eid);
 		int pagecount = (int) Math.ceil(cnt/15.0); 
 		pageCnt = pagecount;
 		int totalpage = (int) Math.ceil(pagecount/5.0);
@@ -294,7 +293,6 @@ public class MailController implements WebMvcConfigurer {
 		String now = req.getParameter("now");
 		int rmark = Integer.parseInt(req.getParameter("rmark"));
 		String now2 = req.getParameter("now2");
-//		System.out.println(emailid+", "+rmark+", "+now);
 		int cnt = mdao.selectmyMarkCount(emailid);
 		if(cnt==1) {
 			if (rmark==1) {
