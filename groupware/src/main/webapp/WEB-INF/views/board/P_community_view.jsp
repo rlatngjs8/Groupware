@@ -56,7 +56,7 @@
 			        <input type="hidden" value="${alComment.commentID}" class="cmtID">
 			        <input type="hidden" value="${alComment.cmtAuthorID}" class="cAuID">
 			        <c:choose>
-			            <c:when test="${userid eq alComment.cmtAuthorID or sessionScope.userid eq 'admin'}">
+			            <c:when test="${userid eq alComment.cmtAuthorID or sessionScope.userid eq '관리자1'}">
 			                <input type="button" class="showupdatecmt" value="수정">
 			                <input type="button" class="cmtdel" value="삭제">
 								<div class="updatecmtbox" style="display: none;">
